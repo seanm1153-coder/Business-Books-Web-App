@@ -5,10 +5,7 @@
 window.MARGINALIA = {
   books: [
     { id: "gsbs", route: "book", title: "Good Strategy Bad Strategy", author: "Richard P. Rumelt", year: 2011, status: "open", cover: "gsbs" },
-    { id: "ptw", title: "Playing to Win", author: "A.G. Lafley & Roger L. Martin", year: 2013, status: "forthcoming", cover: "a" },
-    { id: "7p", title: "7 Powers", author: "Hamilton Helmer", year: 2016, status: "forthcoming", cover: "b" },
-    { id: "hom", title: "High Output Management", author: "Andrew S. Grove", year: 1983, status: "forthcoming", cover: "c" },
-    { id: "goal", title: "The Goal", author: "Eliyahu M. Goldratt", year: 1984, status: "forthcoming", cover: "d" }
+    { id: "fi", title: "Financial Intelligence", author: "Karen Berman & Joe Knight", year: 2013, status: "forthcoming", cover: "fi" }
   ],
 
   gsbs: {

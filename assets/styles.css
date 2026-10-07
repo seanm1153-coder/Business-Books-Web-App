@@ -31,11 +31,10 @@
   --c-gsbs: #2B3ECC;
   --c-gsbs-ink: #F1F2FF;
   --c-gsbs-ring: rgba(241, 242, 255, 0.16);
-  --c-a: #3D5546;
-  --c-b: #6A5639;
-  --c-c: #464A6E;
-  --c-d: #64404F;
-  --c-muted-ink: #ECE8E0;
+  --c-fi: #E6DFC8;
+  --c-fi-ink: #1D2722;
+  --c-fi-rule: rgba(43, 62, 204, 0.16);
+  --c-fi-col: rgba(178, 58, 46, 0.5);
   --page-edge: #D9D6CC;
   --page-edge-2: #F2F0EA;
 
@@ -216,10 +215,7 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 
 .book-link { display: flex; flex-direction: column; gap: 1.5rem; text-decoration: none; color: inherit; perspective: 1100px; }
 .book.c-gsbs { --c: var(--c-gsbs); --ci: var(--c-gsbs-ink); }
-.book.c-a { --c: var(--c-a); --ci: var(--c-muted-ink); }
-.book.c-b { --c: var(--c-b); --ci: var(--c-muted-ink); }
-.book.c-c { --c: var(--c-c); --ci: var(--c-muted-ink); }
-.book.c-d { --c: var(--c-d); --ci: var(--c-muted-ink); }
+.book.c-fi { --c: var(--c-fi); --ci: var(--c-fi-ink); }
 
 .book-3d {
   position: relative;
@@ -264,8 +260,15 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
   background: var(--ci);
   box-shadow: 0 0 0 4px var(--c), 0 0 0 5px var(--ci);
 }
-.is-forthcoming .cover { background-image: repeating-linear-gradient(135deg, transparent 0 7px, rgba(255, 255, 255, 0.05) 7px 8px); }
-.is-forthcoming .book-3d { opacity: 0.5; }
+/* Financial Intelligence cover: ledger paper, ruled lines and a double column rule */
+.c-fi .cover {
+  background-image:
+    linear-gradient(90deg, transparent 0 72%, var(--c-fi-col) 72% calc(72% + 1px), transparent calc(72% + 1px) calc(72% + 3px), var(--c-fi-col) calc(72% + 3px) calc(72% + 4px), transparent calc(72% + 4px)),
+    repeating-linear-gradient(180deg, transparent 0 11px, var(--c-fi-rule) 11px 12px);
+}
+/* Forthcoming books are dimmed per face; opacity on .book-3d would flatten the 3D. */
+.is-forthcoming .cover, .is-forthcoming .pages { filter: brightness(0.62) saturate(0.7); }
+.is-forthcoming .spine { filter: brightness(0.45) saturate(0.7); }
 
 .book-meta { display: flex; flex-direction: column; gap: 0.35rem; }
 .book-title { font-family: var(--display); font-size: 1.125rem; line-height: 1.2; }
