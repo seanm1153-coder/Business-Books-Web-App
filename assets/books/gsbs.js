@@ -79,7 +79,7 @@
         n: "II",
         title: "Sources of power",
         chapters: [
-          { n: 6, title: "Using leverage", blurb: "Anticipation, pivot points and concentration: where a little effort moves a lot." },
+          { n: 6, title: "Using leverage", blurb: "Anticipation, pivot points and concentration: where a little effort moves a lot.", page: "using-leverage" },
           { n: 7, title: "Proximate objectives", blurb: "Targets close enough to reach, which turn a vague aspiration into a solvable problem.", page: "proximate-objectives" },
           { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed.", page: "chain-link" },
           { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one." },
@@ -333,6 +333,86 @@
         }
       },
 
+      "using-leverage": {
+        title: "Using leverage",
+        eyebrow: "Part II · Chapter 06",
+        dek:
+          "Leverage is getting a large result from a focused effort. Rumelt finds it in three places: anticipating what others will do, finding the pivot points where a small push has a large effect, and concentrating effort instead of spreading it.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Anticipation",
+                paras: [
+                  "Much of the leverage in strategy comes from seeing what others will do, or what will happen anyway, before it happens. A strategist who correctly anticipates a rival's response, a shift in demand or a change in the rules can put resources where they will be needed, instead of reacting late."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>A good <a href=\"@kernel\">guiding policy</a> often works by anticipating how others will respond.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Pivot points",
+                paras: [
+                  "A pivot point is a place where a small, well-aimed push produces a large effect: a bottleneck, a customer whose choice others follow, an idea that changes how people see the situation. Finding one depends on the diagnosis. You can only aim at a pivot point once you understand which parts of the situation really matter."
+                ],
+                side: {
+                  label: "On the map",
+                  html: "<p>The contour map on <a href=\"@\">this book's home page</a> marks a pivot point for this reason.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "concentration",
+            title: "Spread or concentrate",
+            intro:
+              "An invented company has ten units of effort (people, money, management attention) to put behind five initiatives. Each one pays off only once it gets enough effort to cross its threshold, and effort past the threshold adds a little more. Spread the effort, or concentrate it.",
+            impactLabel: "Impact",
+            budget: 10,
+            emptyNote: "No effort placed yet. Use + to add effort to an initiative, or try a preset.",
+            start: [2, 2, 2, 2, 2],
+            focus: [5, 5, 0, 0, 0],
+            fronts: [
+              { name: "Launch a new product line", threshold: 4, value: 30 },
+              { name: "Enter a new region", threshold: 5, value: 35 },
+              { name: "Win back lost customers", threshold: 3, value: 18 },
+              { name: "Cut delivery times", threshold: 3, value: 20 },
+              { name: "Rebuild the website", threshold: 3, value: 8 }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Concentration and thresholds",
+                paras: [
+                  "Many results only appear once effort passes a threshold: a product that is nearly good enough doesn't sell, and a campaign that nearly reaches people isn't noticed. Effort spread across many targets can leave every one of them below its threshold, so nothing changes.",
+                  "Concentrating on a few targets gets them past it. That is why a strategy that tries to do everything usually changes nothing, and why choosing what not to do is part of the work."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “Spread evenly”: every initiative gets two units and none crosses its threshold. Then press “Concentrate”.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
+            { title: "Focus", where: "Chapter 10" },
+            { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that concentrates" }
+        }
+      },
+
       "proximate-objectives": {
         title: "Proximate objectives",
         eyebrow: "Part II · Chapter 07",
@@ -441,7 +521,7 @@
           related: [
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
-            { title: "Using leverage", where: "Chapter 6" },
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Turn an aspiration into actions" }

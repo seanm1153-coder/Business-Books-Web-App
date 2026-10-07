@@ -19,6 +19,7 @@ npx serve .
 | Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence and Play Bigger. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
 | Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
+| Using leverage | `#gsbs-using-leverage` | Anticipation, pivot points, and a spread-or-concentrate exercise where initiatives only pay off past a threshold. |
 | Proximate objectives | `#gsbs-proximate-objectives` | The Surveyor story and a "proximate or blue-sky?" sorting game with rewrites. |
 | Chain-link systems | `#gsbs-chain-link` | Spend six improvement points on a restaurant whose evening is only as good as its weakest part; compare with an additive system. |
 | The kernel | `#gsbs-kernel` | A concept page with an interactive figure (general form, Desert Storm, Apple 1997), sidenotes and definition pop-ups. |
@@ -26,10 +27,12 @@ npx serve .
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
 | Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
 | Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |
+| Reading the ratios | `#fi-ratios` | Thirteen ratios across two years of a growing company, each with its formula worked through with the real numbers. |
 | Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
 | Play Bigger home | `#pb` | Thesis, entry points and a map of the book's ideas. |
 | Category kings | `#pb-category-kings` | How a category's value splits (the authors' 76% figure) and a "playing bigger or smaller?" sorting game. |
 | Point of view | `#pb-point-of-view` | Write a category's story (problem, from, to, why now, name) with a live preview and checks for product-pitch habits. Drafts save to `localStorage`. |
+| The lightning strike | `#pb-lightning-strike` | Schedule six launch moves over twelve weeks and see, in a labeled toy model, whether a drip, a strike or a strike with hijacks gets noticed. |
 
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
 
@@ -43,7 +46,8 @@ assets/js/util.js             shared namespace and helpers
 assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,
                               spot-exercise, kernel-builder, three-statements,
                               sorter, chain-link, judgment-calls, wc-levers,
-                              value-split, pov-builder)
+                              value-split, pov-builder, concentration, ratios,
+                              strike-planner)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

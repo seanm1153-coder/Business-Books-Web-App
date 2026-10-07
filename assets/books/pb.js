@@ -26,7 +26,7 @@
     mapTitle: "The ideas, in the order the book builds them",
     contentsDesc: "Why categories matter, how to design one, and how to launch it.",
     mapNote: "Organized by idea rather than by chapter. Chapter titles and order are still being checked against the book.",
-    nav: ["category-kings", "point-of-view"],
+    nav: ["category-kings", "point-of-view", "lightning-strike"],
 
     parts: [
       {
@@ -53,7 +53,7 @@
         n: "III",
         title: "Launching it",
         chapters: [
-          { title: "The lightning strike", blurb: "One concentrated moment that puts the point of view in front of the market." },
+          { title: "The lightning strike", blurb: "One concentrated moment that puts the point of view in front of the market.", page: "lightning-strike" },
           { title: "Hijacks", blurb: "Follow-up moves that keep the story going after the first strike." }
         ]
       }
@@ -173,9 +173,79 @@
             { title: "Own the problem", where: "Part I" },
             { title: "The magic triangle", where: "Part II" },
             { title: "Point of view", where: "Part II", page: "point-of-view" },
-            { title: "The lightning strike", where: "Part III" }
+            { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
           ],
           cta: { page: "point-of-view", kicker: "Workbench", text: "Write a point of view" }
+        }
+      },
+
+      "lightning-strike": {
+        title: "The lightning strike",
+        eyebrow: "Part III · Launching it",
+        dek:
+          "Most launches drip out: a press release here, a webinar there, each one fading before the next arrives. The book argues for the opposite: one concentrated moment that puts the point of view in front of the market all at once, then follow-up moves that keep it there.",
+        blocks: [
+          {
+            type: "strike-planner",
+            title: "Drip or strike?",
+            intro:
+              "Six launch moves for an invented company, and twelve weeks to place them in. Schedule them, or start from a preset, and watch whether the market ever notices.",
+            weeks: 12,
+            threshold: 3,
+            start: "drip",
+            moves: [
+              "Publish the point of view",
+              "Launch event",
+              "Product release",
+              "Flagship customer story",
+              "Analyst and press briefings",
+              "Partner announcements"
+            ],
+            presets: {
+              drip: { label: "Drip", plan: [1, 3, 5, 7, 9, 11] },
+              strike: { label: "One strike", plan: [4, 4, 4, 4, 4, 4] },
+              hijacks: { label: "Strike, then hijacks", plan: [3, 3, 3, 3, 6, 8] }
+            },
+            foot:
+              "An illustration, not data from the book. In this toy model, attention fades each week, moves in the same week reinforce each other, and a move lands harder when the market is already paying attention."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Why all at once",
+                paras: [
+                  "A new category asks people to change how they think, and that takes more than one announcement. Spread out over months, each move is too small to register and fades before the next. Concentrated into one moment, the same moves reinforce each other, and the market hears the point of view loudly enough to remember it.",
+                  "In the book's telling, a strike lines up the whole company at once: the point of view, the product, customers, partners and the sales team, all telling the same story in the same week."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The strike is built on the <a href=\"@point-of-view\">point of view</a>. Without one, there's nothing to concentrate.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Hijacks",
+                paras: [
+                  "One strike fades. The authors recommend following it with further moves, which they call hijacks, to keep the story in front of the market. In the planner, the “Strike, then hijacks” preset uses a smaller strike but keeps the market's attention for longer, because each follow-up lands while people are still listening."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Start from “One strike”, then move the last two moves to weeks 7 and 9. Watch how long the market keeps noticing.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Point of view", where: "Part II", page: "point-of-view" },
+            { title: "Hijacks", where: "Part III" },
+            { title: "Category kings", where: "Part I", page: "category-kings" },
+            { title: "The magic triangle", where: "Part II" }
+          ],
+          cta: { page: "point-of-view", kicker: "Workbench", text: "Write the point of view first" }
         }
       },
 
@@ -252,7 +322,7 @@
             { title: "Category kings", where: "Part I", page: "category-kings" },
             { title: "Naming the category", where: "Part II" },
             { title: "Marchitecture", where: "Part II" },
-            { title: "The lightning strike", where: "Part III" }
+            { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

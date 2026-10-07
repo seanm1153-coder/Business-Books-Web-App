@@ -28,7 +28,7 @@
     mapTitle: "Eight parts, from profit to cash to return on investment",
     contentsDesc: "Eight parts, from the income statement to ratios and working capital.",
     mapNote: "Pages open as they're written. Chapter numbers in Parts VI to VIII are still being checked against the book.",
-    nav: ["profit-estimate", "profit-cash", "working-capital"],
+    nav: ["profit-estimate", "profit-cash", "ratios", "working-capital"],
 
     parts: [
       {
@@ -77,7 +77,7 @@
         n: "V",
         title: "Ratios: what the numbers are really telling you",
         chapters: [
-          { n: 19, title: "The power of ratios", blurb: "Comparing numbers to each other shows what totals hide." },
+          { n: 19, title: "The power of ratios", blurb: "Comparing numbers to each other shows what totals hide.", page: "ratios" },
           { n: 20, title: "Profitability ratios", blurb: "How much of each sales dollar the company keeps." },
           { n: 21, title: "Leverage ratios", blurb: "How much the company relies on borrowed money." },
           { n: 22, title: "Liquidity ratios", blurb: "Whether the company can pay its bills as they come due." },
@@ -238,6 +238,87 @@
         }
       },
 
+      ratios: {
+        title: "Reading the ratios",
+        navLabel: "Ratios",
+        eyebrow: "Part V · Chapters 19–23",
+        dek:
+          "A single number says little. Ratios compare one number with another, and comparing them across years shows what the totals hide. Here is a growing company whose profit looks fine and whose ratios tell a more worried story.",
+        blocks: [
+          {
+            type: "ratios",
+            company: "Northline Bikes",
+            title: "Two years at Northline",
+            intro:
+              "Revenue grew by a fifth and net income rose. Read down the ratios to see what else happened. Select any ratio to see its formula with Northline's numbers in it. Figures are in thousands of dollars.",
+            startRatio: "dso",
+            years: [
+              {
+                label: "Last year",
+                s: { revenue: 10000, cogs: 6000, opex: 3000, interest: 100, tax: 225, cash: 900, ar: 1370, inv: 1150, ppe: 1580, ap: 575, stDebt: 325, ltDebt: 1100, equity: 3000 }
+              },
+              {
+                label: "This year",
+                s: { revenue: 12000, cogs: 7320, opex: 3480, interest: 200, tax: 250, cash: 350, ar: 2137, inv: 1705, ppe: 2408, ap: 602, stDebt: 898, ltDebt: 1350, equity: 3750 }
+              }
+            ],
+            notes: {
+              gm: "Down a point. Costs are rising a little faster than prices.",
+              om: "Flat. Overheads grew in step with sales.",
+              nm: "Down, mostly because interest doubled on the extra borrowing.",
+              roa: "Down: the asset base grew faster than profit, much of it in receivables and stock.",
+              roe: "Still high, but falling even with more debt helping it.",
+              de: "Up. Some of the growth was paid for with borrowed money.",
+              ic: "Down from 10 to 6 times. Still safe, but the cushion is shrinking.",
+              cr: "Down sharply as short-term borrowing rose and cash fell.",
+              qr: "Down too. Without inventory, the cushion is much thinner.",
+              dso: "Customers now take 15 days longer to pay. That alone ties up about $490k.",
+              dio: "Stock sits two weeks longer, tying up roughly $300k more.",
+              dpo: "Northline is paying suppliers faster, which uses cash.",
+              at: "Each dollar of assets produces less revenue than it did."
+            }
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Why ratios",
+                paras: [
+                  "Totals are hard to judge on their own. Is $750,000 of profit good? It depends on the sales, the assets and the money behind it. Ratios put two numbers side by side so that companies of different sizes, or one company in different years, can be compared.",
+                  "The authors group them into families: profitability, leverage, liquidity and efficiency. Each family answers a different question, and the useful reading comes from looking across them."
+                ],
+                side: {
+                  label: "In the book",
+                  html: "<p>Part V works through each family in turn and closes with the ratios outside investors watch.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "What Northline's ratios say",
+                paras: [
+                  "On the income statement, last year looks like a success: sales up 20%, profit up. The ratios tell the rest. Customers are paying more slowly, stock is piling up, suppliers are being paid sooner, and the gap is being filled with debt. Cash fell from $900,000 to $350,000.",
+                  "None of this shows up as a loss. It shows up as a company that is growing into a cash squeeze."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Move the same levers yourself in <a href=\"@working-capital\">Working capital levers</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "Working capital levers", where: "Part VII", page: "working-capital" },
+            { title: "The investor's perspective", where: "Chapter 24" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" }
+          ],
+          cta: { page: "working-capital", kicker: "Next", text: "Pull the working capital levers" }
+        }
+      },
+
       "working-capital": {
         title: "Working capital levers",
         navLabel: "Working capital",
@@ -301,7 +382,7 @@
             { title: "Cash is a reality check", where: "Chapter 15" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
             { title: "The language of cash flow", where: "Chapter 17" },
-            { title: "Efficiency ratios", where: "Chapter 23" }
+            { title: "Reading the ratios", where: "Part V", page: "ratios" }
           ],
           cta: { page: "profit-cash", kicker: "See it event by event", text: "Profit isn't cash" }
         }
