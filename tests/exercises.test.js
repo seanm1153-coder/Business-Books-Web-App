@@ -153,6 +153,21 @@ test("FI: each move reaches only the profits below it", async () => {
   assert.match(await tiles(), /40\.0% .* 10\.4% .* 5\.9% /i);
 });
 
+test("FI: the profit-to-cash bridge checks itself against the cash account", async () => {
+  await page.open("fi-cash-connects");
+  const pick = (id, sign) => page.click(`[data-pick="${id}"][data-sign="${sign}"]`);
+  const right = { dep: 1, ar: -1, inv: -1, ap: 1, accr: 1, capex: -1, loan: 1 };
+  for (const [id, sign] of Object.entries(right)) await pick(id, sign);
+  assert.match(await page.text('.cb [data-ref="note"]'), /ends at \$17,500, .* They match/);
+  assert.equal(await page.text('.cb [data-total="5"]'), "$97,500");
+  // One row the wrong way moves the end by twice its amount.
+  await pick("ar", 1);
+  assert.match(await page.text('.cb [data-ref="note"]'), /ends at \$197,500, .* over by \$180,000/);
+  await page.click('.cb [data-ref="reveal"]');
+  assert.ok(await page.evaluate(() => document.querySelector('[data-row="ar"]').classList.contains("is-wrong")));
+  assert.match(await page.text('[data-why="dep"]'), /^Right\. Adds cash/);
+});
+
 test("FI: the three statements stay in balance through a month of events", async () => {
   await page.open("fi-profit-cash");
   const expected = [

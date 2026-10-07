@@ -70,7 +70,7 @@
           { n: 15, title: "Cash is a reality check", blurb: "Cash involves fewer estimates than profit, so it's harder to fudge." },
           { n: 16, title: "Profit ≠ cash (and you need both)", blurb: "Why a profitable company can run short of cash.", page: "profit-cash" },
           { n: 17, title: "The language of cash flow", blurb: "Operating, investing and financing: the three sources and uses of cash.", page: "cash-flow-language" },
-          { n: 18, title: "How cash connects with everything else", blurb: "Tying the cash flow statement back to the other two." }
+          { n: 18, title: "How cash connects with everything else", blurb: "Tying the cash flow statement back to the other two.", page: "cash-connects" }
         ]
       },
       {
@@ -373,6 +373,156 @@
         }
       },
 
+      "cash-connects": {
+        title: "How cash connects with everything else",
+        navLabel: "Cash bridge",
+        eyebrow: "Part IV · Chapter 18",
+        dek:
+          "The cash flow statement isn't a separate story. Start from profit, adjust for every change on the balance sheet, and you arrive at the change in cash, to the dollar.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three statements, one set of books",
+                paras: [
+                  "Berman and Knight show how the cash flow statement can be built from the other two. Take net profit from the income statement. Add back expenses that used no cash, such as depreciation. Then adjust for every change between two balance sheets. What's left is cash from operations; add investing and financing, and you have the change in cash.",
+                  "Most companies present their cash flow statement this way, starting from net profit. Accountants call it the indirect method."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Watch the same links form event by event in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "The rule of thumb",
+                paras: [
+                  "When an asset other than cash goes up, it has used cash: money is tied up in what customers owe, in stock or in machines. When a liability goes up, it has provided cash: someone else is waiting to be paid, or has lent you money. Decreases work the other way round."
+                ],
+                side: {
+                  label: "Why it works",
+                  html: "<p>The balance sheet always balances, so every change in cash must be matched by changes somewhere else on it.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "cash-bridge",
+            company: "Northline Bikes",
+            period: "Last year",
+            title: "Build the bridge from profit to cash",
+            intro:
+              "Northline, the invented bike maker, made $142,500 of net profit last year, but its cash rose by only $17,500. Use the two balance sheets to find out where the rest went. For each change, decide whether it adds cash or uses it.",
+            sheetNote: "Start and end of last year · in dollars",
+            sheetFoot:
+              "Equipment rose $50,000: $120,000 of new machines less $70,000 of depreciation. Equity rose by the year's net profit; no dividends were paid.",
+            sheet: [
+              { group: "Assets" },
+              { label: "Cash", start: 120000, end: 137500, key: true },
+              { label: "Receivables", start: 300000, end: 390000 },
+              { label: "Inventory", start: 340000, end: 400000 },
+              { label: "Equipment, net", start: 600000, end: 650000 },
+              { group: "Liabilities and equity" },
+              { label: "Payables", start: 180000, end: 205000 },
+              { label: "Accrued expenses", start: 60000, end: 70000 },
+              { label: "Loan", start: 400000, end: 440000 },
+              { label: "Owners' equity", start: 720000, end: 862500 }
+            ],
+            start: { label: "Net profit", amount: 142500, detail: "From the income statement: the same year as on The many forms of profit." },
+            startNote: "Decide each row. The bridge starts at net profit and has to end at the change in the cash account.",
+            actualNote: "the cash account went from $120,000 to $137,500, a rise of $17,500.",
+            rows: [
+              {
+                id: "dep",
+                label: "Depreciation",
+                detail: "A $70,000 expense on the income statement. No cash was paid out for it this year.",
+                amount: 70000,
+                sign: 1,
+                why: "depreciation lowered profit without using any cash, so it's added back."
+              },
+              {
+                id: "ar",
+                label: "Receivables",
+                detail: "Customers owe $90,000 more than they did a year ago.",
+                amount: 90000,
+                sign: -1,
+                why: "those sales are counted in profit, but the cash hasn't arrived yet."
+              },
+              {
+                id: "inv",
+                label: "Inventory",
+                detail: "$60,000 more stock is sitting in the warehouse.",
+                amount: 60000,
+                sign: -1,
+                why: "cash went out to make or buy stock that hasn't been sold, so it isn't in profit yet."
+              },
+              {
+                id: "ap",
+                label: "Payables",
+                detail: "Northline owes its suppliers $25,000 more than a year ago.",
+                amount: 25000,
+                sign: 1,
+                why: "those costs count against profit, but they haven't been paid. The cash is still in the bank for now."
+              },
+              {
+                id: "accr",
+                label: "Accrued expenses",
+                detail: "Wages and bills recorded but not yet paid rose by $10,000.",
+                amount: 10000,
+                sign: 1,
+                why: "the same logic as payables: the expense is in profit, the cash hasn't left."
+              },
+              { total: "Cash from operations" },
+              {
+                id: "capex",
+                label: "New equipment",
+                detail: "Investing: Northline bought $120,000 of machines.",
+                amount: 120000,
+                sign: -1,
+                why: "buying equipment uses cash. It reaches the income statement only slowly, as depreciation."
+              },
+              {
+                id: "loan",
+                label: "Loan",
+                detail: "Financing: Northline borrowed another $40,000.",
+                amount: 40000,
+                sign: 1,
+                why: "borrowing brings cash in. It isn't income, so it never touches profit."
+              },
+              { total: "Change in cash" }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Reading the bridge",
+                paras: [
+                  "At Northline, most of the gap between profit and cash is working capital. Receivables and inventory together absorbed $150,000, more than the year's profit. Suppliers and unpaid bills covered only $35,000 of it. That is the usual pattern in a growing company: sales rise, and cash gets tied up in what customers owe and in stock waiting to be sold.",
+                  "The bridge also shows what profit leaves out entirely. The $120,000 of new equipment and the $40,000 loan never appear on the income statement, yet both moved cash."
+                ],
+                side: {
+                  label: "Next",
+                  html: "<p>Change how long cash stays tied up in <a href=\"@working-capital\">Working capital levers</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
+            { title: "Why the balance sheet balances", where: "Chapter 13" },
+            { title: "Your balance sheet levers", where: "Part VII", page: "working-capital" }
+          ],
+          cta: { page: "working-capital", kicker: "Next", text: "Pull the working capital levers" }
+        }
+      },
+
       ratios: {
         title: "Reading the ratios",
         navLabel: "Ratios",
@@ -520,7 +670,7 @@
         end: {
           related: [
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
-            { title: "How cash connects with everything else", where: "Chapter 18" },
+            { title: "How cash connects with everything else", where: "Chapter 18", page: "cash-connects" },
             { title: "Working capital levers", where: "Part VII", page: "working-capital" },
             { title: "Reading the ratios", where: "Part V", page: "ratios" }
           ],
