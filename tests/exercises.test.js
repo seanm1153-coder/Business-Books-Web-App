@@ -1,0 +1,187 @@
+// The interactive blocks: each test drives one exercise and checks the numbers it shows.
+// Expected values come from the invented companies in the book files; if you change
+// a block's data on purpose, update the numbers here.
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const { setup, slide } = require("./helpers");
+
+let env;
+let page;
+test.before(async () => {
+  env = await setup();
+  page = await env.page();
+});
+test.after(async () => {
+  assert.deepEqual(page.errors, []);
+  await env.close();
+});
+
+async function sort(answers) {
+  for (const a of answers) {
+    await page.click(`[data-opt="${a}"]`);
+    await page.click('[data-action="next"]');
+  }
+  return page.text(".sorter-score");
+}
+
+test("GSBS: spot the bad strategy scores a highlighted sentence", async () => {
+  await page.open("gsbs-bad-strategy");
+  await page.click('[data-pen="goals"]');
+  await page.click('[data-seg="0-0"]');
+  await page.click('[data-action="check"]');
+  assert.match(await page.text(".spot-count"), /\d+ of \d+/);
+});
+
+test("GSBS: the kernel figure switches between examples", async () => {
+  await page.open("gsbs-kernel");
+  const before = await page.evaluate(() => document.querySelector(".kernel-panels").textContent);
+  await page.click('[data-view="apple"]');
+  assert.equal(await page.getAttribute('[data-view="apple"]', "aria-selected"), "true");
+  // The panels swap after a short fade.
+  await page.waitForFunction((b) => document.querySelector(".kernel-panels").textContent !== b, before);
+});
+
+test("GSBS: the template machine never finds a choice", async () => {
+  await page.open("gsbs-why-bad-strategy");
+  const counts = await page.text(".tpl-counts");
+  assert.match(counts, /Challenges named \| 0 \| Things ruled out \| 0 \| Actions anyone could start on Monday \| 0/);
+  const first = await page.text(".tpl-vision");
+  await page.click('[data-ref="again"]');
+  assert.notEqual(await page.text(".tpl-vision"), first);
+});
+
+test("GSBS: proximate objectives sorter keeps score", async () => {
+  await page.open("gsbs-proximate-objectives");
+  assert.equal(await sort(["far", "far", "near", "near", "near", "far", "far"]), "5 of 7 right");
+  assert.match(await page.text(".pager"), /Using leverage .* Chain-link systems/);
+});
+
+test("GSBS: concentrating effort beats spreading it", async () => {
+  await page.open("gsbs-using-leverage");
+  assert.match(await page.text(".conc .tiles"), /IMPACT \| 0$/i);
+  await page.click('[data-preset="focus"]');
+  assert.match(await page.text(".conc .tiles"), /IMPACT \| 70$/i);
+});
+
+test("GSBS: a chain is only as strong as its weakest link", async () => {
+  await page.open("gsbs-chain-link");
+  await page.click('[data-improve="0"]');
+  assert.match(await page.text('[data-ref="note"]'), /wasted/);
+  await page.click('[data-improve="2"]');
+  await page.click('[data-improve="2"]');
+  await page.click('[data-improve="3"]');
+  assert.equal(await page.text('[data-ref="chain-v"]'), "6/10");
+  assert.match(await page.text('[data-ref="wasted"]'), /^1 of 4 points/);
+});
+
+test("GSBS: strategy-as-hypothesis sorter", async () => {
+  await page.open("gsbs-science-of-strategy");
+  assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");
+});
+
+test("GSBS: the kernel builder flags a corporate draft", async () => {
+  await page.open("gsbs-builder");
+  await page.click('[data-example="corporate"]');
+  assert.ok((await page.text(".verdict")).length > 0);
+  const rows = await page.evaluate(() => document.querySelectorAll(".action-row").length);
+  await page.click('[data-ref="add-action"]');
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".action-row").length), rows + 1);
+});
+
+test("FI: judgment calls move profit while cash stays put", async () => {
+  await page.open("fi-profit-estimate");
+  assert.equal(await page.text('[data-ref="profit"]'), "$39,683");
+  const cash = await page.text('[data-ref="cash"]');
+  await page.click('[data-preset="low"]');
+  assert.equal(await page.text('[data-ref="profit"]'), "−$3,000");
+  assert.equal(await page.text('[data-ref="cash"]'), cash);
+});
+
+test("FI: the three statements stay in balance through a month of events", async () => {
+  await page.open("fi-profit-cash");
+  const expected = [
+    ["restock", "$12,000", "$50,000"],
+    ["machine", "$12,000", "$26,000"],
+    ["depreciate", "$10,000", "$26,000"],
+    ["payroll", "$2,000", "$18,000"],
+    ["paysupplier", "$2,000", "−$2,000"],
+    ["collect", "$2,000", "$28,000"],
+    ["borrow", "$2,000", "$43,000"],
+    ["repay", "$2,000", "$38,000"]
+  ];
+  for (const [move, profit, cash] of expected) {
+    await page.click(`[data-move="${move}"]`);
+    assert.equal(await page.text('[data-ref="profit"]'), profit, `profit after ${move}`);
+    assert.equal(await page.text('[data-ref="cash"]'), cash, `cash after ${move}`);
+    const checks = await page.evaluate(() => [...document.querySelectorAll(".st-check")].map((e) => e.innerText));
+    assert.ok(checks.every((c) => c.startsWith("✓")), `books out of balance after ${move}`);
+  }
+  await page.click('[data-ref="undo"]');
+  assert.equal(await page.text('[data-ref="cash"]'), "$43,000");
+});
+
+test("FI: cash-flow sorter has three buckets and explains a wrong pick", async () => {
+  await page.open("fi-cash-flow-language");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter-opt").length), 3);
+  await page.click('[data-opt="fin"]');
+  assert.match(await page.text(".sorter-why"), /^NOT QUITE/i);
+});
+
+test("FI: ratios compare two years", async () => {
+  await page.open("fi-ratios");
+  assert.match(await page.text(".ratios .tiles-3"), /\$675k → \$750k/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".rt-row").length), 13);
+  await page.click('[data-ratio="ic"]');
+  assert.match(await page.text(".ratio-detail"), /10\.0×.*6\.0×/);
+});
+
+test("FI: ROI calculator", async () => {
+  await page.open("fi-roi");
+  const tiles = () => page.text(".roi .tiles-3");
+  assert.match(await tiles(), /3\.6 years .*\$79,079 .*16\.5% \| Above the 10% hurdle/);
+  await slide(page, 'input[data-key="savings"]', 90000);
+  assert.match(await tiles(), /4\.4 years .*−\$8,027 .*9\.3% \| Below the 10% hurdle/);
+  await slide(page, 'input[data-key="savings"]', 60000);
+  assert.match(await tiles(), /Never .*None/);
+  await page.click('[data-ref="reset"]');
+  assert.match(await tiles(), /\$79,079/);
+});
+
+test("FI: working capital levers free cash", async () => {
+  await page.open("fi-working-capital");
+  assert.match(await page.text(".tiles-3"), /90 days .*\$2,498,630/);
+  await slide(page, 'input[data-key="dso"]', 45);
+  assert.equal(await page.text('[data-ref="freed"]'), "+$328,767");
+  assert.equal(await page.text('[data-ref="ccc"]'), "80 days");
+});
+
+test("PB: the category king takes most of the value", async () => {
+  await page.open("pb-category-kings");
+  assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
+  await page.click('[data-mode="even"]');
+  assert.match(await page.text(".vs .tiles"), /20% .*20% .*1×/);
+  await page.click('[data-mode="king"]');
+  assert.equal(await sort(["small", "big", "small", "big", "small", "small", "big"]), "7 of 7 right");
+});
+
+test("PB: the magic triangle names the weak side", async () => {
+  await page.open("pb-magic-triangle");
+  assert.match(await page.text(".tri-status"), /^Out of balance\. Category is holding/);
+  await page.click('[data-preset="2"]');
+  assert.match(await page.text(".tri-status"), /^Spinning\./);
+});
+
+test("PB: point-of-view checks", async () => {
+  await page.open("pb-point-of-view");
+  assert.equal(await page.text(".score"), "6 of 6 checks pass");
+  await page.click('[data-example="pitch"]');
+  assert.equal(await page.text(".verdict"), "Reads like a product pitch");
+});
+
+test("PB: lightning strike beats a drip", async () => {
+  await page.open("pb-lightning-strike");
+  await page.click('[data-preset="drip"]');
+  assert.match(await page.text(".sp .tiles"), /0 of 12/);
+  await page.click('[data-preset="hijacks"]');
+  assert.match(await page.text(".sp .tiles"), /5 of 12/);
+});

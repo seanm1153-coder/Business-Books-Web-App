@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marginalia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Gloock&family=Literata:ital,opsz,wght@0,7..72,300..700;1,7..72,300..700&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="night" data-header="night">
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="#shelf">Marginalia</a>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+    <nav class="book-nav" id="booknav" aria-label="Book" hidden></nav>
+    <nav class="site-nav" id="sitenav" aria-label="Site">
+      <a href="#northline">Northline</a>
+      <a href="#notebook">Notebook <span class="note-count" id="notecount" hidden></span></a>
+    </nav>
+  </div>
+</header>
+<main id="view" tabindex="-1"></main>
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>Marginalia · a study companion for business books</span>
+    <span>Summaries are written in our own words. Read the books.</span>
+  </div>
+</footer>
+<!-- Shared helpers first, then books (shelf order), blocks and art; app.js boots last. -->
+<script src="assets/js/util.js"></script>
+<script src="assets/js/memory.js"></script>
+<script src="assets/js/notes.js"></script>
+<script src="assets/js/ask.js"></script>
+<script src="assets/books/gsbs.js"></script>
+<script src="assets/books/fi.js"></script>
+<script src="assets/books/pb.js"></script>
+<script src="assets/js/blocks/prose.js"></script>
+<script src="assets/js/blocks/kernel-figure.js"></script>
+<script src="assets/js/blocks/hallmarks.js"></script>
+<script src="assets/js/blocks/spot-exercise.js"></script>
+<script src="assets/js/blocks/kernel-builder.js"></script>
+<script src="assets/js/blocks/three-statements.js"></script>
+<script src="assets/js/blocks/sorter.js"></script>
+<script src="assets/js/blocks/chain-link.js"></script>
+<script src="assets/js/blocks/judgment-calls.js"></script>
+<script src="assets/js/blocks/wc-levers.js"></script>
+<script src="assets/js/blocks/value-split.js"></script>
+<script src="assets/js/blocks/pov-builder.js"></script>
+<script src="assets/js/blocks/concentration.js"></script>
+<script src="assets/js/blocks/ratios.js"></script>
+<script src="assets/js/blocks/strike-planner.js"></script>
+<script src="assets/js/blocks/template-strategy.js"></script>
+<script src="assets/js/blocks/roi-calculator.js"></script>
+<script src="assets/js/blocks/triangle.js"></script>
+<script src="assets/js/art/contours.js"></script>
+<script src="assets/js/art/ledger.js"></script>
+<script src="assets/js/art/categories.js"></script>
+<script src="assets/js/northline-model.js"></script>
+<script src="assets/js/views/notebook.js"></script>
+<script src="assets/js/views/northline.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
