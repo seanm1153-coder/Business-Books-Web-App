@@ -69,7 +69,7 @@
         title: "Good and bad strategy",
         chapters: [
           { n: 1, title: "Good strategy is unexpected", blurb: "Few organizations have a real strategy, so one that does catches rivals off guard." },
-          { n: 2, title: "Discovering power", blurb: "Good strategy puts strength against weakness, and finds power in coherence itself." },
+          { n: 2, title: "Discovering power", blurb: "Good strategy puts strength against weakness, and finds power in coherence itself.", page: "discovering-power" },
           { n: 3, title: "Bad strategy", blurb: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives.", page: "bad-strategy" },
           { n: 4, title: "Why so much bad strategy?", blurb: "Choosing is hard. Templates and positive thinking offer ways to avoid it.", page: "why-bad-strategy" },
           { n: 5, title: "The kernel of good strategy", blurb: "Diagnosis, guiding policy and coherent action.", page: "kernel" }
@@ -106,6 +106,8 @@
       { era: "216 BC", title: "Hannibal at Cannae", blurb: "A smaller army encircles a larger Roman one by anticipating exactly how it will attack.", tag: "Using design" },
       { era: "1960s", title: "Surveyor and the Moon", blurb: "Designing a lunar lander became solvable once engineers pinned down what the surface was like.", tag: "Proximate objectives", page: "proximate-objectives" },
       { era: "1960s–80s", title: "Crown Cork & Seal", blurb: "A small can maker outperforms its giant rivals by aiming every policy at hard-to-make cans and the customers who need them.", tag: "Focus", page: "focus" },
+      { era: "1960s–80s", title: "Wal-Mart's small towns", blurb: "A discount chain grows by filling towns its bigger rivals ignore, with stores clustered around its own warehouses.", tag: "Discovering power", page: "discovering-power" },
+      { era: "1970s", title: "Competing with the Soviets", blurb: "Pentagon strategists look for ways to play American strengths against Soviet weaknesses instead of matching weapon for weapon.", tag: "Discovering power", page: "discovering-power" },
       { era: "1991", title: "Desert Storm", blurb: "The coalition avoids Iraq's prepared defenses with a wide swing through the western desert.", tag: "The kernel", page: "kernel" },
       { era: "1997", title: "Apple's turnaround", blurb: "Steve Jobs returns and cuts a sprawling product line down to four.", tag: "The kernel", page: "kernel" },
       { era: "1993–2010", title: "Nvidia", blurb: "A graphics-chip maker rides a wave of change in computing, step by step.", tag: "Putting it together" }
@@ -1086,6 +1088,135 @@
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that earns its growth" }
+        }
+      },
+
+      // The Wal-Mart and Andrew Marshall accounts follow the well-known histories Rumelt
+      // draws on. Details (Kmart's size, the cost-imposing logic) are unchecked against
+      // Chapter 2's wording.
+      "discovering-power": {
+        title: "Discovering power",
+        eyebrow: "Part I · Chapter 02",
+        dek:
+          "A good strategy finds a source of power and applies it where it counts. Rumelt names two: putting your strength against a rival's weakness, and the extra force that comes from actions that fit together.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Wal-Mart's small towns",
+                paras: [
+                  "Sam Walton's discount stores began in small towns in the American South and Midwest, places the big chains such as Kmart considered too small to be worth a store. Wal-Mart filled them, and it placed its stores in tight clusters around its own distribution centers, so trucks, managers and information could serve many stores cheaply.",
+                  "For years Kmart was the larger company. Wal-Mart's edge wasn't national size. It came from a system: dense local networks, its own logistics, and a store in towns where no rival wanted to compete. Each part supported the others, and together they were hard to copy."
+                ],
+                side: {
+                  label: "The lesson",
+                  html: "<p>Size is not the same as power. A smaller company can be stronger where it matters if its pieces work together.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Strength against weakness",
+                paras: [
+                  "Rumelt draws on the work of Andrew Marshall, who led the Pentagon's Office of Net Assessment. During the Cold War, Marshall and his colleagues argued that the United States shouldn't simply try to match the Soviet Union weapon for weapon. It should look for areas where American strengths met Soviet weaknesses, and favor moves that were cheap for the United States but expensive for the Soviets to answer.",
+                  "The idea carries well beyond defense. Every rival has weaknesses, and they often come from the same source as its strengths. A company built to win on volume finds personal service awkward. A company built around one product finds it hard to walk away from it."
+                ],
+                side: {
+                  label: "A useful question",
+                  html: "<p>What would it cost them to respond, compared with what it costs us to act? Good moves make that ratio lopsided.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Strength against weakness?",
+            intro:
+              "Seven moves by invented companies. For each, decide whether it plays a strength against the rival's weakness or meets the rival where it's strongest. Moves that pick the wrong fight come with a better aimed version.",
+            options: [
+              { id: "weak", label: "Strength against weakness", hint: "Uses an edge where the rival is exposed" },
+              { id: "strong", label: "Strength against strength", hint: "Fights the rival where it's best" }
+            ],
+            rewriteLabel: "A better aimed move",
+            items: [
+              {
+                text: "A small regional airline cuts fares on the national carrier's busiest route, where the carrier has the most flights and the lowest costs.",
+                answer: "strong",
+                why: "It attacks the carrier where it's strongest. The carrier can match the fares more cheaply than the small airline can keep them up.",
+                rewrite: "Fly direct between two mid-sized cities that the national carrier only serves with a change of planes."
+              },
+              {
+                text: "A local hardware store offers same-day delivery and a repair desk, which the out-of-town superstore's warehouse model can't easily match.",
+                answer: "weak",
+                why: "The superstore wins on volume with few staff per customer. That same model makes personal service hard for it to offer."
+              },
+              {
+                text: "A startup launches a cheaper copy of the market leader's best-selling product, through the same retailers.",
+                answer: "strong",
+                why: "The leader owns those shelves and can cut its price for a while. The startup has chosen the ground where it's weakest.",
+                rewrite: "Sell a simpler version directly to the small customers the leader's retailers don't bother with."
+              },
+              {
+                text: "A planner favors investments that are cheap to make but force a rival to spend far more on countering them.",
+                answer: "weak",
+                why: "This is the cost-imposing logic Rumelt draws from Andrew Marshall. The advantage is in the ratio: a little spent here makes the rival spend a lot."
+              },
+              {
+                text: "A software firm with a clean security record targets banks just after a rival's widely reported data breaches.",
+                answer: "weak",
+                why: "Its strength, a trusted record, lands exactly where the rival is exposed and where buyers are paying attention."
+              },
+              {
+                text: "A new bike maker builds a race team to beat the world's leading racing brand at the sport's biggest event.",
+                answer: "strong",
+                why: "It's the racing brand's home ground, built over decades. Losing there is expensive and likely.",
+                rewrite: "Build cargo bikes for families, a market the racing brand has neither the products nor the interest to serve."
+              },
+              {
+                text: "A discount chain opens stores in towns the national chains think are too small, clustered close to its own warehouses.",
+                answer: "weak",
+                why: "The big chains' model needs big markets, so these towns are empty ground. Clustering adds a cost edge the rivals can't reach from far away."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Power from coherence",
+                paras: [
+                  "The second source of power is less obvious. When a company's actions are designed to fit together, they reinforce one another, and the whole has more force than the parts. Wal-Mart's stores, warehouses and trucks are an example. No single piece was hard to copy; the combination was.",
+                  "Rumelt returns to this idea throughout the book, in the chapters on <a href=\"@chain-link\">chain-link systems</a>, design and <a href=\"@focus\">focus</a>."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The <a href=\"@kernel\">kernel</a>'s third part, coherent action, is this idea in practice: actions that support each other rather than sit side by side.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Why it's often missed",
+                paras: [
+                  "Strategy documents tend to list strengths, as if having them were enough. The work is to find where a strength meets a weakness, which means studying the rival as closely as yourself. A strength aimed at a rival's strength is just a contest of resources, and the larger side usually wins it."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>For each move in the sorter, ask what the rival would have to spend to respond. The good moves make that number large.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Good strategy is unexpected", where: "Chapter 1" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
+            { title: "Focus", where: "Chapter 10", page: "focus" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a guiding policy that plays to a strength" }
         }
       },
 

@@ -27,6 +27,7 @@ npm test
 | --- | --- | --- |
 | Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence and Play Bigger. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
+| Discovering power | `#gsbs-discovering-power` | Wal-Mart's small towns, Andrew Marshall's strength-against-weakness thinking, and a "strength against weakness?" sort with better-aimed rewrites. |
 | Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
 | Why so much bad strategy? | `#gsbs-why-bad-strategy` | The unwillingness to choose, template-style strategy and New Thought, with a strategy template machine whose choice detector always reads zero. |
 | Using leverage | `#gsbs-using-leverage` | Anticipation, pivot points, and a spread-or-concentrate exercise where initiatives only pay off past a threshold. |

@@ -50,6 +50,12 @@ test("GSBS: the template machine never finds a choice", async () => {
   assert.notEqual(await page.text(".tpl-vision"), first);
 });
 
+test("GSBS: strength-against-weakness sorter", async () => {
+  await page.open("gsbs-discovering-power");
+  assert.equal(await sort(["strong", "weak", "strong", "weak", "weak", "strong", "strong"]), "6 of 7 right");
+  assert.match(await page.text(".pager"), /Next → \| Bad strategy \|/i);
+});
+
 test("GSBS: proximate objectives sorter keeps score", async () => {
   await page.open("gsbs-proximate-objectives");
   assert.equal(await sort(["far", "far", "near", "near", "near", "far", "far"]), "5 of 7 right");
