@@ -34,6 +34,15 @@ npx serve .
 | Point of view | `#pb-point-of-view` | Write a category's story (problem, from, to, why now, name) with a live preview and checks for product-pitch habits. Drafts save to `localStorage`. |
 | The lightning strike | `#pb-lightning-strike` | Schedule six launch moves over twelve weeks and see, in a labeled toy model, whether a drip, a strike or a strike with hijacks gets noticed. |
 
+| Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
+| Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
+
+## Reader features
+
+- **Margin notes.** Select text in any chapter's prose to highlight it or add a note. Highlights come back on every visit and collect in the notebook.
+- **Memory.** `assets/js/memory.js` keeps notes, drafts, scores and visits. Inside a Claude viewer with the `db` and `user` capabilities, they live in the reader's private store (`data/users/<id>/library`) and follow them across devices; anywhere else they stay in the browser.
+- **Claude critique.** Both workbenches can ask Claude for a critique of the draft through the `sample` capability. Where Claude isn't reachable (for example on GitHub Pages) the button stays hidden.
+
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
 
 ## How it's organized
@@ -43,6 +52,11 @@ index.html                    page shell; script order sets the shelf order
 assets/styles.css             design tokens (light and dark) and all styles
 assets/books/<id>.js          one file per book: metadata, chapter map, cases and pages
 assets/js/util.js             shared namespace and helpers
+assets/js/memory.js           what the site remembers per reader (cloud or browser)
+assets/js/notes.js            highlights and margin notes on chapter prose
+assets/js/ask.js              Claude critique for the workbenches
+assets/js/northline-model.js  the Northline quarterly model (pure; testable in Node)
+assets/js/views/*.js          site-wide pages: notebook, northline
 assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,
                               spot-exercise, kernel-builder, three-statements,
                               sorter, chain-link, judgment-calls, wc-levers,

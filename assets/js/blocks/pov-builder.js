@@ -2,7 +2,8 @@
 // and check it against the habits Play Bigger warns about. Drafts persist per book.
 (function () {
   "use strict";
-  const { esc, store } = window.Marginalia.util;
+  const { esc } = window.Marginalia.util;
+  const memory = () => window.Marginalia.memory;
 
   const FIELDS = ["problem", "from", "to", "why", "name"];
   const PROBLEM_RE =
@@ -67,6 +68,31 @@
     return { passes, text: "Reads like a product pitch", sub: "Lead with the problem, not the product." };
   }
 
+  function critiquePrompt(s) {
+    const v = (k) => (s[k] || "").trim() || "(empty)";
+    return [
+      'You are a candid, constructive editor who knows the book "Play Bigger" by Al Ramadan, Dave Peterson, Christopher Lochhead and Kevin Maney well. A reader drafted a category point of view, shown below.',
+      "Critique it using the book's ideas: a point of view tells the market's story before the product's. It frames a problem in the customer's terms, contrasts the old way with a genuinely new way (not a better version of the old one), says why now, and gives the category a name people can repeat. Watch for product-pitch habits: features, comparisons with competitors, company-centric language and hype.",
+      "Be specific and quote the draft's own words. Plain language, no flattery, under 200 words.",
+      "",
+      "Reply in exactly this format:",
+      "Verdict: <one sentence>",
+      "What works:",
+      "- <point>",
+      "What to fix:",
+      "- <point>",
+      "- <point>",
+      "Try this: <one rewritten line for the weakest part of the draft>",
+      "",
+      "The draft:",
+      `The problem: ${v("problem")}`,
+      `From: ${v("from")}`,
+      `To: ${v("to")}`,
+      `Why now: ${v("why")}`,
+      `Category name: ${v("name")}`
+    ].join("\n");
+  }
+
   window.Marginalia.blocks["pov-builder"] = {
     render(block, ctx) {
       const u = ctx.uid;
@@ -100,6 +126,7 @@
               <div class="pov-card" data-ref="preview"></div>
               <div class="check-summary" data-ref="summary" aria-live="polite"></div>
               <ul class="checks" data-ref="checks" role="list"></ul>
+              <div class="critique" data-ref="critique" hidden></div>
             </div>
           </aside>
         </div>
@@ -110,7 +137,7 @@
       const ref = (n) => root.querySelector(`[data-ref="${n}"]`);
       const inputs = Object.fromEntries(FIELDS.map((k) => [k, root.querySelector(`[data-field="${k}"]`)]));
       const clone = (id) => ({ source: id, ...Object.fromEntries(FIELDS.map((k) => [k, block.examples[id][k] || ""])) });
-      const saved = store.get(block.storageKey);
+      const saved = memory().draft(block.draftKey);
       let state = saved && FIELDS.every((k) => typeof saved[k] === "string") ? saved : clone(block.defaultExample);
       let canSave = true;
 
@@ -127,7 +154,7 @@
       }
 
       function update() {
-        canSave = store.set(block.storageKey, state);
+        canSave = memory().setDraft(block.draftKey, state);
         const v = (k) => esc(state[k].trim());
         ref("preview").innerHTML = `
           <p class="eyebrow">The point of view</p>
@@ -159,7 +186,13 @@
         root.querySelectorAll("[data-example]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.example === state.source)));
         const ex = block.examples[state.source];
         ref("source-note").textContent =
-          ex && ex.note ? ex.note : canSave ? "Your draft is saved in this browser as you type." : "Drafts can't be saved in this browser, so copy your work before leaving.";
+          ex && ex.note
+            ? ex.note
+            : !canSave
+              ? "Drafts can't be saved here, so copy your work before leaving."
+              : memory().mode === "cloud"
+                ? "Your draft is saved to your Claude account as you type."
+                : "Your draft is saved in this browser as you type.";
       }
 
       root.querySelector("form").addEventListener("input", (e) => {
@@ -181,9 +214,31 @@
       const onResize = () => FIELDS.forEach((k) => autosize(inputs[k]));
       window.addEventListener("resize", onResize);
 
+      let touched = false;
+      root.querySelector("form").addEventListener("input", () => (touched = true));
+      const offMemory = memory().onChange((kind) => {
+        if (kind !== "all" || touched) return;
+        const remote = memory().draft(block.draftKey);
+        if (remote && FIELDS.every((k) => typeof remote[k] === "string")) {
+          state = remote;
+          fill();
+        }
+        update();
+      });
+
+      const offAsk = window.Marginalia.ask.mount(ref("critique"), {
+        label: "Ask Claude for a critique",
+        prompt: () => critiquePrompt(state),
+        isEmpty: () => !FIELDS.some((k) => (state[k] || "").trim())
+      });
+
       fill();
       update();
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        offMemory();
+        offAsk();
+      };
     }
   };
 })();

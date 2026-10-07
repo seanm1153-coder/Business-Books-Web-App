@@ -7,6 +7,7 @@
   M.books = [];
   M.blocks = {};
   M.art = {};
+  M.views = {}; // site-wide pages that sit outside any book (#notebook, #northline)
 
   // Shelf order is registration order, so script order in index.html decides it.
   M.addBook = (book) => {

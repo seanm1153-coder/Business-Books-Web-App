@@ -2,7 +2,8 @@
 // checks for the patterns Rumelt calls bad strategy. Drafts persist per book.
 (function () {
   "use strict";
-  const { esc, store } = window.Marginalia.util;
+  const { esc } = window.Marginalia.util;
+  const memory = () => window.Marginalia.memory;
 
   const CHALLENGE =
     /\b(problem|problems|challenge|obstacle|obstacles|because|threat|threats|losing|lose|loses|can't|cannot|unable|risk|risks|constraint|bottleneck|declin\w*|shrink\w*|squeez\w*|run(?:ning)? out|too (?:many|few|slow|expensive|late)|behind|struggl\w*|weak\w*|stuck|failing|fails)\b/i;
@@ -214,6 +215,33 @@
     return out;
   }
 
+  function critiquePrompt(s) {
+    const acts = s.actions
+      .map((a, i) => (a.text.trim() ? `${i + 1}. ${a.text.trim()} (${a.linked ? "marked as serving the policy" : "not linked to the policy"})` : ""))
+      .filter(Boolean)
+      .join("\n");
+    return [
+      'You are a candid, constructive strategy editor who knows Richard Rumelt\'s book "Good Strategy Bad Strategy" well. A reader drafted the kernel of a strategy, shown below.',
+      "Critique it using Rumelt's ideas. A good kernel has a diagnosis that names the critical challenge, a guiding policy that is an approach (not a goal) and rules things out, and coherent actions that carry out the policy and reinforce one another. Watch for his hallmarks of bad strategy: fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives.",
+      "Be specific and quote the draft's own words. Plain language, no flattery, under 200 words.",
+      "",
+      "Reply in exactly this format:",
+      "Verdict: <one sentence>",
+      "What works:",
+      "- <point>",
+      "What to fix:",
+      "- <point>",
+      "- <point>",
+      "Try this: <one rewritten sentence for the weakest part of the draft>",
+      "",
+      "The draft:",
+      `Diagnosis: ${s.diagnosis.trim() || "(empty)"}`,
+      `Guiding policy: ${s.policy.trim() || "(empty)"}`,
+      "Actions:",
+      acts || "(none)"
+    ].join("\n");
+  }
+
   function cloneExample(examples, id) {
     const ex = examples[id];
     return {
@@ -271,6 +299,7 @@
               <svg class="kernel-map" data-ref="map" viewBox="0 0 320 184" role="img" aria-label="Map of how the actions connect to the guiding policy"></svg>
               <p class="map-key">Solid line: the action carries out the policy. Dashed circle: not linked.</p>
               <ul class="checks" data-ref="checks" role="list"></ul>
+              <div class="critique" data-ref="critique" hidden></div>
             </div>
             <div class="readback">
               <p class="eyebrow">Read-back</p>
@@ -284,7 +313,7 @@
 
     mount(root, block, ctx) {
       const examples = block.examples;
-      const saved = store.get(block.storageKey);
+      const saved = memory().draft(block.draftKey);
       let state = saved && Array.isArray(saved.actions) ? saved : cloneExample(examples, block.defaultExample);
       let canSave = true;
 
@@ -324,7 +353,7 @@
       }
 
       function update() {
-        canSave = store.set(block.storageKey, state);
+        canSave = memory().setDraft(block.draftKey, state);
         const checks = runChecks(state);
         const v = verdict(checks, state);
         ref("summary").innerHTML = `
@@ -357,7 +386,11 @@
       function updateSource() {
         root.querySelectorAll("[data-example]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.example === state.source)));
         const ex = examples[state.source];
-        const saving = canSave ? "Your draft is saved in this browser as you type." : "Drafts can't be saved in this browser, so copy your work before leaving.";
+        const saving = !canSave
+          ? "Drafts can't be saved here, so copy your work before leaving."
+          : memory().mode === "cloud"
+            ? "Your draft is saved to your Claude account as you type."
+            : "Your draft is saved in this browser as you type.";
         ref("source-note").textContent = ex && ex.note ? ex.note : saving;
       }
 
@@ -430,9 +463,33 @@
       const onResize = () => root.querySelectorAll(".bench-form textarea").forEach(autosize);
       window.addEventListener("resize", onResize);
 
+      // A draft saved on another device can arrive after the page has rendered.
+      let touched = false;
+      root.querySelector("form").addEventListener("input", () => (touched = true));
+      const offMemory = memory().onChange((kind) => {
+        if (kind === "mode") return updateSource();
+        if (kind !== "all" || touched) return;
+        const remote = memory().draft(block.draftKey);
+        if (remote && Array.isArray(remote.actions)) {
+          state = remote;
+          fillFields();
+          update();
+        } else updateSource();
+      });
+
+      const offAsk = window.Marginalia.ask.mount(ref("critique"), {
+        label: "Ask Claude for a critique",
+        prompt: () => critiquePrompt(state),
+        isEmpty: () => !state.diagnosis.trim() && !state.policy.trim() && !state.actions.some((a) => a.text.trim())
+      });
+
       fillFields();
       update();
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        offMemory();
+        offAsk();
+      };
     }
   };
 })();

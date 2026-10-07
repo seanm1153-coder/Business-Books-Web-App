@@ -612,7 +612,7 @@
         blocks: [
           {
             type: "kernel-builder",
-            storageKey: "marginalia.gsbs.kernel-draft",
+            draftKey: "gsbs.kernel",
             defaultExample: "apple",
             examples: {
               apple: {

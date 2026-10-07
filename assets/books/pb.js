@@ -274,7 +274,7 @@
           },
           {
             type: "pov-builder",
-            storageKey: "marginalia.pb.pov-draft",
+            draftKey: "pb.pov",
             defaultExample: "fleet",
             examples: {
               fleet: {

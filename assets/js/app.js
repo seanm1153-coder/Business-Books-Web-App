@@ -4,6 +4,8 @@
 //   #shelf            the library
 //   #<book>           a book's home, e.g. #gsbs
 //   #<book>-<page>    a page in that book, e.g. #gsbs-kernel
+//   #notebook         the reader's commonplace book (assets/js/views/notebook.js)
+//   #northline        the cross-book Northline campaign (assets/js/views/northline.js)
 (function () {
   "use strict";
 
@@ -22,6 +24,7 @@
 
   function parse(hash) {
     if (ALIASES[hash]) return { redirect: ALIASES[hash] };
+    if (M.views && M.views[hash]) return { view: hash };
     for (const book of M.books) {
       if (book.status !== "open") continue;
       if (hash === book.id) return { book };
@@ -49,8 +52,16 @@
     }
     cleanups.forEach((fn) => fn());
     cleanups = [];
+    M.notes.detach();
 
-    if (route.shelf) {
+    if (route.view) {
+      const v = M.views[route.view];
+      setSurface("paper", v.header || "paper");
+      renderChrome(null, null, v.crumb);
+      const cleanup = v.render(view);
+      if (typeof cleanup === "function") cleanups.push(cleanup);
+      document.title = `${v.title} · Marginalia`;
+    } else if (route.shelf) {
       setSurface("night", "night");
       renderChrome(null);
       renderShelf();
@@ -75,8 +86,14 @@
     document.body.dataset.header = header;
   }
 
-  function renderChrome(book, slug) {
+  function renderChrome(book, slug, extra) {
     const trail = [{ label: "Library", href: "#shelf" }];
+    if (extra) trail.push({ label: extra });
+    document.querySelectorAll("#sitenav a").forEach((a) => {
+      if (a.getAttribute("href") === location.hash) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    updateNoteCount();
     if (book) {
       const ctx = context(book);
       trail.push({ label: book.title, href: ctx.href() });
@@ -115,6 +132,11 @@
           </div>
           <ul class="shelf" role="list">${M.books.map(shelfBookHTML).join("")}</ul>
           <p class="shelf-note">${open} open${M.books.length - open ? ` · ${M.books.length - open} forthcoming` : ""}</p>
+          <a class="shelf-feature" href="#northline">
+            <span class="shelf-feature-k">A year in three books</span>
+            <span class="shelf-feature-t">Run Northline Bikes for a year <span aria-hidden="true">→</span></span>
+            <span class="shelf-feature-d">Four decisions, one per quarter, each read through a different book. Every choice flows through the same income statement and bank balance.</span>
+          </a>
         </div>
       </section>`;
   }
@@ -133,6 +155,7 @@
       <span class="book-meta">
         <span class="book-title">${esc(b.title)}</span>
         <span class="book-sub">${esc(b.author)} · ${b.year}</span>
+        ${open && M.memory.visited(b.id).length ? `<span class="book-progress">${Math.min(M.memory.visited(b.id).filter((s) => b.pages[s]).length, Object.keys(b.pages).length)} of ${Object.keys(b.pages).length} pages explored</span>` : ""}
         <span class="chip ${open ? "chip-open" : "chip-muted"}">${open ? "Open" : "Forthcoming"}</span>
       </span>`;
     return `<li class="book c-${b.cover} ${open ? "is-open" : "is-forthcoming"}">${
@@ -260,6 +283,7 @@
 
   function renderPage(book, slug, page) {
     const ctx = context(book, slug);
+    M.memory.visit(book.id, slug);
     const blocks = page.blocks.map((block, i) => {
       const impl = M.blocks[block.type];
       if (!impl) throw new Error(`Unknown block type "${block.type}" on ${book.id}-${slug}`);
@@ -275,6 +299,7 @@
             <p class="dek">${esc(page.dek)}</p>
           </header>
           ${blocks.map((b, i) => `<div class="block" data-block="${i}">${b.impl.render(b.block, b.ctx)}</div>`).join("")}
+          <section class="page-notes" data-page-notes hidden aria-label="Your notes on this page"></section>
           ${pagerHTML(book, slug, ctx)}
           ${page.end ? endHTML(book, page.end, ctx) : ""}
         </div>
@@ -285,6 +310,7 @@
       const cleanup = b.impl.mount(view.querySelector(`[data-block="${i}"]`), b.block, b.ctx);
       if (typeof cleanup === "function") cleanups.push(cleanup);
     });
+    M.notes.attach(view.querySelector("article"), { book: book.id, slug, bookTitle: book.title, pageTitle: page.title });
   }
 
   // Previous/next links between open pages, in the book's chapter order.
@@ -332,6 +358,31 @@
       </div>
       ${book.citation ? `<p class="fineprint">${book.citation}</p>` : ""}`;
   }
+
+  function updateNoteCount() {
+    const el = document.getElementById("notecount");
+    if (!el) return;
+    const n = M.memory.notes().length;
+    el.textContent = n ? String(n) : "";
+    el.hidden = !n;
+  }
+
+  // Pages that summarize what the reader has done refresh when it changes.
+  let refreshTimer = 0;
+  M.memory.onChange(() => {
+    updateNoteCount();
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => {
+      const route = parse(location.hash.slice(1));
+      if (route.shelf && !route.redirect) renderShelf();
+      else if (route.view && M.views[route.view].live) {
+        cleanups.forEach((fn) => fn());
+        cleanups = [];
+        const cleanup = M.views[route.view].render(view);
+        if (typeof cleanup === "function") cleanups.push(cleanup);
+      }
+    }, 250);
+  });
 
   /* ---------- Boot ---------- */
 

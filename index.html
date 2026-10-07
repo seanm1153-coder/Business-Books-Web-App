@@ -15,6 +15,10 @@
     <a class="wordmark" href="#shelf">Marginalia</a>
     <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
     <nav class="book-nav" id="booknav" aria-label="Book" hidden></nav>
+    <nav class="site-nav" id="sitenav" aria-label="Site">
+      <a href="#northline">Northline</a>
+      <a href="#notebook">Notebook <span class="note-count" id="notecount" hidden></span></a>
+    </nav>
   </div>
 </header>
 <main id="view" tabindex="-1"></main>
@@ -26,6 +30,9 @@
 </footer>
 <!-- Shared helpers first, then books (shelf order), blocks and art; app.js boots last. -->
 <script src="assets/js/util.js"></script>
+<script src="assets/js/memory.js"></script>
+<script src="assets/js/notes.js"></script>
+<script src="assets/js/ask.js"></script>
 <script src="assets/books/gsbs.js"></script>
 <script src="assets/books/fi.js"></script>
 <script src="assets/books/pb.js"></script>
@@ -47,6 +54,9 @@
 <script src="assets/js/art/contours.js"></script>
 <script src="assets/js/art/ledger.js"></script>
 <script src="assets/js/art/categories.js"></script>
+<script src="assets/js/northline-model.js"></script>
+<script src="assets/js/views/notebook.js"></script>
+<script src="assets/js/views/northline.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

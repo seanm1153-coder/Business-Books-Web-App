@@ -52,7 +52,7 @@
       </section>`;
     },
 
-    mount(root, block) {
+    mount(root, block, ctx) {
       const labelById = Object.fromEntries(block.labels.map((h) => [h.id, h]));
       // Per-statement marks survive switching between statements.
       const marks = Object.fromEntries(block.exercises.map((x) => [x.id, { tags: {}, checked: false }]));
@@ -174,6 +174,16 @@
       checkBtn.addEventListener("click", () => {
         marks[current.id].checked = true;
         render();
+        const segs = segments(current);
+        const answers = segs.filter((s) => s.h);
+        const found = answers.filter((s) => marks[current.id].tags[s.key] === s.h).length;
+        window.Marginalia.memory.result(`${ctx.book.id}.${ctx.slug}.${current.id}`, {
+          book: ctx.book.id,
+          page: ctx.slug,
+          label: `${block.title}: ${current.label}`,
+          score: found,
+          total: answers.length
+        });
       });
       root.querySelector('[data-action="reset"]').addEventListener("click", () => {
         marks[current.id] = { tags: {}, checked: false };

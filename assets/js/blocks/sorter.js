@@ -16,7 +16,7 @@
       </section>`;
     },
 
-    mount(root, block) {
+    mount(root, block, ctx) {
       const card = root.querySelector('[data-ref="card"]');
       const optById = Object.fromEntries(block.options.map((o) => [o.id, o]));
       let i = 0;
@@ -54,6 +54,13 @@
 
       function renderDone() {
         const score = answers.filter((a, k) => a === block.items[k].answer).length;
+        window.Marginalia.memory.result(`${ctx.book.id}.${ctx.slug}.sorter`, {
+          book: ctx.book.id,
+          page: ctx.slug,
+          label: block.title,
+          score,
+          total: block.items.length
+        });
         card.innerHTML = `
           <p class="sorter-progress">Done</p>
           <p class="sorter-score"><span class="tnum">${score} of ${block.items.length}</span> right</p>
