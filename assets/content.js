@@ -22,7 +22,7 @@ window.MARGINALIA = {
         chapters: [
           { n: 1, title: "Good strategy is unexpected", blurb: "Few organizations have a real strategy, so one that does catches rivals off guard." },
           { n: 2, title: "Discovering power", blurb: "Good strategy puts strength against weakness, and finds power in coherence itself." },
-          { n: 3, title: "Bad strategy", blurb: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives." },
+          { n: 3, title: "Bad strategy", blurb: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives.", route: "bad-strategy" },
           { n: 4, title: "Why so much bad strategy?", blurb: "Choosing is hard. Templates and positive thinking offer ways to avoid it." },
           { n: 5, title: "The kernel of good strategy", blurb: "Diagnosis, guiding policy and coherent action.", route: "kernel" }
         ]
@@ -148,14 +148,136 @@ window.MARGINALIA = {
           ],
           side: {
             label: "See also",
-            html: "<p>Chapter 3 names four hallmarks of bad strategy. <em>Mistaking goals for strategy</em> is one of them.</p>"
+            html: "<p>Chapter 3 names four hallmarks of bad strategy. <a href=\"#bad-strategy\">Mistaking goals for strategy</a> is one of them.</p>"
           }
         }
       ],
       related: [
-        { title: "Bad strategy", where: "Chapter 3" },
+        { title: "Bad strategy", where: "Chapter 3", route: "bad-strategy" },
         { title: "Proximate objectives", where: "Chapter 7" },
         { title: "Chain-link systems", where: "Chapter 8" },
+        { title: "Focus", where: "Chapter 10" }
+      ]
+    },
+
+    badStrategy: {
+      dek:
+        "Bad strategy is more than a missing strategy. It is a recognizable set of habits that sound strategic while skipping the hard part: " +
+        "naming the problem and choosing what to do about it. Rumelt names four hallmarks.",
+      hallmarks: [
+        {
+          id: "fluff",
+          name: "Fluff",
+          short: "Fluff",
+          def: "Grand language wrapped around the obvious. Buzzwords and abstractions make a plan sound deep while it says very little.",
+          sounds: "“We will deliver synergistic, customer-centric value across our ecosystem.”",
+          tell: "Rewrite it in plain words. If what's left is obvious or empty, it was fluff."
+        },
+        {
+          id: "face",
+          name: "Failure to face the challenge",
+          short: "Dodges the challenge",
+          def: "Never saying what the problem is. If the challenge isn't named, there's no way to judge whether the strategy deals with it.",
+          sounds: "“We will continue to execute on our priorities in a dynamic environment.”",
+          tell: "Ask what, exactly, is in the way. If the document never says, it hasn't faced it."
+        },
+        {
+          id: "goals",
+          name: "Mistaking goals for strategy",
+          short: "Goal, not strategy",
+          def: "Stating what you want as if wanting it were a plan. Ambitions and performance targets with no account of how to reach them.",
+          sounds: "“Grow revenue 20% a year and reach a 30% operating margin.”",
+          tell: "Ask “how?” If the answer is another goal, there's no strategy yet."
+        },
+        {
+          id: "objectives",
+          name: "Bad strategic objectives",
+          short: "Bad objective",
+          def: "Objectives that don't help. Either a long list of unrelated to-dos, which Rumelt calls a “dog's dinner,” or “blue-sky” objectives no easier than the original problem.",
+          sounds: "“Our seven strategic pillars are…” or “Reinvent the industry.”",
+          tell: "Could someone start on it Monday? Do the items depend on each other, or just sit side by side?"
+        }
+      ],
+      exercises: [
+        {
+          id: "hospital",
+          label: "A hospital's plan",
+          source: "Strategic plan · Northfield Regional Health",
+          hint: "Every hallmark appears at least once in this one.",
+          paras: [
+            [
+              { t: "Our vision is to be the region's most trusted healthcare partner.", h: "goals", note: "An aspiration. It says where the hospital wants to be, not how it will get there." },
+              { t: "We operate in a rapidly evolving healthcare landscape.", h: "face", note: "Any hospital could say this. It gestures at change but never names the specific problem this hospital faces." }
+            ],
+            [
+              { t: "Over the next three years we will grow patient volume by 15%, raise satisfaction scores into the top decile, and reach a 4% operating margin.", h: "goals", note: "Three performance targets. Useful for measuring progress, but none says what the hospital will do differently." },
+              { t: "To get there, we will leverage our integrated care ecosystem to deliver seamless, patient-centered experiences.", h: "fluff", note: "It sounds like a method. In plain words it says “we will treat patients well using what we already have.”" }
+            ],
+            [
+              { t: "Our six strategic priorities are digital transformation, workforce engagement, community partnerships, facility modernization, research excellence and cost discipline.", h: "objectives", note: "A dog's dinner: six unrelated areas, with nothing about which matters most or how they connect." },
+              { t: "This plan was shaped by more than 200 staff, physicians and community members.", note: "Context, not a hallmark. Who helped write a plan says nothing about whether it is a strategy." }
+            ]
+          ]
+        },
+        {
+          id: "software",
+          label: "A CEO's memo",
+          source: "All-hands memo · Lumen Software",
+          hint: "Watch for the sentence that gets close to the real problem and then turns away.",
+          paras: [
+            [
+              { t: "Team, last year was tough." },
+              { t: "Competitors shipped faster than we expected, but we still have the best people in the industry.", h: "face", note: "The memo touches the real problem, then swerves to reassurance. Why were competitors faster? What did they do that Lumen couldn't?" }
+            ],
+            [
+              { t: "This year, we are going to win.", h: "goals", note: "Every company wants to win. Saying so is not a plan." },
+              { t: "Winning means becoming the #1 platform for mid-market teams.", h: "goals", note: "A more specific goal, but still a goal. Nothing yet about how." }
+            ],
+            [
+              { t: "Our strategy is simple: relentless customer obsession, delivered through operational excellence and a culture of innovation.", h: "fluff", note: "Labeled as the strategy, but it is three abstractions any company could claim. There is no choice in it." },
+              { t: "Our north star for the year is to reinvent how work gets done.", h: "objectives", note: "Blue-sky: an objective at least as hard as the original problem. Nobody can start on it Monday." }
+            ],
+            [{ t: "Let's go make it happen!" }]
+          ]
+        },
+        {
+          id: "bakery",
+          label: "A bakery's plan",
+          source: "Plan for next year · Harbor Street Bakery",
+          hint: "This one is mostly a real strategy. Part of the skill is not over-marking.",
+          paras: [
+            [
+              { t: "Wholesale orders bring in 60% of our revenue but barely break even, because each café wants its own custom items and a delivery every morning.", note: "A real diagnosis. It names the obstacle and says why it is hard." },
+              { t: "We will stop competing on variety.", note: "A guiding policy. It rules something out." }
+            ],
+            [
+              { t: "Wholesale customers will order from a fixed list of twelve items, and deliveries move to three set days a week.", note: "Actions that carry out the policy." },
+              { t: "Cafés that need daily delivery can still have it, for a surcharge.", note: "Another action, and it keeps the policy from driving away the best accounts." },
+              { t: "The two early shifts this frees up move to the retail counter, which earns about three times the margin.", note: "Resources moved toward the stronger part of the business. This is what focus looks like." }
+            ],
+            [
+              { t: "We also aim to be the best-loved bakery in the city.", h: "goals", note: "The one goal riding along. Harmless here, because the rest of the plan does the strategic work." }
+            ]
+          ]
+        }
+      ],
+      sections: [
+        {
+          title: "Why there is so much of it",
+          paras: [
+            "If bad strategy is this easy to spot, why is it everywhere? Rumelt's answer is that good strategy requires choosing, and choosing means saying no to people, ideas and projects that have supporters. It is much easier to write a document that includes everyone's priorities.",
+            "Two habits make the avoidance easy. Template-style strategy fills in a vision, a mission, values and goals, and produces something that looks complete without a single hard choice. A culture of relentless positive thinking treats doubts about the plan as a lack of commitment, so problems go unnamed."
+          ],
+          side: {
+            label: "Chapter 4",
+            html: "<p>Rumelt traces the second habit to “New Thought,” a movement from around 1900 that held that thinking about success brings it about.</p>"
+          }
+        }
+      ],
+      related: [
+        { title: "Why so much bad strategy?", where: "Chapter 4" },
+        { title: "The kernel of good strategy", where: "Chapter 5", route: "kernel" },
+        { title: "Proximate objectives", where: "Chapter 7" },
         { title: "Focus", where: "Chapter 10" }
       ]
     },

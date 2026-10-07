@@ -37,6 +37,7 @@
   const CRUMB = {
     shelf: { label: "Library", href: "#shelf" },
     book: { label: "Good Strategy Bad Strategy", href: "#book" },
+    "bad-strategy": { label: "Bad strategy", href: "#bad-strategy" },
     kernel: { label: "The kernel", href: "#kernel" },
     builder: { label: "Kernel workbench", href: "#builder" }
   };
@@ -44,6 +45,7 @@
   const ROUTES = {
     shelf: { page: "night", header: "night", trail: ["shelf"], render: renderShelf },
     book: { page: "paper", header: "night", trail: ["shelf", "book"], render: renderBook },
+    "bad-strategy": { page: "paper", header: "paper", trail: ["shelf", "book", "bad-strategy"], render: renderBadStrategy },
     kernel: { page: "paper", header: "paper", trail: ["shelf", "book", "kernel"], render: renderKernel },
     builder: { page: "paper", header: "paper", trail: ["shelf", "book", "builder"], render: renderBuilder }
   };
@@ -79,6 +81,7 @@
     if (inBook) {
       bookNavEl.innerHTML = [
         ["book", "Overview"],
+        ["bad-strategy", "Bad strategy"],
         ["kernel", "The kernel"],
         ["builder", "Workbench"]
       ]
@@ -342,6 +345,235 @@
     document.fonts.ready.then(() => drawContours(document.getElementById("contours")));
   }
 
+  /* ---------- Concept: bad strategy ---------- */
+
+  function renderBadStrategy() {
+    const B = G.badStrategy;
+    const hallmarkById = Object.fromEntries(B.hallmarks.map((h) => [h.id, h]));
+    // Per-exercise marks survive switching between statements.
+    const marks = Object.fromEntries(B.exercises.map((x) => [x.id, { tags: {}, checked: false }]));
+    let current = B.exercises[0];
+    let pen = B.hallmarks[0].id;
+
+    view.innerHTML = `
+      <article class="paper-section concept">
+        <div class="wrap">
+          <header class="concept-head">
+            <p class="eyebrow">Part I · Chapter 03</p>
+            <h1 class="display concept-title">Bad strategy</h1>
+            <p class="dek">${esc(B.dek)}</p>
+          </header>
+
+          <section class="hallmarks-sec" aria-labelledby="hallmarks-h">
+            <h2 class="visually-hidden" id="hallmarks-h">The four hallmarks</h2>
+            <ul class="hallmarks" role="list">
+              ${B.hallmarks
+                .map(
+                  (h) => `<li class="hallmark">
+                    <h3 class="hallmark-t"><span class="hl hl-${h.id}">${esc(h.name)}</span></h3>
+                    <p class="hallmark-d">${esc(h.def)}</p>
+                    <p class="hallmark-k">Sounds like</p>
+                    <p class="hallmark-s">${esc(h.sounds)}</p>
+                    <p class="hallmark-k">How to spot it</p>
+                    <p class="hallmark-tell">${esc(h.tell)}</p>
+                  </li>`
+                )
+                .join("")}
+            </ul>
+          </section>
+
+          <section class="spot" aria-labelledby="spot-h">
+            <div class="spot-head">
+              <p class="eyebrow">Exercise</p>
+              <h2 class="h2" id="spot-h">Spot the bad strategy</h2>
+              <p class="section-dek">Pick a highlighter, then tap each sentence that shows that hallmark. Leave a sentence unmarked if it's fine. When you're done, check your answers. The organizations are invented for practice.</p>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Choose a statement">
+              ${B.exercises
+                .map(
+                  (x, i) =>
+                    `<button class="pill" role="tab" type="button" id="ex-${x.id}" data-ex="${x.id}" aria-controls="memo" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(x.label)}</button>`
+                )
+                .join("")}
+            </div>
+            <div class="spot-grid">
+              <div class="spot-main">
+                <div class="highlighters" role="toolbar" aria-label="Highlighters">
+                  ${B.hallmarks
+                    .map((h) => `<button type="button" class="hl-btn" data-pen="${h.id}" aria-pressed="${h.id === pen}"><span class="swatch hl-${h.id}" aria-hidden="true"></span>${esc(h.short)}</button>`)
+                    .join("")}
+                  <button type="button" class="hl-btn" data-pen="erase" aria-pressed="false"><span class="swatch swatch-erase" aria-hidden="true"></span>Eraser</button>
+                </div>
+                <div class="memo" id="memo" role="tabpanel" aria-labelledby="ex-${current.id}"></div>
+                <div class="spot-actions">
+                  <button type="button" class="btn-primary" id="check">Check answers</button>
+                  <button type="button" class="pill" id="reset">Start over</button>
+                </div>
+              </div>
+              <aside class="spot-notes" id="spot-notes" aria-live="polite"></aside>
+            </div>
+          </section>
+
+          <div class="concept-body">${B.sections.map(sectionHTML).join("")}</div>
+          ${conceptEndHTML(B.related, "Write a strategy that passes")}
+        </div>
+      </article>`;
+
+    const memo = document.getElementById("memo");
+    const notesEl = document.getElementById("spot-notes");
+    const segKey = (pi, si) => `${pi}-${si}`;
+    const segments = (x) => x.paras.flatMap((para, pi) => para.map((seg, si) => ({ ...seg, key: segKey(pi, si) })));
+
+    // A segment's result once answers are checked.
+    function result(seg, tag) {
+      if (seg.h && tag === seg.h) return "correct";
+      if (seg.h && tag) return "wrong";
+      if (seg.h) return "missed";
+      if (tag) return "false";
+      return seg.note ? "fine" : null;
+    }
+
+    function renderMemo() {
+      const m = marks[current.id];
+      let n = 0;
+      memo.innerHTML = `<p class="memo-src">${esc(current.source)}</p>` +
+        current.paras
+          .map(
+            (para, pi) =>
+              `<p class="memo-p">${para
+                .map((seg, si) => {
+                  const key = segKey(pi, si);
+                  const tag = m.tags[key];
+                  const res = m.checked ? result(seg, tag) : null;
+                  const num = res ? ++n : 0;
+                  const cls = ["seg", tag ? `hl-${tag}` : "", res ? `res-${res}` : ""].filter(Boolean).join(" ");
+                  const label = tag ? `, marked ${hallmarkById[tag].short}` : "";
+                  return `<span class="${cls}" role="button" tabindex="0" data-seg="${key}" aria-label="${esc(seg.t)}${esc(label)}">${esc(seg.t)}${num ? `<sup class="seg-n">${num}</sup>` : ""}</span>`;
+                })
+                .join(" ")}</p>`
+          )
+          .join("");
+    }
+
+    function renderNotes() {
+      const m = marks[current.id];
+      const segs = segments(current);
+      const marked = Object.keys(m.tags).length;
+      if (!m.checked) {
+        notesEl.innerHTML = `<p class="eyebrow">Your marks</p>
+          <p class="spot-count"><span class="tnum">${marked}</span> ${marked === 1 ? "sentence" : "sentences"} marked</p>
+          <p class="spot-hint">${esc(current.hint)}</p>`;
+        return;
+      }
+      const answers = segs.filter((s) => s.h);
+      const tally = { correct: 0, wrong: 0, missed: 0, false: 0 };
+      const rows = [];
+      let n = 0;
+      segs.forEach((seg) => {
+        const tag = m.tags[seg.key];
+        const res = result(seg, tag);
+        if (!res) return;
+        n++;
+        if (tally[res] !== undefined) tally[res]++;
+        const right = seg.h ? hallmarkById[seg.h].short : "";
+        const verdict = {
+          correct: `Found · ${right}`,
+          wrong: `You marked ${tag ? hallmarkById[tag].short : ""} · Answer: ${right}`,
+          missed: `Missed · ${right}`,
+          false: "Not a hallmark here",
+          fine: "Fine as written"
+        }[res];
+        const quote = seg.t.length > 80 ? seg.t.slice(0, 78).trimEnd() + "…" : seg.t;
+        rows.push(`<li class="note res-${res}">
+          <span class="note-n">${n}</span>
+          <div class="note-body">
+            <p class="note-v">${esc(verdict)}</p>
+            <p class="note-q">“${esc(quote)}”</p>
+            <p class="note-d">${esc(seg.note || "This sentence is fine as written.")}</p>
+          </div>
+        </li>`);
+      });
+      const extra = [];
+      if (tally.wrong) extra.push(`${tally.wrong} mislabeled`);
+      if (tally.missed) extra.push(`${tally.missed} missed`);
+      if (tally.false) extra.push(`${tally.false} false ${tally.false === 1 ? "alarm" : "alarms"}`);
+      const perfect = tally.correct === answers.length && !tally.false;
+      notesEl.innerHTML = `<p class="eyebrow">Answers</p>
+        <p class="spot-count"><span class="tnum">${tally.correct} of ${answers.length}</span> found</p>
+        <p class="spot-hint">${perfect ? "A clean read. Every hallmark found, nothing over-marked." : esc(extra.join(" · ")) + ". Edit any mark to try again."}</p>
+        <ol class="notes" role="list">${rows.join("")}</ol>`;
+    }
+
+    function render() {
+      renderMemo();
+      renderNotes();
+      document.getElementById("check").disabled = marks[current.id].checked;
+    }
+
+    function applyPen(key) {
+      const m = marks[current.id];
+      if (pen === "erase" || m.tags[key] === pen) delete m.tags[key];
+      else m.tags[key] = pen;
+      m.checked = false;
+      render();
+      const again = memo.querySelector(`[data-seg="${key}"]`);
+      if (again) again.focus();
+    }
+
+    memo.addEventListener("click", (e) => {
+      const seg = e.target.closest("[data-seg]");
+      if (seg) applyPen(seg.dataset.seg);
+    });
+    memo.addEventListener("keydown", (e) => {
+      const seg = e.target.closest("[data-seg]");
+      if (seg && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        applyPen(seg.dataset.seg);
+      }
+    });
+
+    const penButtons = Array.from(view.querySelectorAll("[data-pen]"));
+    penButtons.forEach((b) =>
+      b.addEventListener("click", () => {
+        pen = b.dataset.pen;
+        penButtons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      })
+    );
+
+    document.getElementById("check").addEventListener("click", () => {
+      marks[current.id].checked = true;
+      render();
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      marks[current.id] = { tags: {}, checked: false };
+      render();
+    });
+
+    const tabs = Array.from(view.querySelectorAll("[data-ex]"));
+    function select(tab) {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      current = B.exercises.find((x) => x.id === tab.dataset.ex);
+      memo.setAttribute("aria-labelledby", tab.id);
+      render();
+    }
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        e.preventDefault();
+        const next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+        next.focus();
+        select(next);
+      });
+    });
+
+    render();
+  }
+
   /* ---------- Concept: the kernel ---------- */
 
   function renderKernel() {
@@ -371,22 +603,7 @@
 
           <div class="concept-body">${k.sections.map(sectionHTML).join("")}</div>
 
-          <div class="concept-end">
-            <div class="related">
-              <p class="eyebrow">Related ideas</p>
-              <ul role="list">
-                ${k.related
-                  .map((r) => `<li><span class="rel-t">${esc(r.title)}</span><span class="rel-w">${esc(r.where)}</span><span class="chip chip-muted">In draft</span></li>`)
-                  .join("")}
-              </ul>
-            </div>
-            <a class="cta" href="#builder">
-              <span class="cta-k">Workbench</span>
-              <span class="cta-t">Try the kernel on your own problem</span>
-              <span class="cta-go" aria-hidden="true">→</span>
-            </a>
-          </div>
-          <p class="fineprint">Summaries on this page are written in our own words from Richard P. Rumelt, <cite>Good Strategy Bad Strategy</cite> (Crown Business, 2011). Read the book for the full argument.</p>
+          ${conceptEndHTML(k.related, "Try the kernel on your own problem")}
         </div>
       </article>`;
 
@@ -445,6 +662,31 @@
         </section>`
       )
       .join("");
+  }
+
+  function conceptEndHTML(related, ctaText) {
+    const rows = related
+      .map((r) => {
+        const live = Boolean(r.route);
+        const tag = live ? "a" : "span";
+        return `<li><${tag} class="rel-row${live ? " is-live" : ""}"${live ? ` href="#${r.route}"` : ""}>
+          <span class="rel-t">${esc(r.title)}</span><span class="rel-w">${esc(r.where)}</span>
+          <span class="chip ${live ? "chip-open" : "chip-muted"}">${live ? "Open" : "In draft"}</span>
+        </${tag}></li>`;
+      })
+      .join("");
+    return `<div class="concept-end">
+        <div class="related">
+          <p class="eyebrow">Related ideas</p>
+          <ul role="list">${rows}</ul>
+        </div>
+        <a class="cta" href="#builder">
+          <span class="cta-k">Workbench</span>
+          <span class="cta-t">${esc(ctaText)}</span>
+          <span class="cta-go" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <p class="fineprint">Summaries on this page are written in our own words from Richard P. Rumelt, <cite>Good Strategy Bad Strategy</cite> (Crown Business, 2011). Read the book for the full argument.</p>`;
   }
 
   // Section paragraphs are trusted HTML from content.js (they carry term markup).

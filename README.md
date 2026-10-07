@@ -18,6 +18,7 @@ npx serve .
 | --- | --- | --- |
 | Library | `#shelf` | A shelf of 3D books. Good Strategy Bad Strategy is open; Financial Intelligence is next (forthcoming). |
 | Book home | `#book` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
+| Bad strategy | `#bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
 | The kernel | `#kernel` | A concept page with an interactive figure (general form, Desert Storm, Apple 1997), sidenotes and definition pop-ups. |
 | Workbench | `#builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts save to `localStorage`. |
 
