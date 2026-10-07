@@ -44,6 +44,9 @@
   --c-fi-ink: #1D2722;
   --c-fi-rule: rgba(43, 62, 204, 0.16);
   --c-fi-col: rgba(178, 58, 46, 0.5);
+  --c-pb: #E0A526;
+  --c-pb-ink: #1C1A12;
+  --c-pb-dot: rgba(28, 26, 18, 0.28);
   --page-edge: #D9D6CC;
   --page-edge-2: #F2F0EA;
 
@@ -239,6 +242,7 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 .book-link { display: flex; flex-direction: column; gap: 1.5rem; text-decoration: none; color: inherit; perspective: 1100px; }
 .book.c-gsbs { --c: var(--c-gsbs); --ci: var(--c-gsbs-ink); }
 .book.c-fi { --c: var(--c-fi); --ci: var(--c-fi-ink); }
+.book.c-pb { --c: var(--c-pb); --ci: var(--c-pb-ink); }
 
 .book-3d {
   position: relative;
@@ -288,6 +292,16 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
   background-image:
     linear-gradient(90deg, transparent 0 72%, var(--c-fi-col) 72% calc(72% + 1px), transparent calc(72% + 1px) calc(72% + 3px), var(--c-fi-col) calc(72% + 3px) calc(72% + 4px), transparent calc(72% + 4px)),
     repeating-linear-gradient(180deg, transparent 0 11px, var(--c-fi-rule) 11px 12px);
+}
+/* Play Bigger cover: a field of small dots (crowded categories) and one large one (the king) */
+.c-pb .cover { background-image: radial-gradient(circle, var(--c-pb-dot) 1.3px, transparent 1.8px); background-size: 12px 12px; background-position: 6px 6px; }
+.c-pb .cover::after {
+  content: "";
+  position: absolute; left: 62%; top: 56%;
+  width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  background: var(--ci);
+  box-shadow: 0 0 0 6px var(--c), 0 0 0 7px var(--ci);
 }
 /* Forthcoming books are dimmed per face; opacity on .book-3d would flatten the 3D. */
 .is-forthcoming .cover, .is-forthcoming .pages { filter: brightness(0.62) saturate(0.7); }
@@ -687,7 +701,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -815,6 +829,35 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 .cy-key { margin: 0.5rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
 .wc-rule { margin: 0; font-size: 0.9375rem; }
 .wc-rule strong { font-family: var(--mono); font-size: 0.875rem; }
+
+/* ---------- Value split ---------- */
+
+.vs-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 2rem; }
+.vs-controls .lever { flex: 1 1 18rem; max-width: 26rem; }
+.vs-bar { display: flex; gap: 2px; height: 48px; margin: 1.5rem 0; }
+.vs-seg {
+  display: flex; align-items: center; min-width: 3px; overflow: hidden;
+  flex-grow: 0; flex-shrink: 1;
+  border-radius: 3px; background: var(--paper-2); box-shadow: inset 0 0 0 1px var(--rule);
+  transition: flex-basis 0.4s var(--ease);
+}
+.vs-seg span { padding: 0 0.6rem; white-space: nowrap; font-family: var(--mono); font-size: 0.6875rem; color: var(--ink-2); }
+.vs-seg.vs-king { background: var(--pen); box-shadow: none; }
+.vs-seg.vs-king span { color: var(--paper); font-weight: 600; }
+
+/* ---------- Point of view ---------- */
+
+.pov-card { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--night-line); }
+.pov-card p { margin: 0; }
+.pov-card .eyebrow { margin-bottom: 0.5rem; }
+.pov-card .pov-problem { font-family: var(--display); font-size: 1.375rem; line-height: 1.3; margin-bottom: 1rem; }
+.pov-empty { color: var(--night-dim); }
+.pov-fromto { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 0.75rem; align-items: start; font-size: 0.9375rem; }
+.pov-arrow { font-family: var(--mono); color: var(--pen-bright); padding-top: 1rem; }
+.pov-k { display: block; margin-bottom: 0.2rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pen-bright); }
+.pov-card .pov-why { margin-top: 1rem; font-size: 0.875rem; color: var(--night-dim); }
+.pov-card .pov-name { margin-top: 1rem; font-family: var(--display); font-size: 1.5rem; color: var(--pen-bright); }
+.pov .bench-form textarea[rows="1"] { resize: none; }
 
 /* ---------- Chapter pager ---------- */
 
@@ -962,6 +1005,11 @@ mark.m-fluff { background: var(--mark-fluff); }
 @media (max-width: 640px) {
   .hallmarks { grid-template-columns: minmax(0, 1fr); }
   .sorter-opts { grid-template-columns: minmax(0, 1fr); }
+  .pov-fromto { grid-template-columns: minmax(0, 1fr); }
+  .pov-arrow { padding-top: 0; }
+  .pov-arrow::before { content: "↓"; }
+  .pov-arrow { font-size: 0; }
+  .pov-arrow::before { font-size: 1rem; }
   .jc-opt { grid-template-columns: auto minmax(0, 1fr); }
   .jc-tag { grid-column: 2; }
   .case { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }

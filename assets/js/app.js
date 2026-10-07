@@ -114,7 +114,7 @@
             <p class="lede">Each book on the shelf becomes a set of pages to explore: its ideas mapped and explained, its examples taken apart, and tools for trying its frameworks on problems of your own.</p>
           </div>
           <ul class="shelf" role="list">${M.books.map(shelfBookHTML).join("")}</ul>
-          <p class="shelf-note">${open} open · ${M.books.length - open} forthcoming</p>
+          <p class="shelf-note">${open} open${M.books.length - open ? ` · ${M.books.length - open} forthcoming` : ""}</p>
         </div>
       </section>`;
   }

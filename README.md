@@ -16,7 +16,7 @@ npx serve .
 
 | Page | Route | What it does |
 | --- | --- | --- |
-| Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy and Financial Intelligence. |
+| Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence and Play Bigger. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
 | Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
 | Proximate objectives | `#gsbs-proximate-objectives` | The Surveyor story and a "proximate or blue-sky?" sorting game with rewrites. |
@@ -27,6 +27,9 @@ npx serve .
 | Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
 | Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |
 | Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
+| Play Bigger home | `#pb` | Thesis, entry points and a map of the book's ideas. |
+| Category kings | `#pb-category-kings` | How a category's value splits (the authors' 76% figure) and a "playing bigger or smaller?" sorting game. |
+| Point of view | `#pb-point-of-view` | Write a category's story (problem, from, to, why now, name) with a live preview and checks for product-pitch habits. Drafts save to `localStorage`. |
 
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
 
@@ -39,8 +42,9 @@ assets/books/<id>.js          one file per book: metadata, chapter map, cases an
 assets/js/util.js             shared namespace and helpers
 assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,
                               spot-exercise, kernel-builder, three-statements,
-                              sorter, chain-link, judgment-calls, wc-levers)
-assets/js/art/*.js            book-home hero art (contours, ledger)
+                              sorter, chain-link, judgment-calls, wc-levers,
+                              value-split, pov-builder)
+assets/js/art/*.js            book-home hero art (contours, ledger, categories)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
 .github/workflows/pages.yml   publishes the site to GitHub Pages on pushes to main
