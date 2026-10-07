@@ -95,6 +95,19 @@ test("GSBS: focused policies lead a group; spread ones lead none", async () => {
   assert.match(await page.text('.pf [data-ref="note"]'), /2 different directions/);
 });
 
+test("GSBS: buying growth adds sales but not value", async () => {
+  await page.open("gsbs-growth");
+  const tiles = () => page.text(".deals .tiles");
+  assert.match(await tiles(), /\$90m \| .* \| \$120m \|/i);
+  await page.click('.deals [data-preset="all"]');
+  assert.match(await tiles(), /\$220m \| \+144% .* \| \$98m \| −18% /i);
+  assert.match(await page.text('.deals [data-ref="note"]'), /3 of 4 paid more than they gained/);
+  await page.click('.deals [data-preset="none"]');
+  await page.check('[data-deal="gearhaus"]');
+  assert.match(await tiles(), /\$95m \| \+6% .* \| \$128m \| \+7% /i);
+  assert.equal(await page.text('[data-math="gearhaus"] .deal-net dd'), "+$8m");
+});
+
 test("GSBS: strategy-as-hypothesis sorter", async () => {
   await page.open("gsbs-science-of-strategy");
   assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");

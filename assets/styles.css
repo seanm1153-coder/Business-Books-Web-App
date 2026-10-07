@@ -721,7 +721,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1206,6 +1206,29 @@ mark.user-hl.is-flash { box-shadow: 0 0 0 3px var(--pen); }
 .pf-status { color: var(--warn); }
 .pf-status.is-lead { color: var(--pen); font-weight: 600; }
 .pf-foot { max-width: 46rem; margin-top: 1.5rem; }
+
+/* ---------- Deals ---------- */
+
+.deal-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.deal { background: var(--field); border: 1px solid var(--rule); border-radius: 4px; }
+.deal.is-bought { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.deal-pick { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.15rem 0.75rem; padding: 0.8rem 1rem; cursor: pointer; border-radius: 4px; }
+.deal-pick:has(input:focus-visible) { outline: 2px solid var(--pen); outline-offset: 2px; }
+.deal-pick input { grid-row: 1 / span 3; width: 1rem; height: 1rem; margin: 0.25rem 0 0; accent-color: var(--pen); }
+.deal-name { font-weight: 600; }
+.deal-what { font-size: 0.9375rem; color: var(--ink-2); }
+.deal-terms { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.02em; color: var(--ink-2); }
+.deal-math { padding: 0 1rem 0.9rem 2.75rem; }
+.deal-sum { margin: 0; padding-top: 0.6rem; border-top: 1px solid var(--rule); }
+.deal-sum div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.15rem 0; font-size: 0.875rem; }
+.deal-sum dt { color: var(--ink-2); }
+.deal-sum dd { margin: 0; font-family: var(--mono); }
+.deal-sum .deal-net { margin-top: 0.25rem; padding-top: 0.35rem; border-top: 1px solid var(--ink); font-weight: 600; }
+.deal-net dt { color: var(--ink); }
+.deal-net dd { color: var(--ok); }
+.deal-net.is-neg dd { color: var(--bad); }
+.deal-why { margin: 0.6rem 0 0; font-size: 0.875rem; }
+.deals .tile-sub.is-down { color: var(--bad); }
 
 /* ---------- Chapter pager ---------- */
 

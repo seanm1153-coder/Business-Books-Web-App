@@ -84,7 +84,7 @@
           { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed.", page: "chain-link" },
           { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one." },
           { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force.", page: "focus" },
-          { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like." },
+          { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like.", page: "growth" },
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one." },
           { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them." },
           { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings." },
@@ -801,7 +801,7 @@
                 ],
                 side: {
                   label: "What happened next",
-                  html: "<p>Chapter 11, on growth, picks up Crown's story after Connelly, when buying other can makers replaced focus as the plan.</p>"
+                  html: "<p><a href=\"@growth\">Chapter 11</a>, on growth, picks up Crown's story after Connelly, when buying other can makers replaced focus as the plan.</p>"
                 }
               }
             ]
@@ -947,9 +947,145 @@
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
             { title: "Using design", where: "Chapter 9" },
-            { title: "Growth", where: "Chapter 11" }
+            { title: "Growth", where: "Chapter 11", page: "growth" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a guiding policy that picks a target" }
+        }
+      },
+
+      // Crown under William Avery (acquisitions through the 1990s, including Continental
+      // Can businesses and CarnaudMetalbox; the later fall in the share price) follows
+      // public accounts of the company. Unchecked against Chapter 11's wording.
+      growth: {
+        title: "Growth",
+        eyebrow: "Part II · Chapter 11",
+        dek:
+          "Growth is the reward for having something customers want more of. Rumelt argues that growth pursued for its own sake, especially growth bought through acquisitions, often makes a company bigger and its owners poorer.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Growth is an outcome",
+                paras: [
+                  "Many companies treat growth as a strategy: a target for sales, set first, with the means worked out later. Rumelt treats it as a result. Healthy growth comes from a company having something special, such as a better product, a skill or a cost position, and from more customers wanting it, or from extending that strength into nearby markets.",
+                  "Growth that isn't built on such an advantage has to be manufactured, and the quickest way to manufacture it is to buy it. That is where the trouble usually starts."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>A sales target with no account of how to reach it is one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a>: a goal mistaken for a strategy.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Crown after Connelly",
+                paras: [
+                  "The <a href=\"@focus\">previous chapter</a> left Crown Cork & Seal as a focused, profitable can maker. After John Connelly, the new leadership under William Avery set out to make Crown much larger, buying other packaging companies through the 1990s, including parts of Continental Can and the European group CarnaudMetalbox. Crown became one of the largest packaging companies in the world.",
+                  "Size didn't bring value. The deals were paid for with large premiums and heavy borrowing, the combined business earned less on its capital than the old Crown had, and the share price later fell steeply. Rumelt uses the story to separate getting bigger from getting better."
+                ],
+                side: {
+                  label: "The pattern",
+                  html: "<p>The focus that made Crown strong was the first thing lost: a company built to serve everyone looks like the rivals Crown used to beat.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "deals",
+            title: "Buying growth",
+            intro:
+              "Northline Bikes, the invented bike maker, has $90m of sales and is worth $120m to its owners. Four companies are for sale. Buy any of them and watch two numbers: how big Northline gets, and what it's worth.",
+            company: "Northline",
+            base: { sales: 90, value: 120 },
+            unit: { before: "$", after: "m" },
+            valueLabel: "Owners' value",
+            valueNoun: "what Northline is worth to its owners",
+            emptyNote: "Northline as it is today. Tick a company to buy it, or try a preset.",
+            loseNote: "A deal only creates value when the gains from combining are bigger than the premium paid over what the company was worth on its own.",
+            winNote: "Here the gains from combining are bigger than the premium. Northline is extending something it already does well.",
+            foot:
+              "Invented numbers. Value created by a deal = what the company is worth on its own + gains from combining − the price paid. Debt and taxes are left out to keep the arithmetic visible.",
+            deals: [
+              {
+                id: "ridgeway",
+                name: "Ridgeway Cycles",
+                what: "A rival commuter-bike brand.",
+                sales: 40,
+                price: 65,
+                alone: 50,
+                gains: 5,
+                why: "Sharing factories saves a little, but Northline paid a 30% premium to buy sales it was already competing for."
+              },
+              {
+                id: "spoke",
+                name: "Spoke & Co.",
+                what: "A chain of thirty bike shops.",
+                sales: 60,
+                price: 60,
+                alone: 45,
+                gains: 3,
+                why: "The biggest boost to sales, but Northline knows how to make bikes, not how to run shops. Little of what it's good at carries over."
+              },
+              {
+                id: "tandem",
+                name: "Tandem Kids",
+                what: "A maker of children's bikes.",
+                sales: 25,
+                price: 38,
+                alone: 30,
+                gains: 0,
+                why: "Different customers, different bikes, different shops. There is nothing to combine, so the premium is simply lost."
+              },
+              {
+                id: "gearhaus",
+                name: "Gearhaus",
+                what: "A small firm with a sealed gearbox design.",
+                sales: 5,
+                price: 12,
+                alone: 8,
+                gains: 12,
+                why: "Its gearbox makes Northline's commuter bikes, which already sell well, better still. Northline can sell more of what it's good at."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "What a deal has to beat",
+                paras: [
+                  "A company for sale is usually priced at about what it's worth on its own, plus a premium to persuade its owners to sell. Paying that price buys sales and profits, but at a fair price at best. The premium is a loss on day one, and only real gains from combining the two businesses can earn it back.",
+                  "Those gains are easy to promise and hard to deliver. They exist when the buyer has something the target can use, or the other way round. Without that, the deal adds size and subtracts value."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Buy all four. Sales more than double while Northline's owners end up poorer. Then buy only Gearhaus, the smallest deal.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Healthy growth",
+                paras: [
+                  "The growth Rumelt admires follows an advantage. It comes from more customers wanting what the company is uniquely good at, or from carrying a strength into a neighboring market where it still counts. It tends to be slower and less dramatic than a string of acquisitions, and much more likely to make the owners better off."
+                ],
+                side: {
+                  label: "Do the numbers",
+                  html: "<p>The same logic applies to any investment. <a href=\"#fi-roi\">Figuring ROI</a> in <cite>Financial Intelligence</cite> works through payback, net present value and internal rate of return.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Focus", where: "Chapter 10", page: "focus" },
+            { title: "Using advantage", where: "Chapter 12" },
+            { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that earns its growth" }
         }
       },
 
