@@ -80,6 +80,21 @@ test("GSBS: a chain is only as strong as its weakest link", async () => {
   assert.match(await page.text('[data-ref="wasted"]'), /^1 of 4 points/);
 });
 
+test("GSBS: the Cannae map steps through four phases", async () => {
+  await page.open("gsbs-using-design");
+  assert.equal(await page.text('.pm [data-ref="step"]'), "PHASE 1 OF 4");
+  assert.equal(await page.getAttribute('.pm [data-ref="prev"]', "disabled"), "");
+  for (let i = 0; i < 3; i++) await page.click('.pm [data-ref="next"]');
+  assert.equal(await page.text('.pm [data-ref="title"]'), "The trap shuts");
+  assert.equal(await page.getAttribute('.pm [data-ref="next"]', "disabled"), "");
+  assert.equal(await page.getAttribute('.pm [role="tab"][data-phase="3"]', "aria-selected"), "true");
+  // The heavy cavalry ends up behind the Roman infantry.
+  assert.equal(await page.evaluate(() => document.querySelector('[data-unit="heavy-cav"]').style.transform), "translate(160px, 46px)");
+  await page.focus('.pm [role="tab"][data-phase="3"]');
+  await page.keyboard.press("ArrowLeft");
+  assert.equal(await page.text('.pm [data-ref="title"]'), "The sides close");
+});
+
 test("GSBS: focused policies lead a group; spread ones lead none", async () => {
   await page.open("gsbs-focus");
   const tiles = () => page.text(".pf .tiles");

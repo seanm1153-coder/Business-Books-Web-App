@@ -33,6 +33,7 @@ npm test
 | Using leverage | `#gsbs-using-leverage` | Anticipation, pivot points, and a spread-or-concentrate exercise where initiatives only pay off past a threshold. |
 | Proximate objectives | `#gsbs-proximate-objectives` | The Surveyor story and a "proximate or blue-sky?" sorting game with rewrites. |
 | Chain-link systems | `#gsbs-chain-link` | Spend six improvement points on a restaurant whose evening is only as good as its weakest part; compare with an additive system. |
+| Using design | `#gsbs-using-design` | Hannibal at Cannae as a step-through map in four phases, showing how each unit was placed for what it would do later, and the price of a tight fit. |
 | Focus | `#gsbs-focus` | Coordinated policies aimed at the right target, with Crown Cork & Seal and an exercise where Northline Bikes aims five policies at one group of riders, or at everyone, and sees which groups it leads. |
 | Growth | `#gsbs-growth` | Growth as the outcome of an advantage, Crown after Connelly, and a deal list where buying four companies doubles sales while the owners end up poorer. |
 | Strategy as hypothesis | `#gsbs-science-of-strategy` | Strategy as an educated, testable judgment, with a "hypothesis or article of faith?" sort. |
@@ -82,7 +83,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               value-split, pov-builder, concentration, ratios,
                               strike-planner, template-strategy, roi-calculator,
                               triangle, policy-fit, deals,
-                              profit-layers, cash-bridge)
+                              profit-layers, cash-bridge, phase-map)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

@@ -82,7 +82,7 @@
           { n: 6, title: "Using leverage", blurb: "Anticipation, pivot points and concentration: where a little effort moves a lot.", page: "using-leverage" },
           { n: 7, title: "Proximate objectives", blurb: "Targets close enough to reach, which turn a vague aspiration into a solvable problem.", page: "proximate-objectives" },
           { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed.", page: "chain-link" },
-          { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one." },
+          { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one.", page: "using-design" },
           { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force.", page: "focus" },
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like.", page: "growth" },
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one." },
@@ -103,7 +103,7 @@
     ],
 
     cases: [
-      { era: "216 BC", title: "Hannibal at Cannae", blurb: "A smaller army encircles a larger Roman one by anticipating exactly how it will attack.", tag: "Using design" },
+      { era: "216 BC", title: "Hannibal at Cannae", blurb: "A smaller army encircles a larger Roman one by anticipating exactly how it will attack.", tag: "Using design", page: "using-design" },
       { era: "1960s", title: "Surveyor and the Moon", blurb: "Designing a lunar lander became solvable once engineers pinned down what the surface was like.", tag: "Proximate objectives", page: "proximate-objectives" },
       { era: "1960s–80s", title: "Crown Cork & Seal", blurb: "A small can maker outperforms its giant rivals by aiming every policy at hard-to-make cans and the customers who need them.", tag: "Focus", page: "focus" },
       { era: "1960s–80s", title: "Wal-Mart's small towns", blurb: "A discount chain grows by filling towns its bigger rivals ignore, with stores clustered around its own warehouses.", tag: "Discovering power", page: "discovering-power" },
@@ -762,7 +762,7 @@
         end: {
           related: [
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
-            { title: "Using design", where: "Chapter 9" },
+            { title: "Using design", where: "Chapter 9", page: "using-design" },
             { title: "Focus", where: "Chapter 10", page: "focus" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" }
           ],
@@ -948,7 +948,7 @@
           related: [
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
-            { title: "Using design", where: "Chapter 9" },
+            { title: "Using design", where: "Chapter 9", page: "using-design" },
             { title: "Growth", where: "Chapter 11", page: "growth" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a guiding policy that picks a target" }
@@ -1217,6 +1217,203 @@
             { title: "Focus", where: "Chapter 10", page: "focus" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a guiding policy that plays to a strength" }
+        }
+      },
+
+      // Cannae follows the standard modern accounts (Polybius and Livy as retold by
+      // historians). That Rumelt opens Chapter 9 with it, and the framing of design as
+      // a substitute for resources, are unchecked against the chapter's wording.
+      "using-design": {
+        title: "Using design",
+        eyebrow: "Part II · Chapter 09",
+        dek:
+          "Some strategies win by the arrangement of their parts rather than their size. Each action is placed and timed so that it sets up the next, and the whole works only because the pieces fit.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Hannibal at Cannae",
+                paras: [
+                  "In 216 BC, near the village of Cannae in southern Italy, the Carthaginian general Hannibal faced a Roman army far larger than his own. By the end of the day the Roman army had been surrounded and almost destroyed. Rumelt uses the battle to show what a strategy built as a design looks like."
+                ],
+                side: {
+                  label: "Why this battle",
+                  html: "<p>Cannae is the classic case of a smaller force winning by how it was arranged, not by weight of numbers. Commanders have studied it for two thousand years.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "phase-map",
+            eyebrow: "Figure",
+            title: "How the trap worked",
+            intro:
+              "Step through the battle in four phases. Watch where each part of Hannibal's army starts, and what it's there to do later.",
+            size: [400, 280],
+            whyLabel: "Why it's design",
+            outLabel: "Broken or driven off",
+            caption: "A simplified schematic, not to scale. Positions follow the standard modern accounts of the battle.",
+            sides: [
+              { id: "carthage", label: "Hannibal's army" },
+              { id: "rome", label: "Roman army" }
+            ],
+            terrain: [{ d: "M 22 0 C 42 70, 12 150, 30 280", label: "River", lx: 38, ly: 272 }],
+            units: [
+              {
+                id: "roman-inf",
+                side: "rome",
+                label: "Roman infantry",
+                inside: true,
+                at: [
+                  { x: 145, y: 30, w: 110, h: 75, l: [55, 42] },
+                  { x: 145, y: 68, w: 110, h: 75, l: [55, 42] },
+                  { x: 145, y: 85, w: 110, h: 75, l: [55, 42] }
+                ]
+              },
+              {
+                id: "roman-cav",
+                side: "rome",
+                label: "Roman cavalry",
+                at: [
+                  { x: 62, y: 52, w: 46, h: 24 },
+                  { x: 40, y: 4, w: 46, h: 24, out: true, hideLabel: true }
+                ]
+              },
+              {
+                id: "allied-cav",
+                side: "rome",
+                label: "Allied cavalry",
+                at: [
+                  { x: 292, y: 52, w: 46, h: 24 },
+                  { x: 292, y: 52, w: 46, h: 24 },
+                  { x: 292, y: 52, w: 46, h: 24 },
+                  { x: 300, y: 4, w: 46, h: 24, out: true, hideLabel: true }
+                ]
+              },
+              {
+                id: "center",
+                side: "carthage",
+                label: "Gauls, Spaniards",
+                at: [
+                  { d: "M 150 158 Q 200 112 250 158 L 250 172 Q 200 126 150 172 Z", l: [200, 168] },
+                  { d: "M 145 150 Q 200 188 255 150 L 255 164 Q 200 202 145 164 Z", l: [200, 200] },
+                  { d: "M 145 162 Q 200 205 255 162 L 255 176 Q 200 219 145 176 Z", l: [200, 216] }
+                ]
+              },
+              {
+                id: "libyans-l",
+                side: "carthage",
+                label: "Libyans",
+                at: [
+                  { x: 108, y: 186, w: 36, h: 30, l: [18, -5] },
+                  { x: 108, y: 186, w: 36, h: 30, l: [18, -5] },
+                  { x: 116, y: 92, w: 26, h: 62, l: [-24, 35] }
+                ]
+              },
+              {
+                id: "libyans-r",
+                side: "carthage",
+                label: "Libyans",
+                at: [
+                  { x: 256, y: 186, w: 36, h: 30, l: [18, -5] },
+                  { x: 256, y: 186, w: 36, h: 30, l: [18, -5] },
+                  { x: 258, y: 92, w: 26, h: 62, l: [50, 35] }
+                ]
+              },
+              {
+                id: "heavy-cav",
+                side: "carthage",
+                label: "Heavy cavalry",
+                at: [
+                  { x: 58, y: 192, w: 46, h: 24 },
+                  { x: 62, y: 52, w: 46, h: 24, l: [23, -5] },
+                  { x: 296, y: 16, w: 46, h: 24, l: [23, -5] },
+                  { x: 160, y: 46, w: 80, h: 24, l: [40, -5] }
+                ]
+              },
+              {
+                id: "numidians",
+                side: "carthage",
+                label: "Numidian cavalry",
+                at: [
+                  { x: 296, y: 192, w: 46, h: 24 },
+                  { x: 296, y: 96, w: 46, h: 24 },
+                  { x: 346, y: 26, w: 46, h: 24, hideLabel: true },
+                  { x: 352, y: 4, w: 46, h: 24, hideLabel: true }
+                ]
+              }
+            ],
+            phases: [
+              {
+                tab: "Setup",
+                title: "The setup",
+                body: "Hannibal puts his least reliable infantry, Gauls and Spaniards, in the center, bowed out toward the Romans. His best infantry, the Libyans, wait on either side, set back. Cavalry holds both wings. The Romans mass their larger infantry deep in the middle, planning to break straight through.",
+                why: "Every unit is placed for the job it will do later, not for the first clash.",
+                arrows: ["M 200 108 L 200 128"]
+              },
+              {
+                tab: "The center bends",
+                title: "The center gives way",
+                body: "The Roman infantry pushes into the bowed center, which falls back slowly without breaking. By the river, Hannibal's heavy cavalry drives the Roman cavalry from the field.",
+                why: "The plan relies on the Romans doing what they usually did: pressing hard through the middle. Hannibal anticipated it and gave them somewhere to go.",
+                arrows: ["M 200 146 L 200 162", "M 81 186 L 84 82"]
+              },
+              {
+                tab: "The sides close",
+                title: "The sides close",
+                body: "With the Romans deep in the pocket, the Libyans turn inward and strike both Roman flanks. The heavy cavalry rides behind the Roman army to join the Numidians against the allied cavalry on the far wing.",
+                why: "Timing: the Libyans move only once the Romans are committed. Too early and the Romans could have turned to meet them.",
+                arrows: ["M 126 184 C 126 172, 128 166, 129 158", "M 274 184 C 274 172, 272 166, 271 158", "M 92 48 C 130 6, 250 4, 294 24"]
+              },
+              {
+                tab: "The trap shuts",
+                title: "The trap shuts",
+                body: "With both Roman cavalry wings gone, Hannibal's horsemen strike the rear of the Roman infantry. Surrounded and packed too tightly to fight, the Roman army is destroyed.",
+                why: "No single unit could have won. The result comes from how the parts fit together in space and in time.",
+                arrows: ["M 200 72 L 200 83"]
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Strategy as design",
+                paras: [
+                  "Hannibal's plan wasn't one clever move. It was an arrangement: each unit placed and timed so that what it did made the next action possible. Rumelt treats this kind of strategy as a design problem, much like engineering, where the work is fitting parts together so the whole performs.",
+                  "Design matters most when resources are short. A much larger army can often win by weight alone. A smaller one has to make its parts work together, and that takes a deliberate plan for how they fit."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The same logic runs through <a href=\"@chain-link\">chain-link systems</a> and <a href=\"@focus\">focus</a>: power from parts that reinforce each other.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "The price of a tight fit",
+                paras: [
+                  "Tightly fitted designs are powerful, and fragile. Hannibal's plan assumed the Romans would press into the center. Had they held back, or had the Gauls and Spaniards broken too soon, the pocket would never have closed.",
+                  "The tighter the fit, the more a design depends on the situation being what its designer expected. That is the trade a strategist makes: more power under the conditions planned for, less room when they change."
+                ],
+                side: {
+                  label: "In business",
+                  html: "<p>A company built tightly around one way of serving one kind of customer can be very hard to beat, and very hard to change.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
+            { title: "Focus", where: "Chapter 10", page: "focus" },
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write actions that fit together" }
         }
       },
 
