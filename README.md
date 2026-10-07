@@ -19,10 +19,14 @@ npx serve .
 | Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy and Financial Intelligence. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
 | Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
+| Proximate objectives | `#gsbs-proximate-objectives` | The Surveyor story and a "proximate or blue-sky?" sorting game with rewrites. |
+| Chain-link systems | `#gsbs-chain-link` | Spend six improvement points on a restaurant whose evening is only as good as its weakest part; compare with an additive system. |
 | The kernel | `#gsbs-kernel` | A concept page with an interactive figure (general form, Desert Storm, Apple 1997), sidenotes and definition pop-ups. |
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts save to `localStorage`. |
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
+| Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
 | Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |
+| Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
 
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
 
@@ -34,7 +38,8 @@ assets/styles.css             design tokens (light and dark) and all styles
 assets/books/<id>.js          one file per book: metadata, chapter map, cases and pages
 assets/js/util.js             shared namespace and helpers
 assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,
-                              spot-exercise, kernel-builder, three-statements)
+                              spot-exercise, kernel-builder, three-statements,
+                              sorter, chain-link, judgment-calls, wc-levers)
 assets/js/art/*.js            book-home hero art (contours, ledger)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

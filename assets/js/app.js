@@ -275,6 +275,7 @@
             <p class="dek">${esc(page.dek)}</p>
           </header>
           ${blocks.map((b, i) => `<div class="block" data-block="${i}">${b.impl.render(b.block, b.ctx)}</div>`).join("")}
+          ${pagerHTML(book, slug, ctx)}
           ${page.end ? endHTML(book, page.end, ctx) : ""}
         </div>
       </article>`;
@@ -284,6 +285,24 @@
       const cleanup = b.impl.mount(view.querySelector(`[data-block="${i}"]`), b.block, b.ctx);
       if (typeof cleanup === "function") cleanups.push(cleanup);
     });
+  }
+
+  // Previous/next links between open pages, in the book's chapter order.
+  function pagerHTML(book, slug, ctx) {
+    const order = [];
+    book.parts.forEach((p) => p.chapters.forEach((c) => c.page && !order.includes(c.page) && order.push(c.page)));
+    const i = order.indexOf(slug);
+    if (i < 0 || order.length < 2) return "";
+    const link = (s, dir) => {
+      if (!s) return "<span></span>";
+      const pg = book.pages[s];
+      return `<a class="pager-${dir}" href="${ctx.href(s)}">
+        <span class="pager-k">${dir === "prev" ? "← Previous" : "Next →"}</span>
+        <span class="pager-t">${esc(pg.title)}</span>
+        <span class="pager-w">${esc(pg.eyebrow)}</span>
+      </a>`;
+    };
+    return `<nav class="pager" aria-label="Chapters">${link(order[i - 1], "prev")}${link(order[i + 1], "next")}</nav>`;
   }
 
   function endHTML(book, end, ctx) {

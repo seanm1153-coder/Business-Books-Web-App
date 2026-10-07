@@ -80,8 +80,8 @@
         title: "Sources of power",
         chapters: [
           { n: 6, title: "Using leverage", blurb: "Anticipation, pivot points and concentration: where a little effort moves a lot." },
-          { n: 7, title: "Proximate objectives", blurb: "Targets close enough to reach, which turn a vague aspiration into a solvable problem." },
-          { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed." },
+          { n: 7, title: "Proximate objectives", blurb: "Targets close enough to reach, which turn a vague aspiration into a solvable problem.", page: "proximate-objectives" },
+          { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed.", page: "chain-link" },
           { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one." },
           { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force." },
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like." },
@@ -104,7 +104,7 @@
 
     cases: [
       { era: "216 BC", title: "Hannibal at Cannae", blurb: "A smaller army encircles a larger Roman one by anticipating exactly how it will attack.", tag: "Using design" },
-      { era: "1960s", title: "Surveyor and the Moon", blurb: "Designing a lunar lander became solvable once engineers pinned down what the surface was like.", tag: "Proximate objectives" },
+      { era: "1960s", title: "Surveyor and the Moon", blurb: "Designing a lunar lander became solvable once engineers pinned down what the surface was like.", tag: "Proximate objectives", page: "proximate-objectives" },
       { era: "1991", title: "Desert Storm", blurb: "The coalition avoids Iraq's prepared defenses with a wide swing through the western desert.", tag: "The kernel", page: "kernel" },
       { era: "1997", title: "Apple's turnaround", blurb: "Steve Jobs returns and cuts a sprawling product line down to four.", tag: "The kernel", page: "kernel" },
       { era: "1993–2010", title: "Nvidia", blurb: "A graphics-chip maker rides a wave of change in computing, step by step.", tag: "Putting it together" }
@@ -210,7 +210,7 @@
           related: [
             { title: "Why so much bad strategy?", where: "Chapter 4" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
-            { title: "Proximate objectives", where: "Chapter 7" },
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
             { title: "Focus", where: "Chapter 10" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that passes" }
@@ -305,7 +305,7 @@
                 ],
                 side: {
                   label: "Later in the book",
-                  html: "<p>Part II comes back to coherence in the chapters on <a href=\"@\">design</a> and <a href=\"@\">chain-link systems</a>, where actions only work if they work together.</p>"
+                  html: "<p>Part II comes back to coherence in the chapters on <a href=\"@\">design</a> and <a href=\"@chain-link\">chain-link systems</a>, where actions only work if they work together.</p>"
                 }
               },
               {
@@ -325,11 +325,200 @@
         end: {
           related: [
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
-            { title: "Proximate objectives", where: "Chapter 7" },
-            { title: "Chain-link systems", where: "Chapter 8" },
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
+            { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
             { title: "Focus", where: "Chapter 10" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Try the kernel on your own problem" }
+        }
+      },
+
+      "proximate-objectives": {
+        title: "Proximate objectives",
+        eyebrow: "Part II · Chapter 07",
+        dek:
+          "A good strategy turns an overwhelming aspiration into objectives close enough to reach. A proximate objective is one the organization can reasonably be expected to hit, and hitting it makes the next step clearer.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Close enough to act on",
+                paras: [
+                  "Leaders are often told to set ambitious goals. Rumelt's point is different. Strategy has to produce objectives close enough that people can actually get to work on them. An objective that is as hard as the original problem doesn't help; it only restates it.",
+                  "A proximate objective resolves enough ambiguity to act. It names a target the organization can reasonably be expected to hit with what it knows and has, and reaching it changes the situation so that the next step becomes clearer."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Objectives no easier than the original problem are one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a> in Chapter 3.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "The Surveyor problem",
+                paras: [
+                  "Rumelt, who started his career as an engineer at NASA's Jet Propulsion Laboratory, tells how engineers there had to design an unmanned lunar lander before anyone knew what the Moon's surface was like. Was it hard rock, or dust deep enough to swallow a spacecraft? Without an answer, nobody could design the landing legs.",
+                  "The way forward was a specification that simply assumed a surface: firm ground with scattered rocks, much like the deserts of the American Southwest. It might have been wrong. But it gave the engineers a problem they could solve, which is what a proximate objective is for."
+                ],
+                side: {
+                  label: "Why it worked",
+                  html: "<p>The assumption turned an unknown into a stated design condition. If it proved wrong, the team would at least know which assumption to revisit.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Proximate or blue-sky?",
+            intro:
+              "Seven objectives. For each, decide whether a team could start on it tomorrow and know when it's done, or whether it only restates the hope. Blue-sky ones come with a proximate rewrite. The organizations are invented.",
+            options: [
+              { id: "near", label: "Proximate", hint: "Close enough to act on" },
+              { id: "far", label: "Blue-sky", hint: "As hard as the original problem" }
+            ],
+            rewriteLabel: "A proximate version",
+            items: [
+              {
+                text: "Become the most innovative company in our industry.",
+                answer: "far",
+                why: "It names a hope, not a problem anyone can work on. Nobody can tell what to do on Monday, or when it's done.",
+                rewrite: "Put the redesigned checkout in front of 10% of customers by March and measure how many finish their order."
+              },
+              {
+                text: "Cut the time to quote a custom order from five days to two by the end of the quarter.",
+                answer: "near",
+                why: "It's specific, within the team's control, and clearly done or not done. Reaching it also shows where quotes really get stuck."
+              },
+              {
+                text: "Design the landing legs for firm ground with scattered rocks, like the desert Southwest.",
+                answer: "near",
+                why: "This is the Surveyor move: an assumption that turns an unknown into something engineers can design for."
+              },
+              {
+                text: "Win in Asia.",
+                answer: "far",
+                why: "A destination, not a step. It leaves every hard question open: which country, which customers, which product.",
+                rewrite: "Sign two distributors in Singapore this year and learn which of our three products sells there."
+              },
+              {
+                text: "Train every service technician on the new model before it launches.",
+                answer: "near",
+                why: "Clear, feasible and checkable, and it removes a known obstacle to the launch."
+              },
+              {
+                text: "Delight customers at every touchpoint.",
+                answer: "far",
+                why: "Pleasant, but it doesn't choose. Every touchpoint at once means no touchpoint in particular.",
+                rewrite: "Answer every support email within four hours for the next quarter, then compare repeat purchases."
+              },
+              {
+                text: "Transform our culture to be more agile.",
+                answer: "far",
+                why: "As hard as the original problem, and nobody knows what done looks like.",
+                rewrite: "Cut the approval steps for small product changes from five to two, and track how long changes take."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Proximate isn't the same as easy",
+                paras: [
+                  "Proximate objectives can be hard. The test is whether the organization can reasonably be expected to reach them, given what it knows and has. The more uncertain the situation, the closer in the objectives need to be. When the ground is shifting, the right objective may be to learn something rather than to hit a number."
+                ],
+                side: {
+                  label: "A quick test",
+                  html: "<p>If you can't say what the team will do first, the objective isn't proximate yet.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Using leverage", where: "Chapter 6" },
+            { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Turn an aspiration into actions" }
+        }
+      },
+
+      "chain-link": {
+        title: "Chain-link systems",
+        eyebrow: "Part II · Chapter 08",
+        dek:
+          "When a system's performance depends on its weakest part, improving any other part does nothing. That makes chain-link systems easy to get stuck in, and hard for rivals to copy once they work well.",
+        blocks: [
+          {
+            type: "chain-link",
+            title: "Find the weakest link",
+            intro:
+              "An invented neighborhood restaurant. Diners judge the evening by its worst part, so the evening is only as good as the weakest of the five below. You have six improvement points. Spend them one at a time and watch what moves.",
+            outputLabel: "Evening",
+            outputNoun: "evening",
+            points: 6,
+            startNote: "Each point raises one part by 1. Try improving something other than the weakest link first.",
+            links: [
+              { name: "Ingredients", level: 8, desc: "Sourcing and freshness." },
+              { name: "Kitchen", level: 7, desc: "Cooking and plating." },
+              { name: "Service", level: 4, desc: "Timing and attention at the table." },
+              { name: "Bookings", level: 5, desc: "Getting a table when you want one." },
+              { name: "Dining room", level: 6, desc: "Noise, light and comfort." }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Only as strong as the weakest link",
+                paras: [
+                  "In many systems the parts add up: a better part makes the whole a little better. In a chain-link system they don't. Performance is set by the weakest part, so effort spent anywhere else is wasted until that part improves.",
+                  "Plenty of real operations work this way. A product launch is only as good as the slowest team that has to deliver for it, and a fast kitchen doesn't help if the servers can't keep up."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Improve Service once. Bookings is now just as weak, and raising either one alone changes nothing. You have to move both.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Getting stuck",
+                paras: [
+                  "Rumelt's word for this is stuck. When several links are equally weak, no single improvement shows up in the result, so each one looks pointless and none gets made. Getting unstuck takes someone who can see the whole system and coordinate several changes at once."
+                ],
+                side: {
+                  label: "Why it matters",
+                  html: "<p>Coordinated change usually has to come from someone with authority over the whole system, not from each part improving on its own.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "Why excellence is hard to copy",
+                paras: [
+                  "The same logic protects a chain-link system that works well. A rival who copies three of the five parts gets almost nothing; to match the result, they have to match every link. Excellence built across many linked parts is one of the more durable advantages a company can have."
+                ],
+                side: {
+                  label: "Later in the book",
+                  html: "<p>The chapters on design and on using advantage build on the same idea of tightly fitted parts.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
+            { title: "Using design", where: "Chapter 9" },
+            { title: "Focus", where: "Chapter 10" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that fixes the weakest link" }
         }
       },
 
