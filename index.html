@@ -24,7 +24,16 @@
     <span>Summaries are written in our own words. Read the books.</span>
   </div>
 </footer>
-<script src="assets/content.js"></script>
-<script src="assets/app.js"></script>
+<!-- Shared helpers first, then books (shelf order), blocks and art; app.js boots last. -->
+<script src="assets/js/util.js"></script>
+<script src="assets/books/gsbs.js"></script>
+<script src="assets/books/fi.js"></script>
+<script src="assets/js/blocks/prose.js"></script>
+<script src="assets/js/blocks/kernel-figure.js"></script>
+<script src="assets/js/blocks/hallmarks.js"></script>
+<script src="assets/js/blocks/spot-exercise.js"></script>
+<script src="assets/js/blocks/kernel-builder.js"></script>
+<script src="assets/js/art/contours.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

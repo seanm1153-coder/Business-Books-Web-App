@@ -295,10 +295,10 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 /* ---------- Book home ---------- */
 
 .book-hero { position: relative; overflow: hidden; }
-.contours { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .hero-inner { position: relative; padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 4.5rem); }
 .hero-title { font-size: clamp(3rem, 9vw, 6.75rem); letter-spacing: -0.02em; max-width: 9em; }
-.hero-bad { display: block; color: var(--night-dim); }
+.hero-alt { display: block; color: var(--night-dim); }
 .hero-sub { margin: 1rem 0 0; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--night-dim); }
 
 .entries {
@@ -560,9 +560,10 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Workbench ---------- */
 
-.bench-head { max-width: 48rem; margin-bottom: 2.5rem; }
-.bench-title { font-size: clamp(2.75rem, 6.5vw, 4.5rem); letter-spacing: -0.02em; }
-.examples { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 1.75rem; }
+.is-tool .concept-title { font-size: clamp(2.75rem, 6.5vw, 4.5rem); }
+.is-tool .concept-head { padding-bottom: 0; }
+.bench-tools { max-width: 48rem; margin: 1.75rem 0 2.5rem; }
+.examples { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .examples-k { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-right: 0.25rem; }
 .source-note { margin: 0.85rem 0 0; min-height: 1.5em; font-size: 0.875rem; color: var(--ink-2); }
 
