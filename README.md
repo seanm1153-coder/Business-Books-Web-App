@@ -39,6 +39,7 @@ npm test
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts are saved for the reader. |
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
 | Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
+| The many forms of profit | `#fi-forms-of-profit` | Gross, operating and net profit and their margins, with six moves (a price rise, a marketing cut, a cheaper loan, a one-time gain…) that each reach only some of them. |
 | Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |
 | The language of cash flow | `#fi-cash-flow-language` | Operating, investing and financing, with a three-way sort of Northline's cash flows. |
 | Reading the ratios | `#fi-ratios` | Thirteen ratios across two years of a growing company, each with its formula worked through with the real numbers. |
@@ -78,7 +79,8 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               sorter, chain-link, judgment-calls, wc-levers,
                               value-split, pov-builder, concentration, ratios,
                               strike-planner, template-strategy, roi-calculator,
-                              triangle, policy-fit, deals)
+                              triangle, policy-fit, deals,
+                              profit-layers)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

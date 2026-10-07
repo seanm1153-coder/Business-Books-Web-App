@@ -49,7 +49,7 @@
           { n: 6, title: "Cracking the code of the income statement", blurb: "How to read one, line by line." },
           { n: 7, title: "Revenue: the issue is recognition", blurb: "A sale counts when it's earned, which may be long before it's paid." },
           { n: 8, title: "Costs and expenses", blurb: "Few hard-and-fast rules, and plenty of room for judgment." },
-          { n: 9, title: "The many forms of profit", blurb: "Gross, operating and net profit, and what each tells you." }
+          { n: 9, title: "The many forms of profit", blurb: "Gross, operating and net profit, and what each tells you.", page: "forms-of-profit" }
         ]
       },
       {
@@ -236,6 +236,140 @@
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
           ],
           cta: { page: "profit-cash", kicker: "Next", text: "Watch profit and cash part ways" }
+        }
+      },
+
+      "forms-of-profit": {
+        title: "The many forms of profit",
+        navLabel: "Profit",
+        eyebrow: "Part II · Chapter 09",
+        dek:
+          "“Profit” on its own is ambiguous. An income statement shows several kinds, each a step further down the page, and each answers a different question about the business.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three questions, three profits",
+                paras: [
+                  "<strong>Gross profit</strong> is revenue minus the cost of goods sold: what's left from sales after paying to make or buy what was sold. It asks whether the product itself makes money.",
+                  "<strong>Operating profit</strong> takes gross profit and subtracts the costs of running the business: selling, administration, research, depreciation. It asks whether the company as a whole is run well. It's often called EBIT, for earnings before interest and taxes.",
+                  "<strong>Net profit</strong> subtracts the rest: interest to lenders, taxes, and one-time gains or losses. It is the bottom line, and it asks what's left for the owners."
+                ],
+                side: {
+                  label: "In the book",
+                  html: "<p>Berman and Knight walk down the income statement line by line in the chapters before this one. This chapter is about what each subtotal is for.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Margins make them comparable",
+                paras: [
+                  "Divide each profit by revenue and you get a margin: gross margin, operating margin, net margin. Margins let you compare one year with another, or one company with another, even when they differ in size.",
+                  "Small changes in margin are large in dollars. At Northline, with $2.4 million of sales, one point of gross margin is $24,000, nearly a tenth of the year's operating profit."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Margins are the profitability ratios. <a href=\"@ratios\">Reading the ratios</a> compares them across two years.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "profit-layers",
+            company: "Northline Bikes",
+            period: "Last year",
+            title: "Which profit moves?",
+            intro:
+              "A year at Northline, the invented bike maker. Each move below changes one or two lines of the income statement. Switch moves on and off, alone or together, and watch which margins change and which stay put.",
+            base: { revenue: 2400000, cogs: 1440000, sm: 300000, ga: 260000, rd: 80000, dep: 70000, interest: 60000, other: 0 },
+            taxRate: 0.25,
+            otherLabel: "One-time gain",
+            startNote: "Northline's year as reported. Pick a move to apply it.",
+            foot: "Invented figures. Tax is a flat 25% of profit before tax.",
+            moves: [
+              {
+                id: "price",
+                label: "Raise prices 5%",
+                amount: "+$120,000 revenue",
+                fx: { revenue: 120000 },
+                note: "The bikes cost the same to make, so all of the extra revenue reaches gross profit, and every line below it. This assumes no customers walk away over the higher price."
+              },
+              {
+                id: "suppliers",
+                label: "Frame suppliers raise their prices",
+                amount: "+$72,000 cost of goods",
+                fx: { cogs: 72000 },
+                note: "Every bike now costs more to make. Gross margin falls first, and every profit line below it falls too."
+              },
+              {
+                id: "marketing",
+                label: "Cut the marketing budget by a third",
+                amount: "−$100,000 marketing",
+                fx: { sm: -100000 },
+                note: "Each bike still earns the same, so gross profit doesn't move. Operating profit rises, at least until the missing marketing shows up in next year's sales."
+              },
+              {
+                id: "office",
+                label: "Move to a cheaper office",
+                amount: "−$40,000 admin",
+                fx: { ga: -40000 },
+                note: "An overhead cut. It lifts operating profit without touching the product."
+              },
+              {
+                id: "loan",
+                label: "Pay off half the loan",
+                amount: "−$30,000 interest",
+                fx: { interest: -30000 },
+                note: "A financing decision. The business runs exactly as before, so gross and operating profit stay put. Only interest, and the lines below it, change."
+              },
+              {
+                id: "warehouse",
+                label: "Sell the old warehouse at a gain",
+                amount: "+$80,000 one-time gain",
+                fx: { other: 80000 },
+                note: "A one-off. Net profit jumps, but nothing about making or selling bikes got better. That's why operating profit is usually the better guide to how the business itself is doing."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Reading down the page",
+                paras: [
+                  "Each subtotal isolates a different part of the business. A fall in gross margin points at prices or production costs. A fall in operating margin with gross margin steady points at overheads. A change in net margin with operating margin steady points at financing, taxes or one-off items.",
+                  "So when someone says profit went up, the first question is which profit. A company can report higher net profit in a year when its operations got worse, if a one-time gain or a cheaper loan covers the gap."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Switch on “Sell the old warehouse.” Net profit rises by more than 40% while operating margin doesn't move at all.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Which one is yours?",
+                paras: [
+                  "Most managers have the most influence over the top half of the statement: prices, production costs and operating expenses. Interest and taxes are usually set elsewhere. That makes gross and operating margin the numbers a manager can most directly move, and the ones worth knowing for their own part of the business."
+                ],
+                side: {
+                  label: "A caution",
+                  html: "<p>Every line here still rests on estimates. <a href=\"@profit-estimate\">Profit is an estimate</a> shows how much judgment sits inside them.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Costs and expenses", where: "Chapter 8" },
+            { title: "Profitability ratios", where: "Chapter 20", page: "ratios" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
+          ],
+          cta: { page: "ratios", kicker: "Next", text: "Compare the margins across two years" }
         }
       },
 

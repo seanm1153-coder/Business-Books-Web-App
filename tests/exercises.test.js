@@ -131,6 +131,22 @@ test("FI: judgment calls move profit while cash stays put", async () => {
   assert.equal(await page.text('[data-ref="cash"]'), cash);
 });
 
+test("FI: each move reaches only the profits below it", async () => {
+  await page.open("fi-forms-of-profit");
+  const tiles = () => page.text(".pl .tiles");
+  assert.match(await tiles(), /40\.0% .* 10\.4% .* 5\.9% /i);
+  await page.click('[data-move="warehouse"]');
+  assert.match(await tiles(), /40\.0% \| Unchanged .* 10\.4% \| Unchanged .* 8\.4% \| \+2\.5 points$/i);
+  assert.equal(await page.text('[data-reach="warehouse"]'), "Reaches net profit only");
+  await page.click('[data-move="price"]');
+  assert.match(await tiles(), /42\.9% .* 14\.7% .* 11\.6% /i);
+  assert.equal(await page.text('[data-reach="price"]'), "Reaches gross profit, operating profit and net profit");
+  await page.click('[data-move="marketing"]');
+  assert.equal(await page.text('[data-reach="marketing"]'), "Reaches operating profit and net profit");
+  await page.click('.pl [data-ref="reset"]');
+  assert.match(await tiles(), /40\.0% .* 10\.4% .* 5\.9% /i);
+});
+
 test("FI: the three statements stay in balance through a month of events", async () => {
   await page.open("fi-profit-cash");
   const expected = [
