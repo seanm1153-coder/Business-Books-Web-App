@@ -28,7 +28,7 @@
     mapTitle: "Eight parts, from profit to cash to return on investment",
     contentsDesc: "Eight parts, from the income statement to ratios and working capital.",
     mapNote: "Pages open as they're written. Chapter numbers in Parts VI to VIII are still being checked against the book.",
-    nav: ["profit-estimate", "profit-cash", "ratios", "working-capital"],
+    nav: ["profit-estimate", "profit-cash", "ratios", "roi"],
 
     parts: [
       {
@@ -69,7 +69,7 @@
         chapters: [
           { n: 15, title: "Cash is a reality check", blurb: "Cash involves fewer estimates than profit, so it's harder to fudge." },
           { n: 16, title: "Profit ≠ cash (and you need both)", blurb: "Why a profitable company can run short of cash.", page: "profit-cash" },
-          { n: 17, title: "The language of cash flow", blurb: "Operating, investing and financing: the three sources and uses of cash." },
+          { n: 17, title: "The language of cash flow", blurb: "Operating, investing and financing: the three sources and uses of cash.", page: "cash-flow-language" },
           { n: 18, title: "How cash connects with everything else", blurb: "Tying the cash flow statement back to the other two." }
         ]
       },
@@ -90,7 +90,7 @@
         title: "Return on investment",
         chapters: [
           { title: "The building blocks of ROI", blurb: "Time value of money, cost of capital and the hurdle rate." },
-          { title: "Figuring ROI", blurb: "Payback, net present value and internal rate of return, worked through." }
+          { title: "Figuring ROI", blurb: "Payback, net present value and internal rate of return, worked through.", page: "roi" }
         ]
       },
       {
@@ -115,6 +115,7 @@
 
     pages: {
       "profit-estimate": {
+        navLabel: "Estimates",
         title: "Profit is an estimate",
         eyebrow: "Part II · Chapter 05",
         dek:
@@ -319,6 +320,147 @@
         }
       },
 
+      "cash-flow-language": {
+        title: "The language of cash flow",
+        navLabel: "Cash flow",
+        eyebrow: "Part IV · Chapter 17",
+        dek:
+          "The cash flow statement sorts every dollar in and out into three buckets: operating, investing and financing. Which bucket a dollar lands in tells you whether the business is paying its own way.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three buckets",
+                paras: [
+                  "Operating cash comes from running the business: collecting from customers, paying suppliers and staff, paying interest and taxes. Investing cash goes into, or comes out of, long-lived assets such as equipment and buildings. Financing cash moves between the company and the people who fund it: borrowing and repaying, issuing shares, paying dividends.",
+                  "Add the three together and you get the change in cash for the period, which is exactly the change in the cash line on the balance sheet."
+                ],
+                side: {
+                  label: "One surprise",
+                  html: "<p>Under US accounting rules, interest paid is an operating cash flow, even though the loan itself is financing.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Operating, investing or financing?",
+            intro:
+              "Eight things that happen at Northline Bikes in a year. Put each one in the bucket where the cash flow statement would report it.",
+            options: [
+              { id: "op", label: "Operating", hint: "Running the business" },
+              { id: "inv", label: "Investing", hint: "Long-lived assets" },
+              { id: "fin", label: "Financing", hint: "Lenders and owners" }
+            ],
+            rewriteLabel: "",
+            items: [
+              { text: "A bike shop pays Northline's invoice.", answer: "op", why: "Collecting from customers is the heart of operating cash." },
+              { text: "Northline buys a new paint line.", answer: "inv", why: "Equipment lasts for years, so the cash spent on it is investing." },
+              { text: "Northline borrows $500,000 from the bank.", answer: "fin", why: "Money from a lender is financing." },
+              { text: "Northline pays its frame supplier.", answer: "op", why: "Paying for materials is part of running the business." },
+              { text: "Northline pays interest on its loan.", answer: "op", why: "The surprise: under US rules, interest paid is an operating cash flow, even though the loan itself is financing." },
+              { text: "Northline sells an old warehouse.", answer: "inv", why: "Selling a long-lived asset brings in investing cash." },
+              { text: "The owners take a dividend.", answer: "fin", why: "Cash going back to owners is financing." },
+              { text: "Northline repays part of the loan.", answer: "fin", why: "Repaying the amount borrowed is financing. Only the interest counts as operating." }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "What healthy looks like",
+                paras: [
+                  "A healthy, established business usually generates cash from operations and uses some of it to invest and to pay lenders or owners. A young company may show negative operating cash funded by borrowing or new shares. That can be fine for a while, but a business can't run on financing forever."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Watch all three buckets move in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "How cash connects with everything else", where: "Chapter 18" },
+            { title: "Working capital levers", where: "Part VII", page: "working-capital" },
+            { title: "Reading the ratios", where: "Part V", page: "ratios" }
+          ],
+          cta: { page: "profit-cash", kicker: "See it in action", text: "Watch the three buckets fill" }
+        }
+      },
+
+      roi: {
+        title: "Figuring ROI",
+        navLabel: "ROI",
+        eyebrow: "Part VI · Return on investment",
+        dek:
+          "Should Northline buy the machine? Return on investment asks whether the cash a project brings in, counted at today's value, beats what it costs. The book works through three ways to answer: payback, net present value and internal rate of return.",
+        blocks: [
+          {
+            type: "roi-calculator",
+            company: "Northline Bikes",
+            title: "The welding robot",
+            intro:
+              "A robotic welding cell costs $400,000 today. Engineering estimates it will save about $110,000 a year in labor and rework for six years. Move the estimates and the hurdle rate and watch the answer change.",
+            cost: 400000,
+            start: { savings: 110000, years: 6, rate: 10 },
+            ranges: { savings: [40000, 200000, 5000], years: [2, 12], rate: [2, 20] }
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Money later is worth less",
+                paras: [
+                  "A dollar saved five years from now is worth less than a dollar today, because today's dollar could be earning a return in the meantime. So each future year's savings is discounted back to today's value, at a rate that reflects what the company's money costs and what else it could do with it. Companies call that rate the hurdle rate."
+                ],
+                side: {
+                  label: "In the book",
+                  html: "<p>Part VI builds up the time value of money, the cost of capital and the hurdle rate before working through each method.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Three answers to three questions",
+                paras: [
+                  "Payback asks how fast the money comes back. It's simple and ignores both timing and anything after the payback date. Net present value asks how much value the project adds in today's dollars; positive means it beats the hurdle. Internal rate of return asks what return the project earns; if it's above the hurdle rate, the project clears it."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Drop the savings to $90,000. Payback still looks reasonable, but net present value turns negative.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "The estimates are the decision",
+                paras: [
+                  "Every input here is a judgment: how much the machine will save, how long it will last, what rate to use. Small changes in the estimates swing the answer. That's the same lesson as profit being an estimate, applied to the future."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p><a href=\"@profit-estimate\">Profit is an estimate</a> shows the same effect on this year's numbers.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The building blocks of ROI", where: "Part VI" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Reading the ratios", where: "Part V", page: "ratios" },
+            { title: "Working capital levers", where: "Part VII", page: "working-capital" }
+          ],
+          cta: { page: "working-capital", kicker: "Next", text: "Pull the working capital levers" }
+        }
+      },
+
       "working-capital": {
         title: "Working capital levers",
         navLabel: "Working capital",
@@ -381,7 +523,7 @@
           related: [
             { title: "Cash is a reality check", where: "Chapter 15" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
-            { title: "The language of cash flow", where: "Chapter 17" },
+            { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
             { title: "Reading the ratios", where: "Part V", page: "ratios" }
           ],
           cta: { page: "profit-cash", kicker: "See it event by event", text: "Profit isn't cash" }
@@ -519,7 +661,7 @@
           related: [
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
             { title: "The income statement affects the balance sheet", where: "Chapter 14" },
-            { title: "The language of cash flow", where: "Chapter 17" },
+            { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
             { title: "Working capital levers", where: "Part VII", page: "working-capital" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }

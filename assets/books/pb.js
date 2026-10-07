@@ -26,7 +26,7 @@
     mapTitle: "The ideas, in the order the book builds them",
     contentsDesc: "Why categories matter, how to design one, and how to launch it.",
     mapNote: "Organized by idea rather than by chapter. Chapter titles and order are still being checked against the book.",
-    nav: ["category-kings", "point-of-view", "lightning-strike"],
+    nav: ["category-kings", "magic-triangle", "point-of-view", "lightning-strike"],
 
     parts: [
       {
@@ -42,10 +42,10 @@
         n: "II",
         title: "Designing a category",
         chapters: [
-          { title: "The magic triangle", blurb: "Company, product and category, designed together." },
+          { title: "The magic triangle", blurb: "Company, product and category, designed together.", page: "magic-triangle" },
           { title: "Discovery", blurb: "Finding a problem big enough to build a category around." },
           { title: "Marchitecture", blurb: "How the pieces of the solution fit together, drawn for the market." },
-          { title: "Naming the category", blurb: "A name people can repeat for the new way of thinking." },
+          { title: "Naming the category", blurb: "A name people can repeat for the new way of thinking.", page: "naming" },
           { title: "Point of view", blurb: "The written story of the category: problem, from, to, why now.", page: "point-of-view" }
         ]
       },
@@ -61,6 +61,7 @@
 
     pages: {
       "category-kings": {
+        navLabel: "Kings",
         title: "Category kings",
         eyebrow: "Part I · Why categories matter",
         dek:
@@ -171,7 +172,7 @@
         end: {
           related: [
             { title: "Own the problem", where: "Part I" },
-            { title: "The magic triangle", where: "Part II" },
+            { title: "The magic triangle", where: "Part II", page: "magic-triangle" },
             { title: "Point of view", where: "Part II", page: "point-of-view" },
             { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
           ],
@@ -179,7 +180,149 @@
         }
       },
 
+      naming: {
+        title: "Naming the category",
+        navLabel: "Naming",
+        eyebrow: "Part II · Designing a category",
+        dek:
+          "A category needs a name people can repeat: one that describes the problem or the new way, not the company. Get it right and customers, analysts and even competitors end up using your words.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Name the category, not just the product",
+                paras: [
+                  "A product name belongs to one company. A category name belongs to the market: it's what customers type into a search box and what analysts put at the top of a report. The authors' point is that whoever names the category gets to define it, and everyone else ends up described in its terms."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The name is the last step of the <a href=\"@point-of-view\">point of view</a>.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "What good names have in common",
+                paras: [
+                  "They are plain, short and descriptive. They say what problem is solved or what the new way is, so a newcomer can guess what's inside. Hype words, brand names and version numbers don't travel."
+                ],
+                side: {
+                  label: "A quick test",
+                  html: "<p>Could a competitor use the name about themselves without it sounding odd? Then it works as a category name.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Would it work as a category name?",
+            intro: "Eight names, real and invented. Could each become the market's word for a kind of thing? Names that don't work come with one that would.",
+            options: [
+              { id: "yes", label: "Works as a category", hint: "Plain, descriptive, anyone could use it" },
+              { id: "no", label: "Doesn't", hint: "A brand, a feature or hype" }
+            ],
+            rewriteLabel: "As a category",
+            items: [
+              { text: "Customer relationship management", answer: "yes", why: "It describes what the software does, and every vendor in the market uses it." },
+              { text: "SmartFleet Pro X", answer: "no", why: "A product name. It belongs to one company and says little about the problem.", rewrite: "Predictive fleet maintenance" },
+              { text: "Ride-hailing", answer: "yes", why: "Short, plain and descriptive. Rivals describe themselves with it." },
+              { text: "The Northline TheftGuard frame", answer: "no", why: "A brand name for one product.", rewrite: "Theft-proof commuting" },
+              { text: "Software as a service", answer: "yes", why: "It names a new way of buying software, and it has outlived many of the companies that popularized it." },
+              { text: "AI-powered next-gen data cloud", answer: "no", why: "Mostly hype words. A newcomer can't tell what problem it solves, so it can't become the market's word.", rewrite: "Real-time sales forecasting" },
+              { text: "Predictive fleet maintenance", answer: "yes", why: "It names the new way (maintenance driven by data, not the calendar) in three plain words." },
+              { text: "30% faster invoicing", answer: "no", why: "A benefit claim, not a kind of thing. It invites a comparison rather than defining a market.", rewrite: "Automated accounts receivable" }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Point of view", where: "Part II", page: "point-of-view" },
+            { title: "Category kings", where: "Part I", page: "category-kings" },
+            { title: "Marchitecture", where: "Part II" },
+            { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
+          ],
+          cta: { page: "point-of-view", kicker: "Workbench", text: "Name your category" }
+        }
+      },
+
+      "magic-triangle": {
+        title: "The magic triangle",
+        navLabel: "Triangle",
+        eyebrow: "Part II · Designing a category",
+        dek:
+          "Category kings design three things together: the company, the product and the category. When one lags behind the others, the whole effort slows down.",
+        blocks: [
+          {
+            type: "triangle",
+            title: "Balance the triangle",
+            intro:
+              "Rate how far each design has come for an invented company, or start from a preset. The shape shows the balance; the weakest side sets how well the whole works.",
+            start: 0,
+            sides: [
+              { name: "Company design", short: "Company", hint: "Culture, structure and business model built around the new category." },
+              { name: "Product design", short: "Product", hint: "The product actually solves the problem the category names." },
+              { name: "Category design", short: "Category", hint: "Point of view, name and launch that teach the market the new way." }
+            ],
+            presets: [
+              {
+                label: "Great product, no category",
+                values: [6, 9, 2],
+                note: "A better mousetrap nobody is looking for. The product is strong, but the market has no name for the problem it solves, so buyers compare it with the old way and shrug."
+              },
+              {
+                label: "All story",
+                values: [4, 3, 9],
+                note: "A launch the product can't live up to. The story promises a new way, the product delivers an old one, and buyers notice."
+              },
+              {
+                label: "Designed together",
+                values: [8, 8, 8],
+                note: "The company is built to sell the new way, the product delivers it, and the market has a name for it. Each makes the others more convincing."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three designs at once",
+                paras: [
+                  "The authors argue that the companies that become category kings don't design the product first and think about the market later. They design the company, the product and the category together, so the organization, what it sells and the story it tells all point the same way."
+                ],
+                side: {
+                  label: "Rumelt would agree",
+                  html: "<p>It's close to what <em>Good Strategy Bad Strategy</em> calls coherence: actions that reinforce one another.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "When one side lags",
+                paras: [
+                  "A strong product with no category design ends up compared feature by feature with the old way. A brilliant category story with a weak product makes a promise the product breaks. A company not built for the category, with sales and service set up for the old way, can't deliver either."
+                ],
+                side: {
+                  label: "Try it",
+                  html: "<p>In <a href=\"#northline\">Northline</a>, a category launch from an unfocused company is exactly this imbalance.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Category kings", where: "Part I", page: "category-kings" },
+            { title: "Point of view", where: "Part II", page: "point-of-view" },
+            { title: "Discovery", where: "Part II" },
+            { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
+          ],
+          cta: { page: "point-of-view", kicker: "Workbench", text: "Start with the point of view" }
+        }
+      },
+
       "lightning-strike": {
+        navLabel: "Strike",
         title: "The lightning strike",
         eyebrow: "Part III · Launching it",
         dek:
@@ -243,13 +386,14 @@
             { title: "Point of view", where: "Part II", page: "point-of-view" },
             { title: "Hijacks", where: "Part III" },
             { title: "Category kings", where: "Part I", page: "category-kings" },
-            { title: "The magic triangle", where: "Part II" }
+            { title: "The magic triangle", where: "Part II", page: "magic-triangle" }
           ],
           cta: { page: "point-of-view", kicker: "Workbench", text: "Write the point of view first" }
         }
       },
 
       "point-of-view": {
+        navLabel: "Point of view",
         title: "Point of view",
         eyebrow: "Part II · Designing a category",
         dek:
@@ -320,7 +464,7 @@
         end: {
           related: [
             { title: "Category kings", where: "Part I", page: "category-kings" },
-            { title: "Naming the category", where: "Part II" },
+            { title: "Naming the category", where: "Part II", page: "naming" },
             { title: "Marchitecture", where: "Part II" },
             { title: "The lightning strike", where: "Part III", page: "lightning-strike" }
           ],

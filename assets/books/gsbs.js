@@ -71,7 +71,7 @@
           { n: 1, title: "Good strategy is unexpected", blurb: "Few organizations have a real strategy, so one that does catches rivals off guard." },
           { n: 2, title: "Discovering power", blurb: "Good strategy puts strength against weakness, and finds power in coherence itself." },
           { n: 3, title: "Bad strategy", blurb: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives.", page: "bad-strategy" },
-          { n: 4, title: "Why so much bad strategy?", blurb: "Choosing is hard. Templates and positive thinking offer ways to avoid it." },
+          { n: 4, title: "Why so much bad strategy?", blurb: "Choosing is hard. Templates and positive thinking offer ways to avoid it.", page: "why-bad-strategy" },
           { n: 5, title: "The kernel of good strategy", blurb: "Diagnosis, guiding policy and coherent action.", page: "kernel" }
         ]
       },
@@ -95,7 +95,7 @@
         n: "III",
         title: "Thinking like a strategist",
         chapters: [
-          { n: 16, title: "The science of strategy", blurb: "A strategy is a hypothesis. Your edge is what you know that others don't." },
+          { n: 16, title: "The science of strategy", blurb: "A strategy is a hypothesis. Your edge is what you know that others don't.", page: "science-of-strategy" },
           { n: 17, title: "Using your head", blurb: "Habits for thinking past the first idea that comes to mind." },
           { n: 18, title: "Keeping your head", blurb: "Holding on to your own judgment when everyone around you agrees." }
         ]
@@ -208,7 +208,7 @@
         ],
         end: {
           related: [
-            { title: "Why so much bad strategy?", where: "Chapter 4" },
+            { title: "Why so much bad strategy?", where: "Chapter 4", page: "why-bad-strategy" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
             { title: "Focus", where: "Chapter 10" }
@@ -330,6 +330,171 @@
             { title: "Focus", where: "Chapter 10" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Try the kernel on your own problem" }
+        }
+      },
+
+      "why-bad-strategy": {
+        title: "Why so much bad strategy?",
+        navLabel: "Why so much bad strategy",
+        eyebrow: "Part I · Chapter 04",
+        dek:
+          "If bad strategy is so easy to spot, why is it everywhere? Rumelt's answer: good strategy demands choices, and choosing is painful. Templates and relentless positive thinking offer ways to avoid it.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "The unwillingness to choose",
+                paras: [
+                  "Every real strategy says no to something: a market, a product, a project with a powerful sponsor. Saying no disappoints people who can make life hard for you. The easy path is a document that includes everyone's priorities, which is a document with no strategy in it.",
+                  "Rumelt's point is that this isn't a failure of intelligence. It is a failure of will, and it happens in smart, successful organizations precisely because so many capable people have something to protect."
+                ],
+                side: {
+                  label: "In the book",
+                  html: "<p>Rumelt recounts a meeting at Digital Equipment Corporation in the early 1990s where executives backed different directions and settled on a compromise that committed to none of them.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "template-strategy",
+            title: "The strategy template machine",
+            intro:
+              "Press the button for a strategy in the house style of a thousand annual reports. Every draft is complete, confident and well formatted. Then look for the choice.",
+            verdict:
+              "A complete-looking strategy with no diagnosis, no guiding policy and nothing ruled out. Rumelt calls this template-style strategy: the form of a strategy with none of the substance."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Template-style strategy",
+                paras: [
+                  "Templates are popular because they feel like progress. Fill in a vision, a mission, some values and a few goals, and you have a document that looks finished. What it can't contain is the hard part: what is going on, what makes it difficult, and what you will do differently because of it."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Generate a few drafts. Notice that any of them could belong to a bank, a hospital or a bike maker. That interchangeability is the tell.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "New Thought",
+                paras: [
+                  "Rumelt traces a second habit to the New Thought movement of around 1900, which held that thinking about success brings it about. Its modern descendants tell leaders to picture the goal and let belief carry the organization.",
+                  "The trouble is what this does to bad news. If doubt counts as disloyalty, nobody names the problem, and a strategy without a named problem has nothing to work on."
+                ],
+                side: {
+                  label: "Why it matters",
+                  html: "<p>A culture that punishes doubt can't produce a <a href=\"@kernel\">diagnosis</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
+            { title: "Keeping your head", where: "Chapter 18" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write one that makes a choice" }
+        }
+      },
+
+      "science-of-strategy": {
+        title: "Strategy as hypothesis",
+        crumb: "Strategy as hypothesis",
+        eyebrow: "Part III · Chapter 16",
+        dek:
+          "Rumelt argues that a good strategy is a hypothesis: an educated judgment about what will work, made under uncertainty and tested against what happens. Treating it that way changes how you write it and how you run it.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "A judgment, not a calculation",
+                paras: [
+                  "Strategy can't be derived from data alone, because it is about a future that hasn't happened yet. The best a strategist can do is form a well-reasoned hypothesis about what will work, act on it, and watch closely for evidence.",
+                  "Rumelt draws the parallel with science. An idea is useful when it says something definite enough to be shown wrong, and the people running it are willing to notice when it is."
+                ],
+                side: {
+                  label: "In practice",
+                  html: "<p>Before you start, write down what would convince you the strategy is wrong.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Your edge is what you know",
+                paras: [
+                  "A strategic insight often comes from knowing something others don't: about customers, about a technology, about how a competitor really works. Rumelt treats that knowledge as a genuine source of advantage, and the strategy as a bet placed on it."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The hypothesis starts with the diagnosis in the <a href=\"@kernel\">kernel</a>.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Hypothesis or article of faith?",
+            intro:
+              "Six statements from invented strategy documents. Could events show each one wrong? Articles of faith come with a testable rewrite.",
+            options: [
+              { id: "test", label: "A testable hypothesis", hint: "Events could show it wrong" },
+              { id: "faith", label: "An article of faith", hint: "Nothing could disprove it" }
+            ],
+            rewriteLabel: "A testable version",
+            items: [
+              {
+                text: "Customers will love our products if we just keep innovating.",
+                answer: "faith",
+                why: "There's no result that would count against it. If sales fall, the answer is always more innovation.",
+                rewrite: "Commuters will pay 15% more for built-in theft tracking. If fewer than one buyer in ten chooses it by June, we're wrong."
+              },
+              {
+                text: "Shops will stock more of our bikes if we cut delivery from two weeks to two days. We'll know by March from the reorder rate.",
+                answer: "test",
+                why: "A specific cause, a specific effect and a date. March will settle it."
+              },
+              {
+                text: "Our people are our greatest asset.",
+                answer: "faith",
+                why: "A sentiment, not a claim about what will happen.",
+                rewrite: "Giving each sales team one customer segment will halve our response time within a quarter."
+              },
+              {
+                text: "If we stop selling through discount dealers, average order value will rise and total margin won't fall. We'll check after two quarters.",
+                answer: "test",
+                why: "It even names the risk (lower volume) and how it will be measured."
+              },
+              {
+                text: "The market will come around to our vision.",
+                answer: "faith",
+                why: "No timeline and no sign of what “coming around” would look like.",
+                rewrite: "Three of our five largest dealers will reorder within 60 days of the launch. If they don't, the message isn't landing."
+              },
+              {
+                text: "Moving support in-house will cut customer churn from 8% to 5% within a year.",
+                answer: "test",
+                why: "A number now, a number later and a deadline."
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
+            { title: "Using your head", where: "Chapter 17" },
+            { title: "Keeping your head", where: "Chapter 18" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write your strategy as a hypothesis" }
         }
       },
 
