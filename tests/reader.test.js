@@ -69,7 +69,9 @@ test("highlights and notes survive a reload and reach the notebook", async () =>
   assert.match(await page.text(".nb-tiles"), /EXERCISES DONE \| 1 /i);
   assert.match(await page.text(".nb-book"), /This is the line I keep forgetting\./);
   await page.open("shelf");
-  assert.equal(await page.text(".book-progress"), "2 of 8 pages explored");
+  // The total grows as pages are added, so read it from the book rather than fixing it here.
+  const total = await page.evaluate(() => Object.keys(window.Marginalia.books.find((b) => b.id === "gsbs").pages).length);
+  assert.equal(await page.text(".book-progress"), `2 of ${total} pages explored`);
   assert.deepEqual(page.errors, []);
 });
 

@@ -74,6 +74,27 @@ test("GSBS: a chain is only as strong as its weakest link", async () => {
   assert.match(await page.text('[data-ref="wasted"]'), /^1 of 4 points/);
 });
 
+test("GSBS: focused policies lead a group; spread ones lead none", async () => {
+  await page.open("gsbs-focus");
+  const tiles = () => page.text(".pf .tiles");
+  const aim = async (policies, target) => {
+    for (const p of policies) await page.check(`[data-policy="${p}"][value="${target}"]`);
+  };
+  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
+  // Coordinated, but aimed where the rival is too strong.
+  await page.click('[data-preset="race"]');
+  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
+  assert.match(await page.text('.pf [data-ref="note"]'), /fall short of Veloce: 15 against 18/);
+  await aim(["build", "sell", "service", "pay", "message"], "commute");
+  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
+  // Four of five still lead (10 against 9); three of five do not (6 against 9).
+  await aim(["message"], "family");
+  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
+  await aim(["pay"], "family");
+  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
+  assert.match(await page.text('.pf [data-ref="note"]'), /2 different directions/);
+});
+
 test("GSBS: strategy-as-hypothesis sorter", async () => {
   await page.open("gsbs-science-of-strategy");
   assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");

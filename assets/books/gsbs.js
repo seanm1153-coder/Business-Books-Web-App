@@ -83,7 +83,7 @@
           { n: 7, title: "Proximate objectives", blurb: "Targets close enough to reach, which turn a vague aspiration into a solvable problem.", page: "proximate-objectives" },
           { n: 8, title: "Chain-link systems", blurb: "When every link matters, improving one does nothing until the weakest is fixed.", page: "chain-link" },
           { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one." },
-          { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force." },
+          { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force.", page: "focus" },
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like." },
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one." },
           { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them." },
@@ -105,6 +105,7 @@
     cases: [
       { era: "216 BC", title: "Hannibal at Cannae", blurb: "A smaller army encircles a larger Roman one by anticipating exactly how it will attack.", tag: "Using design" },
       { era: "1960s", title: "Surveyor and the Moon", blurb: "Designing a lunar lander became solvable once engineers pinned down what the surface was like.", tag: "Proximate objectives", page: "proximate-objectives" },
+      { era: "1960s–80s", title: "Crown Cork & Seal", blurb: "A small can maker outperforms its giant rivals by aiming every policy at hard-to-make cans and the customers who need them.", tag: "Focus", page: "focus" },
       { era: "1991", title: "Desert Storm", blurb: "The coalition avoids Iraq's prepared defenses with a wide swing through the western desert.", tag: "The kernel", page: "kernel" },
       { era: "1997", title: "Apple's turnaround", blurb: "Steve Jobs returns and cuts a sprawling product line down to four.", tag: "The kernel", page: "kernel" },
       { era: "1993–2010", title: "Nvidia", blurb: "A graphics-chip maker rides a wave of change in computing, step by step.", tag: "Putting it together" }
@@ -211,7 +212,7 @@
             { title: "Why so much bad strategy?", where: "Chapter 4", page: "why-bad-strategy" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
-            { title: "Focus", where: "Chapter 10" }
+            { title: "Focus", where: "Chapter 10", page: "focus" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that passes" }
         }
@@ -327,7 +328,7 @@
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
-            { title: "Focus", where: "Chapter 10" }
+            { title: "Focus", where: "Chapter 10", page: "focus" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Try the kernel on your own problem" }
         }
@@ -571,7 +572,7 @@
           related: [
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
-            { title: "Focus", where: "Chapter 10" },
+            { title: "Focus", where: "Chapter 10", page: "focus" },
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that concentrates" }
@@ -760,10 +761,195 @@
           related: [
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
             { title: "Using design", where: "Chapter 9" },
-            { title: "Focus", where: "Chapter 10" },
+            { title: "Focus", where: "Chapter 10", page: "focus" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy that fixes the weakest link" }
+        }
+      },
+
+      // The Crown Cork & Seal details (Connelly's era, aerosol and drink cans, plants near
+      // customers) follow the widely taught Harvard case. Unchecked against Chapter 10's
+      // wording, as is the pointer to Chapter 11 picking up Crown's later story.
+      focus: {
+        title: "Focus",
+        eyebrow: "Part II · Chapter 10",
+        dek:
+          "In Rumelt's sense, focus is more than doing fewer things. It means coordinating several policies so their effects overlap and reinforce each other, then aiming that combined force at the right target.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Two parts to focus",
+                paras: [
+                  "The word is used loosely, often to mean “do less.” Rumelt gives it a narrower meaning with two parts. The first is coordination: policies designed to work together, so that each one makes the others more effective and the whole delivers more than the parts would separately.",
+                  "The second is the target. That combined force has to be applied where it counts: a segment of customers, a market or a problem where it can win. Coordination without the right target wastes the power, and a target without coordination never gets enough of it."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p><a href=\"@using-leverage\">Using leverage</a> makes a related point about effort: spread thin, it changes nothing. Focus adds that the policies have to fit together, not just share a goal.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Crown Cork & Seal",
+                paras: [
+                  "Rumelt's example is Crown Cork & Seal, a maker of metal cans that was small next to giants such as American Can and Continental Can. Under John Connelly, who took charge in the late 1950s, Crown stopped trying to serve every can buyer. It concentrated on cans that were hard to make well, such as those for aerosols and carbonated drinks, which have to hold pressure.",
+                  "Around that choice sat a set of ordinary-looking policies. Plants were small and close to the customers they served, so Crown could respond quickly and send its engineers to help with problems on a customer's filling line. None of this was remarkable on its own. Together, aimed at one kind of customer, it gave Crown an edge its larger rivals, built to serve everyone, did not match."
+                ],
+                side: {
+                  label: "What happened next",
+                  html: "<p>Chapter 11, on growth, picks up Crown's story after Connelly, when buying other can makers replaced focus as the plan.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "policy-fit",
+            title: "Aim the policies",
+            intro:
+              "Northline Bikes, the invented bike maker from elsewhere on this site, sets five policies. Each option serves one group of riders or tries to serve everyone. Choose one option per policy and see which groups Northline leads against the strongest rival in each.",
+            company: "Northline",
+            ledLabel: "Groups you lead",
+            valueLabel: "Sales where you lead",
+            unit: { before: "$", after: "m" },
+            sizeNote: "a year",
+            allLabel: "Everyone",
+            emptyNote: "No policies set. Choose one option for each policy, or try a preset.",
+            foot:
+              "A toy model, not from the book. Each policy aimed at a group adds 1 to Northline's strength there, and each pair of policies aimed at the same group adds 1 more, because they reinforce each other. Options for everyone add 1 to every group and reinforce nothing.",
+            start: "everyone",
+            presets: [
+              { id: "everyone", label: "Something for everyone", picks: ["all", "all", "all", "all", "all"] },
+              { id: "mix", label: "A bit of each", picks: ["commute", "race", "family", "commute", "race"] },
+              { id: "race", label: "All in on racers", picks: ["race", "race", "race", "race", "race"] },
+              { id: "clear", label: "Clear", picks: [] }
+            ],
+            segments: [
+              {
+                id: "commute",
+                name: "city commuters",
+                short: "Commuters",
+                size: 40,
+                rival: { name: "the national brands", short: "National brands", strength: 9 },
+                together:
+                  "Station shops make same-day repairs easy to offer, bike-to-work schemes send riders to those shops, and the message tells them why. Each policy makes the others work better."
+              },
+              {
+                id: "race",
+                name: "weekend racers",
+                short: "Racers",
+                size: 35,
+                rival: { name: "Veloce", short: "Veloce", strength: 18 }
+              },
+              {
+                id: "family",
+                name: "families",
+                short: "Families",
+                size: 15,
+                rival: { name: "the importers", short: "Importers", strength: 7 },
+                together:
+                  "Cargo bikes, test-ride showrooms, monthly payments and safety checks all answer the question parents ask: is this safe and affordable enough to replace a car?"
+              }
+            ],
+            policies: [
+              {
+                id: "build",
+                title: "What we build",
+                question: "Which bikes get the design budget?",
+                options: [
+                  { target: "commute", label: "Sturdy city bikes with racks, mudguards and built-in lights" },
+                  { target: "race", label: "Light carbon road frames" },
+                  { target: "family", label: "Cargo bikes that carry two children and the shopping" },
+                  { target: "all", label: "A full range, with a model for every kind of rider" }
+                ]
+              },
+              {
+                id: "sell",
+                title: "Where we sell",
+                question: "Where do riders find a Northline?",
+                options: [
+                  { target: "commute", label: "Small shops by train stations and office districts" },
+                  { target: "race", label: "Online, backed by race-club sponsorships" },
+                  { target: "family", label: "Suburban showrooms with room for test rides" },
+                  { target: "all", label: "Any retailer willing to stock us" }
+                ]
+              },
+              {
+                id: "service",
+                title: "How we look after riders",
+                question: "What happens when something goes wrong?",
+                options: [
+                  { target: "commute", label: "Same-day repairs, so nobody misses a ride to work" },
+                  { target: "race", label: "A mechanic's van at weekend races" },
+                  { target: "family", label: "Free yearly safety checks" },
+                  { target: "all", label: "A two-year warranty on every bike" }
+                ]
+              },
+              {
+                id: "pay",
+                title: "How customers pay",
+                question: "What does buying one feel like?",
+                options: [
+                  { target: "commute", label: "Through employers' bike-to-work schemes" },
+                  { target: "race", label: "Premium prices, with upgrades sold separately" },
+                  { target: "family", label: "Monthly payments spread over two years" },
+                  { target: "all", label: "Mid-range prices across the board" }
+                ]
+              },
+              {
+                id: "message",
+                title: "What we tell the market",
+                question: "What does every ad say?",
+                options: [
+                  { target: "commute", label: "Get to work on time, every day" },
+                  { target: "race", label: "Fastest on the climbs" },
+                  { target: "family", label: "Leave the second car at home" },
+                  { target: "all", label: "Quality bikes for everyone" }
+                ]
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Focus means giving things up",
+                paras: [
+                  "Every policy aimed at commuters is a policy not aimed at families or racers. That is the cost of focus, and it's why focus is rarer than the word suggests. Someone has to accept that the company will be ordinary, or absent, in places it could have tried to serve.",
+                  "This is the same choice <a href=\"@why-bad-strategy\">Chapter 4</a> says organizations avoid. A plan with something for everyone keeps every group happy inside the company and leads in none of them outside it."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Set four policies on commuters and one on families. You still lead commuters, but the family policy does almost nothing on its own.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Hard to copy",
+                paras: [
+                  "Because the advantage lives in how the policies fit together, a rival who copies one of them gets little. Copying Crown's plant locations without its choice of customers, or its engineers without its quick service, would not have reproduced the result.",
+                  "A well-run <a href=\"@chain-link\">chain-link system</a> is protected the same way. In both cases the strength is in the combination, so it has to be matched as a whole."
+                ],
+                side: {
+                  label: "Why not racers?",
+                  html: "<p>Veloce, an invented specialist with twenty years of race wins, beats even five coordinated policies. Choosing the target comes first, which is one reason Rumelt's <a href=\"@kernel\">kernel</a> starts with the diagnosis.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
+            { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
+            { title: "Using design", where: "Chapter 9" },
+            { title: "Growth", where: "Chapter 11" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a guiding policy that picks a target" }
         }
       },
 
