@@ -148,6 +148,8 @@
     const ctx = context(book);
     const chapterCount = book.parts.reduce((n, p) => n + p.chapters.length, 0);
     const shape = `${numberWord(book.parts.length)} parts, ${numberWord(chapterCount)} chapters`;
+    const mapTitle = book.mapTitle || capitalize(shape);
+    const contentsDesc = book.contentsDesc || `${capitalize(shape)}, one idea each.`;
     const [firstLine, ...restLines] = book.hero.lines;
     const art = book.hero.art && M.art[book.hero.art];
 
@@ -174,7 +176,7 @@
             <button class="entry" type="button" data-scroll="map">
               <span class="entry-k">Contents</span>
               <span class="entry-t">Map of the book <span class="arrow" aria-hidden="true">↓</span></span>
-              <span class="entry-d">${esc(capitalize(shape))}, one idea each.</span>
+              <span class="entry-d">${esc(contentsDesc)}</span>
             </button>
           </div>
         </div>
@@ -184,7 +186,7 @@
         <div class="wrap">
           <div class="section-head">
             <p class="eyebrow">Map of the book</p>
-            <h2 class="h2">${esc(capitalize(shape))}</h2>
+            <h2 class="h2">${esc(mapTitle)}</h2>
             <p class="section-dek">${esc(book.mapNote)}</p>
           </div>
           <div class="parts">${book.parts.map((p) => partHTML(p, ctx)).join("")}</div>
@@ -230,7 +232,7 @@
         const live = Boolean(c.page);
         const tag = live ? "a" : "div";
         return `<li><${tag} class="chapter${live ? " is-live" : ""}"${live ? ` href="${ctx.href(c.page)}"` : ""}>
-          <span class="ch-n">${pad2(c.n)}</span>
+          <span class="ch-n">${c.n ? pad2(c.n) : "··"}</span>
           <span class="ch-body"><span class="ch-t">${esc(c.title)}</span><span class="ch-d">${esc(c.blurb)}</span></span>
           <span class="chip ${live ? "chip-open" : "chip-muted"}">${live ? "Open" : "In draft"}</span>
         </${tag}></li>`;
