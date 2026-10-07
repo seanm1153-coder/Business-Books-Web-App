@@ -211,9 +211,22 @@ body[data-header="night"] .wordmark::after { background: var(--pen-bright); }
 .crumbs {
   flex: 1 1 8rem;
   min-width: 0;
-  display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: flex; align-items: baseline; white-space: nowrap; overflow: hidden;
   font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.02em;
   color: var(--ink-2);
+}
+/* When space runs out, the book title shortens first and the current page last. */
+.crumbs > a, .crumbs > span:not(.sep) { min-width: 0; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+.crumbs > a:first-child { flex-shrink: 0; }
+.crumbs > a:not(:first-child) { min-width: 7ch; }
+/* The page title keeps its width, leaving room for "Library", a 7ch book title and the separators. */
+.crumbs > [aria-current]:not(.sep) { flex-shrink: 0; max-width: calc(100% - 18ch - 1.6rem); }
+.crumbs .sep { flex: none; }
+@media (max-width: 640px) {
+  /* On a phone the trail starts at the book; "Library" is one tap away in the wordmark. */
+  .crumbs > a:first-child:not(:last-child), .crumbs > a:first-child + .sep { display: none; }
+  .crumbs > [aria-current]:not(.sep) { max-width: calc(100% - 9ch - 0.8rem); }
+  .crumbs > a:first-child + .sep + [aria-current]:not(.sep) { max-width: none; }
 }
 body[data-header="night"] .crumbs { color: var(--night-dim); }
 .crumbs a { text-decoration: none; }
@@ -294,8 +307,18 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
   transform: translateX(12px) rotateY(90deg);
   background: repeating-linear-gradient(90deg, var(--page-edge) 0 1px, var(--page-edge-2) 1px 3px);
 }
-.cover-title { font-family: var(--display); font-size: 1.2rem; line-height: 1.05; position: relative; }
-.cover-author { font-family: var(--mono); font-size: 0.5625rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; position: relative; }
+.cover { container-type: inline-size; }
+/* Sized to the cover, so each hero line ("Good Strategy") fits on one line at any shelf width. */
+.cover-title { font-family: var(--display); font-size: 1.2rem; font-size: clamp(0.9rem, 12.5cqi, 1.4rem); line-height: 1.05; position: relative; }
+.cover-title > span { display: block; }
+/* The credit sits on a strip of cover color so the pattern behind it never crosses the type. */
+.cover-author {
+  align-self: flex-start; max-width: 100%; position: relative;
+  font-family: var(--mono); font-size: 0.5625rem; line-height: 1.5; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--c); box-shadow: 0 0 0 3px var(--c);
+  text-wrap: balance;
+}
+.c-fi .cover-author { max-width: 74%; }
 
 /* GSBS cover: contour rings around a marked pivot point */
 .c-gsbs .cover { background-image: repeating-radial-gradient(circle at 68% 58%, transparent 0 9px, var(--c-gsbs-ring) 9px 10px); }
@@ -328,9 +351,10 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 .is-forthcoming .spine { filter: brightness(0.45) saturate(0.7); }
 
 .book-meta { display: flex; flex-direction: column; gap: 0.35rem; }
-.book-title { font-family: var(--display); font-size: 1.125rem; line-height: 1.2; }
+.book-title { font-family: var(--display); font-size: 1.125rem; line-height: 1.2; text-wrap: balance; }
 .book-sub { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.02em; color: var(--night-dim); }
 .book-meta .chip { margin-top: 0.35rem; }
+.book-count { font-family: var(--mono); font-size: 0.6875rem; color: var(--night-dim); }
 .is-forthcoming .book-title { color: var(--night-dim); }
 
 /* ---------- Book home ---------- */
@@ -1417,6 +1441,30 @@ mark { color: inherit; padding: 0.05em 0.15em; border-radius: 2px; -webkit-box-d
 mark.m-goal { background: var(--mark-goal); }
 mark.m-fluff { background: var(--mark-fluff); }
 .legend { margin: 0.5rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
+
+/* ---------- Motion ---------- */
+/* Entrances only: each plays once when a view opens, never loops, and none play when the
+   reader prefers reduced motion. Fill-mode "backwards" hands control back to the resting
+   styles when an animation ends, so hover transforms (the shelf books) still work. */
+
+@media (prefers-reduced-motion: no-preference) {
+  #view.is-entering { animation: view-in 0.3s var(--ease) backwards; }
+  .shelf-intro > *, .hero-inner > * { animation: rise 0.8s var(--ease) backwards; }
+  .shelf-intro > :nth-child(2), .hero-inner > :nth-child(2) { animation-delay: 0.06s; }
+  .shelf-intro > :nth-child(3), .hero-inner > :nth-child(3) { animation-delay: 0.12s; }
+  .hero-inner > :nth-child(4) { animation-delay: 0.18s; }
+  .hero-inner > :nth-child(5) { animation-delay: 0.26s; }
+  /* Books rise onto the shelf one after another and swing round to their resting angle. */
+  .shelf .book { animation: rise 0.9s var(--ease) backwards; animation-delay: calc(0.22s + var(--i, 0) * 0.1s); }
+  .shelf .book-3d { animation: swing 1.2s var(--ease) backwards; animation-delay: calc(0.22s + var(--i, 0) * 0.1s); }
+  .shelf-feature { animation: rise 0.8s var(--ease) backwards; animation-delay: 0.55s; }
+  .hero-art { animation: fade-in 1.6s ease-out backwards; }
+}
+
+@keyframes view-in { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+@keyframes swing { from { transform: rotateY(-58deg) rotateX(8deg); } }
+@keyframes fade-in { from { opacity: 0; } }
 
 /* ---------- Responsive ---------- */
 

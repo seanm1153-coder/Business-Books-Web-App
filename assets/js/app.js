@@ -79,6 +79,10 @@
     }
     window.scrollTo(0, 0);
     view.focus({ preventScroll: true });
+    // Restart the short fade-in (styles.css, Motion) for the new view.
+    view.classList.remove("is-entering");
+    void view.offsetWidth;
+    view.classList.add("is-entering");
   }
 
   function setSurface(page, header) {
@@ -131,7 +135,7 @@
             <p class="lede">Each book on the shelf becomes a set of pages to explore: its ideas mapped and explained, its examples taken apart, and tools for trying its frameworks on problems of your own.</p>
           </div>
           <ul class="shelf" role="list">${M.books.map(shelfBookHTML).join("")}</ul>
-          <p class="shelf-note">${open} open${M.books.length - open ? ` · ${M.books.length - open} forthcoming` : ""}</p>
+          ${M.books.length - open ? `<p class="shelf-note">${open} open · ${M.books.length - open} forthcoming</p>` : ""}
           <a class="shelf-feature" href="#northline">
             <span class="shelf-feature-k">A year in three books</span>
             <span class="shelf-feature-t">Run Northline Bikes for a year <span aria-hidden="true">→</span></span>
@@ -141,13 +145,16 @@
       </section>`;
   }
 
-  function shelfBookHTML(b) {
+  function shelfBookHTML(b, i) {
     const open = b.status === "open";
+    const total = Object.keys(b.pages).length;
+    const seen = open ? Math.min(M.memory.visited(b.id).filter((s) => b.pages[s]).length, total) : 0;
+    const lines = (b.hero && b.hero.lines) || [b.title];
     const inner = `
       <span class="book-3d" aria-hidden="true">
         <span class="book-face cover">
-          <span class="cover-title">${esc(b.title)}</span>
-          <span class="cover-author">${esc(b.author)}</span>
+          <span class="cover-title">${lines.map((l) => `<span>${esc(l)}</span>`).join(" ")}</span>
+          <span class="cover-author">${esc(b.coverAuthor || b.author)}</span>
         </span>
         <span class="book-face spine"></span>
         <span class="book-face pages"></span>
@@ -155,10 +162,15 @@
       <span class="book-meta">
         <span class="book-title">${esc(b.title)}</span>
         <span class="book-sub">${esc(b.author)} · ${b.year}</span>
-        ${open && M.memory.visited(b.id).length ? `<span class="book-progress">${Math.min(M.memory.visited(b.id).filter((s) => b.pages[s]).length, Object.keys(b.pages).length)} of ${Object.keys(b.pages).length} pages explored</span>` : ""}
-        <span class="chip ${open ? "chip-open" : "chip-muted"}">${open ? "Open" : "Forthcoming"}</span>
+        ${
+          !open
+            ? '<span class="chip chip-muted">Forthcoming</span>'
+            : seen
+              ? `<span class="book-progress">${seen} of ${total} pages explored</span>`
+              : `<span class="book-count">${total} pages</span>`
+        }
       </span>`;
-    return `<li class="book c-${b.cover} ${open ? "is-open" : "is-forthcoming"}">${
+    return `<li class="book c-${b.cover} ${open ? "is-open" : "is-forthcoming"}" style="--i: ${i}">${
       open
         ? `<a class="book-link" href="#${b.id}">${inner}</a>`
         : `<div class="book-link" aria-disabled="true">${inner}</div>`
