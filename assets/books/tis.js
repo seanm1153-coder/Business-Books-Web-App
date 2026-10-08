@@ -21,7 +21,8 @@
     hero: { lines: ["Thinking", "in Systems"], art: "behavior" },
     entries: [
       { kicker: "Start here", title: "Stocks and flows", desc: "Fill and drain a bathtub, and watch what the level does.", page: "stocks-flows" },
-      { kicker: "Simulator", title: "Delays", desc: "Run a car lot and watch one rise in demand set off months of swings.", page: "delays" }
+      { kicker: "Simulator", title: "Delays", desc: "Run a car lot and watch one rise in demand set off months of swings.", page: "delays" },
+      { kicker: "System traps", title: "The shared pasture", desc: "Five herders, one pasture, and three ways to keep it from being grazed bare.", page: "traps" }
     ],
     mapTitle: "Three parts, seven chapters",
     contentsDesc: "From stocks and flows to system traps and leverage points.",
@@ -46,7 +47,7 @@
         chapters: [
           { n: 3, title: "Why systems work so well", blurb: "Resilience, self-organization and hierarchy." },
           { n: 4, title: "Why systems surprise us", blurb: "Events hide behavior; nonlinearities, boundaries, limits, delays and bounded rationality." },
-          { n: 5, title: "System traps and opportunities", blurb: "Structures that produce the same problems again and again, and the way out of each." }
+          { n: 5, title: "System traps and opportunities", blurb: "Structures that produce the same problems again and again, and the way out of each.", page: "traps" }
         ]
       },
       {
@@ -65,7 +66,8 @@
       { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo" },
       { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays", page: "delays" },
-      { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested for ever, or fished to collapse.", tag: "Systems zoo" }
+      { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested for ever, or fished to collapse.", tag: "Systems zoo" },
+      { era: "Chapter 5", title: "A shared pasture", blurb: "Herders who each gain from one more animal, and together graze the pasture bare.", tag: "System traps", page: "traps" }
     ],
 
     pages: {
@@ -385,7 +387,240 @@
             { title: "Why systems surprise us", where: "Chapter 4" },
             { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
-          cta: { page: "", kicker: "Contents", text: "See the map of the book" }
+          cta: { page: "traps", kicker: "Next", text: "See the traps that structures set" }
+        }
+      },
+      // The eight trap names follow Chapter 5. The one-line structures, descriptions and
+      // examples are ours, and the ways out paraphrase my reading of the chapter, unchecked
+      // against its wording. That Meadows uses Hardin's pasture and quotes his "mutual
+      // coercion" phrase is from memory and unchecked; the phrase itself is Hardin's (1968).
+      "traps": {
+        navLabel: "Traps",
+        title: "System traps and opportunities",
+        eyebrow: "Part II · Chapter 05",
+        dek:
+          "Some structures produce the same trouble wherever they turn up, whoever is inside them. Meadows describes eight of these traps, and for each one a way out.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Same structure, same trouble",
+                paras: [
+                  "Meadows calls them archetypes: common arrangements of feedback that produce characteristic kinds of trouble. An arms race and a price war look nothing alike, but they're built the same way and they go wrong the same way.",
+                  "Because the structure produces the behavior, replacing the people rarely helps. New people in the same position face the same pressures and make much the same choices. What helps is changing the structure: the goals, the rules, the information and the feedback. That's why the chapter is about opportunities as well as traps. Understanding how a trap works shows where the way out is."
+                ],
+                side: {
+                  label: "Archetypes",
+                  html: "<p>Peter Senge's <cite>The Fifth Discipline</cite> (1990) made a similar set of system archetypes widely known in management, and several of the names overlap.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "trap-cards",
+            eyebrow: "The eight traps",
+            title: "Traps, and the ways out",
+            intro: "Each trap is a structure, and each way out changes the structure rather than the people in it.",
+            outLabel: "The way out",
+            items: [
+              {
+                name: "Policy resistance",
+                structure: "Balancing loops pulling one stock toward different goals",
+                trap: "When several groups want different things from the same system, a push from one is met by the others pushing back harder. Everyone works hard and the system barely moves. A crackdown that raises the price of an illegal drug, and so draws in new suppliers, is a familiar case.",
+                out: "Let go: stop pushing, so the resistance relaxes. Then look for a goal all the groups can share, so their effort pulls the same way."
+              },
+              {
+                name: "The tragedy of the commons",
+                structure: "Use that grows on itself, with weak feedback from the resource",
+                trap: "Each user of a shared resource gets the whole gain from using a little more and bears only a share of the cost. So everyone takes more, and the resource erodes until nobody can use it.",
+                out: "Strengthen the missing feedback: educate and exhort the users, divide the resource so each user bears the cost of overusing their part, or regulate access for everyone."
+              },
+              {
+                name: "Drift to low performance",
+                structure: "A balancing loop whose goal is set by its own results",
+                trap: "When the standard is set by past performance, and bad results are believed more readily than good ones, every disappointment lowers the bar. Performance follows the bar down, slowly enough that nobody notices.",
+                out: "Keep standards absolute, whatever the latest results. Better still, let the best results raise the standard rather than the worst lower it."
+              },
+              {
+                name: "Escalation",
+                structure: "Two balancing loops joined into one reinforcing loop",
+                trap: "When each side's goal is to stay ahead of the other, every move provokes a bigger one. Arms races, price wars and advertising battles run this way, and so do two voices getting louder at a party.",
+                out: "Refuse to compete, even if only one side does, which breaks the loop. Or negotiate a new arrangement with balancing loops that limit the race."
+              },
+              {
+                name: "Success to the successful",
+                structure: "Reinforcing loops competing for one limited resource",
+                trap: "When winning brings the means to win again, the winners take a growing share and the losers are pushed out. Played long enough, the game ends with one player holding everything, as in Monopoly.",
+                out: "Let the losers find another game, limit the share any one winner can hold, and level the field so that each round's prize doesn't decide the next."
+              },
+              {
+                name: "Shifting the burden to the intervenor",
+                structure: "A quick fix that weakens the system's own correction",
+                trap: "A fix relieves a symptom but leaves the cause alone, and the system's own ability to handle the problem withers through disuse. Each time, more of the fix is needed. Addiction is the extreme case.",
+                out: "Avoid getting hooked in the first place. If already dependent, use the fix while rebuilding the system's own capacity, then withdraw it gradually."
+              },
+              {
+                name: "Rule beating",
+                structure: "Behavior aimed at the letter of a rule, not its purpose",
+                trap: "People obey the wording of a rule while defeating its intent. A department spends whatever is left of its budget in the last weeks of the year so that next year's budget isn't cut.",
+                out: "Treat rule beating as feedback about the rules. Redesign them so that ingenuity goes into meeting their purpose rather than getting around them."
+              },
+              {
+                name: "Seeking the wrong goal",
+                structure: "A balancing loop aimed at the wrong target",
+                trap: "A system does what its goals and measures ask, not what anyone intended. Judge schools by test scores and they teach to the test; judge a country by its output and it counts activity, not well-being.",
+                out: "Choose goals and indicators that reflect what you actually want, and don't confuse effort with results."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "The commons, up close",
+                paras: [
+                  "The best-known trap takes its name from Garrett Hardin's 1968 essay, which imagined a pasture open to every herder. Each herder gets all the benefit of adding one more animal, while the cost, a little less grass, is shared by everyone. So every herder adds animals, and the pasture is grazed bare.",
+                  "Meadows reads it as a problem of missing feedback: the condition of the resource reaches the users too weakly or too late to change what they do. Each of her three ways out repairs that link. Teach users the consequences and ask them to restrain themselves. Divide the resource so each user feels the cost of overusing their own part. Or regulate access for everyone, by what Hardin called “mutual coercion, mutually agreed upon.”"
+                ],
+                side: {
+                  label: "Not only pastures",
+                  html: "<p>Fisheries, groundwater, clean air and a shared office kitchen are all commons: things many people can draw on, where nobody pays more for using more.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "commons",
+            title: "Run the shared pasture",
+            intro:
+              "An invented village pasture feeds five herders' cows. A well-fed cow earns $1,000 a year and costs $300 to keep; when grass runs short, cows go hungry and earn less. Each year a herder adds a cow if the cows made money and sells one if they lost it. Choose how the pasture is run, or try an experiment, and watch 40 years.",
+            herders: 5,
+            startCows: 6,
+            share: 10,
+            years: 40,
+            regrow: 0.5,
+            eat: 0.25,
+            hungry: 40,
+            value: 1000,
+            upkeep: 300,
+            capMin: 20,
+            capMax: 80,
+            failBelow: 25,
+            caption: "Grass cover, as a share of a fully grown pasture, and cows on the pasture over 40 years.",
+            grassLabel: "Grass cover",
+            cowsLabel: "Cows",
+            heldPlotLabel: "Plots held back",
+            otherPlotLabel: "Plots not held back",
+            modes: [
+              { id: "shared", label: "One shared pasture", hint: "Every cow grazes the same grass." },
+              { id: "fenced", label: "Fenced into five plots", hint: "Each herder grazes only their own plot." },
+              { id: "cap", label: "Shared, with a cap", hint: "A limit on the whole herd, split equally and enforced." }
+            ],
+            holdersLabel: "Herders who hold back to 10 cows",
+            holdersHint: "The rest keep adding cows as long as their cows make money.",
+            capLabel: "Cap on the whole herd",
+            capHint: "Each herder may keep a fifth of it.",
+            holdsRule: "Holds back",
+            addsRule: "Adds while cows pay",
+            capRule: "Keeps to the cap",
+            presets: [
+              { id: "open", label: "Open pasture", mode: "shared", holders: 0, cap: 50 },
+              { id: "all", label: "Everyone holds back", mode: "shared", holders: 5, cap: 50 },
+              { id: "one", label: "One herder doesn't", mode: "shared", holders: 4, cap: 50 },
+              { id: "fence", label: "Fence it", mode: "fenced", holders: 4, cap: 50 },
+              { id: "cap", label: "Cap it at 50", mode: "cap", holders: 4, cap: 50 }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "What the pasture shows",
+                paras: [
+                  "On the open pasture, the first decade looks like success: more cows and more income every year. The grass is a large stock, and it hides the damage until the herd is far bigger than it can feed. Then it fails for everyone at once, and the herders spend years losing money on hungry cows.",
+                  "An agreement to hold back works only while everyone keeps it. A herder who breaks it earns more than the others, takes more of the grass, and still brings the pasture down. Fence the same pasture into plots, with the same herders and the same habits, and the one who overgrazes ruins only their own plot. The feedback now reaches the person who causes the damage.",
+                  "A cap works for everyone at once, but only if it's set from what the grass can feed. Many commons, such as fish, air and groundwater, can't be fenced, so this is often the only way out that's available."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “One herder doesn't”, then “Fence it”: same herders, same habits, different structure. Then set the cap to 55. The pasture looks fine for more than twenty years before it starts to fail.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Name the trap",
+            intro: "Six invented situations, four traps. Which trap is each one caught in?",
+            options: [
+              { id: "escalation", label: "Escalation", hint: "Each side sets its goal by the other's." },
+              { id: "success", label: "Success to the successful", hint: "Winning brings the means to win again." },
+              { id: "burden", label: "Shifting the burden", hint: "A quick fix weakens the real cure." },
+              { id: "drift", label: "Drift to low performance", hint: "The standard slips with each result." }
+            ],
+            items: [
+              {
+                text: "A help desk misses its four-hour response target, so the target becomes eight hours. The next year it misses eight, and the target becomes twelve.",
+                answer: "drift",
+                why: "The standard is set by recent results, so each disappointment lowers it. Hold the standard where it is, or set it by the best the team has done."
+              },
+              {
+                text: "Two cafés on the same street each cut prices to win customers from the other, until neither makes money on a cup.",
+                answer: "escalation",
+                why: "Each café's price is set by the other's, so two balancing loops have joined into one reinforcing loop. One way out is to stop matching and compete on something else."
+              },
+              {
+                text: "Each time a project slips, a team brings in outside contractors to rescue it. Two years on, nobody on the team understands the system the contractors keep fixing.",
+                answer: "burden",
+                why: "The rescue works, which is the problem: it relieves the symptom while the team's own skill withers. Use the contractors while rebuilding that skill, then step back."
+              },
+              {
+                text: "On an online marketplace, the sellers with the most reviews appear first in search, so they make the most sales and collect the most new reviews.",
+                answer: "success",
+                why: "Each win buys the visibility that wins the next sale. Marketplaces counter it by giving new sellers some visibility of their own, a way of leveling the field."
+              },
+              {
+                text: "Two neighboring towns compete for the same employers with ever-larger tax breaks, until neither collects enough to maintain its roads.",
+                answer: "escalation",
+                why: "Each town's offer is set by the other's. The race stops only when one side refuses to match, or both agree to a limit."
+              },
+              {
+                text: "A sales team makes its quarterly number with ever-deeper discounts in the last week. Customers learn to wait for them, so each quarter needs a bigger discount than the last.",
+                answer: "burden",
+                why: "The discount treats the symptom, a short quarter, while wearing away the real cure: customers willing to pay full price."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "4",
+                title: "The way out is in the structure",
+                paras: [
+                  "The ways out have a family resemblance. Restore feedback that's missing or too slow. Replace a goal that's set by the wrong thing, or relative to the wrong people. Rewrite rules that reward the wrong behavior. None of them depends on finding better people.",
+                  "They also tend to feel uncomfortable: holding back while others don't, keeping a standard after a bad year, refusing to match a rival's price cut. A trap is a trap because each step into it feels sensible to the person taking it."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Several of the ways out are <a href=\"@leverage-points\">leverage points</a>: information flows, rules and goals.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" },
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
+            { title: "Why systems surprise us", where: "Chapter 4" }
+          ],
+          cta: { page: "leverage-points", kicker: "Next", text: "Where to push: twelve leverage points" }
         }
       },
       // The meter-in-the-hall story and Meadows's caveat that the list is tentative are
@@ -523,7 +758,7 @@
           related: [
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
-            { title: "System traps and opportunities", where: "Chapter 5" },
+            { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
             { title: "Living in a world of systems", where: "Chapter 7" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }

@@ -376,6 +376,31 @@ test("TiS: delays make the car lot swing; slowing the response calms it", async 
   assert.match(await note(), /settles near its new target.* calmer than/);
 });
 
+test("TiS: the open pasture collapses; fencing and a cap restore the feedback", async () => {
+  await page.open("tis-traps");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 8);
+  const tiles = () => page.text(".cm .tiles");
+  const note = () => page.text('.cm [data-ref="note"]');
+  // Open pasture: every herder adds cows while they pay.
+  assert.match(await tiles(), /11% .* 0 .* \$0$/i);
+  assert.match(await note(), /peaks at 105 cows in year 15.* earned \$60,000 over 40 years.* each would have earned \$280,000/);
+  await page.click('.cm [data-preset="all"]');
+  assert.match(await tiles(), /67% .* 50 .* \$35,000$/i);
+  // One herder breaks the agreement: they earn more, and the pasture still fails.
+  await page.click('.cm [data-preset="one"]');
+  assert.match(await note(), /four who held back earned \$150,000 each.* the one herder who didn't earned \$251,000\. Breaking the agreement paid better/);
+  // Same herders on fenced plots: only the overgrazer pays.
+  await page.click('.cm [data-preset="fence"]');
+  assert.match(await note(), /kept their plots at 67% cover and earned \$280,000 each.* down to 11%, and earned \$60,000\. Nobody else paid/);
+  assert.match(await page.text(".cm-table tbody tr:last-child"), /^5 Adds while cows pay · plot at 11%\s+0\s+\$60,000$/);
+  // A cap works only if it's set from what the grass can feed.
+  await page.click('.cm [data-preset="cap"]');
+  assert.match(await note(), /That's the most the pasture can feed year after year/);
+  await slide(page, '.cm [data-input="cap"]', 55);
+  assert.match(await note(), /A cap of 55 cows is more than the grass can feed/);
+  assert.equal(await sort(["drift", "escalation", "burden", "success", "escalation", "burden"]), "6 of 6 right");
+});
+
 test("TiS: rank interventions by leverage", async () => {
   await page.open("tis-leverage-points");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".ladder-step").length), 12);

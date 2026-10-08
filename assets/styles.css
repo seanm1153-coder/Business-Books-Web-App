@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1609,6 +1609,45 @@ mark.m-fluff { background: var(--mark-fluff); }
   .rk-btns { flex-direction: column; }
 }
 
+/* ---------- Trap cards ---------- */
+
+.tc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem clamp(1.5rem, 3vw, 2.5rem); }
+.tc-card { min-width: 0; padding-top: 0.9rem; border-top: 1px solid var(--rule); }
+.tc-n { margin: 0; font-family: var(--mono); font-size: 0.75rem; color: var(--ink-2); }
+.tc-t { margin: 0.2rem 0 0; font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.2; }
+.tc-s { margin: 0.35rem 0 0.6rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; color: var(--pen); }
+.tc-d { margin: 0; font-size: 0.9375rem; }
+.tc-k { margin: 0.8rem 0 0.15rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+
+/* ---------- Commons ---------- */
+
+.cm-modes { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.cm-modes legend { padding: 0; margin-bottom: 0.6rem; }
+.cm-mode { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.1rem 0.6rem; align-items: baseline; padding: 0.65rem 0.8rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--field); cursor: pointer; }
+.cm-mode:hover { border-color: var(--ink-2); }
+.cm-mode.is-on { border-color: var(--pen); box-shadow: inset 0 0 0 1px var(--pen); }
+.cm-mode:focus-within { outline: 2px solid var(--pen); outline-offset: 2px; }
+.cm-mode input { margin: 0; accent-color: var(--pen); }
+.cm-mode-t { font-weight: 600; }
+.cm-mode-d { grid-column: 2; font-size: 0.8125rem; color: var(--ink-2); }
+/* Three short numbers stay on one row, even on a phone. */
+.cm .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.cm-when { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.cm-chart { width: 100%; min-height: 270px; }
+.cm-chart svg { display: block; }
+.cm-panel-t { fill: var(--ink); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+.cm-cows { fill: none; stroke: var(--series-cash); stroke-width: 2; stroke-linejoin: round; }
+.cm-plot { fill: none; stroke: var(--series-profit); stroke-width: 2; stroke-dasharray: 5 4; stroke-linejoin: round; }
+.cm-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.cm-table th, .cm-table td { padding: 0.4rem 0.4rem; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: baseline; }
+.cm-table thead th { font-family: var(--mono); font-size: 0.625rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); border-bottom-color: var(--ink); }
+.cm-table tbody th { font-weight: 400; }
+.cm-table td { font-family: var(--mono); font-size: 0.8125rem; white-space: nowrap; }
+.cm-table .cm-num { text-align: right; }
+.cm-table td.is-neg { color: var(--bad); }
+.cm-who { display: inline-block; min-width: 1.1rem; font-family: var(--mono); font-weight: 600; }
+.cm-how { color: var(--ink-2); }
+
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
    reader prefers reduced motion. Fill-mode "backwards" hands control back to the resting
@@ -1644,7 +1683,7 @@ mark.m-fluff { background: var(--mark-fluff); }
   .bench-check { position: static; }
   .spot-grid { grid-template-columns: minmax(0, 1fr); }
   .fin-top { grid-template-columns: minmax(0, 1fr); }
-  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid, .ls-grid { grid-template-columns: minmax(0, 1fr); }
+  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid, .ls-grid, .tc-list { grid-template-columns: minmax(0, 1fr); }
   .nl-ledger { position: static; }
   .ratio-detail { position: static; }
   .jc-out { position: static; }
