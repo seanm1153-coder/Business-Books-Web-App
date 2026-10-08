@@ -129,6 +129,11 @@ test("GSBS: buying growth adds sales but not value", async () => {
   assert.equal(await page.text('[data-math="gearhaus"] .deal-net dd'), "+$8m");
 });
 
+test("GSBS: four ways to raise an advantage's value", async () => {
+  await page.open("gsbs-using-advantage");
+  assert.equal(await sort(["deepen", "broaden", "demand", "protect", "broaden", "protect", "demand", "deepen"]), "8 of 8 right");
+});
+
 test("GSBS: strategy-as-hypothesis sorter", async () => {
   await page.open("gsbs-science-of-strategy");
   assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");

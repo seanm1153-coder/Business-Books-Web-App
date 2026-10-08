@@ -85,7 +85,7 @@
           { n: 9, title: "Using design", blurb: "Fitting resources and actions together so tightly that they work as one.", page: "using-design" },
           { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force.", page: "focus" },
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like.", page: "growth" },
-          { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one." },
+          { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one.", page: "using-advantage" },
           { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them." },
           { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings." },
           { n: 15, title: "Putting it together", blurb: "Nvidia's rise, worked through as one long example." }
@@ -1083,7 +1083,7 @@
         end: {
           related: [
             { title: "Focus", where: "Chapter 10", page: "focus" },
-            { title: "Using advantage", where: "Chapter 12" },
+            { title: "Using advantage", where: "Chapter 12", page: "using-advantage" },
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" }
           ],
@@ -1414,6 +1414,138 @@
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write actions that fit together" }
+        }
+      },
+
+      // The silver machine thought experiment, the four ways to increase an advantage's
+      // value, and the Resnicks' orchards follow my reading of Chapter 12. All three are
+      // unchecked against the chapter's wording.
+      "using-advantage": {
+        title: "Using advantage",
+        eyebrow: "Part II · Chapter 12",
+        dek:
+          "Having an advantage is not the same as making money from it. Rumelt's point is that the returns come from making an advantage more valuable over time, and he names four ways to do it.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "What an advantage is",
+                paras: [
+                  "An advantage is an asymmetry you can use: the ability to deliver more value than rivals, or the same value at a lower cost. It is always specific. It holds against particular competitors, for particular customers, and it can disappear when either changes.",
+                  "That makes advantage something to look for in detail, not a label to claim. A company can be better than its rivals at one thing, for one kind of buyer, and ordinary everywhere else."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Finding where your strength meets a rival's weakness is the subject of <a href=\"@discovering-power\">Discovering power</a>.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "The silver machine",
+                paras: [
+                  "Rumelt asks the reader to imagine owning a machine that produces a fixed amount of silver every year. It's valuable, but if you bought it at a fair price, you earn only a normal return on what you paid. The price already reflects what the machine produces.",
+                  "To do better than that, you have to make the machine itself more valuable: get more silver out of it, or put it to a use worth more. A business advantage works the same way. Owning one isn't enough; the gains come from increasing it."
+                ],
+                side: {
+                  label: "The same logic",
+                  html: "<p>It's why buying a company at a fair price adds size but not value, as the deals on <a href=\"@growth\">Growth</a> show.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "Four ways to raise its value",
+                paras: [
+                  "<strong>Deepen it:</strong> add more value for buyers, or cut costs further, where you already lead. <strong>Broaden it:</strong> carry the same strength to new products, customers or places. <strong>Create demand:</strong> get more buyers to want what you're best at. <strong>Protect it:</strong> make it harder for rivals to copy, so it lasts longer.",
+                  "Each works on a different part of what the advantage is worth: the edge itself, how widely it's used, how many people want it, and how long it lasts."
+                ],
+                side: {
+                  label: "A useful question",
+                  html: "<p>Which of the four is cheapest for us and hardest for a rival to match?</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Which way does it work?",
+            intro:
+              "Eight moves by companies that already have an advantage. For each, decide which of the four ways it raises that advantage's value. The companies are invented.",
+            options: [
+              { id: "deepen", label: "Deepen it", hint: "More value or lower cost where it already leads" },
+              { id: "broaden", label: "Broaden it", hint: "The same strength used in more places" },
+              { id: "demand", label: "Create demand", hint: "More buyers want what it's best at" },
+              { id: "protect", label: "Protect it", hint: "Harder for rivals to copy" }
+            ],
+            items: [
+              {
+                text: "Northline, already the fastest frame welder in the industry, redesigns its line to cut another 10% from the cost of each frame.",
+                answer: "deepen",
+                why: "The edge it already has, cheap and fast frames, gets bigger. Nothing about who it sells to changes."
+              },
+              {
+                text: "Northline starts selling its frames to two cargo-bike makers, who build them into their own bikes.",
+                answer: "broaden",
+                why: "The same welding strength now earns money from customers Northline didn't serve before."
+              },
+              {
+                text: "Northline funds a city campaign on how much faster commuting by bike is than driving.",
+                answer: "demand",
+                why: "It helps every bike seller a little, but the leader in commuter bikes gains the most from a bigger market."
+              },
+              {
+                text: "Northline patents its sealed gearbox and signs its two key engineers to long contracts.",
+                answer: "protect",
+                why: "Neither makes the gearbox better. Both make it harder and slower for a rival to copy, so the advantage lasts longer."
+              },
+              {
+                text: "A coffee roaster famous for its sourcing launches a cold brew made from the same beans and farm relationships.",
+                answer: "broaden",
+                why: "The sourcing advantage stays the same; it's applied to a new product."
+              },
+              {
+                text: "A software firm whose customers rarely leave builds deeper links into their accounting systems.",
+                answer: "protect",
+                why: "Switching becomes harder still, which keeps rivals out. The product may be no better for a new buyer."
+              },
+              {
+                text: "A large pistachio grower runs national ads persuading people to snack on pistachios.",
+                answer: "demand",
+                why: "Most of the extra demand flows to the biggest grower, so growing the market raises the value of its orchards."
+              },
+              {
+                text: "A hospital known for heart surgery invests in better aftercare and cuts complications further.",
+                answer: "deepen",
+                why: "It strengthens the very thing it's known for, for the patients it already serves."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "4",
+                title: "Pistachios and pomegranates",
+                paras: [
+                  "Rumelt describes Stewart and Lynda Resnick, who built a large farming business in California around pistachios, almonds and pomegranates. Owning the orchards was an advantage, but the bigger gains came from raising demand for the crops themselves: promoting pistachios as a snack, and turning pomegranates into a branded juice. As the biggest grower, they captured the largest share of the market they had helped create."
+                ],
+                side: {
+                  label: "Why it fits",
+                  html: "<p>A leader gains most from a bigger market. A small grower running the same ads would mostly have helped its rivals.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Discovering power", where: "Chapter 2", page: "discovering-power" },
+            { title: "Growth", where: "Chapter 11", page: "growth" },
+            { title: "Focus", where: "Chapter 10", page: "focus" },
+            { title: "Using dynamics", where: "Chapter 13" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a strategy built on an advantage" }
         }
       },
 

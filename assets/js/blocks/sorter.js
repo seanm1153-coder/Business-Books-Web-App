@@ -29,7 +29,7 @@
         card.innerHTML = `
           <p class="sorter-progress"><span class="tnum">${i + 1} of ${block.items.length}</span>${answers.filter((a, k) => a === block.items[k].answer).length ? ` · ${answers.filter((a, k) => a === block.items[k].answer).length} right so far` : ""}</p>
           <p class="sorter-q">${esc(item.text)}</p>
-          <div class="sorter-opts" role="group" aria-label="Your answer">
+          <div class="sorter-opts${block.options.length === 4 ? " sorter-opts-4" : ""}" role="group" aria-label="Your answer">
             ${block.options
               .map(
                 (o) => `<button type="button" class="sorter-opt${picked === o.id ? (right ? " is-right" : " is-wrong") : ""}${picked && o.id === item.answer && !right ? " is-answer" : ""}" data-opt="${o.id}"${picked ? " disabled" : ""}>
