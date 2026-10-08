@@ -167,7 +167,7 @@
             ? '<span class="chip chip-muted">Forthcoming</span>'
             : seen
               ? `<span class="book-progress">${seen} of ${total} pages explored</span>`
-              : `<span class="book-count">${total} pages</span>`
+              : `<span class="book-count">${total} ${total === 1 ? "page" : "pages"}</span>`
         }
       </span>`;
     return `<li class="book c-${b.cover} ${open ? "is-open" : "is-forthcoming"}" style="--i: ${i}">${

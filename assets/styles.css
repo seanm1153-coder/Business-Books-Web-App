@@ -49,6 +49,9 @@
   --c-pb: #E0A526;
   --c-pb-ink: #1C1A12;
   --c-pb-dot: rgba(28, 26, 18, 0.28);
+  --c-tis: #8CC0AE;
+  --c-tis-ink: #0F2A22;
+  --c-tis-loop: rgba(15, 42, 34, 0.42);
   --page-edge: #D9D6CC;
   --page-edge-2: #F2F0EA;
 
@@ -278,6 +281,7 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 .book.c-gsbs { --c: var(--c-gsbs); --ci: var(--c-gsbs-ink); }
 .book.c-fi { --c: var(--c-fi); --ci: var(--c-fi-ink); }
 .book.c-pb { --c: var(--c-pb); --ci: var(--c-pb-ink); }
+.book.c-tis { --c: var(--c-tis); --ci: var(--c-tis-ink); }
 
 .book-3d {
   position: relative;
@@ -348,6 +352,18 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
   background: var(--ci);
   box-shadow: 0 0 0 6px var(--c), 0 0 0 7px var(--ci);
 }
+/* Thinking in Systems cover: two feedback loops sharing one stock */
+.c-tis .cover::before,
+.c-tis .cover::after {
+  content: "";
+  position: absolute; top: 56%;
+  width: 34%; aspect-ratio: 1; margin-top: -17%;
+  border: 1.5px solid var(--c-tis-loop);
+  border-radius: 50%;
+}
+.c-tis .cover::before { left: 22%; border-right-color: transparent; }
+.c-tis .cover::after { left: 44%; border-left-color: transparent; }
+
 /* Forthcoming books are dimmed per face; opacity on .book-3d would flatten the 3D. */
 .is-forthcoming .cover, .is-forthcoming .pages { filter: brightness(0.62) saturate(0.7); }
 .is-forthcoming .spine { filter: brightness(0.45) saturate(0.7); }
@@ -755,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1512,6 +1528,25 @@ mark.m-fluff { background: var(--mark-fluff); }
 .tv-math strong { color: var(--ink); }
 .tv .happened, .tv .fin-foot { max-width: 52rem; }
 
+/* ---------- Bathtub ---------- */
+
+.bt-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+.bt-left { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.bt-right { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.bt-tub { display: block; width: 100%; max-width: 20rem; height: auto; }
+.bt-wall { fill: none; stroke: var(--ink); stroke-width: 2; }
+.bt-water { fill: var(--mark-face); }
+.bt-surface { stroke: var(--pen); stroke-width: 2; }
+.bt-pipe { fill: none; stroke: var(--ink-2); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.bt-stream { fill: var(--pen); opacity: 0.55; }
+.bt-label { font-family: var(--mono); font-size: 9px; fill: var(--ink-2); }
+.bt-chart-fig { margin: 0; }
+.bt-chart { width: 100%; min-height: 190px; }
+.bt-chart svg { display: block; }
+.bt-line { fill: none; stroke: var(--series-profit); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.bt-dot { fill: var(--series-profit); stroke: var(--paper); stroke-width: 2; }
+.bt-cap { margin: 0.4rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
+
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
    reader prefers reduced motion. Fill-mode "backwards" hands control back to the resting
@@ -1547,7 +1582,7 @@ mark.m-fluff { background: var(--mark-fluff); }
   .bench-check { position: static; }
   .spot-grid { grid-template-columns: minmax(0, 1fr); }
   .fin-top { grid-template-columns: minmax(0, 1fr); }
-  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid { grid-template-columns: minmax(0, 1fr); }
+  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid { grid-template-columns: minmax(0, 1fr); }
   .nl-ledger { position: static; }
   .ratio-detail { position: static; }
   .jc-out { position: static; }

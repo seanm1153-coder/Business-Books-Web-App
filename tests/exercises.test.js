@@ -331,6 +331,24 @@ test("FI: working capital levers free cash", async () => {
   assert.equal(await page.text('[data-ref="ccc"]'), "80 days");
 });
 
+test("TiS: the bathtub keeps rising while the faucet closes", async () => {
+  await page.open("tis-stocks-flows");
+  const level = () => page.text('.bt [data-ref="level"]');
+  const note = () => page.text('.bt [data-ref="note"]');
+  assert.equal(await level(), "20 L");
+  await page.click('.bt [data-ref="jump"]');
+  assert.equal(await level(), "35 L");
+  await page.click('.bt [data-scenario="drain"]');
+  await page.click('.bt [data-ref="jump"]');
+  assert.equal(await level(), "75 L");
+  await page.click('.bt [data-scenario="ease"]');
+  await page.click('.bt [data-ref="jump"]');
+  assert.match(await note(), /faucet is closing, yet the level keeps rising/);
+  // Taking the faucet by hand stops the scripted ramp.
+  await slide(page, '.bt [data-flow="inflow"]', 5);
+  assert.match(await note(), /level holds still/);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
