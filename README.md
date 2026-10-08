@@ -41,6 +41,7 @@ npm test
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts are saved for the reader. |
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
 | Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
+| Revenue recognition | `#fi-revenue` | Revenue counts when it's earned, not when it's paid: sort eight September deals (deposits, gift cards, prepaid servicing, a signed contract) by how much counts this month. |
 | The many forms of profit | `#fi-forms-of-profit` | Gross, operating and net profit and their margins, with six moves (a price rise, a marketing cut, a cheaper loan, a one-time gain…) that each reach only some of them. |
 | Why the balance sheet balances | `#fi-balance-sheet` | Double-entry bookkeeping: post eight of Northline's transactions by choosing the two accounts each one moves, with a balance scale that tips when an entry doesn't balance. |
 | Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |

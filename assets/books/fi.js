@@ -47,7 +47,7 @@
         chapters: [
           { n: 5, title: "Profit is an estimate", blurb: "Profit depends on when revenue and costs are counted, not just on what happened.", page: "profit-estimate" },
           { n: 6, title: "Cracking the code of the income statement", blurb: "How to read one, line by line." },
-          { n: 7, title: "Revenue: the issue is recognition", blurb: "A sale counts when it's earned, which may be long before it's paid." },
+          { n: 7, title: "Revenue: the issue is recognition", blurb: "A sale counts when it's earned, which may be long before it's paid.", page: "revenue" },
           { n: 8, title: "Costs and expenses", blurb: "Few hard-and-fast rules, and plenty of room for judgment." },
           { n: 9, title: "The many forms of profit", blurb: "Gross, operating and net profit, and what each tells you.", page: "forms-of-profit" }
         ]
@@ -231,7 +231,7 @@
         end: {
           related: [
             { title: "The rules accountants follow", where: "Chapter 4" },
-            { title: "Revenue: the issue is recognition", where: "Chapter 7" },
+            { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
             { title: "Assets: more estimates and assumptions", where: "Chapter 11" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
           ],
@@ -662,6 +662,133 @@
             { title: "How cash connects with everything else", where: "Chapter 18", page: "cash-connects" }
           ],
           cta: { page: "cash-connects", kicker: "Next", text: "Build the bridge from profit to cash" }
+        }
+      },
+
+      revenue: {
+        title: "Revenue: the issue is recognition",
+        navLabel: "Revenue",
+        eyebrow: "Part II · Chapter 07",
+        dek:
+          "Revenue is the top line, so it looks like the most solid number on the income statement. But when a sale counts is a judgment, and the answer often has little to do with when the cash arrives.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Earned, not paid",
+                paras: [
+                  "The basic rule is that revenue is recorded when it's earned: when the company delivers the product or performs the service. A sale on 30-day terms counts the day the goods are delivered, even though no money has come in. Cash paid in advance doesn't count yet, because nothing has been delivered.",
+                  "So revenue and cash can sit in different months, or different years. The income statement follows delivery; the bank balance follows payment."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The first judgment call on <a href=\"@profit-estimate\">Profit is an estimate</a> is exactly this: does a big order shipped at month-end count now or later?</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Why it's a judgment",
+                paras: [
+                  "Plenty of deals have no single moment of delivery. A year of servicing is delivered a month at a time. A product sold with installation and training may not be complete until all three are done. Accounting standards set out how to divide these up, but applying them still takes judgment.",
+                  "That is why revenue is one of the first places to look when results seem too good. Counting sales a little early is one of the simplest ways to make a quarter look better."
+                ],
+                side: {
+                  label: "A useful question",
+                  html: "<p>What exactly has the customer received so far? Revenue should match that, not the invoice or the cash.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Does it count in September?",
+            intro:
+              "Eight things happen at Northline, the invented bike maker, in September. For each, decide how much counts as September revenue: all of it, some of it, or none of it yet.",
+            options: [
+              { id: "all", label: "All of it", hint: "Earned in September" },
+              { id: "some", label: "Some of it", hint: "Earned partly in September" },
+              { id: "none", label: "None of it", hint: "Not earned in September" }
+            ],
+            rewriteLabel: "Revenue in September",
+            items: [
+              {
+                text: "Northline ships $40,000 of bikes to a shop on 30-day terms. No cash has arrived yet.",
+                answer: "all",
+                why: "The bikes are delivered, so the sale is earned. When the shop pays only changes cash and receivables, not revenue.",
+                rewrite: "$40,000"
+              },
+              {
+                text: "A rider pays a $2,000 deposit for a custom bike that will be built and delivered in November.",
+                answer: "none",
+                why: "The cash is in the bank, but nothing has been delivered. Until November the deposit is a liability: Northline owes the rider a bike or the money back.",
+                rewrite: "$0. The $2,000 is a liability until November."
+              },
+              {
+                text: "A delivery company pays $12,000 on September 1 for a year of servicing for its bike fleet.",
+                answer: "some",
+                why: "The service is delivered month by month, so the revenue is too: one twelfth now, and the rest over the next eleven months.",
+                rewrite: "$1,000"
+              },
+              {
+                text: "Northline sells $5,000 of gift cards in September. None has been used yet.",
+                answer: "none",
+                why: "A gift card is a promise to deliver later. It becomes revenue when someone spends it on a bike or a repair.",
+                rewrite: "$0. The cards are a liability until they're used."
+              },
+              {
+                text: "A shop pays $18,000 in September for bikes Northline delivered in August.",
+                answer: "none",
+                why: "That sale was earned, and counted, in August. September's payment just turns a receivable into cash.",
+                rewrite: "$0. It was August's revenue."
+              },
+              {
+                text: "Northline delivers $15,000 of bikes to a school that paid for them back in July.",
+                answer: "all",
+                why: "Delivery happens now, so the revenue counts now. The July payment sat on the balance sheet as a liability until today.",
+                rewrite: "$15,000"
+              },
+              {
+                text: "Ten riders each pay $900 up front for a three-month bike maintenance course that starts on September 1.",
+                answer: "some",
+                why: "A third of the course is delivered in September, so a third of the $9,000 counts now.",
+                rewrite: "$3,000"
+              },
+              {
+                text: "Northline signs a $100,000 contract to supply a city's bike-share scheme next spring.",
+                answer: "none",
+                why: "Signing a contract isn't delivering anything. It's good news for next year's revenue, not this month's.",
+                rewrite: "$0"
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Cash in advance is a debt",
+                paras: [
+                  "Deposits, gift cards and prepaid contracts all bring cash in before anything is delivered. Until delivery, that money is a liability, often called deferred revenue: the company owes the customer either the product or a refund. As it delivers, the liability shrinks and revenue grows.",
+                  "A company with lots of deferred revenue can look less profitable than its bank balance suggests, and the opposite is true for one selling heavily on credit."
+                ],
+                side: {
+                  label: "On the balance sheet",
+                  html: "<p>Post a sale and its cost to the books in <a href=\"@balance-sheet\">Why the balance sheet balances</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Costs and expenses", where: "Chapter 8" },
+            { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
+          ],
+          cta: { page: "forms-of-profit", kicker: "Next", text: "See which profits each move reaches" }
         }
       },
 

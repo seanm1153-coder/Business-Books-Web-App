@@ -183,6 +183,19 @@ test("FI: the profit-to-cash bridge checks itself against the cash account", asy
   assert.match(await page.text('[data-why="dep"]'), /^Right\. Adds cash/);
 });
 
+test("FI: revenue recognition sorter shows each month's figure", async () => {
+  await page.open("fi-revenue");
+  await page.click('[data-opt="all"]');
+  await page.click('[data-action="next"]');
+  await page.click('[data-opt="none"]');
+  await page.click('[data-action="next"]');
+  await page.click('[data-opt="some"]');
+  assert.match(await page.text(".sorter-rewrite"), /\$1,000$/);
+  await page.click('[data-action="next"]');
+  // The gift cards (item 4) are answered wrong on purpose.
+  assert.equal(await sort(["all", "none", "all", "some", "none"]), "7 of 8 right");
+});
+
 test("FI: double entry keeps the balance sheet in balance", async () => {
   await page.open("fi-balance-sheet");
   const post = async ([a1, s1], [a2, s2]) => {
