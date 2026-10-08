@@ -134,6 +134,11 @@ test("GSBS: four ways to raise an advantage's value", async () => {
   assert.equal(await sort(["deepen", "broaden", "demand", "protect", "broaden", "protect", "demand", "deepen"]), "8 of 8 right");
 });
 
+test("GSBS: inertia and entropy sorter", async () => {
+  await page.open("gsbs-inertia-entropy");
+  assert.equal(await sort(["routine", "culture", "proxy", "entropy", "routine", "culture", "proxy", "entropy"]), "8 of 8 right");
+});
+
 test("GSBS: strategy-as-hypothesis sorter", async () => {
   await page.open("gsbs-science-of-strategy");
   assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");

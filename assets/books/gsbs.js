@@ -87,7 +87,7 @@
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like.", page: "growth" },
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one.", page: "using-advantage" },
           { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them." },
-          { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings." },
+          { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings.", page: "inertia-entropy" },
           { n: 15, title: "Putting it together", blurb: "Nvidia's rise, worked through as one long example." }
         ]
       },
@@ -1546,6 +1546,127 @@
             { title: "Using dynamics", where: "Chapter 13" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy built on an advantage" }
+        }
+      },
+
+      // The three kinds of inertia and the General Motors brands as an example of entropy
+      // follow my reading of Chapter 14; both are unchecked against the chapter's wording.
+      "inertia-entropy": {
+        title: "Inertia and entropy",
+        eyebrow: "Part II · Chapter 14",
+        dek:
+          "Organizations resist change, and left alone they slowly fall into disorder. Rumelt treats both as forces a strategist has to reckon with, in their own company and, as opportunities, in their rivals'.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three kinds of inertia",
+                paras: [
+                  "<strong>Inertia of routine</strong> is the pull of established procedures. Routines make an organization efficient at what it already does, and they keep running after the situation that justified them has gone. They are the easiest kind to change once someone with authority decides to.",
+                  "<strong>Cultural inertia</strong> runs deeper: shared habits of mind about what matters, who gets listened to and how work is done. It changes slowly, and rarely by announcement.",
+                  "<strong>Inertia by proxy</strong> is when a company doesn't change because its customers don't. If existing buyers rarely switch, keeping the old product and the old prices can stay profitable for years, until a rival goes after those buyers or new customers arrive who expect something better."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>A system where several parts must change together is easy to get <a href=\"@chain-link\">stuck</a> in, which adds to inertia.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Entropy",
+                paras: [
+                  "Entropy is the tendency of an organization to drift into disorder unless someone keeps working against it. Product lines multiply, brands blur into each other, costs creep up and old arrangements outlive their purpose.",
+                  "Rumelt's example is General Motors, whose car divisions were once arranged as a clear price ladder from Chevrolet up to Cadillac. Over the decades the ranges spread and overlapped until GM's own brands were competing with each other for the same buyers."
+                ],
+                side: {
+                  label: "The manager's job",
+                  html: "<p>Much of management is simply pushing back against entropy: pruning, simplifying and restating what each part is for.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Which force is at work?",
+            intro:
+              "Eight organizations, each held back by something. Decide whether it's routine, culture, customers who don't change, or a slow drift into disorder. The organizations are invented.",
+            options: [
+              { id: "routine", label: "Routine", hint: "Procedures that outlived their reason" },
+              { id: "culture", label: "Culture", hint: "Deep habits about what matters" },
+              { id: "proxy", label: "Inertia by proxy", hint: "Customers who don't change" },
+              { id: "entropy", label: "Entropy", hint: "A slow drift into disorder" }
+            ],
+            items: [
+              {
+                text: "A bank still runs a 30-step approval for small loans, designed for paper files, years after everything moved online.",
+                answer: "routine",
+                why: "A procedure kept running after the reason for it disappeared. A manager with authority could cut it quickly."
+              },
+              {
+                text: "At a manufacturer, engineers quietly ignore any idea that comes from marketing, as they always have.",
+                answer: "culture",
+                why: "Nobody wrote this down as a rule. It's a shared belief about whose ideas count, and it won't change by memo."
+              },
+              {
+                text: "A cable company keeps its old prices and packages because most of its customers never shop around.",
+                answer: "proxy",
+                why: "The company isn't changing because its customers aren't. It pays, for now, and leaves an opening for a rival."
+              },
+              {
+                text: "A clothing retailer's brands slowly multiply until five of them sell nearly the same jacket at nearly the same price.",
+                answer: "entropy",
+                why: "Nobody planned the overlap. It built up because no one kept the ranges distinct."
+              },
+              {
+                text: "A newspaper keeps its print-era schedule and layout meetings, though most readers now read on their phones.",
+                answer: "routine",
+                why: "Working procedures built for one situation keep running in another."
+              },
+              {
+                text: "A hospital's senior surgeons reject a safety checklist as an insult to their professional judgment.",
+                answer: "culture",
+                why: "The resistance comes from a deeply held idea of what a surgeon is, not from a procedure."
+              },
+              {
+                text: "A software vendor earns steady fees from old clients who would find switching painful, so it sees little reason to modernize.",
+                answer: "proxy",
+                why: "Its clients' reluctance to move stands in for the vendor's own. The risk arrives with the first competitor that makes switching easy."
+              },
+              {
+                text: "A restaurant chain's menu creeps from 20 dishes to 90 as each manager adds a favorite, and quality slips.",
+                answer: "entropy",
+                why: "Each addition seemed harmless. Together they turned a tight menu into a sprawling one."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Openings for rivals",
+                paras: [
+                  "Inertia and entropy are problems at home and opportunities elsewhere. A rival held back by routine will be slow to respond. One whose customers rarely switch has little practice at winning them back. One whose product lines have blurred has left gaps a focused competitor can fill.",
+                  "So part of a diagnosis is asking not only what's changing in the market, but which competitors are least able to change with it."
+                ],
+                side: {
+                  label: "Next in the book",
+                  html: "<p>Chapter 15 brings these ideas together in one long example: Nvidia's rise in graphics chips.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Using dynamics", where: "Chapter 13" },
+            { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
+            { title: "Growth", where: "Chapter 11", page: "growth" },
+            { title: "Putting it together", where: "Chapter 15" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Diagnose what's holding a company back" }
         }
       },
 

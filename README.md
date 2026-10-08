@@ -37,6 +37,7 @@ npm test
 | Focus | `#gsbs-focus` | Coordinated policies aimed at the right target, with Crown Cork & Seal and an exercise where Northline Bikes aims five policies at one group of riders, or at everyone, and sees which groups it leads. |
 | Growth | `#gsbs-growth` | Growth as the outcome of an advantage, Crown after Connelly, and a deal list where buying four companies doubles sales while the owners end up poorer. |
 | Using advantage | `#gsbs-using-advantage` | What an advantage is, Rumelt's silver machine, and a four-way sort of moves that deepen, broaden, create demand for or protect an advantage. |
+| Inertia and entropy | `#gsbs-inertia-entropy` | Inertia of routine, cultural inertia, inertia by proxy and entropy, with a four-way sort of invented organizations held back by each. |
 | Strategy as hypothesis | `#gsbs-science-of-strategy` | Strategy as an educated, testable judgment, with a "hypothesis or article of faith?" sort. |
 | The kernel | `#gsbs-kernel` | A concept page with an interactive figure (general form, Desert Storm, Apple 1997), sidenotes and definition pop-ups. |
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts are saved for the reader. |
