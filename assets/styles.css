@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1547,6 +1547,29 @@ mark.m-fluff { background: var(--mark-fluff); }
 .bt-dot { fill: var(--series-profit); stroke: var(--paper); stroke-width: 2; }
 .bt-cap { margin: 0.4rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
 
+/* ---------- Loop simulator ---------- */
+
+.ls-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+.ls-left, .ls-right { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.ls-diagram { display: block; width: 100%; max-width: 22rem; height: auto; }
+.ls-stock { fill: var(--field); stroke: var(--ink); stroke-width: 1.5; }
+.ls-stock-t { font-family: var(--mono); font-size: 11px; fill: var(--ink); }
+.ls-flow { stroke: var(--ink-2); stroke-width: 3; }
+.ls-flow-t { font-family: var(--mono); font-size: 9.5px; fill: var(--ink-2); }
+.ls-loop { fill: none; stroke: var(--ink-2); stroke-width: 1.5; }
+.ls-head { fill: var(--ink-2); }
+.ls-loop-c { fill: var(--paper); stroke-width: 1.5; }
+.ls-loop-c.is-balancing { stroke: var(--pen); }
+.ls-loop-c.is-reinforcing { stroke: var(--series-cash); }
+.ls-loop-t { font-family: var(--mono); font-size: 11px; font-weight: 600; fill: var(--ink); }
+.ls-kind { margin: 0; font-size: 0.9375rem; }
+.ls-toggle { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; cursor: pointer; }
+.ls-toggle input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--pen); }
+.ls-fig { margin: 0; }
+.ls-chart { width: 100%; min-height: 200px; }
+.ls-chart svg { display: block; }
+.ls-goal { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 4 4; }
+
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
    reader prefers reduced motion. Fill-mode "backwards" hands control back to the resting
@@ -1582,7 +1605,7 @@ mark.m-fluff { background: var(--mark-fluff); }
   .bench-check { position: static; }
   .spot-grid { grid-template-columns: minmax(0, 1fr); }
   .fin-top { grid-template-columns: minmax(0, 1fr); }
-  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid { grid-template-columns: minmax(0, 1fr); }
+  .chain-grid, .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .tpl-grid, .pf-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid, .ls-grid { grid-template-columns: minmax(0, 1fr); }
   .nl-ledger { position: static; }
   .ratio-detail { position: static; }
   .jc-out { position: static; }

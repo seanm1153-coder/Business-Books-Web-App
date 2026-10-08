@@ -26,7 +26,7 @@
     contentsDesc: "From stocks and flows to system traps and leverage points.",
     mapNote: "Numbered rows are chapters; the rows between them are sections with pages of their own. Pages open as they're written.",
     casesTitle: "The systems Meadows uses",
-    nav: ["stocks-flows"],
+    nav: ["stocks-flows", "feedback"],
 
     parts: [
       {
@@ -34,7 +34,7 @@
         title: "System structure and behavior",
         chapters: [
           { n: 1, title: "The basics", blurb: "Elements, interconnections and purpose; stocks, and the flows that fill and drain them.", page: "stocks-flows" },
-          { title: "Feedback loops", blurb: "Balancing loops pull a stock toward a goal; reinforcing loops make it grow or collapse." },
+          { title: "Feedback loops", blurb: "Balancing loops pull a stock toward a goal; reinforcing loops make it grow or collapse.", page: "feedback" },
           { n: 2, title: "A brief visit to the systems zoo", blurb: "Small models of common systems: a thermostat, a population, a car dealer's lot, an oil field, a fishery." },
           { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand." }
         ]
@@ -60,8 +60,8 @@
 
     cases: [
       { era: "Chapter 1", title: "A bathtub", blurb: "One stock, one inflow, one outflow: the simplest system there is.", tag: "Stocks and flows", page: "stocks-flows" },
-      { era: "Chapter 1", title: "A cooling cup of coffee", blurb: "A balancing loop: the hotter the coffee, the faster it cools toward room temperature.", tag: "Feedback loops" },
-      { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops" },
+      { era: "Chapter 1", title: "A cooling cup of coffee", blurb: "A balancing loop: the hotter the coffee, the faster it cools toward room temperature.", tag: "Feedback loops", page: "feedback" },
+      { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo" },
       { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays" },
       { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested for ever, or fished to collapse.", tag: "Systems zoo" }
@@ -147,10 +147,137 @@
         ],
         end: {
           related: [
-            { title: "Feedback loops", where: "Chapter 1" },
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Delays and oscillation", where: "Chapter 2" },
             { title: "Why systems surprise us", where: "Chapter 4" },
             { title: "Leverage points", where: "Chapter 6" }
+          ],
+          cta: { page: "feedback", kicker: "Next", text: "Add feedback: loops that run the stock" }
+        }
+      },
+      "feedback": {
+        navLabel: "Feedback",
+        title: "Feedback loops",
+        eyebrow: "Part I · Chapter 01",
+        dek:
+          "A system starts to run itself when a stock affects its own flows. Meadows calls that a feedback loop, and there are only two kinds: loops that pull a stock toward a goal, and loops that make it grow on itself.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "When a stock talks back",
+                paras: [
+                  "In the bathtub, someone outside the system works the faucet. Most real systems don't need that: the level of a stock itself changes the flows in or out. A cup of coffee loses heat faster when it's hotter; a bank account earns more interest when it's bigger. Each is a closed chain from the stock, through a rule or a decision or a law of physics, back to a flow that changes the stock.",
+                  "Meadows names two kinds. A <strong>balancing loop</strong> works against a gap: it pulls a stock toward a goal and keeps it there. A <strong>reinforcing loop</strong> amplifies whatever is happening: growth feeds more growth, and decline feeds more decline."
+                ],
+                side: {
+                  label: "In diagrams",
+                  html: "<p>Loops are marked B for balancing and R for reinforcing. Reading a diagram mostly means finding the loops and asking which one is stronger.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Goal-seeking and runaway",
+                paras: [
+                  "Balancing loops produce goal-seeking behavior. The bigger the gap, the faster the correction, so the stock moves quickly at first and then slows as it closes in. A thermostat, a driver keeping to a lane and a shop restocking its shelves all work this way.",
+                  "Reinforcing loops produce exponential growth or collapse. Because the change is a share of the stock, the stock grows by the same percentage each period and by ever larger amounts. A handy rule: something growing at a steady rate doubles in about 70 divided by the percentage growth rate, so 7% a year doubles in about ten years."
+                ],
+                side: {
+                  label: "Vicious and virtuous",
+                  html: "<p>Reinforcing loops run both ways. The same structure that compounds savings compounds debt, and a price war that feeds itself is a reinforcing loop too.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "loop-sim",
+            title: "Run the loops",
+            intro:
+              "Three small systems, one stock each. Change the settings and watch the shape of the curve change, not only its size.",
+            systems: [
+              {
+                id: "coffee",
+                label: "Cooling coffee",
+                model: "cooling",
+                kind: "One balancing loop: the bigger the gap to the room, the faster the drink cools.",
+                stockShort: "Temperature",
+                outflow: "Heat lost",
+                loops: [{ kind: "balancing", label: "Cooling" }],
+                unit: "deg",
+                goalParam: "room",
+                goalLabel: "Room temperature",
+                caption: "Temperature of the drink, in °C, over 60 minutes.",
+                params: [
+                  { key: "start", label: "Starting temperature", min: 0, max: 100, step: 1, value: 85, format: "deg", hint: "Try a cold drink too: below room temperature, the same loop warms it." },
+                  { key: "room", label: "Room temperature", min: 0, max: 40, step: 1, value: 20, format: "deg" },
+                  { key: "k", label: "Cooling rate", min: 0.02, max: 0.2, step: 0.01, value: 0.08, format: "gapPerMin", hint: "A thin paper cup cools faster than a thick mug." }
+                ]
+              },
+              {
+                id: "savings",
+                label: "Money in the bank",
+                model: "interest",
+                kind: "One reinforcing loop: the bigger the balance, the more interest it earns.",
+                stockShort: "Money",
+                inflow: "Interest",
+                loops: [{ kind: "reinforcing", label: "Interest" }],
+                unit: "money",
+                caption: "Balance, in dollars, over 40 years.",
+                params: [
+                  { key: "start", label: "Starting balance", min: 100, max: 10000, step: 100, value: 1000, format: "money" },
+                  { key: "r", label: "Interest rate", min: 0, max: 0.15, step: 0.005, value: 0.05, format: "pctYear" }
+                ]
+              },
+              {
+                id: "population",
+                label: "A population",
+                model: "population",
+                kind: "Two loops on one stock: births reinforce, deaths balance. Whichever is stronger decides the behavior.",
+                stockShort: "Population",
+                inflow: "Births",
+                outflow: "Deaths",
+                loops: [
+                  { kind: "reinforcing", label: "Births" },
+                  { kind: "balancing", label: "Deaths" }
+                ],
+                unit: "millions",
+                caption: "Population, in millions, over 100 years.",
+                params: [
+                  { key: "start", label: "Starting population", min: 10, max: 200, step: 10, value: 100, format: "millions" },
+                  { key: "b", label: "Birth rate", min: 0, max: 0.05, step: 0.001, value: 0.03, format: "pctYear" },
+                  { key: "d", label: "Death rate", min: 0, max: 0.05, step: 0.001, value: 0.01, format: "pctYear" },
+                  { key: "falling", type: "toggle", label: "Let the birth rate fall over the century", value: false },
+                  { key: "bEnd", label: "Birth rate by year 100", min: 0, max: 0.05, step: 0.001, value: 0.005, format: "pctYear", dependsOn: "falling" }
+                ]
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Shifting dominance",
+                paras: [
+                  "Most real systems have several loops acting on the same stock, and the behavior depends on which is stronger at the time. In the population, births and deaths are both proportional to the population. If the birth rate is higher, the reinforcing loop dominates and the population grows; if the death rate is higher, it shrinks.",
+                  "Dominance can shift without anyone pushing the system from outside. Let the birth rate fall slowly and the same population grows for decades, peaks, and turns down. Nothing about the structure changed. That's one reason systems surprise people: a trend that has held for years can reverse on its own."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>On the population tab, tick “Let the birth rate fall over the century”. Growth continues for 80 years, then the curve bends over.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
+            { title: "A brief visit to the systems zoo", where: "Chapter 2" },
+            { title: "Delays and oscillation", where: "Chapter 2" },
+            { title: "Why systems surprise us", where: "Chapter 4" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

@@ -349,6 +349,18 @@ test("TiS: the bathtub keeps rising while the faucet closes", async () => {
   assert.match(await note(), /level holds still/);
 });
 
+test("TiS: feedback loops seek goals, compound and shift dominance", async () => {
+  await page.open("tis-feedback");
+  const note = () => page.text('.ls [data-ref="note"]');
+  assert.match(await note(), /about 5\.2° in the first minute.* within 1° of the room after 52 minutes/);
+  await page.click('.ls [data-sys="savings"]');
+  assert.match(await note(), /doubles every 14 years .* \$7,040 after 40 years/);
+  await page.click('.ls [data-sys="population"]');
+  assert.match(await note(), /grows 2% a year/);
+  await page.check('.ls [data-param="falling"]');
+  assert.match(await note(), /in year 80 it drops below the death rate.* peaks at about 223 million/);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
