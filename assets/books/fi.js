@@ -89,7 +89,7 @@
         n: "VI",
         title: "Return on investment",
         chapters: [
-          { title: "The building blocks of ROI", blurb: "Time value of money, cost of capital and the hurdle rate." },
+          { title: "The building blocks of ROI", blurb: "Time value of money, cost of capital and the hurdle rate.", page: "roi-basics" },
           { title: "Figuring ROI", blurb: "Payback, net present value and internal rate of return, worked through.", page: "roi" }
         ]
       },
@@ -947,6 +947,94 @@
         }
       },
 
+      "roi-basics": {
+        title: "The building blocks of ROI",
+        navLabel: "Time value",
+        eyebrow: "Part VI · Return on investment",
+        dek:
+          "Before you can judge an investment you need two ideas: money today is worth more than the same money later, and the rate that measures the difference is the company's cost of capital.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "A dollar today is worth more",
+                paras: [
+                  "Money you have now can be put to work: invested, lent or used to pay down debt. So $10,000 today is worth more than $10,000 in a year. At 8% a year, $10,000 grows to $10,800 after one year and to $14,693 after five. That growth on growth is compounding.",
+                  "Run it backwards and you get present value: what a future sum is worth today. $14,693 arriving in five years is worth $10,000 now, at 8%. Every ROI method in the next chapter rests on this step."
+                ],
+                side: {
+                  label: "The formula",
+                  html: "<p>Present value = future amount ÷ (1 + rate)<sup>years</sup></p>"
+                }
+              },
+              {
+                n: "2",
+                title: "The rate that matters",
+                paras: [
+                  "Which rate? For a company, the starting point is its cost of capital: what it pays for the money it uses. That blends the interest on its loans with the return its owners expect on their stake, which is higher, because owners take more risk than lenders.",
+                  "Companies then set a hurdle rate, the minimum return a project has to clear before it's approved. It's usually at or above the cost of capital, and often higher for riskier projects."
+                ],
+                side: {
+                  label: "At Northline",
+                  html: "<p>The invented bike maker sets its hurdle rate at 12%. A project that can't beat 12% would be better replaced by paying down debt or returning money to its owners.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "now-or-later",
+            title: "Now or later?",
+            intro:
+              "Five offers, each a bigger sum paid later instead of $10,000 today. Move the rate, which stands for the return you could earn on the money in the meantime, and watch which offers stay worth waiting for.",
+            rateLabel: "Rate",
+            rateHint: "The return the money could earn elsewhere: a savings account, paying down a loan, or the company's hurdle rate.",
+            rate: { start: 0.05, min: 0, max: 0.2, step: 0.005 },
+            presets: [
+              { label: "No return (0%)", rate: 0 },
+              { label: "A savings account (3%)", rate: 0.03 },
+              { label: "Northline's hurdle rate (12%)", rate: 0.12 }
+            ],
+            now: 10000,
+            offers: [
+              { amount: 10300, years: 1 },
+              { amount: 11236, years: 2 },
+              { amount: 13225, years: 2 },
+              { amount: 15386, years: 5 },
+              { amount: 31058, years: 10 }
+            ],
+            foot: "Each offer is built to break even at a different rate: 3%, 6%, 15%, 9% and 12% in the order shown. Below its rate the later money wins; above it, the money now does."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Why the rate decides",
+                paras: [
+                  "The same offer can be a good deal or a bad one depending on the rate, and nothing else about it changes. That's why the choice of discount rate is one of the most argued-over numbers in any investment case.",
+                  "Long waits are hit hardest. The rate compounds once for every year, so $31,058 in ten years looks enormous at 3% and merely adequate at 12%. Projects whose payoffs come late need a strong case at the hurdle rate."
+                ],
+                side: {
+                  label: "Next",
+                  html: "<p>Put this to work on a real decision in <a href=\"@roi\">Figuring ROI</a>, with payback, net present value and internal rate of return.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Figuring ROI", where: "Part VI", page: "roi" },
+            { title: "Reading the ratios", where: "Part V", page: "ratios" },
+            { title: "Working capital levers", where: "Part VII", page: "working-capital" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" }
+          ],
+          cta: { page: "roi", kicker: "Next", text: "Judge a welding robot three ways" }
+        }
+      },
+
       roi: {
         title: "Figuring ROI",
         navLabel: "ROI",
@@ -1005,7 +1093,7 @@
         ],
         end: {
           related: [
-            { title: "The building blocks of ROI", where: "Part VI" },
+            { title: "The building blocks of ROI", where: "Part VI", page: "roi-basics" },
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
             { title: "Reading the ratios", where: "Part V", page: "ratios" },
             { title: "Working capital levers", where: "Part VII", page: "working-capital" }

@@ -49,6 +49,7 @@ npm test
 | The language of cash flow | `#fi-cash-flow-language` | Operating, investing and financing, with a three-way sort of Northline's cash flows. |
 | How cash connects | `#fi-cash-connects` | Build the bridge from net profit to the change in cash: decide whether each balance sheet change adds or uses cash, and the finished bridge checks itself against the cash account. |
 | Reading the ratios | `#fi-ratios` | Thirteen ratios across two years of a growing company, each with its formula worked through with the real numbers. |
+| The building blocks of ROI | `#fi-roi-basics` | Time value of money, cost of capital and the hurdle rate, with a rate slider that decides between $10,000 now and five larger sums later. |
 | Figuring ROI | `#fi-roi` | Payback, net present value and internal rate of return for a welding robot, with sliders and a discounted cash chart. |
 | Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
 | Play Bigger home | `#pb` | Thesis, entry points and a map of the book's ideas. |
@@ -87,7 +88,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               strike-planner, template-strategy, roi-calculator,
                               triangle, policy-fit, deals,
                               profit-layers, cash-bridge, phase-map,
-                              double-entry)
+                              double-entry, now-or-later)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

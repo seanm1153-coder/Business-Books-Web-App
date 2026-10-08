@@ -279,6 +279,18 @@ test("FI: ratios compare two years", async () => {
   assert.match(await page.text(".ratio-detail"), /10\.0×.*6\.0×/);
 });
 
+test("FI: the rate decides between money now and later", async () => {
+  await page.open("fi-roi-basics");
+  const note = () => page.text('.tv [data-ref="note"]');
+  assert.match(await note(), /^At 5%, 4 of 5 later offers are worth more/);
+  await page.click('.tv [data-rate="0.12"]');
+  assert.match(await note(), /^At 12%, 1 of 5 later offers is worth more/);
+  // The ten-year offer breaks even at exactly 12%.
+  assert.match(await page.text(".tv-offer:last-child"), /About the same/i);
+  await slide(page, '.tv [data-ref="rate"]', 0);
+  assert.match(await note(), /^At 0%, 5 of 5 .* waiting costs nothing/);
+});
+
 test("FI: ROI calculator", async () => {
   await page.open("fi-roi");
   const tiles = () => page.text(".roi .tiles-3");
