@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1572,6 +1572,42 @@ mark.m-fluff { background: var(--mark-fluff); }
 .inv-rise { stroke: var(--rule); stroke-width: 1; }
 /* Three short numbers stay on one row, even on a phone. */
 .inv .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+
+/* ---------- Ladder ---------- */
+
+.ladder-end { margin: 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.ladder-list { list-style: none; margin: 0.6rem 0; padding: 0; max-width: 46rem; border-left: 2px solid var(--rule); }
+.ladder-step { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: 1rem; align-items: baseline; padding: 0.7rem 0 0.7rem 1rem; border-bottom: 1px solid var(--rule); }
+.ladder-n { font-family: var(--display); font-size: 1.75rem; line-height: 1; color: var(--ink-2); }
+.ladder-step:nth-last-child(-n + 3) .ladder-n { color: var(--pen); }
+.ladder-t { margin: 0; font-family: var(--body); font-size: 1.0625rem; font-weight: 600; }
+.ladder-d { margin: 0.2rem 0 0; font-size: 0.9375rem; color: var(--ink-2); }
+
+/* ---------- Ranker ---------- */
+
+.rk-card { max-width: 46rem; padding: clamp(1.25rem, 3vw, 1.75rem); background: var(--field); border: 1px solid var(--rule); border-radius: 4px; display: flex; flex-direction: column; gap: 0.75rem; }
+.rk-end { margin: 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.rk-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.rk-item { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; padding: 0.7rem 0.8rem; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; }
+.rk-item.is-right { border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok); }
+.rk-item.is-wrong { border-color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+.rk-pos { font-family: var(--mono); font-weight: 600; color: var(--ink-2); }
+.rk-t { margin: 0; }
+.rk-answer { margin: 0.4rem 0 0; font-size: 0.875rem; }
+.rk-mark { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 0.35rem; }
+.is-right .rk-mark { color: var(--ok); }
+.is-wrong .rk-mark { color: var(--warn); }
+.rk-why { margin: 0.2rem 0 0; font-size: 0.875rem; color: var(--ink-2); }
+.rk-btns { display: flex; gap: 0.3rem; }
+.rk-btns .pill { width: 2.25rem; height: 2.25rem; padding: 0; font-size: 1rem; }
+.rk-score { margin: 0; font-family: var(--display); font-size: 1.5rem; }
+.rk-hint { margin: 0.2rem 0 0; color: var(--ink-2); }
+.rk-result:empty { display: none; }
+@media (max-width: 640px) {
+  /* Stack the arrows so the text keeps most of the width. */
+  .rk-item { grid-template-columns: 1.1rem minmax(0, 1fr) auto; gap: 0.6rem; padding: 0.6rem 0.65rem; }
+  .rk-btns { flex-direction: column; }
+}
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

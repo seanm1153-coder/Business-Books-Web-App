@@ -27,7 +27,7 @@
     contentsDesc: "From stocks and flows to system traps and leverage points.",
     mapNote: "Numbered rows are chapters; the rows between them are sections with pages of their own. Pages open as they're written.",
     casesTitle: "The systems Meadows uses",
-    nav: ["stocks-flows", "feedback", "delays"],
+    nav: ["stocks-flows", "feedback", "delays", "leverage-points"],
 
     parts: [
       {
@@ -53,7 +53,7 @@
         n: "III",
         title: "Creating change, in systems and in our philosophy",
         chapters: [
-          { n: 6, title: "Leverage points", blurb: "Twelve places to intervene in a system, from changing numbers to changing paradigms." },
+          { n: 6, title: "Leverage points", blurb: "Twelve places to intervene in a system, from changing numbers to changing paradigms.", page: "leverage-points" },
           { n: 7, title: "Living in a world of systems", blurb: "Habits for working with systems rather than against them." }
         ]
       }
@@ -151,7 +151,7 @@
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Why systems surprise us", where: "Chapter 4" },
-            { title: "Leverage points", where: "Chapter 6" }
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "feedback", kicker: "Next", text: "Add feedback: loops that run the stock" }
         }
@@ -383,7 +383,148 @@
             { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Why systems surprise us", where: "Chapter 4" },
-            { title: "Leverage points", where: "Chapter 6" }
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
+          ],
+          cta: { page: "", kicker: "Contents", text: "See the map of the book" }
+        }
+      },
+      // The meter-in-the-hall story and Meadows's caveat that the list is tentative are
+      // from my reading of Chapter 6 and unchecked against the book's wording. The twelve
+      // names follow her list; the descriptions are ours.
+      "leverage-points": {
+        navLabel: "Leverage",
+        title: "Leverage points",
+        eyebrow: "Part III · Chapter 06",
+        dek:
+          "Some places in a system respond to a small push with a large change. Meadows ranks twelve kinds of place to intervene, and the ones people reach for first are near the bottom of her list.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Where to push",
+                paras: [
+                  "Faced with a problem in a system, most people adjust a number: a budget, a tax rate, a target. Meadows argues that numbers are among the weakest places to intervene. The structure that produced the problem is still there, so the behavior usually comes back.",
+                  "Higher up her list are places that change the structure itself: how long feedback takes, who gets what information, what the rules are, what the system is for, and the beliefs it grows out of. They're more powerful, harder to see, and more fiercely resisted."
+                ],
+                side: {
+                  label: "Not a recipe",
+                  html: "<p>Meadows offered the list as tentative and its order as open to argument. It's a way of looking at a problem, not a checklist.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "ladder",
+            eyebrow: "The list",
+            title: "Twelve places to intervene",
+            lowLabel: "Least effective",
+            highLabel: "Most effective",
+            items: [
+              { n: 12, name: "Numbers", desc: "Parameters such as tax rates, subsidies, budgets and standards. The most common place to push, and usually the weakest." },
+              { n: 11, name: "Buffers", desc: "The size of a stabilizing stock compared with its flows. A big reserve steadies a system but makes it slow to change." },
+              { n: 10, name: "Stock-and-flow structures", desc: "The physical layout: pipes, roads, factories, who is connected to what. Powerful, but slow and costly to rebuild." },
+              { n: 9, name: "Delays", desc: "How long feedback takes compared with how fast the system changes. Often decisive, often hard to alter." },
+              { n: 8, name: "Balancing feedback loops", desc: "How strong the self-correcting loops are compared with the pressures they have to correct." },
+              { n: 7, name: "Reinforcing feedback loops", desc: "How strongly growth feeds on itself. Slowing a runaway loop usually beats fighting its effects." },
+              { n: 6, name: "Information flows", desc: "Who knows what, and when. Restoring a missing loop of information can change behavior cheaply." },
+              { n: 5, name: "Rules", desc: "Incentives, punishments and constraints: who may do what, and who decides." },
+              { n: 4, name: "Self-organization", desc: "The power of a system to add to, change or evolve its own structure." },
+              { n: 3, name: "Goals", desc: "The purpose the whole system serves. Change it and everything beneath it reorganizes." },
+              { n: 2, name: "Paradigms", desc: "The shared assumptions out of which the system's goals, rules and structure arise." },
+              { n: 1, name: "Transcending paradigms", desc: "Holding no paradigm as the final truth, and staying free to change it." }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "The meter in the hall",
+                paras: [
+                  "One of Meadows's examples shows how strong an information flow can be. In a Dutch suburb of near-identical houses, some had their electricity meters down in the basement and others in the front hall, where the family passed them every day. The houses with meters in the hall used about a third less electricity. The prices, the houses and the people were the same; only what they could see had changed."
+                ],
+                side: {
+                  label: "Cheap and strong",
+                  html: "<p>Putting feedback where decisions are made is often one of the cheapest interventions available, and one of the most overlooked.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "ranker",
+            title: "Rank the interventions",
+            intro:
+              "An invented city wants to cut traffic jams. Here are five ideas. Put them in order from least leverage at the top to most at the bottom, then check against Meadows's list.",
+            topLabel: "Least leverage",
+            bottomLabel: "Most leverage",
+            descending: true,
+            perfect: "All in order. The most familiar fix, a price change, sat at the bottom of the list.",
+            hint: "Move any item and check again. Meadows's list runs from numbers, through information and rules, to goals and paradigms.",
+            start: ["goal", "fee", "paradigm", "signs", "rules"],
+            items: [
+              {
+                id: "fee",
+                text: "Raise the downtown parking fee by $2 an hour.",
+                rank: 12,
+                label: "Leverage point 12 · Numbers",
+                why: "A parameter. It may trim some traffic, but the system that produces the jams is unchanged."
+              },
+              {
+                id: "signs",
+                text: "Show live journey times by car and by train on a sign at every on-ramp.",
+                rank: 6,
+                label: "Leverage point 6 · Information flows",
+                why: "Drivers get feedback they didn't have, at the moment they choose. Cheap, and it changes behavior directly."
+              },
+              {
+                id: "rules",
+                text: "Let developers build homes near train stations without the parking spaces the code now requires.",
+                rank: 5,
+                label: "Leverage point 5 · Rules",
+                why: "A rule change reshapes what gets built, and so where people live and how they travel, for decades."
+              },
+              {
+                id: "goal",
+                text: "Change the transport department's goal from moving cars quickly to moving people quickly.",
+                rank: 3,
+                label: "Leverage point 3 · Goals",
+                why: "Every budget, plan and measure beneath the goal reorganizes around it."
+              },
+              {
+                id: "paradigm",
+                text: "Challenge the shared belief that a good city is one you can drive across easily.",
+                rank: 2,
+                label: "Leverage point 2 · Paradigms",
+                why: "The goals, rules and roads all grow out of this assumption. Shift it and the rest follows, slowly."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Why the list runs this way",
+                paras: [
+                  "Numbers get most of the attention because they're visible and easy to argue about. But changing a number leaves the loops, the rules and the purpose of the system as they were, so the system tends to produce the same behavior with slightly different figures.",
+                  "Further up, interventions change how the system is built, what it's allowed to do, what it's trying to achieve and what its people believe. Those changes threaten things people inside the system value, which is why the most powerful points are also where change is hardest."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Delays rank ninth. The <a href=\"@delays\">car lot</a> shows how much they matter, and how hard they can be to change.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "System traps and opportunities", where: "Chapter 5" },
+            { title: "Living in a world of systems", where: "Chapter 7" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

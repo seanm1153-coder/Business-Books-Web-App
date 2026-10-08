@@ -376,6 +376,25 @@ test("TiS: delays make the car lot swing; slowing the response calms it", async 
   assert.match(await note(), /settles near its new target.* calmer than/);
 });
 
+test("TiS: rank interventions by leverage", async () => {
+  await page.open("tis-leverage-points");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".ladder-step").length), 12);
+  const order = () => page.evaluate(() => [...document.querySelectorAll(".rk-item .rk-t")].map((e) => e.textContent.slice(0, 12)));
+  // Start: goal, fee, paradigm, signs, rules. Check as is, then fix it with the buttons.
+  await page.click('.rk [data-ref="check"]');
+  assert.match(await page.text(".rk-score"), /^0 of 5/);
+  await page.click('[data-move="up"][data-id="fee"]'); // fee, goal, paradigm, signs, rules
+  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, goal, signs, rules
+  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, signs, goal, rules
+  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, signs, rules, goal
+  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, paradigm, rules, goal
+  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, rules, paradigm, goal
+  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, rules, goal, paradigm
+  assert.deepEqual(await order(), ["Raise the do", "Show live jo", "Let develope", "Change the t", "Challenge th"]);
+  await page.click('.rk [data-ref="check"]');
+  assert.match(await page.text(".rk-score"), /^5 of 5 in the right place/);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
