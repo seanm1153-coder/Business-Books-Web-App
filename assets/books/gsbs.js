@@ -86,7 +86,7 @@
           { n: 10, title: "Focus", blurb: "Coordinating policies so they hit one segment with unusual force.", page: "focus" },
           { n: 11, title: "Growth", blurb: "Why growth pursued for its own sake destroys value, and what healthy growth looks like.", page: "growth" },
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one.", page: "using-advantage" },
-          { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them." },
+          { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them.", page: "using-dynamics" },
           { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings.", page: "inertia-entropy" },
           { n: 15, title: "Putting it together", blurb: "Nvidia's rise, worked through as one long example." }
         ]
@@ -1543,7 +1543,7 @@
             { title: "Discovering power", where: "Chapter 2", page: "discovering-power" },
             { title: "Growth", where: "Chapter 11", page: "growth" },
             { title: "Focus", where: "Chapter 10", page: "focus" },
-            { title: "Using dynamics", where: "Chapter 13" }
+            { title: "Using dynamics", where: "Chapter 13", page: "using-dynamics" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write a strategy built on an advantage" }
         }
@@ -1661,12 +1661,165 @@
         ],
         end: {
           related: [
-            { title: "Using dynamics", where: "Chapter 13" },
+            { title: "Using dynamics", where: "Chapter 13", page: "using-dynamics" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
             { title: "Growth", where: "Chapter 11", page: "growth" },
             { title: "Putting it together", where: "Chapter 15" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Diagnose what's holding a company back" }
+        }
+      },
+
+      // The five guideposts (rising fixed costs, deregulation, predictable biases, incumbent
+      // response, attractor states) follow my reading of Chapter 13 and are unchecked
+      // against its wording, as is the note on where Rumelt's examples come from.
+      "using-dynamics": {
+        title: "Using dynamics",
+        eyebrow: "Part II · Chapter 13",
+        dek:
+          "The biggest openings in strategy come when an industry is shifting, because a shift upsets the advantages everyone has built. The skill is reading a change early and working out where it leads.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Waves of change",
+                paras: [
+                  "Most of the time an industry's leaders are hard to dislodge. Their advantages took years to build, and rivals can't simply copy them. A wave of change, in technology, costs, rules or what buyers want, can make those advantages matter less, or not at all, and open ground that was closed.",
+                  "Rumelt's point is not that strategists should predict the far future. It's that a few signs show where a shift is heading, and someone who reads them earlier and more clearly than rivals can position for it."
+                ],
+                side: {
+                  label: "In the book",
+                  html: "<p>Rumelt's examples come mostly from computing and telecommunications, industries he watched through several waves of change.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "hallmarks",
+            label: "Five guideposts",
+            items: [
+              {
+                id: "fixed",
+                name: "Rising fixed costs",
+                def: "When the cost of staying in the game rises (a new plant, a bigger network, a costlier product to develop), an industry tends to consolidate into fewer, larger players.",
+                sounds: "“The next factory will cost three times what the last one did.”",
+                tell: "Ask what it now costs to compete at an efficient scale, and how many companies that leaves room for."
+              },
+              {
+                id: "dereg",
+                name: "Deregulation",
+                def: "When rules that fixed prices, territories or who may compete are lifted, the old pattern of winners often breaks quickly and new kinds of competitors arrive.",
+                sounds: "“From next year, anyone can apply for a license.”",
+                tell: "Look for rules being removed or rewritten, then ask whose advantage depended on them."
+              },
+              {
+                id: "bias",
+                name: "Predictable biases",
+                def: "Forecasters and investors tend to make the same mistakes, such as extending recent trends in a straight line or assuming today's leader will lead tomorrow. Errors you can anticipate are opportunities.",
+                sounds: "“We've assumed last year's growth rate holds for the next ten years.”",
+                tell: "Find the consensus view and ask which familiar bias it rests on."
+              },
+              {
+                id: "incumbent",
+                name: "Incumbent response",
+                def: "Established leaders often respond to change by protecting what they already earn money from. Their likely response, usually slow or defensive, can be planned around.",
+                sounds: "“Our dealers depend on the current model, so we'll keep it.”",
+                tell: "Ask what the leader would lose by embracing the change. The more it would lose, the slower it will move."
+              },
+              {
+                id: "attractor",
+                name: "Attractor state",
+                def: "The shape an industry is being pulled toward by its underlying economics: the most efficient way to meet demand once things settle. Knowing where it's heading matters more than knowing exactly when.",
+                sounds: "“Once costs settle, the cheapest way to do this will be…”",
+                tell: "Set today's companies aside and ask how you'd design the industry from scratch with today's technology and costs."
+              }
+            ]
+          },
+          {
+            type: "spot-exercise",
+            title: "Read the briefing",
+            intro:
+              "Two short market briefings about invented industries. Pick a highlighter, then tap each sentence that shows that guidepost. Leave background sentences unmarked. When you're done, check your answers.",
+            noun: { one: "guidepost", article: "a" },
+            labels: [
+              { id: "fixed", short: "Fixed costs" },
+              { id: "dereg", short: "Deregulation" },
+              { id: "bias", short: "Biases" },
+              { id: "incumbent", short: "Incumbents" },
+              { id: "attractor", short: "Attractor" }
+            ],
+            exercises: [
+              {
+                id: "bikes",
+                label: "City bikes",
+                source: "Market briefing · City bikes",
+                hint: "Each of the five guideposts appears once. Two sentences are only background.",
+                paras: [
+                  [
+                    { t: "A new national law lets employers offer bikes through tax-free lease schemes, ending the old limits on which shops may sell them.", h: "dereg", note: "A rule that shaped who could compete is going. The old pattern of winners may not survive it." },
+                    { t: "Tooling for a modern carbon-frame line now costs ten times what a steel line did.", h: "fixed", note: "Rising fixed costs favor bigger producers and push the industry toward fewer makers." },
+                    { t: "The industry's trade show moved to a larger hall this year.", note: "Background. It says nothing about which way the industry is moving." }
+                  ],
+                  [
+                    { t: "The market leader, whose dealers earn most of their money from repairs, has told them nothing will change.", h: "incumbent", note: "The leader is protecting its dealers' repair income. A challenger can plan around that slow response." },
+                    { t: "Investors keep assuming that whoever leads road bikes today will lead electric bikes too.", h: "bias", note: "A familiar bias: today's leader will lead the next market. If that's wrong, the bets built on it are mispriced." }
+                  ],
+                  [
+                    { t: "Commuters are converging on one kind of bike: electric, with a sealed drivetrain that needs almost no servicing.", h: "attractor", note: "This is where the economics are pulling the product. It also undermines the leader's repair-based dealers." },
+                    { t: "Several large employers say they are watching the new scheme closely.", note: "Background. Interest isn't a shift yet." }
+                  ]
+                ]
+              },
+              {
+                id: "vans",
+                label: "Delivery vans",
+                source: "Market briefing · Urban delivery fleets",
+                hint: "Again, each guidepost appears once, with one background sentence.",
+                paras: [
+                  [
+                    { t: "City councils across the region are scrapping the rules that limited delivery permits to a handful of licensed operators.", h: "dereg", note: "The permit rules protected the incumbents. Without them, new kinds of operators can enter." },
+                    { t: "Most forecasts simply extend last year's growth in parcel volumes for the next decade.", h: "bias", note: "Straight-line extrapolation. Growth curves bend, and forecasts that don't will be wrong." }
+                  ],
+                  [
+                    { t: "A competitive battery plant now costs four times what one did a decade ago.", h: "fixed", note: "Only a few companies can afford plants like that, so the supply side is likely to consolidate." },
+                    { t: "The two largest diesel-van makers will keep their current models for eight more years, citing loyal fleet customers.", h: "incumbent", note: "Protecting existing customers and factories. Expect them to arrive late to electric vans." },
+                    { t: "Fleet managers met for their annual conference in the spring.", note: "Background." }
+                  ],
+                  [
+                    { t: "With charging costs falling and city centers closing to diesel, the cheapest way to run a city fleet is becoming small electric vans on shared charging hubs.", h: "attractor", note: "The settled, efficient shape of the industry. Positioning for it beats guessing the exact year it arrives." }
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Position for where it's going",
+                paras: [
+                  "Reading the guideposts together tells you more than any one of them. In the bike briefing, the attractor state (electric bikes that need little servicing) is exactly what the leader's repair-based dealers can't embrace, and investors are betting the leader will win anyway. That combination is an opening.",
+                  "The work is to position for the attractor state early, while incumbents defend the old model and the consensus is still looking the other way."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Why leaders are slow to move is the subject of <a href=\"@inertia-entropy\">Inertia and entropy</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Inertia and entropy", where: "Chapter 14", page: "inertia-entropy" },
+            { title: "Using advantage", where: "Chapter 12", page: "using-advantage" },
+            { title: "Discovering power", where: "Chapter 2", page: "discovering-power" },
+            { title: "Putting it together", where: "Chapter 15" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Diagnose a shifting industry" }
         }
       },
 

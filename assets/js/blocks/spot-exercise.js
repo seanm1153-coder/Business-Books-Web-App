@@ -54,6 +54,8 @@
 
     mount(root, block, ctx) {
       const labelById = Object.fromEntries(block.labels.map((h) => [h.id, h]));
+      // What one label is called in the feedback ("hallmark", "guidepost", …).
+      const noun = block.noun || { one: "hallmark", article: "a" };
       // Per-statement marks survive switching between statements.
       const marks = Object.fromEntries(block.exercises.map((x) => [x.id, { tags: {}, checked: false }]));
       let current = block.exercises[0];
@@ -111,7 +113,7 @@
             correct: `Found · ${right}`,
             wrong: `You marked ${tag ? labelById[tag].short : ""} · Answer: ${right}`,
             missed: `Missed · ${right}`,
-            false: "Not a hallmark here",
+            false: `Not ${noun.article} ${noun.one} here`,
             fine: "Fine as written"
           }[res];
           const quote = seg.t.length > 80 ? seg.t.slice(0, 78).trimEnd() + "…" : seg.t;
@@ -131,7 +133,7 @@
         const perfect = tally.correct === answers.length && !tally.false;
         notesEl.innerHTML = `<p class="eyebrow">Answers</p>
           <p class="spot-count"><span class="tnum">${tally.correct} of ${answers.length}</span> found</p>
-          <p class="spot-hint">${perfect ? "A clean read. Every hallmark found, nothing over-marked." : esc(extra.join(" · ")) + ". Edit any mark to try again."}</p>
+          <p class="spot-hint">${perfect ? `A clean read. Every ${noun.one} found, nothing over-marked.` : esc(extra.join(" · ")) + ". Edit any mark to try again."}</p>
           <ol class="notes" role="list">${rows.join("")}</ol>`;
       }
 

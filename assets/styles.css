@@ -29,6 +29,7 @@
   --mark-fluff: #F1C3D8;
   --mark-face: #C5DCF3;
   --mark-obj: #CBE5BE;
+  --mark-peach: #F6CFB3;
   --mark-user: #FFE27A;
   /* Chart series (validated for color-blind separation and contrast in both themes) */
   --series-profit: #2B3ECC;
@@ -74,9 +75,9 @@
     --mark-goal: rgba(240, 200, 80, 0.34);
     --mark-fluff: rgba(236, 130, 180, 0.32);
     --mark-face: rgba(110, 170, 240, 0.32);
-  --mark-user: rgba(255, 215, 80, 0.36);
     --mark-user: rgba(255, 215, 80, 0.36);
     --mark-obj: rgba(130, 200, 110, 0.30);
+    --mark-peach: rgba(240, 150, 95, 0.30);
     --ok: #7FD3A2;
     --warn: #F0C35C;
     --bad: #F2907F;
@@ -100,6 +101,7 @@
   --mark-face: rgba(110, 170, 240, 0.32);
   --mark-user: rgba(255, 215, 80, 0.36);
   --mark-obj: rgba(130, 200, 110, 0.30);
+  --mark-peach: rgba(240, 150, 95, 0.30);
   --ok: #7FD3A2;
   --warn: #F0C35C;
   --bad: #F2907F;
@@ -536,6 +538,12 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 .hl-face { background-color: var(--mark-face); }
 .hl-goals { background-color: var(--mark-goal); }
 .hl-objectives { background-color: var(--mark-obj); }
+/* Guideposts of change (Using dynamics) */
+.hl-fixed { background-color: var(--mark-face); }
+.hl-dereg { background-color: var(--mark-obj); }
+.hl-bias { background-color: var(--mark-fluff); }
+.hl-incumbent { background-color: var(--mark-goal); }
+.hl-attractor { background-color: var(--mark-peach); }
 .tnum { font-variant-numeric: tabular-nums; }
 
 .hallmarks-sec { margin-bottom: clamp(3.5rem, 8vw, 5rem); }
@@ -545,12 +553,14 @@ a.rel-row:hover .rel-t { color: var(--pen); }
   border-top: 1px solid var(--ink);
 }
 .hallmark { display: flex; flex-direction: column; padding-block: 1.5rem 1.75rem; border-bottom: 1px solid var(--rule); min-width: 0; }
+/* An odd last item takes the full row rather than sitting beside a gap. */
+.hallmark:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .hallmark-t { margin: 0 0 0.75rem; font-family: var(--display); font-weight: 400; font-size: 1.625rem; line-height: 1.2; }
 .hl { padding: 0 0.2em; border-radius: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .hallmark-d { margin: 0 0 1rem; max-width: 34em; }
 .hallmark-k { margin: 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
 .hallmark-s { margin: 0.2rem 0 0.85rem; font-style: italic; color: var(--ink-2); }
-.hallmark-tell { margin: 0.2rem 0 0; font-size: 0.9375rem; }
+.hallmark-tell { margin: 0.2rem 0 0; max-width: 34em; font-size: 0.9375rem; }
 
 .spot { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 .spot-head { max-width: 42rem; margin-bottom: 1.5rem; }

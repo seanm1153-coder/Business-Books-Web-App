@@ -134,6 +134,21 @@ test("GSBS: four ways to raise an advantage's value", async () => {
   assert.equal(await sort(["deepen", "broaden", "demand", "protect", "broaden", "protect", "demand", "deepen"]), "8 of 8 right");
 });
 
+test("GSBS: spot the guideposts of change", async () => {
+  await page.open("gsbs-using-dynamics");
+  // Five cards, the odd one spanning the row.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".hallmark").length), 5);
+  await page.click('[data-pen="dereg"]');
+  await page.click('[data-seg="0-0"]');
+  await page.click('[data-pen="fixed"]');
+  await page.click('[data-seg="0-1"]');
+  await page.click('[data-pen="bias"]');
+  await page.click('[data-seg="0-2"]');
+  await page.click('[data-action="check"]');
+  assert.match(await page.text(".spot-count"), /^2 of 5 found/);
+  assert.match(await page.text(".spot-notes"), /Not a guidepost here/i);
+});
+
 test("GSBS: inertia and entropy sorter", async () => {
   await page.open("gsbs-inertia-entropy");
   assert.equal(await sort(["routine", "culture", "proxy", "entropy", "routine", "culture", "proxy", "entropy"]), "8 of 8 right");
