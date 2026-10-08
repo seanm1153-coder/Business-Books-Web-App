@@ -59,7 +59,7 @@
           { n: 10, title: "Understanding balance sheet basics", blurb: "What a company owns, what it owes, and what's left for the owners." },
           { n: 11, title: "Assets: more estimates and assumptions", blurb: "Every asset but cash involves a judgment about value." },
           { n: 12, title: "On the other side: liabilities and equity", blurb: "Who has a claim on the assets, and in what order." },
-          { n: 13, title: "Why the balance sheet balances", blurb: "Assets always equal liabilities plus equity, by construction." },
+          { n: 13, title: "Why the balance sheet balances", blurb: "Assets always equal liabilities plus equity, by construction.", page: "balance-sheet" },
           { n: 14, title: "The income statement affects the balance sheet", blurb: "Profit flows into equity; sales and costs move assets and liabilities." }
         ]
       },
@@ -516,10 +516,152 @@
           related: [
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
             { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
-            { title: "Why the balance sheet balances", where: "Chapter 13" },
+            { title: "Why the balance sheet balances", where: "Chapter 13", page: "balance-sheet" },
             { title: "Your balance sheet levers", where: "Part VII", page: "working-capital" }
           ],
           cta: { page: "working-capital", kicker: "Next", text: "Pull the working capital levers" }
+        }
+      },
+
+      "balance-sheet": {
+        title: "Why the balance sheet balances",
+        navLabel: "Balance sheet",
+        eyebrow: "Part III · Chapter 13",
+        dek:
+          "Assets always equal liabilities plus equity. That isn't luck or a rule someone enforces: every transaction is recorded in at least two places, so the two sides can't drift apart.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Two sides of the same money",
+                paras: [
+                  "One side of the balance sheet lists what the company owns: cash, money customers owe, stock, machines. The other side lists who has a claim on those things: lenders and suppliers (liabilities), and whatever is left for the owners (equity).",
+                  "Every transaction changes at least two lines. Borrow money and cash rises, but so does the loan. Buy a machine for cash and one asset turns into another. Because both changes are always recorded, the totals always match. Accountants call this double-entry bookkeeping."
+                ],
+                side: {
+                  label: "The equation",
+                  html: "<p>Assets = liabilities + equity. Rearranged, equity is simply what the company owns minus what it owes.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "Where profit goes",
+                paras: [
+                  "Profit has to land somewhere on the balance sheet, and it lands in equity. Revenue raises equity; expenses lower it. That's why a sale on credit raises both receivables and equity, and why depreciation lowers both equipment and equity, without any cash moving."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Watch all three statements move together in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "double-entry",
+            company: "Northline Bikes",
+            period: "One month",
+            title: "Post the entries",
+            intro:
+              "Eight things happen at Northline, the invented bike maker. For each, choose the two accounts that change and whether each goes up or down, then post it. The scale shows whether the books still balance.",
+            sheetNote: "In dollars · start of the month, then after each entry",
+            accounts: [
+              { id: "cash", label: "Cash", side: "asset" },
+              { id: "ar", label: "Receivables", side: "asset" },
+              { id: "inv", label: "Inventory", side: "asset" },
+              { id: "equip", label: "Equipment", side: "asset" },
+              { id: "ap", label: "Payables", side: "claim" },
+              { id: "accr", label: "Wages owed", side: "claim" },
+              { id: "loan", label: "Bank loan", side: "claim" },
+              { id: "equity", label: "Owners' equity", side: "claim" }
+            ],
+            start: { cash: 120000, ar: 300000, inv: 340000, equip: 600000, ap: 180000, accr: 60000, loan: 400000, equity: 720000 },
+            moves: [
+              {
+                text: "Northline borrows $50,000 from its bank.",
+                amount: 50000,
+                entries: [["cash", 1], ["loan", 1]],
+                why: "Cash comes in, and the bank now has a $50,000 claim on the company. Both sides grow by the same amount.",
+                hint: "Borrowing isn't income, so equity doesn't change. Something Northline owns went up, and so did something it owes."
+              },
+              {
+                text: "Northline buys $30,000 of frames from a supplier, to pay next month.",
+                amount: 30000,
+                entries: [["inv", 1], ["ap", 1]],
+                why: "Stock goes up, and so does what Northline owes its supplier. No cash has moved yet.",
+                hint: "No cash has changed hands yet. What did Northline get, and who is now owed?"
+              },
+              {
+                text: "Northline pays a supplier $20,000 it already owed.",
+                amount: 20000,
+                entries: [["cash", -1], ["ap", -1]],
+                why: "Cash goes down and so does the debt. Both sides shrink; profit isn't touched, because the cost was recorded when the goods arrived.",
+                hint: "Paying a bill that's already on the books isn't a new expense."
+              },
+              {
+                text: "Northline buys a $25,000 welding machine and pays cash.",
+                amount: 25000,
+                entries: [["equip", 1], ["cash", -1]],
+                why: "Cash turns into equipment. One asset swaps for another, so the totals don't change. The cost reaches profit slowly, as depreciation.",
+                hint: "Buying equipment isn't an expense on the day you buy it."
+              },
+              {
+                text: "Northline ships $60,000 of bikes to a shop, on 30-day terms.",
+                amount: 60000,
+                entries: [["ar", 1], ["equity", 1]],
+                why: "The shop now owes $60,000, and the sale is revenue. Revenue raises profit, and profit belongs to the owners, so equity goes up.",
+                hint: "This is a sale on credit. Where does revenue end up on the balance sheet?"
+              },
+              {
+                text: "Those bikes cost $36,000 to build, and they've left the warehouse.",
+                amount: 36000,
+                entries: [["inv", -1], ["equity", -1]],
+                why: "Inventory falls, and the cost of the bikes sold is an expense, which lowers equity. With the sale, equity rose $24,000 overall: the gross profit.",
+                hint: "The bikes are gone, and their cost is now an expense."
+              },
+              {
+                text: "Northline records $10,000 of depreciation on its machines.",
+                amount: 10000,
+                entries: [["equip", -1], ["equity", -1]],
+                why: "The machines are worth $10,000 less on the books, and depreciation is an expense, so equity falls too. No cash moves.",
+                hint: "Depreciation is an expense, but nobody gets paid."
+              },
+              {
+                text: "Staff earn $12,000 of wages this month, to be paid next week.",
+                amount: 12000,
+                entries: [["accr", 1], ["equity", -1]],
+                why: "The wages are an expense, so equity falls, and Northline now owes its staff, so a liability rises. Both changes sit on the same side, so the totals don't move at all.",
+                hint: "The expense is real this month even though the cash goes out next week."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Reading it as a manager",
+                paras: [
+                  "Over the month, profit came to just $2,000: $24,000 of gross profit on the sale, less $10,000 of depreciation and $12,000 of wages. Meanwhile receivables rose $60,000 and the bank loan $50,000. The balance sheet shows where the money now sits: owed by a customer, in a new machine, and owed to the bank.",
+                  "That is why the authors push managers to read the balance sheet alongside the income statement. Profit tells you whether the month made money. The balance sheet tells you what that money turned into."
+                ],
+                side: {
+                  label: "Next",
+                  html: "<p>Turn balance sheet changes into a cash flow statement in <a href=\"@cash-connects\">How cash connects</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Understanding balance sheet basics", where: "Chapter 10" },
+            { title: "The income statement affects the balance sheet", where: "Chapter 14" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "How cash connects with everything else", where: "Chapter 18", page: "cash-connects" }
+          ],
+          cta: { page: "cash-connects", kicker: "Next", text: "Build the bridge from profit to cash" }
         }
       },
 

@@ -183,6 +183,46 @@ test("FI: the profit-to-cash bridge checks itself against the cash account", asy
   assert.match(await page.text('[data-why="dep"]'), /^Right\. Adds cash/);
 });
 
+test("FI: double entry keeps the balance sheet in balance", async () => {
+  await page.open("fi-balance-sheet");
+  const post = async ([a1, s1], [a2, s2]) => {
+    await page.selectOption('.de [data-acct="1"]', a1);
+    await page.click(`.de [data-dir="1"][data-sign="${s1}"]`);
+    await page.selectOption('.de [data-acct="2"]', a2);
+    await page.click(`.de [data-dir="2"][data-sign="${s2}"]`);
+    await page.click('.de [data-ref="post"]');
+  };
+  const verdict = () => page.text('.de [data-ref="verdict"]');
+  // A one-sided mistake tips the scale; retrying keeps the books clean.
+  await post(["cash", 1], ["loan", -1]);
+  assert.match(await verdict(), /out of balance by \$100,000/i);
+  await page.click('.de [data-ref="retry"]');
+  await post(["cash", 1], ["loan", 1]);
+  assert.match(await verdict(), /^right/i);
+  await page.click('.de [data-ref="next"]');
+  // A balanced but wrong entry is caught too; "Show the answer" posts the right one.
+  await post(["inv", 1], ["cash", -1]);
+  assert.match(await verdict(), /it balances, but/i);
+  await page.click('.de [data-ref="reveal"]');
+  await page.click('.de [data-ref="next"]');
+  const rest = [
+    [["cash", -1], ["ap", -1]],
+    [["equip", 1], ["cash", -1]],
+    [["ar", 1], ["equity", 1]],
+    [["inv", -1], ["equity", -1]],
+    [["equip", -1], ["equity", -1]],
+    [["accr", 1], ["equity", -1]]
+  ];
+  for (const [k, [a, b]] of rest.entries()) {
+    await post(a, b);
+    assert.match(await verdict(), /^right/i, `transaction ${k + 3}`);
+    if (k < rest.length - 1) await page.click('.de [data-ref="next"]');
+  }
+  assert.equal(await page.text('.de [data-ref="progress"]'), "DONE · 6 OF 8 RIGHT FIRST TIME");
+  assert.equal(await page.text('.de [data-ref="assets"]'), "$1,434,000");
+  assert.equal(await page.text('.de [data-ref="claims"]'), "$1,434,000");
+});
+
 test("FI: the three statements stay in balance through a month of events", async () => {
   await page.open("fi-profit-cash");
   const expected = [
