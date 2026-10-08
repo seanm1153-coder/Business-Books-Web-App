@@ -20,13 +20,14 @@
       "Summaries on this page are written in our own words from Donella H. Meadows, <cite>Thinking in Systems: A Primer</cite>, edited by Diana Wright (Chelsea Green, 2008). Example systems are invented unless the book uses them. Read the book for the full argument.",
     hero: { lines: ["Thinking", "in Systems"], art: "behavior" },
     entries: [
-      { kicker: "Start here", title: "Stocks and flows", desc: "Fill and drain a bathtub, and watch what the level does.", page: "stocks-flows" }
+      { kicker: "Start here", title: "Stocks and flows", desc: "Fill and drain a bathtub, and watch what the level does.", page: "stocks-flows" },
+      { kicker: "Simulator", title: "Delays", desc: "Run a car lot and watch one rise in demand set off months of swings.", page: "delays" }
     ],
     mapTitle: "Three parts, seven chapters",
     contentsDesc: "From stocks and flows to system traps and leverage points.",
     mapNote: "Numbered rows are chapters; the rows between them are sections with pages of their own. Pages open as they're written.",
     casesTitle: "The systems Meadows uses",
-    nav: ["stocks-flows", "feedback"],
+    nav: ["stocks-flows", "feedback", "delays"],
 
     parts: [
       {
@@ -36,7 +37,7 @@
           { n: 1, title: "The basics", blurb: "Elements, interconnections and purpose; stocks, and the flows that fill and drain them.", page: "stocks-flows" },
           { title: "Feedback loops", blurb: "Balancing loops pull a stock toward a goal; reinforcing loops make it grow or collapse.", page: "feedback" },
           { n: 2, title: "A brief visit to the systems zoo", blurb: "Small models of common systems: a thermostat, a population, a car dealer's lot, an oil field, a fishery." },
-          { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand." }
+          { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand.", page: "delays" }
         ]
       },
       {
@@ -63,7 +64,7 @@
       { era: "Chapter 1", title: "A cooling cup of coffee", blurb: "A balancing loop: the hotter the coffee, the faster it cools toward room temperature.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo" },
-      { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays" },
+      { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays", page: "delays" },
       { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested for ever, or fished to collapse.", tag: "Systems zoo" }
     ],
 
@@ -148,7 +149,7 @@
         end: {
           related: [
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
-            { title: "Delays and oscillation", where: "Chapter 2" },
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Why systems surprise us", where: "Chapter 4" },
             { title: "Leverage points", where: "Chapter 6" }
           ],
@@ -276,8 +277,113 @@
           related: [
             { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
             { title: "A brief visit to the systems zoo", where: "Chapter 2" },
-            { title: "Delays and oscillation", where: "Chapter 2" },
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Why systems surprise us", where: "Chapter 4" }
+          ],
+          cta: { page: "delays", kicker: "Next", text: "Add delays and watch a stock swing" }
+        }
+      },
+      // Meadows's car-dealer model, rebuilt with our own numbers: the three delays
+      // (perception 5 days, response 3, delivery 5) and the findings that a faster
+      // response makes the swings worse and a slower one damps them follow my reading
+      // of Chapter 2 and are unchecked against the book.
+      "delays": {
+        navLabel: "Delays",
+        title: "Delays and oscillation",
+        eyebrow: "Part I · Chapter 02",
+        dek:
+          "Every feedback loop takes time to act: time to notice a change, time to decide, time for the response to arrive. Meadows shows how those delays turn a balancing loop into a system that swings.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Delays are everywhere",
+                paras: [
+                  "A balancing loop corrects a gap, but never instantly. Information about the stock takes time to arrive and be believed; deciding what to do takes time; and the action, an order or a hire or a new policy, takes time to have an effect. Meanwhile the stock keeps moving.",
+                  "Meadows's point is that a delay in a balancing loop makes a system likely to oscillate. The correction arrives late, overshoots, and has to be corrected again."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Delays come from stocks: a stock takes time to fill or drain, as the <a href=\"@stocks-flows\">bathtub</a> shows.</p>"
+                }
+              },
+              {
+                n: "2",
+                title: "The car dealer",
+                paras: [
+                  "Meadows's example is a car dealer who tries to keep enough cars on the lot to cover ten days of sales. Three delays sit in the loop. The dealer averages sales over several days before believing demand has changed, a perception delay. Orders make up only part of any shortfall at a time, a response delay. And new cars take days to arrive, a delivery delay.",
+                  "Then sales rise by 10% and stay there. It's the smallest, simplest change a business could face, and it sets the lot swinging."
+                ],
+                side: {
+                  label: "Why it swings",
+                  html: "<p>The dealer keeps ordering to fill a gap that orders already on the road will fill. By the time they arrive, the lot is overstocked, and the dealer cuts back too far.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "inventory",
+            title: "Run the car lot",
+            intro:
+              "An invented dealer sells 20 cars a day and aims to keep 10 days of sales on the lot. On day 25, demand rises 10% and stays there. Set the three delays, or try one of the experiments, and watch the stock over 100 days.",
+            base: 20,
+            rise: 0.1,
+            at: 25,
+            cover: 10,
+            days: 100,
+            unit: "cars",
+            settleWithin: 5,
+            caption: "Cars on the lot over 100 days.",
+            delays: [
+              { key: "P", label: "Perception delay", hint: "Days of sales the dealer averages before believing demand has changed." },
+              { key: "R", label: "Response delay", hint: "How hard orders chase the gap: each day's order makes up one part in this many of the shortfall." },
+              { key: "D", label: "Delivery delay", hint: "Days between placing an order and the cars arriving." }
+            ],
+            presets: [
+              { id: "meadows", label: "Meadows's settings", delays: { P: 5, R: 3, D: 5 } },
+              { id: "notice", label: "Notice faster", delays: { P: 2, R: 3, D: 5 } },
+              { id: "react", label: "React faster", delays: { P: 5, R: 2, D: 5 } },
+              { id: "slow", label: "React more slowly", delays: { P: 5, R: 6, D: 5 } },
+              { id: "deliver", label: "Faster deliveries", delays: { P: 5, R: 3, D: 2 } }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Why reacting faster makes it worse",
+                paras: [
+                  "The natural response to swings is to act faster. Try it: cut the response delay from three days to two, and the swings grow. Noticing the change sooner barely helps either, because the trouble isn't seeing the change, it's overreacting to it while earlier orders are still on the way.",
+                  "Slowing the response down, so that each day's order makes up a smaller part of the gap, calms the swings almost completely. Shorter deliveries help too, but delivery times are usually set by someone else. The lever the dealer actually controls is the one that feels wrong to pull."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “React faster”, then “React more slowly”, and compare the swing in the last 20 days.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Beyond the car lot",
+                paras: [
+                  "The same structure shows up wherever someone manages a stock through a delay: a factory planning output, a hospital hiring nurses, a city building housing, a central bank setting interest rates. In each, an aggressive response to a gap that's already being closed produces a boom and a bust. Knowing the length of the delays is often more useful than reacting faster to them."
+                ],
+                side: {
+                  label: "Later in the book",
+                  html: "<p>Meadows ranks the length of delays among the places to intervene in a system, while noting they are often hard to change.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "Why systems surprise us", where: "Chapter 4" },
+            { title: "Leverage points", where: "Chapter 6" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

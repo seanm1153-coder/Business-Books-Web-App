@@ -361,6 +361,21 @@ test("TiS: feedback loops seek goals, compound and shift dominance", async () =>
   assert.match(await note(), /in year 80 it drops below the death rate.* peaks at about 223 million/);
 });
 
+test("TiS: delays make the car lot swing; slowing the response calms it", async () => {
+  await page.open("tis-delays");
+  const tiles = () => page.text(".inv .tiles");
+  const note = () => page.text('.inv [data-ref="note"]');
+  assert.match(await tiles(), /315 .* 132 .* 183$/i);
+  assert.match(await note(), /never settles/);
+  await page.click('.inv [data-preset="notice"]');
+  assert.match(await note(), /about the same as with Meadows's settings/);
+  await page.click('.inv [data-preset="react"]');
+  assert.match(await tiles(), /422 .* 121 .* 301$/i);
+  assert.match(await note(), /worse than with Meadows's settings/);
+  await page.click('.inv [data-preset="slow"]');
+  assert.match(await note(), /settles near its new target.* calmer than/);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

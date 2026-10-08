@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1569,6 +1569,9 @@ mark.m-fluff { background: var(--mark-fluff); }
 .ls-chart { width: 100%; min-height: 200px; }
 .ls-chart svg { display: block; }
 .ls-goal { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 4 4; }
+.inv-rise { stroke: var(--rule); stroke-width: 1; }
+/* Three short numbers stay on one row, even on a phone. */
+.inv .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

@@ -63,6 +63,7 @@ npm test
 | Thinking in Systems home | `#tis` | Thesis, a map of the book's three parts and seven chapters, and the small systems Meadows uses as examples. |
 | Stocks and flows | `#tis-stocks-flows` | A bathtub simulator: run the clock, move the faucet and drain, and watch the level trace a behavior-over-time graph, including a tub that keeps filling while the faucet closes. |
 | Feedback loops | `#tis-feedback` | Balancing and reinforcing loops in three simulators on tabs: a cooling coffee, money earning interest, and a population whose birth rate can fall until the dominant loop shifts. |
+| Delays and oscillation | `#tis-delays` | Meadows's car dealer rebuilt as a simulator: three delays, one 10% rise in demand, and experiments showing that reacting faster makes the swings worse while reacting more slowly calms them. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
 
@@ -94,7 +95,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               triangle, policy-fit, deals,
                               profit-layers, cash-bridge, phase-map,
                               double-entry, now-or-later, bathtub,
-                              loop-sim)
+                              loop-sim, inventory)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
