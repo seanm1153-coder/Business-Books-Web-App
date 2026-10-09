@@ -184,12 +184,12 @@ test("Ask Claude: hidden without a viewer; reads the page, works its controls an
 
   const page = await env.page({
     init: () => {
-      const answer = "I set **Buyer power** to strong. The industry now keeps $42 of every $100.\n\n- Buyers take more\n- Suppliers are unchanged";
+      const answer = "I set **Fleet** to one type of plane. The margin falls to $5.\n\n- Costs fall\n- Price falls more";
       const sample = async (input, opts) => {
         window.__inputs = (window.__inputs || []).concat([input]);
         // Like Claude, find the control in the page state and use the tool to change it.
-        const m = input[0].content.match(/- (c\d+) choice "Buyer power"/);
-        if (opts.tools && m) await opts.tools.find((t) => t.name === "set_control").execute({ id: m[1], value: "Strong" }, { signal: new AbortController().signal });
+        const m = input[0].content.match(/- (c\d+) choice "Fleet"/);
+        if (opts.tools && m) await opts.tools.find((t) => t.name === "set_control").execute({ id: m[1], value: "One type of plane" }, { signal: new AbortController().signal });
         await new Promise((r) => setTimeout(r, 30));
         opts.onText({ text: answer, delta: answer });
         return { text: answer, truncated: false, modelTierApplied: "default" };
@@ -198,30 +198,31 @@ test("Ask Claude: hidden without a viewer; reads the page, works its controls an
       window.claude = { use: async (n) => (n === "sample" ? sample : null) };
     }
   });
-  await page.open("ump-five-forces");
+  await page.open("ump-trade-offs");
+  await page.click('.as [data-preset="full"]');
   await page.waitForSelector(".ac-launch");
   await page.click(".ac-launch");
   assert.equal(await page.evaluate(() => document.querySelector(".ac-panel").hidden), false);
-  assert.match(await page.text(".ac-about"), /The five forces/);
+  assert.match(await page.text(".ac-about"), /Trade-offs/);
 
-  await page.fill("#ac-input", "Show me what strong buyers do");
+  await page.fill("#ac-input", "What if the full-service airline flew one type of plane?");
   await page.press("#ac-input", "Enter");
   await page.waitForSelector(".ac-msg.is-claude .ac-md strong");
-  assert.match(await page.text(".ac-msg.is-claude .ac-md"), /Buyer power .* Buyers take more/);
+  assert.match(await page.text(".ac-msg.is-claude .ac-md"), /Fleet .* Costs fall/);
   // The tool really moved the control, and the panel says so.
-  assert.match(await page.text('.ff [data-ref="tiles"]'), /\$42 .* \$5 .* \$53$/i);
-  assert.match(await page.text(".ac-did"), /Chose “Strong” for “Buyer power”/);
+  assert.match(await page.text('.as [data-ref="tiles"]'), /\$97 .* \$92 .* \$5$/i);
+  assert.match(await page.text(".ac-did"), /Chose “One type of plane” for “Fleet”/);
   const first = await page.evaluate(() => window.__inputs[0]);
   assert.equal(first[0].role, "user");
-  assert.match(first[0].content, /Page: Part I · Chapter 02 · The five forces[\s\S]*<page_text>[\s\S]*<interactives>[\s\S]*choice "Buyer power": Weak \[chosen\]/);
-  assert.equal(first[first.length - 1].content, "Show me what strong buyers do");
+  assert.match(first[0].content, /Page: Part II · Chapter 05 · Trade-offs[\s\S]*<page_text>[\s\S]*<interactives>[\s\S]*choice "Fleet": A mixed fleet \[chosen\]/);
+  assert.equal(first[first.length - 1].content, "What if the full-service airline flew one type of plane?");
 
   // Keep the answer as a margin note.
   await page.click('.ac-msg [data-act="save"]');
-  const notes = await page.evaluate(() => window.Marginalia.memory.notes({ book: "ump", page: "five-forces" }));
+  const notes = await page.evaluate(() => window.Marginalia.memory.notes({ book: "ump", page: "trade-offs" }));
   assert.equal(notes.length, 1);
-  assert.match(notes[0].quote, /^Asked Claude: Show me what strong buyers do/);
-  assert.match(notes[0].note, /^Claude: I set Buyer power to strong/);
+  assert.match(notes[0].quote, /^Asked Claude: What if the full-service airline flew one type of plane\?/);
+  assert.match(notes[0].note, /^Claude: I set Fleet to one type of plane/);
 
   // Select a passage and ask about it.
   await page.evaluate(() => {
@@ -236,12 +237,12 @@ test("Ask Claude: hidden without a viewer; reads the page, works its controls an
   });
   await page.waitForSelector('.hl-toolbar [data-act="ask"]:not([hidden])');
   await page.click('.hl-toolbar [data-act="ask"]');
-  assert.match(await page.text(".ac-quote"), /^About: “Most people picture competition as a/);
+  assert.match(await page.text(".ac-quote"), /^About: “A trade-off arises when doing more of on/);
   await page.fill("#ac-input", "What does this mean?");
   await page.press("#ac-input", "Enter");
   await page.waitForFunction(() => window.__inputs.length === 2);
   const second = await page.evaluate(() => window.__inputs[1]);
-  assert.match(second[second.length - 1].content, /^About this passage on the page: "Most people picture competition as a[\s\S]*What does this mean\?$/);
+  assert.match(second[second.length - 1].content, /^About this passage on the page: "A trade-off arises when doing more of on[\s\S]*What does this mean\?$/);
   // The earlier question and answer travel with the new one.
   assert.equal(second.length, 4);
 

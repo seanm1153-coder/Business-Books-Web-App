@@ -72,7 +72,7 @@ npm test
 | Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as cards, and a workbench for sketching the system behind a recurring problem (behavior, stock, flows, loop, delay, leverage point) with live checks, a stock-and-flow preview, the notebook and the optional Claude critique. |
 | Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
 | Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: a toy market of four firms on one line of customer needs, where firms crowding the same spot earn $4,000 between them and the same firms spread out earn $40,000; operational effectiveness versus strategy; and a best-or-unique sort. |
-| The five forces | `#ump-five-forces` | Porter's five forces and what they divide, a toy model of how much of $100 of value an industry keeps as each force strengthens, and an eight-item sort of developments by the force they change. |
+| The five forces | `#ump-five-forces` | A dense reference page, the prototype for less simulation and more of the book: the argument in six points, a map of the five forces listing what makes each strong and where it hits the P&L, Porter's chart of average return on invested capital across 31 US industries (1992–2006), the airline industry force by force, factors that aren't forces, and the common mistakes. |
 | Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a calculator comparing your price, cost and margin with a rival's at $100 and $90, the value chain as the source of every difference, and a price-or-cost sort. |
 | Creating value | `#ump-value` | The three questions of a value proposition (which customers, which needs, what relative price) and the tailored value chain. A builder for an invented car rental company flags answers that contradict or barely fit, and shows the tailored chain for each of the three coherent positions. Ends with a which-question sort. |
 | Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
@@ -114,10 +114,12 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
-                              buffer, system-sketch, forces,
+                              buffer, system-sketch,
                               advantage, activity-system, positions,
                               copy-odds, copy-valley, value-prop,
-                              continuity, strategy-tests)
+                              continuity, strategy-tests, and the
+                              reference blocks brief, force-map,
+                              bar-chart, table)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
@@ -126,7 +128,7 @@ tests/                        Node test runner + Playwright: routes, exercises, 
 .github/workflows/pages.yml   publishes the site to GitHub Pages on pushes to main
 ```
 
-A page is a header plus a list of blocks, each `{ type: "...", ...settings }`, and an optional end section with related ideas and a call to action. To add a page, add an entry to the book's `pages` and point a chapter at it with `page: "<slug>"`. To add a book, create `assets/books/<id>.js`, call `Marginalia.addBook({...})`, and add a script tag to `index.html`. A new kind of interactive means a new file in `assets/js/blocks/`.
+A page is a header plus a list of blocks, each `{ type: "...", ...settings }`, and an optional end section with related ideas and a call to action. To add a page, add an entry to the book's `pages` and point a chapter at it with `page: "<slug>"`. To add a book, create `assets/books/<id>.js`, call `Marginalia.addBook({...})`, and add a script tag to `index.html`. A new kind of interactive means a new file in `assets/js/blocks/`. A page with `layout: "dense"` gets a compact head and suits the reference blocks (brief, force-map, bar-chart, table), which carry the book's own frameworks and figures rather than a simulation.
 
 Summaries are written in our own words. Keep quotations short and attributed.
 

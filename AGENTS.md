@@ -73,6 +73,13 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 3. Add its styles to `styles.css` under a comment header.
 4. Before reaching for a new block, check whether an existing one fits. `sorter` handles two or more options; `prose` handles text with sidenotes.
 
+**Write a dense reference page**
+The direction for chapter pages is more of the book per screen and fewer toy models and quizzes. `#ump-five-forces` is the model.
+1. Set `layout: "dense"` on the page for the compact head.
+2. Open with a `brief`: the chapter's argument as numbered claims (`{ t, d }`).
+3. Draw the chapter's own framework (`force-map` for a hub and spokes) and chart real figures from the book with `bar-chart`. Name the source in `source`, and flag any figure you couldn't check in a code comment.
+4. Put comparisons, worked cases and common mistakes in `table` blocks. Cells are trusted HTML; `<span class="pl-tag">Price ↓</span>` marks where something hits the P&L.
+
 **Add a book**
 1. Create `assets/books/<id>.js` with `M.addBook({ id, title, author, year, status: "open", cover, hero, thesis, citation, entries, parts, pages, nav })`. Use `pb.js` as the model.
 2. Add its `<script>` tag to `index.html` after the other books.

@@ -300,7 +300,7 @@
     });
 
     view.innerHTML = `
-      <article class="paper-section concept${page.kind === "tool" ? " is-tool" : ""}">
+      <article class="paper-section concept${page.kind === "tool" ? " is-tool" : ""}${page.layout === "dense" ? " is-dense" : ""}">
         <div class="wrap">
           <header class="concept-head">
             <p class="eyebrow">${esc(page.eyebrow)}</p>

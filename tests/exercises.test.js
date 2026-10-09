@@ -520,25 +520,40 @@ test("Porter: firms that chase the same best spot compete away their profits", a
   assert.equal(await sort(["best", "unique", "best", "unique", "best", "unique"]), "6 of 6 right");
 });
 
-test("Porter: the five forces divide an industry's value", async () => {
+test("Porter: the five forces page maps the forces, charts real industry returns and works the airline case", async () => {
   await page.open("ump-five-forces");
-  const tiles = () => page.text('.ff [data-ref="tiles"]');
-  const note = () => page.text('.ff [data-ref="note"]');
-  // Every force weak: the industry keeps $69 of $100.
-  assert.match(await tiles(), /\$69 .* \$5 .* \$26$/i);
-  await page.click('.ff [data-preset="buyers"]');
-  assert.match(await tiles(), /\$42 .* \$5 .* \$53$/i);
-  assert.match(await note(), /buyer power alone costs the industry \$27 of every \$100.* would keep up to \$69/);
-  await page.click('.ff [data-preset="brutal"]');
-  assert.match(await tiles(), /\$10 .* \$30 .* \$60$/i);
-  assert.match(await note(), /With every force strong/);
-  // Weakening suppliers from the brutal case: their take falls and the industry keeps more.
-  await page.check('.ff [data-force="suppliers"][value="0"]');
-  assert.match(await tiles(), /\$14 .* \$5 .* \$81$/i);
-  assert.equal(
-    await sort(["suppliers", "substitutes", "rivalry", "buyers", "entry", "substitutes", "buyers", "entry"]),
-    "8 of 8 right"
+  // A reference page: no toy model and no quiz.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 10);
+  assert.match(await page.text(".fm-grid"), /Threat of new entrants .* Supplier power .* Rivalry among existing competitors .* Buyer power .* Threat of substitutes/);
+
+  // The chart: every industry, values written only where the text discusses them.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bc-row").length), 31);
+  assert.equal(await page.text(".bc-ref-k"), "All industries 14.9%");
+  assert.deepEqual(
+    await page.evaluate(() => Array.from(document.querySelectorAll(".bc-v"), (v) => v.textContent)),
+    ["40.9%", "37.6%", "37.6%", "31.7%", "5.9%"]
   );
+  // Hover and keyboard focus show the same tooltip.
+  const tip = () => page.evaluate(() => (document.querySelector(".bc-tip").hidden ? "" : document.querySelector(".bc-tip").textContent));
+  await page.hover('.bc-row[aria-label^="Soft drink bottling"] .bc-bar');
+  assert.equal(await tip(), "11.7%Soft drink bottling");
+  await page.mouse.move(0, 0);
+  assert.equal(await tip(), "");
+  await page.focus(".bc-row[tabindex='0']");
+  await page.keyboard.press("End");
+  assert.equal(await tip(), "5.9%Airlines");
+  await page.keyboard.press("ArrowUp");
+  assert.equal(await tip(), "5.9%Catalog & mail order");
+  // The table twin carries every value.
+  await page.click(".bc-table summary");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bc-table tbody tr").length), 31);
+  assert.match(await page.text(".bc-table"), /Semiconductors\s+21\.3%/);
+
+  // The tables: the airline case force by force, factors and mistakes.
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [5, 4, 7]);
+  assert.match(await page.text(".dt"), /Rivalry\tMany carriers[^|]*\tPrice ↓ Cost ↑ \| Buyers/);
 });
 
 test("Porter: advantage is a higher relative price, a lower relative cost, or both", async () => {

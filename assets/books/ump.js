@@ -284,142 +284,324 @@
           cta: { page: "five-forces", kicker: "Next", text: "What sets an industry's average profit" }
         }
       },
-      // The framing (forces divide the value an industry creates; growth, technology,
-      // government and complements are factors rather than forces; return on invested capital
-      // as the measure) follows Porter's published work as I remember Magretta presenting it,
-      // unchecked against her wording. The toy model and the sorter items are ours.
+      // A reference page rather than a toy model: the argument in brief, the forces and their
+      // drivers, real industry figures, a worked example and the usual mistakes.
+      // Sources and checks:
+      // - The drivers of each force, the four "factors, not forces" and the list of mistakes
+      //   follow Porter's 2008 HBR article "The Five Competitive Forces That Shape Strategy",
+      //   which Magretta's chapter draws on. Unchecked against her wording, and the list of
+      //   mistakes is unchecked as being in her chapter at all.
+      // - Industry ROIC, 1992–2006, is the exhibit in that article. Checked against secondary
+      //   sources: soft drinks 37.6, prepackaged software 37.6, pharmaceuticals 31.7, airlines
+      //   5.9 and the 14.9 average, and that security brokers top the list. The other values
+      //   are transcribed from memory of the exhibit and unchecked.
+      // - The airline example is Porter's (every force strong) and Magretta cites its 5.9%;
+      //   the force-by-force reading is ours.
       "five-forces": {
         navLabel: "Five forces",
         title: "The five forces",
         eyebrow: "Part I · Chapter 02",
+        layout: "dense",
         dek:
-          "Why are some industries more profitable than others, year after year? Porter's answer is structure: five forces decide how much of the value an industry creates its companies get to keep.",
+          "Why some industries earn more than others, year after year. Porter's answer is structure: five forces decide how much of the value an industry creates its companies get to keep, and they act through price and cost.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Competing for profits",
-                paras: [
-                  "Most people picture competition as a contest between rivals. Porter widens the view. A company competes for profits not only with its direct rivals but with its customers, who would like to pay less; its suppliers, who would like to charge more; the makers of substitutes, who offer another way to meet the same need; and would-be entrants, who would take a share if they could get in.",
-                  "Together these five forces make up an industry's structure, and structure explains why average profitability differs so much from one industry to another, and why the differences last. The forces divide the value an industry creates: some is kept by its companies, some is bargained away to customers and suppliers, and some is held down by substitutes and the threat of entry."
-                ],
-                side: {
-                  label: "Measuring it",
-                  html: "<p>Porter judges performance by return on invested capital: profit compared with the capital tied up to earn it. Sales growth and market share can look impressive while that return stays poor.</p>"
-                }
+                t: "Competition is a fight over profits, and rivals are only one side of it.",
+                d: "A company's profits are contested by its rivals, its customers, its suppliers, the makers of substitutes and would-be entrants, all at once. Beating rivals on sales means little if the others take the value."
+              },
+              {
+                t: "The five forces are the industry's structure.",
+                d: "Structure explains why average profitability differs so much between industries and why the differences last. From 1992 to 2006, US airlines averaged a 5.9% return on invested capital; soft drinks and prepackaged software, 37.6%."
+              },
+              {
+                t: "Every force works through price or cost.",
+                d: "Powerful buyers and close substitutes hold prices down. Powerful suppliers raise costs. Rivalry and the threat of entry do both, through price cuts and through spending on features, service and advertising. That is how structure reaches the P&L."
+              },
+              {
+                t: "The strongest force sets the limit.",
+                d: "Profitability is capped by the most powerful force or forces, and which ones those are differs by industry. Good analysis goes deep on them rather than giving all five equal space."
+              },
+              {
+                t: "Growth, technology, government and complements are factors, not forces.",
+                d: "Each matters only through what it does to the five forces. A fast-growing or high-tech industry can still be a poor one."
+              },
+              {
+                t: "The point is a better position, not a verdict.",
+                d: "Use the forces to find where they are weakest, to see changes in structure coming and to reshape the structure. Labeling an industry attractive or unattractive misses the use."
               }
             ]
           },
           {
-            type: "forces",
-            title: "How the forces split an industry's value",
+            type: "force-map",
+            eyebrow: "Figure",
+            title: "The five forces, and what makes each strong",
             intro:
-              "Set each force for an invented industry and see how much of the value it creates its companies keep. The shares are illustrative; the point is how the forces combine.",
-            outLabel: "Of every $100 of value the industry creates",
-            levels: ["Weak", "Medium", "Strong"],
-            forces: [
-              { id: "entry", name: "Threat of new entrants", short: "the threat of entry", question: "How easily could a newcomer get in?", take: [0.05, 0.15, 0.3], to: "buyers", arrow: "↓" },
-              { id: "suppliers", name: "Supplier power", short: "supplier power", question: "Can suppliers raise prices or cut quality?", take: [0.05, 0.15, 0.3], to: "suppliers", arrow: "→" },
-              { id: "rivalry", name: "Rivalry among competitors", short: "rivalry", question: "How hard do existing firms compete, and on what?", take: [0.1, 0.25, 0.45], to: "buyers" },
-              { id: "buyers", name: "Buyer power", short: "buyer power", question: "Can customers push prices down?", take: [0.1, 0.25, 0.45], to: "buyers", arrow: "←" },
-              { id: "substitutes", name: "Threat of substitutes", short: "the threat of substitutes", question: "Can customers meet the need another way?", take: [0.05, 0.15, 0.3], to: "buyers", arrow: "↑" }
+              "Each box lists the conditions under which that force is strong. The tags show where it hits the P&L: <span class=\"pl-tag\">Price ↓</span> holds prices down, <span class=\"pl-tag\">Cost ↑</span> raises costs or the cost of competing.",
+            top: {
+              name: "Threat of new entrants",
+              hits: ["Price ↓", "Cost ↑"],
+              when: "Strong when barriers to entry are low and newcomers don't expect incumbents to fight back. Even a threat holds prices down, or makes incumbents spend to deter it.",
+              lists: [
+                {
+                  k: "Barriers to entry",
+                  items: [
+                    "Supply-side economies of scale: big incumbents make each unit for less",
+                    "Demand-side benefits of scale: buyers want the network everyone else uses",
+                    "Customers' costs of switching",
+                    "Capital needed to get in, above all if it can't be recovered",
+                    "Incumbents' advantages that don't depend on size: technology, sites, brand, know-how",
+                    "Unequal access to distribution channels",
+                    "Restrictive government policy: licenses, permits, patents"
+                  ]
+                }
+              ]
+            },
+            left: {
+              name: "Supplier power",
+              hits: ["Cost ↑"],
+              when: "Strong when suppliers can charge more, limit quality or push costs onto the industry. Suppliers include labor.",
+              lists: [
+                {
+                  k: "Strong when",
+                  items: [
+                    "Suppliers are more concentrated than the industry they sell to",
+                    "They don't depend on this industry for much of their revenue",
+                    "Changing suppliers is costly for the industry's companies",
+                    "What they supply is differentiated",
+                    "There is no substitute for it",
+                    "They could credibly enter the industry themselves"
+                  ]
+                }
+              ]
+            },
+            center: {
+              name: "Rivalry among existing competitors",
+              hits: ["Price ↓", "Cost ↑"],
+              when: "How hard rivals compete, and on what. Price cuts hand profit straight to customers; competing on features, service or advertising raises costs.",
+              lists: [
+                {
+                  k: "Intense when",
+                  items: [
+                    "Competitors are many, or similar in size and power",
+                    "Industry growth is slow",
+                    "Exit barriers are high, so capacity stays even when returns are poor",
+                    "Rivals are committed to the business beyond its economics",
+                    "Firms can't read each other's moves"
+                  ]
+                },
+                {
+                  k: "Turns to price, the most damaging form, when",
+                  items: [
+                    "Products are hard to tell apart and switching is cheap",
+                    "Fixed costs are high and one more unit costs little",
+                    "Capacity has to be added in large steps",
+                    "The product is perishable"
+                  ]
+                }
+              ]
+            },
+            right: {
+              name: "Buyer power",
+              hits: ["Price ↓", "Cost ↑"],
+              when: "Strong when customers have leverage and use it because price matters to them. They push prices down or demand more for the same money.",
+              lists: [
+                {
+                  k: "Leverage",
+                  items: [
+                    "Few buyers, or buyers who each buy in large volumes",
+                    "Products are standardized",
+                    "Switching vendors costs little",
+                    "Buyers could make the product themselves"
+                  ]
+                },
+                {
+                  k: "Price sensitivity",
+                  items: [
+                    "The product is a large part of the buyer's costs",
+                    "Buyers earn low profits or are short of cash",
+                    "It makes little difference to the quality of the buyer's own product",
+                    "It saves the buyer little else"
+                  ]
+                }
+              ]
+            },
+            bottom: {
+              name: "Threat of substitutes",
+              hits: ["Price ↓"],
+              when: "A substitute does the same job by different means: a video call instead of a business trip, plastic instead of aluminum. It puts a ceiling on price.",
+              lists: [
+                {
+                  k: "Strong when",
+                  items: ["It offers an attractive trade-off of price and performance", "Switching to it costs the buyer little"]
+                }
+              ]
+            },
+            notes: [
+              "<p><strong>Not just rivals.</strong> Four of the five forces sit outside the industry. A company can beat every rival and still earn little if buyers, suppliers, substitutes or entrants take the value.</p>",
+              "<p><strong>Each force is pressure</strong> on the industry's profits. The analysis asks how strong each one is, and why.</p>",
+              "<p><strong>Workers are suppliers,</strong> and in some industries the most powerful ones.</p>",
+              "<p><strong>Government isn't a sixth force.</strong> Its policies work through these five, as the table of factors below shows.</p>"
             ],
-            presets: [
-              { id: "sheltered", label: "A sheltered industry", levels: { entry: 0, suppliers: 0, rivalry: 0, buyers: 0, substitutes: 0 } },
-              { id: "middle", label: "Middle of the road", levels: { entry: 1, suppliers: 1, rivalry: 1, buyers: 1, substitutes: 1 } },
-              { id: "buyers", label: "Strong buyers only", levels: { entry: 0, suppliers: 0, rivalry: 0, buyers: 2, substitutes: 0 } },
-              { id: "brutal", label: "Every force strong", levels: { entry: 2, suppliers: 2, rivalry: 2, buyers: 2, substitutes: 2 } }
-            ],
-            foot:
-              "A toy model, not from the book. Value created is what buyers would pay, less what it costs suppliers to provide the inputs. Suppliers take their share first; each other force passes part of what's left to buyers. The percentages are invented to show how the forces combine."
+            foot: "The drivers follow Porter's 2008 article “The Five Competitive Forces That Shape Strategy”, which Magretta's chapter draws on. The wording is ours."
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Forces and factors",
-                paras: [
-                  "Some things that obviously matter to an industry aren't forces in Porter's sense: its growth rate, technology and innovation, government, and complementary products. They matter through the forces. A new technology can lower the barriers to entry or create a substitute; a regulation can strengthen buyers or protect incumbents.",
-                  "The test of any change is what it does to the five forces. Asking that question keeps the analysis from turning into a list of trends."
-                ],
-                side: {
-                  label: "Growth isn't enough",
-                  html: "<p>A fast-growing industry isn't necessarily a profitable one. Growth draws in entrants and can hand power to suppliers, exactly as the forces would predict.</p>"
-                }
-              }
+            type: "bar-chart",
+            eyebrow: "The evidence",
+            title: "Average profitability differs widely between industries",
+            intro:
+              "Average return on invested capital (ROIC), US industries, 1992–2006. ROIC is profit as a share of the capital tied up to earn it. Porter prefers it to sales growth or market share, which can look good while returns stay poor.",
+            unit: "%",
+            decimals: 1,
+            max: 45,
+            ticks: [0, 10, 20, 30, 40],
+            ref: { value: 14.9, label: "All industries" },
+            labelHead: "Industry",
+            valueHead: "Average ROIC, 1992–2006",
+            rows: [
+              { label: "Security brokers & dealers", value: 40.9, show: true },
+              { label: "Soft drinks", value: 37.6, show: true },
+              { label: "Prepackaged software", value: 37.6, show: true },
+              { label: "Pharmaceuticals", value: 31.7, show: true },
+              { label: "Perfume & cosmetics", value: 28.6 },
+              { label: "Advertising agencies", value: 27.3 },
+              { label: "Distilled spirits", value: 26.4 },
+              { label: "Semiconductors", value: 21.3 },
+              { label: "Medical instruments", value: 21.0 },
+              { label: "Men's & boys' clothing", value: 19.5 },
+              { label: "Tires", value: 19.5 },
+              { label: "Household appliances", value: 19.2 },
+              { label: "Malt beverages", value: 19.1 },
+              { label: "Child day care", value: 17.6 },
+              { label: "Household furniture", value: 17.0 },
+              { label: "Drug stores", value: 16.5 },
+              { label: "Grocery stores", value: 16.0 },
+              { label: "Iron & steel foundries", value: 15.6 },
+              { label: "Cookies & crackers", value: 15.4 },
+              { label: "Mobile homes", value: 15.4 },
+              { label: "Wine & brandy", value: 13.9 },
+              { label: "Bakery products", value: 13.8 },
+              { label: "Engines & turbines", value: 13.7 },
+              { label: "Book publishing", value: 13.4 },
+              { label: "Laboratory equipment", value: 13.4 },
+              { label: "Oil & gas machinery", value: 12.6 },
+              { label: "Soft drink bottling", value: 11.7 },
+              { label: "Knitting mills", value: 10.5 },
+              { label: "Hotels", value: 10.4 },
+              { label: "Catalog & mail order", value: 5.9 },
+              { label: "Airlines", value: 5.9, show: true }
+            ],
+            source:
+              "Source: Michael E. Porter, “The Five Competitive Forces That Shape Strategy,” <cite>Harvard Business Review</cite>, January 2008. Magretta draws on the same figures in chapter 2."
+          },
+          {
+            type: "table",
+            eyebrow: "Worked example",
+            title: "Why airlines earn so little",
+            intro:
+              "Porter's standard case of an industry where every force is strong. From 1992 to 2006 it averaged 5.9% ROIC, the bottom of the chart above. The force-by-force reading is ours.",
+            columns: ["Force", "How it shows up", "Hits"],
+            widths: ["11rem", null, "9.5rem"],
+            rows: [
+              [
+                "Rivalry",
+                "Many carriers fly the same routes with seats that are hard to tell apart. Fixed costs are high and one more passenger costs almost nothing, an empty seat is lost for good once the plane leaves, and bankruptcy lets failed airlines keep flying.",
+                "<span class=\"pl-tag\">Price ↓</span> <span class=\"pl-tag\">Cost ↑</span>"
+              ],
+              [
+                "Buyers",
+                "Travelers compare fares side by side and switch freely; for most trips the cheapest fare wins. Large companies negotiate corporate rates.",
+                "<span class=\"pl-tag\">Price ↓</span>"
+              ],
+              [
+                "Suppliers",
+                "Two makers of large jets, unionized pilots and crews, airports with scarce gates and landing slots, and fuel priced on world markets.",
+                "<span class=\"pl-tag\">Cost ↑</span>"
+              ],
+              [
+                "Substitutes",
+                "Driving, rail and buses on short routes; video calls in place of business trips.",
+                "<span class=\"pl-tag\">Price ↓</span>"
+              ],
+              [
+                "New entrants",
+                "Planes can be leased and crews hired, so low-cost carriers keep appearing wherever they can get gates and slots.",
+                "<span class=\"pl-tag\">Price ↓</span> <span class=\"pl-tag\">Cost ↑</span>"
+              ]
             ]
           },
           {
-            type: "sorter",
-            title: "Which force?",
-            intro: "Eight developments in invented industries. Which of the five forces does each one change most directly?",
-            options: [
-              { id: "entry", label: "New entrants", hint: "Newcomers could get in." },
-              { id: "suppliers", label: "Suppliers", hint: "They can charge more." },
-              { id: "rivalry", label: "Rivalry", hint: "Existing firms compete harder." },
-              { id: "buyers", label: "Buyers", hint: "Customers can push back." },
-              { id: "substitutes", label: "Substitutes", hint: "Another way to meet the need." }
-            ],
-            items: [
-              {
-                text: "Two of the three companies that make a component every manufacturer in the industry needs announce a merger.",
-                answer: "suppliers",
-                why: "Fewer makers of something essential means more supplier power: they can charge more, and the industry has few places to turn."
-              },
-              {
-                text: "Video calls become good enough that many companies cut back on business travel.",
-                answer: "substitutes",
-                why: "Video calls don't compete with an airline on its routes; they meet the same need another way. That's a substitute, and it caps what airlines can charge."
-              },
-              {
-                text: "Growth in the industry stalls, and companies with high fixed costs start cutting prices to fill their capacity.",
-                answer: "rivalry",
-                why: "Slow growth and high fixed costs are classic causes of intense rivalry, and price cuts are the most damaging way to fight it."
-              },
-              {
-                text: "A retail chain that buys a fifth of everything the industry makes starts selling its own brand.",
-                answer: "buyers",
-                why: "A big customer that can make the product itself has leverage in every price negotiation. That's buyer power."
-              },
-              {
-                text: "A new technology lets small firms make the product without the costly factory it used to require.",
-                answer: "entry",
-                why: "Lower capital needs lower the barrier to entry. Incumbents now have to keep prices low enough not to invite newcomers in."
-              },
-              {
-                text: "An alternative way of doing the same job falls in price by half while getting better.",
-                answer: "substitutes",
-                why: "A better, cheaper substitute pulls down the ceiling on prices for everyone in the industry."
-              },
-              {
-                text: "A regulator requires that customers be able to take their data with them when they switch providers.",
-                answer: "buyers",
-                why: "Lower switching costs strengthen buyers: walking away gets easier, so they can demand more."
-              },
-              {
-                text: "The established firms sign exclusive deals with every major distributor.",
-                answer: "entry",
-                why: "Shutting newcomers out of distribution raises a barrier to entry. The threat of new entrants falls, which helps the incumbents."
-              }
+            type: "table",
+            eyebrow: "Common confusions",
+            title: "Factors, not forces",
+            intro: "Four things that obviously matter to an industry but aren't forces in Porter's sense. Each works through the five, so the question to ask is what it does to them.",
+            columns: ["Factor", "The usual assumption", "How it actually works"],
+            widths: ["11rem", "16rem", null],
+            rows: [
+              [
+                "Industry growth",
+                "Fast growth makes an industry attractive.",
+                "Growth can ease rivalry, since companies can grow without taking share from each other. It does nothing about powerful buyers or suppliers, and when barriers are low it draws in entrants."
+              ],
+              [
+                "Technology and innovation",
+                "High-tech industries are the profitable ones.",
+                "Technology helps only if it changes the forces, by raising barriers or weakening buyers, for example. Plenty of low-tech industries with high barriers or price-insensitive buyers out-earn glamorous ones that attract crowds of competitors."
+              ],
+              [
+                "Government",
+                "Regulation is a sixth force.",
+                "Policy acts through the five: patents and licensing raise barriers to entry, rules that make switching easier strengthen buyers, and subsidies can keep weak rivals in business."
+              ],
+              [
+                "Complements",
+                "Products used together, such as hardware and software, form a sixth force.",
+                "Complements also work through the forces, for example by raising customers' switching costs or lowering the barriers to entry."
+              ]
             ]
           },
           {
-            type: "prose",
-            sections: [
+            type: "table",
+            eyebrow: "Doing the analysis",
+            title: "Common mistakes, and what to do instead",
+            intro: "Porter's list of the ways the analysis goes wrong.",
+            columns: ["Mistake", "Do this instead"],
+            widths: ["19rem", null],
+            rows: [
+              ["Defining the industry too broadly or too narrowly", "Draw the line by structure. If two products, or two regions, face different forces, they are different industries."],
+              ["Making a list of everything that might matter", "Work out how each force operates and how strong it is. A list of factors isn't an analysis."],
+              ["Giving all five forces equal attention", "Find the one or two strongest forces and go deep on them."],
+              ["Confusing effect with cause", "Price-sensitive buyers are an effect. Look for the cause in the buyers' own economics, such as what the product costs them relative to their profits."],
+              ["Taking a snapshot", "Look at which way each force is moving and what the trends will do to the structure."],
+              ["Mistaking a cycle for a change in structure", "Swings in demand come and go. Ask whether the forces themselves have shifted."],
+              ["Using it to call an industry good or bad", "Use it to find a position, anticipate change and reshape the structure."]
+            ]
+          },
+          {
+            type: "brief",
+            eyebrow: "So what",
+            title: "What the analysis is for",
+            cols: 4,
+            points: [
               {
-                n: "3",
-                title: "What the analysis is for",
-                paras: [
-                  "The point isn't to label an industry attractive or unattractive. It's to understand what drives profitability in it, so a company can find a position where the forces are weakest, act to change them, and see shifts in structure coming before its rivals do.",
-                  "The forces set the average. Some companies in a poor industry earn well above it, and some in a rich industry earn well below. Explaining that difference is the job of <a href=\"@advantage\">competitive advantage</a>, the subject of the next chapter."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>In the model, press “Strong buyers only”. One strong force takes away more than a third of what a sheltered industry keeps.</p>"
-                }
+                t: "Find the best position.",
+                d: "Look for the place in the industry where the forces are weakest: customers with less power, products less exposed to substitutes, segments entrants find hard to reach."
+              },
+              {
+                t: "See changes in structure coming.",
+                d: "Shifts in the forces open new positions and close old ones. The company that sees them first can move first."
+              },
+              {
+                t: "Reshape the structure.",
+                d: "A company can raise barriers to entry, standardize inputs to weaken suppliers, steer competition away from price, or grow the profit pool everyone shares."
+              },
+              {
+                t: "Then explain the gap from the average.",
+                d: "The forces set the industry's average. Why some companies earn far more, and others far less, is the subject of <a href=\"@advantage\">competitive advantage</a>, the next chapter."
               }
             ]
           }

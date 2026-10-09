@@ -32,6 +32,14 @@
     // Content HTML links to pages in the same book as href="@slug" ("@" alone is the book home).
     resolveLinks: (html, ctx) => html.replace(/href="@([\w-]*)"/g, (_, slug) => `href="${ctx.href(slug)}"`),
 
+    // The compact heading the reference blocks share (brief, force-map, bar-chart, table):
+    // a mono label, a title and an optional one-paragraph intro (trusted HTML).
+    figHead: (block, ctx) => `<header class="fig-head">
+        ${block.eyebrow ? `<p class="fig-k">${esc(block.eyebrow)}</p>` : ""}
+        <h2 class="fig-t" id="${ctx.uid}-h">${esc(block.title)}</h2>
+        ${block.intro ? `<p class="fig-intro">${M.util.resolveLinks(block.intro, ctx)}</p>` : ""}
+      </header>`,
+
     // localStorage can be missing or blocked; every access is guarded.
     store: {
       get(key) {
