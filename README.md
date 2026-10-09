@@ -78,6 +78,7 @@ npm test
 | Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
 | Fit | `#ump-fit` | Porter's three kinds of fit; a calculator for the odds of copying a whole system (90% per activity gives 66% for four); and the airline model run over every partial copy, where each one earns less than not copying at all and only the complete system pays. Ends with a which-kind-of-fit sort. |
 | Continuity | `#ump-continuity` | Why strategy needs years, and a toy simulator of two strategies whose capability builds while pursued and fades while not: staying the course earns $1,883m over 20 years, changing every two years $739m, and when the market shifts, one well-timed change beats both. |
+| Test your strategy | `#ump-five-tests` | Workbench: write down a strategy (customers, needs, relative price, tailored activities, trade-offs, fit, continuity) and check it against Porter's five tests as you type. Drafts go to the notebook, with the optional Claude critique. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
 
@@ -85,7 +86,7 @@ npm test
 
 - **Margin notes.** Select text in any chapter's prose to highlight it or add a note. Highlights come back on every visit and collect in the notebook.
 - **Memory.** `assets/js/memory.js` keeps notes, drafts, scores and visits. Inside a Claude viewer with the `db` and `user` capabilities, they live in the reader's private store (`data/users/<id>/library`) and follow them across devices; anywhere else they stay in the browser.
-- **Claude critique.** The three workbenches (kernel, point of view, system sketch) can ask Claude for a critique of the draft through the `sample` capability. Where Claude isn't reachable (for example on GitHub Pages) the button stays hidden.
+- **Claude critique.** The four workbenches (kernel, point of view, system sketch, strategy tests) can ask Claude for a critique of the draft through the `sample` capability. Where Claude isn't reachable (for example on GitHub Pages) the button stays hidden.
 
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
 
@@ -114,7 +115,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               buffer, system-sketch, forces,
                               advantage, activity-system, positions,
                               copy-odds, copy-valley, value-prop,
-                              continuity)
+                              continuity, strategy-tests)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

@@ -629,6 +629,23 @@ test("Porter: continuity builds a strategy; constant change and standing still b
   assert.match(await tiles(), /\$1,883m/);
 });
 
+test("Porter: the five tests workbench flags a generic plan and saves a draft", async () => {
+  await page.open("ump-five-tests");
+  const statuses = () => page.evaluate(() => [...document.querySelectorAll(".st .check")].map((c) => c.classList[1]).join(" "));
+  assert.match(await page.text(".st .check-summary"), /^Passes all five tests \| 5 of 5 tests pass/);
+  await page.click('.st [data-example="generic"]');
+  assert.equal(await statuses(), "warn warn fail fail warn");
+  assert.match(await page.text(".st .checks"), /Serving everyone isn't a choice/);
+  // Fixing the generic plan one test at a time.
+  await page.fill('.st [data-field="customers"]', "Families renting a second car for a week's holiday.");
+  await page.fill('.st [data-field="price"]', "About 20% below the airport brands.");
+  await page.fill('.st [data-field="tradeoffs"]', "We don't serve business travelers and won't open airport desks.");
+  await page.fill('.st [data-field="continuity"]', "At least five years.");
+  assert.equal(await statuses(), "pass warn pass fail pass");
+  await page.open("notebook");
+  assert.match(await page.text("#view"), /Your strategy \| Customers and needs \| Families renting a second car/i);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

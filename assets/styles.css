@@ -1698,7 +1698,9 @@ mark.m-fluff { background: var(--mark-fluff); }
 /* ---------- System sketch (on the dark check card) ---------- */
 
 .sk .bench-tools { margin-top: 0; }
-.sk .bench-form textarea[rows="1"] { resize: none; }
+.sk .bench-form textarea[rows="1"], .st .bench-form textarea[rows="1"] { resize: none; }
+.st-rows { margin: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.st-rows dd { margin: 0; font-size: 0.9375rem; }
 .sk-flows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .sk-kinds { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .sk-kind { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.8rem; border: 1px solid var(--rule); border-radius: 99px; font-family: var(--mono); font-size: 0.75rem; cursor: pointer; }

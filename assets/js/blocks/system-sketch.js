@@ -244,6 +244,8 @@
       );
       const onResize = () => TEXT.forEach((k) => autosize(inputs[k]));
       window.addEventListener("resize", onResize);
+      // Fields are first sized before the web fonts arrive; size them again once they have.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => root.isConnected && onResize());
 
       const offMemory = memory().onChange((kind) => {
         if (kind !== "all" || touched) return;

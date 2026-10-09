@@ -463,6 +463,10 @@
       const onResize = () => root.querySelectorAll(".bench-form textarea").forEach(autosize);
       window.addEventListener("resize", onResize);
 
+      // Fields are first sized before the web fonts arrive; size them again once they have.
+
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => root.isConnected && onResize());
+
       // A draft saved on another device can arrive after the page has rendered.
       let touched = false;
       root.querySelector("form").addEventListener("input", () => (touched = true));

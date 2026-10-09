@@ -125,8 +125,8 @@
     hero: { lines: ["Understanding", "Michael Porter"], art: "forces" },
     entries: [
       { kicker: "Start here", title: "Best or unique", desc: "Why chasing the best way to compete drives profits down for everyone.", page: "mindset" },
-      { kicker: "Toy model", title: "The five forces", desc: "Set the forces for an industry and see how much of its value it keeps.", page: "five-forces" },
-      { kicker: "Builder", title: "Design an airline", desc: "Choose six activities and watch them reinforce or clash.", page: "trade-offs" }
+      { kicker: "Builder", title: "Design an airline", desc: "Choose six activities and watch them reinforce or clash.", page: "trade-offs" },
+      { kicker: "Workbench", title: "Test your strategy", desc: "Write down a strategy and check it against Porter's five tests.", page: "five-tests" }
     ],
     mapTitle: "Two parts, seven chapters",
     contentsDesc: "From industry structure to the five tests of a good strategy.",
@@ -152,6 +152,7 @@
           { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy.", page: "trade-offs" },
           { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation.", page: "fit" },
           { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build.", page: "continuity" },
+          { title: "The five tests", blurb: "Workbench: check a strategy of your own against all five.", page: "five-tests" },
           { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief." }
         ]
       }
@@ -1016,6 +1017,76 @@
             { title: "Fit", where: "Chapter 6", page: "fit" },
             { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
             { title: "Creating value", where: "Chapter 4", page: "value" }
+          ],
+          cta: { page: "five-tests", kicker: "Workbench", text: "Test a strategy against all five tests" }
+        }
+      },
+      // The five tests are Porter's, as Magretta sets them out in part II. The checks are
+      // rules of thumb on the wording, not from the book; the examples are invented.
+      "five-tests": {
+        kind: "tool",
+        title: "Test your strategy",
+        crumb: "Strategy workbench",
+        navLabel: "Workbench",
+        eyebrow: "Workbench · The five tests",
+        dek:
+          "Write down a strategy, your own or one you're studying, and check it against the five tests the second half of the book builds: a distinctive value proposition, a tailored value chain, trade-offs, fit and continuity.",
+        blocks: [
+          {
+            type: "strategy-tests",
+            draftKey: "ump.tests",
+            defaultExample: "rental",
+            examples: {
+              rental: {
+                label: "A replacement-car company",
+                note: "An invented example, built from the replacement-car position on the Creating value page. Edit any field to start your own.",
+                customers: "Drivers whose own car is being repaired, and the insurers and garages who arrange cars for them. Not business travelers or tourists.",
+                needs: "A car near home without a trip to the airport, arranged quickly by phone, at a rate the insurer will cover.",
+                price: "Below airport rates, at or under insurers' daily limits.",
+                chain:
+                  "Small offices in neighborhoods instead of airport counters.\nStaff who deliver cars to customers and collect them.\nAccounts with insurers and repair shops, who send most of the business.\nCars kept longer than airport rivals keep theirs.",
+                tradeoffs: "We don't rent at airports, don't offer luxury models and don't chase the tourist trade.",
+                fit: "Cheap neighborhood offices pay for the delivery staff, and delivery is what makes garages and insurers send us their customers, which keeps the offices busy.",
+                continuity: "Twelve years so far, and we plan on at least ten more."
+              },
+              generic: {
+                label: "A generic plan",
+                note: "An invented plan of the kind Porter warns about. See how many tests it fails.",
+                customers: "Everyone who needs a car, from business travelers to families.",
+                needs: "Great service and great value.",
+                price: "Competitive.",
+                chain: "Excellent people and the latest technology.",
+                tradeoffs: "",
+                fit: "",
+                continuity: "We revisit our strategy every year."
+              },
+              blank: { label: "Start blank" }
+            }
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "What the checks can't see",
+                paras: [
+                  "The checks look for the shape of a strategy in the words: named customers, a relative price, things you won't do, links between activities, a horizon in years. They can't tell whether the customers exist in useful numbers, whether rivals already serve them well, or whether the trade-offs are real. A plan can pass every check and still be wrong.",
+                  "Use them the way Porter's tests are meant to be used: as questions that expose a vague or borrowed strategy, not as a score to maximize."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>Each test has its own chapter: <a href=\"@value\">value</a>, <a href=\"@trade-offs\">trade-offs</a>, <a href=\"@fit\">fit</a> and <a href=\"@continuity\">continuity</a>.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Creating value", where: "Chapter 4", page: "value" },
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
+            { title: "Fit", where: "Chapter 6", page: "fit" },
+            { title: "Continuity", where: "Chapter 7", page: "continuity" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

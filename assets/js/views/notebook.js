@@ -27,6 +27,17 @@
         ["The category", d.name]
       ]
     },
+    "ump.tests": {
+      book: "ump",
+      page: "five-tests",
+      label: "Your strategy",
+      rows: (d) => [
+        ["Customers and needs", [d.customers, d.needs].filter((x) => x && x.trim()).join(" · ")],
+        ["Relative price", d.price],
+        ["Trade-offs", d.tradeoffs],
+        ["Continuity", d.continuity]
+      ]
+    },
     "tis.sketch": {
       book: "tis",
       page: "living",

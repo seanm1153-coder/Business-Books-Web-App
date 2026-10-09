@@ -213,6 +213,8 @@
       );
       const onResize = () => FIELDS.forEach((k) => autosize(inputs[k]));
       window.addEventListener("resize", onResize);
+      // Fields are first sized before the web fonts arrive; size them again once they have.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => root.isConnected && onResize());
 
       let touched = false;
       root.querySelector("form").addEventListener("input", () => (touched = true));
