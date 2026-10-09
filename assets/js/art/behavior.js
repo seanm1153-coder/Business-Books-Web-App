@@ -16,9 +16,7 @@
 
   function draw(canvas) {
     if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const w = Math.max(1, Math.round(rect.width));
-    const h = Math.max(1, Math.round(rect.height));
+    const { w, h, wide, X, Y, W, H } = window.Marginalia.util.heroArea(canvas);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -32,15 +30,6 @@
     const pen = css.getPropertyValue("--pen-bright").trim();
     const dim = css.getPropertyValue("--night-dim").trim();
     const mono = css.getPropertyValue("--mono").trim() || "monospace";
-
-    // Keep clear of the hero text: the area to its right when there's room,
-    // otherwise a strip above the title.
-    const ax = Math.max(w * 0.64, 860);
-    const wide = w - ax - 40 >= 260;
-    const X = wide ? ax : 24;
-    const Y = wide ? h * 0.12 : 18;
-    const W = wide ? w - ax - 40 : w - 48;
-    const H = wide ? h * 0.52 : 104;
 
     // Axes: stock up the side, time along the bottom.
     ctx.strokeStyle = strong;

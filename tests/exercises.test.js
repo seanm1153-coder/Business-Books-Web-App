@@ -499,6 +499,27 @@ test("TiS: rank interventions by leverage", async () => {
   assert.match(await page.text(".rk-score"), /^5 of 5 in the right place/);
 });
 
+test("Porter: the five forces divide an industry's value", async () => {
+  await page.open("ump-five-forces");
+  const tiles = () => page.text('.ff [data-ref="tiles"]');
+  const note = () => page.text('.ff [data-ref="note"]');
+  // Every force weak: the industry keeps $69 of $100.
+  assert.match(await tiles(), /\$69 .* \$5 .* \$26$/i);
+  await page.click('.ff [data-preset="buyers"]');
+  assert.match(await tiles(), /\$42 .* \$5 .* \$53$/i);
+  assert.match(await note(), /buyer power alone costs the industry \$27 of every \$100.* would keep up to \$69/);
+  await page.click('.ff [data-preset="brutal"]');
+  assert.match(await tiles(), /\$10 .* \$30 .* \$60$/i);
+  assert.match(await note(), /With every force strong/);
+  // Weakening suppliers from the brutal case: their take falls and the industry keeps more.
+  await page.check('.ff [data-force="suppliers"][value="0"]');
+  assert.match(await tiles(), /\$14 .* \$5 .* \$81$/i);
+  assert.equal(
+    await sort(["suppliers", "substitutes", "rivalry", "buyers", "entry", "substitutes", "buyers", "entry"]),
+    "8 of 8 right"
+  );
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

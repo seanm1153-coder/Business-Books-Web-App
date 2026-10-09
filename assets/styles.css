@@ -52,6 +52,9 @@
   --c-tis: #8CC0AE;
   --c-tis-ink: #0F2A22;
   --c-tis-loop: rgba(15, 42, 34, 0.42);
+  --c-ump: #9E3D2C;
+  --c-ump-ink: #FBEFE8;
+  --c-ump-line: rgba(251, 239, 232, 0.4);
   --page-edge: #D9D6CC;
   --page-edge-2: #F2F0EA;
 
@@ -282,6 +285,7 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 .book.c-fi { --c: var(--c-fi); --ci: var(--c-fi-ink); }
 .book.c-pb { --c: var(--c-pb); --ci: var(--c-pb-ink); }
 .book.c-tis { --c: var(--c-tis); --ci: var(--c-tis-ink); }
+.book.c-ump { --c: var(--c-ump); --ci: var(--c-ump-ink); }
 
 .book-3d {
   position: relative;
@@ -363,6 +367,25 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 }
 .c-tis .cover::before { left: 22%; border-right-color: transparent; }
 .c-tis .cover::after { left: 44%; border-left-color: transparent; }
+
+/* Understanding Michael Porter cover: four forces pressing on a central box (rivalry) */
+.c-ump .cover::before {
+  content: "";
+  position: absolute; left: 63%; top: 58%;
+  width: 58%; height: 40%;
+  transform: translate(-50%, -50%);
+  background:
+    linear-gradient(var(--c-ump-line), var(--c-ump-line)) center / 1.5px 100% no-repeat,
+    linear-gradient(var(--c-ump-line), var(--c-ump-line)) center / 100% 1.5px no-repeat;
+}
+.c-ump .cover::after {
+  content: "";
+  position: absolute; left: 63%; top: 58%;
+  width: 22%; aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: var(--c);
+  border: 1.5px solid var(--ci);
+}
 
 /* Forthcoming books are dimmed per face; opacity on .book-3d would flatten the 3D. */
 .is-forthcoming .cover, .is-forthcoming .pages { filter: brightness(0.62) saturate(0.7); }
@@ -771,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -781,6 +804,10 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 .sorter-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
 /* Four answers sit two by two rather than three and a straggler. */
 .sorter-opts-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Five answers sit three over two, the second row sharing the full width. */
+.sorter-opts-5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.sorter-opts-5 .sorter-opt { grid-column: span 2; }
+.sorter-opts-5 .sorter-opt:nth-child(n + 4) { grid-column: span 3; }
 .sorter-opt {
   display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;
   padding: 0.85rem 1rem; border: 1px solid var(--rule); border-radius: 4px;
@@ -1699,6 +1726,51 @@ mark.m-fluff { background: var(--mark-fluff); }
   .sk-arrow { transform: rotate(90deg); justify-self: start; margin-left: 0.4rem; }
 }
 
+/* ---------- Five forces ---------- */
+
+.ff-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem 2.25rem;
+  grid-template-areas: ". entry ." "suppliers rivalry buyers" ". substitutes .";
+}
+.ff-entry { grid-area: entry; }
+.ff-suppliers { grid-area: suppliers; }
+.ff-rivalry { grid-area: rivalry; border-color: var(--pen) !important; box-shadow: inset 0 0 0 1px var(--pen); }
+.ff-buyers { grid-area: buyers; }
+.ff-substitutes { grid-area: substitutes; }
+.ff-force { position: relative; min-width: 0; margin: 0; padding: 0.85rem 1rem 1rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--field); }
+.ff-name { float: left; width: 100%; margin: 0 0 0.2rem; padding: 0; font-weight: 600; }
+.ff-q { clear: both; margin: 0; font-size: 0.875rem; color: var(--ink-2); }
+.ff-seg { display: flex; margin-top: 0.7rem; border: 1px solid var(--rule); border-radius: 99px; overflow: hidden; }
+.ff-opt { position: relative; flex: 1; min-width: 0; text-align: center; cursor: pointer; }
+.ff-opt + .ff-opt { border-left: 1px solid var(--rule); }
+.ff-opt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ff-opt span { display: block; padding: 0.4rem 0.2rem; font-family: var(--mono); font-size: 0.6875rem; }
+.ff-opt:hover span { background: var(--paper-2); }
+.ff-opt.is-on span { background: var(--ink); color: var(--paper); }
+.ff-opt:focus-within { outline: 2px solid var(--pen); outline-offset: -2px; border-radius: 99px; }
+.ff-arrow { position: absolute; font-family: var(--mono); font-size: 1rem; line-height: 1; color: var(--ink-2); }
+.ff-entry .ff-arrow { left: 50%; bottom: -1.45rem; transform: translateX(-50%); }
+.ff-substitutes .ff-arrow { left: 50%; top: -1.45rem; transform: translateX(-50%); }
+.ff-suppliers .ff-arrow { right: -1.7rem; top: 50%; transform: translateY(-50%); }
+.ff-buyers .ff-arrow { left: -1.7rem; top: 50%; transform: translateY(-50%); }
+.ff-out { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; margin-top: 2.25rem; }
+.ff-bar { display: flex; height: 2.25rem; margin-bottom: 1.25rem; border-radius: 3px; overflow: hidden; }
+.ff-seg-bar { display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; transition: flex-grow 0.35s var(--ease); }
+.ff-seg-bar span { overflow: hidden; white-space: nowrap; padding: 0 0.3rem; font-family: var(--mono); font-size: 0.6875rem; font-variant-numeric: tabular-nums; }
+.ff-seg-bar.is-kept, .ff-k-kept { background: var(--pen); color: var(--paper); }
+.ff-seg-bar.is-suppliers, .ff-k-suppliers { background: var(--series-cash); color: var(--paper); }
+.ff-seg-bar.is-buyers, .ff-k-buyers { background: var(--rule); color: var(--ink); }
+.ff-k-buyers { box-shadow: inset 0 0 0 1px var(--ink-2); }
+.ff .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 900px) {
+  .ff-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "entry" "suppliers" "rivalry" "buyers" "substitutes"; gap: 0.75rem; }
+  .ff-arrow { display: none; }
+  .ff-out { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ff-seg-bar { transition: none; }
+}
+
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
    reader prefers reduced motion. Fill-mode "backwards" hands control back to the resting
@@ -1745,6 +1817,7 @@ mark.m-fluff { background: var(--mark-fluff); }
 @media (max-width: 640px) {
   .hallmarks { grid-template-columns: minmax(0, 1fr); }
   .sorter-opts { grid-template-columns: minmax(0, 1fr); }
+  .sorter-opts-5 .sorter-opt, .sorter-opts-5 .sorter-opt:nth-child(n + 4) { grid-column: auto; }
   .pov-fromto { grid-template-columns: minmax(0, 1fr); }
   .pov-arrow { padding-top: 0; }
   .pov-arrow::before { content: "↓"; }
@@ -1761,6 +1834,8 @@ mark.m-fluff { background: var(--mark-fluff); }
   .cover-title { font-size: 1.05rem; }
 }
 
+/* Room for hero art drawn as a strip above the text (see util.heroArea). */
+.book-hero.has-art-strip .hero-inner { padding-top: 9rem; }
 @media (max-width: 759px) {
   .hero-inner { padding-top: 9rem; }
 }

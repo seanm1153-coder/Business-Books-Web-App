@@ -1,6 +1,6 @@
 # Marginalia
 
-An interactive study companion for business books: Richard P. Rumelt's *Good Strategy Bad Strategy*, Berman and Knight's *Financial Intelligence*, Ramadan, Peterson, Lochhead and Maney's *Play Bigger*, and Donella H. Meadows's *Thinking in Systems*.
+An interactive study companion for business books: Richard P. Rumelt's *Good Strategy Bad Strategy*, Berman and Knight's *Financial Intelligence*, Ramadan, Peterson, Lochhead and Maney's *Play Bigger*, Donella H. Meadows's *Thinking in Systems*, and Joan Magretta's *Understanding Michael Porter*.
 
 It's a static site with plain HTML, CSS and JavaScript, and no build step.
 
@@ -25,7 +25,7 @@ npm test
 
 | Page | Route | What it does |
 | --- | --- | --- |
-| Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence, Play Bigger and Thinking in Systems. |
+| Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence, Play Bigger, Thinking in Systems and Understanding Michael Porter. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
 | Discovering power | `#gsbs-discovering-power` | Wal-Mart's small towns, Andrew Marshall's strength-against-weakness thinking, and a "strength against weakness?" sort with better-aimed rewrites. |
 | Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
@@ -70,6 +70,8 @@ npm test
 | System traps | `#tis-traps` | Meadows's eight system traps as cards, each with its way out; a shared-pasture simulator in which the open commons collapses while fencing and a cap restore the missing feedback; and a sorter for naming four of the traps. |
 | Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
 | Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as cards, and a workbench for sketching the system behind a recurring problem (behavior, stock, flows, loop, delay, leverage point) with live checks, a stock-and-flow preview, the notebook and the optional Claude critique. |
+| Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
+| The five forces | `#ump-five-forces` | Porter's five forces and what they divide, a toy model of how much of $100 of value an industry keeps as each force strengthens, and an eight-item sort of developments by the force they change. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
 
@@ -103,8 +105,8 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
-                              buffer, system-sketch)
-assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior)
+                              buffer, system-sketch, forces)
+assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
 tests/                        Node test runner + Playwright: routes, exercises, reader features
