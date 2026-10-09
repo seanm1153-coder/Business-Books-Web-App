@@ -794,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps, .co, .cv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1840,6 +1840,18 @@ mark.m-fluff { background: var(--mark-fluff); }
 @media (prefers-reduced-motion: reduce) {
   .ps-firm { transition: none; }
 }
+
+/* ---------- Copy odds and the partial-copy valley ---------- */
+
+.co-bar { fill: var(--rule); }
+.co-bar.is-on { fill: var(--pen); }
+.co .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.cv-range { stroke: var(--ink-2); stroke-width: 2; }
+.cv-range.is-on { stroke: var(--ink); stroke-width: 3; }
+.cv-best, .cv-worst { stroke: var(--paper); stroke-width: 2; }
+.cv-best { fill: var(--pen); }
+.cv-worst { fill: var(--bad); }
+.cv .levers .happened { margin-top: 0.5rem; }
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

@@ -578,6 +578,22 @@ test("Porter: consistent airlines earn more than any straddle", async () => {
   assert.deepEqual(await links(), [4, 1]);
 });
 
+test("Porter: fit makes a system hard to copy, and partial copies earn least", async () => {
+  await page.open("ump-fit");
+  assert.match(await page.text('.co [data-ref="tiles"]'), /90% .* 66% .* 34%$/i);
+  assert.match(await page.text('.co [data-ref="note"]'), /odds fall below even once 7 activities/);
+  await slide(page, '.co [data-input="n"]', 2);
+  assert.match(await page.text('.co [data-ref="tiles"]'), /90% .* 81% .* 19%$/i);
+  const note = () => page.text('.cv [data-ref="note"]');
+  // The airline model: full service earns $10, the low-cost system $14, every partial copy less than $10.
+  assert.match(await note(), /^Switching three of six activities, the best ones to switch are routes, fleet and turnarounds, earning \$8 a passenger; the worst choice of three earns −\$11\. Even the best partial copy/);
+  await slide(page, '.cv [data-ref="input"]', 1);
+  assert.match(await note(), /the best one to switch is selling, earning \$8/);
+  await slide(page, '.cv [data-ref="input"]', 6);
+  assert.match(await note(), /^A complete copy of the low-cost system earns \$14 a passenger, more than the \$10/);
+  assert.equal(await sort(["consistency", "reinforcement", "optimization", "consistency", "reinforcement", "optimization"]), "6 of 6 right");
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

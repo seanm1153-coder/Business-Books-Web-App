@@ -6,6 +6,109 @@
 (function () {
   "use strict";
 
+  // The invented airline used on the trade-offs and fit pages. Each option adds { price,
+  // cost } a passenger to the base; each link adds its own when both of its options are
+  // chosen. Tuned so the two consistent strategies beat every mix of them.
+  const AIRLINE = {
+    base: { price: 80, cost: 76 },
+    mapOrder: ["routes", "turnarounds", "fleet", "fares", "selling", "cabin"],
+    activities: [
+      {
+        id: "routes",
+        name: "Routes",
+        options: [
+          { id: "hub", label: "Hub-and-spoke network", short: "Hub network", price: 2, cost: 3 },
+          { id: "p2p", label: "Short point-to-point routes", short: "Point-to-point" }
+        ]
+      },
+      {
+        id: "fleet",
+        name: "Fleet",
+        options: [
+          { id: "mixed", label: "A mixed fleet", short: "Mixed fleet", cost: 1 },
+          { id: "one", label: "One type of plane", short: "One plane type" }
+        ]
+      },
+      {
+        id: "turnarounds",
+        name: "Turnarounds",
+        options: [
+          { id: "standard", label: "Standard turnarounds", short: "Standard turns", cost: 1 },
+          { id: "quick", label: "15-minute turnarounds", short: "15-minute turns" }
+        ]
+      },
+      {
+        id: "cabin",
+        name: "Cabin",
+        options: [
+          { id: "meals", label: "Assigned seats and meals", short: "Seats and meals", price: 2, cost: 3 },
+          { id: "open", label: "Open seating, no meals", short: "Open seating" }
+        ]
+      },
+      {
+        id: "selling",
+        name: "Selling",
+        options: [
+          { id: "agents", label: "Travel agents and booking systems", short: "Travel agents", price: 1, cost: 3 },
+          { id: "direct", label: "Direct sales only", short: "Direct sales" }
+        ]
+      },
+      {
+        id: "fares",
+        name: "Fares",
+        options: [
+          { id: "first", label: "First class and flexible fares", short: "First class", price: 2, cost: 3 },
+          { id: "simple", label: "One class, simple low fares", short: "Low fares" }
+        ]
+      }
+    ],
+    links: [
+      { a: "hub", b: "mixed", price: 3, text: "A hub flies routes of every length, and a mixed fleet has the right plane for each." },
+      { a: "meals", b: "first", price: 3, text: "Assigned seats and meals are what make a first-class fare worth paying." },
+      { a: "agents", b: "first", price: 2, text: "Agents and booking systems bring in the business travelers who buy first class." },
+      { a: "hub", b: "first", price: 3, text: "Business travelers want connections to everywhere, which only a hub offers." },
+      { a: "hub", b: "agents", price: 2, text: "Agents can sell any journey through the hub, which fills planes from everywhere." },
+      { a: "p2p", b: "quick", cost: -3, text: "With no connecting passengers to wait for, short flights can turn around in 15 minutes." },
+      { a: "one", b: "quick", cost: -2, text: "One type of plane means one way to clean, fuel and service it, which speeds every turnaround." },
+      { a: "open", b: "quick", cost: -2, text: "Open seating and no meals make boarding and cleaning faster." },
+      { a: "direct", b: "simple", cost: -1, text: "Simple fares are easy to sell directly, without agents' commissions." },
+      { a: "p2p", b: "one", cost: -2, text: "Short routes of similar length suit a single type of plane, so crews and parts are interchangeable." },
+      { a: "hub", b: "quick", cost: 5, text: "Hub flights wait for connecting passengers and bags, so quick turnarounds fail and the extra ground crew is wasted." },
+      { a: "meals", b: "quick", cost: 4, text: "Catering and seat assignments don't fit in 15 minutes; trying adds staff and delays." },
+      { a: "agents", b: "simple", cost: 3, text: "Agents' commissions and booking fees eat into low fares." },
+      { a: "hub", b: "one", cost: 3, text: "A hub needs planes of different sizes; one type is too big for some routes and too small for others." },
+      { a: "first", b: "open", cost: 3, text: "A first-class cabin with open seating confuses passengers and adds handling at every gate." }
+    ],
+    presets: [
+      {
+        id: "full",
+        label: "Full service",
+        consistent: true,
+        name: "consistent full service",
+        note: "Full service, consistently: every choice supports a network that business travelers will pay more for.",
+        picks: { routes: "hub", fleet: "mixed", turnarounds: "standard", cabin: "meals", selling: "agents", fares: "first" }
+      },
+      {
+        id: "low",
+        label: "Low cost, all the way",
+        consistent: true,
+        name: "consistent low cost",
+        note: "Low cost, consistently: every choice makes the others cheaper to run.",
+        picks: { routes: "p2p", fleet: "one", turnarounds: "quick", cabin: "open", selling: "direct", fares: "simple" }
+      },
+      {
+        id: "turns",
+        label: "Full service, faster turns",
+        picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "first" }
+      },
+      {
+        id: "straddle",
+        label: "Full service plus low fares",
+        picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "simple" }
+      }
+    ]
+  };
+
   window.Marginalia.addBook({
     id: "ump",
     title: "Understanding Michael Porter",
@@ -47,7 +150,7 @@
         chapters: [
           { n: 4, title: "Creating value: the core", blurb: "A distinctive value proposition and a value chain tailored to deliver it." },
           { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy.", page: "trade-offs" },
-          { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation." },
+          { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation.", page: "fit" },
           { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build." },
           { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief." }
         ]
@@ -500,103 +603,7 @@
             linksLabel: "How the choices interact",
             priceLabel: "Average fare",
             costLabel: "Cost a passenger",
-            base: { price: 80, cost: 76 },
-            mapOrder: ["routes", "turnarounds", "fleet", "fares", "selling", "cabin"],
-            activities: [
-              {
-                id: "routes",
-                name: "Routes",
-                options: [
-                  { id: "hub", label: "Hub-and-spoke network", short: "Hub network", price: 2, cost: 3 },
-                  { id: "p2p", label: "Short point-to-point routes", short: "Point-to-point" }
-                ]
-              },
-              {
-                id: "fleet",
-                name: "Fleet",
-                options: [
-                  { id: "mixed", label: "A mixed fleet", short: "Mixed fleet", cost: 1 },
-                  { id: "one", label: "One type of plane", short: "One plane type" }
-                ]
-              },
-              {
-                id: "turnarounds",
-                name: "Turnarounds",
-                options: [
-                  { id: "standard", label: "Standard turnarounds", short: "Standard turns", cost: 1 },
-                  { id: "quick", label: "15-minute turnarounds", short: "15-minute turns" }
-                ]
-              },
-              {
-                id: "cabin",
-                name: "Cabin",
-                options: [
-                  { id: "meals", label: "Assigned seats and meals", short: "Seats and meals", price: 2, cost: 3 },
-                  { id: "open", label: "Open seating, no meals", short: "Open seating" }
-                ]
-              },
-              {
-                id: "selling",
-                name: "Selling",
-                options: [
-                  { id: "agents", label: "Travel agents and booking systems", short: "Travel agents", price: 1, cost: 3 },
-                  { id: "direct", label: "Direct sales only", short: "Direct sales" }
-                ]
-              },
-              {
-                id: "fares",
-                name: "Fares",
-                options: [
-                  { id: "first", label: "First class and flexible fares", short: "First class", price: 2, cost: 3 },
-                  { id: "simple", label: "One class, simple low fares", short: "Low fares" }
-                ]
-              }
-            ],
-            links: [
-              { a: "hub", b: "mixed", price: 3, text: "A hub flies routes of every length, and a mixed fleet has the right plane for each." },
-              { a: "meals", b: "first", price: 3, text: "Assigned seats and meals are what make a first-class fare worth paying." },
-              { a: "agents", b: "first", price: 2, text: "Agents and booking systems bring in the business travelers who buy first class." },
-              { a: "hub", b: "first", price: 3, text: "Business travelers want connections to everywhere, which only a hub offers." },
-              { a: "hub", b: "agents", price: 2, text: "Agents can sell any journey through the hub, which fills planes from everywhere." },
-              { a: "p2p", b: "quick", cost: -3, text: "With no connecting passengers to wait for, short flights can turn around in 15 minutes." },
-              { a: "one", b: "quick", cost: -2, text: "One type of plane means one way to clean, fuel and service it, which speeds every turnaround." },
-              { a: "open", b: "quick", cost: -2, text: "Open seating and no meals make boarding and cleaning faster." },
-              { a: "direct", b: "simple", cost: -1, text: "Simple fares are easy to sell directly, without agents' commissions." },
-              { a: "p2p", b: "one", cost: -2, text: "Short routes of similar length suit a single type of plane, so crews and parts are interchangeable." },
-              { a: "hub", b: "quick", cost: 5, text: "Hub flights wait for connecting passengers and bags, so quick turnarounds fail and the extra ground crew is wasted." },
-              { a: "meals", b: "quick", cost: 4, text: "Catering and seat assignments don't fit in 15 minutes; trying adds staff and delays." },
-              { a: "agents", b: "simple", cost: 3, text: "Agents' commissions and booking fees eat into low fares." },
-              { a: "hub", b: "one", cost: 3, text: "A hub needs planes of different sizes; one type is too big for some routes and too small for others." },
-              { a: "first", b: "open", cost: 3, text: "A first-class cabin with open seating confuses passengers and adds handling at every gate." }
-            ],
-            presets: [
-              {
-                id: "full",
-                label: "Full service",
-                consistent: true,
-                name: "consistent full service",
-                note: "Full service, consistently: every choice supports a network that business travelers will pay more for.",
-                picks: { routes: "hub", fleet: "mixed", turnarounds: "standard", cabin: "meals", selling: "agents", fares: "first" }
-              },
-              {
-                id: "low",
-                label: "Low cost, all the way",
-                consistent: true,
-                name: "consistent low cost",
-                note: "Low cost, consistently: every choice makes the others cheaper to run.",
-                picks: { routes: "p2p", fleet: "one", turnarounds: "quick", cabin: "open", selling: "direct", fares: "simple" }
-              },
-              {
-                id: "turns",
-                label: "Full service, faster turns",
-                picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "first" }
-              },
-              {
-                id: "straddle",
-                label: "Full service plus low fares",
-                picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "simple" }
-              }
-            ]
+            ...AIRLINE
           },
           {
             type: "prose",
@@ -622,7 +629,7 @@
                 ],
                 side: {
                   label: "Next",
-                  html: "<p>The links in the map are the subject of the next chapter, on fit: why activities that reinforce each other are worth more together than apart, and harder to copy.</p>"
+                  html: "<p>The links in the map are the subject of the next chapter, on <a href=\"@fit\">fit</a>: why activities that reinforce each other are worth more together than apart, and harder to copy.</p>"
                 }
               }
             ]
@@ -632,7 +639,148 @@
           related: [
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
             { title: "Creating value", where: "Chapter 4" },
-            { title: "Fit", where: "Chapter 6" },
+            { title: "Fit", where: "Chapter 6", page: "fit" },
+            { title: "Continuity", where: "Chapter 7" }
+          ],
+          cta: { page: "fit", kicker: "Next", text: "Why a system of activities is hard to copy" }
+        }
+      },
+      // Porter's three kinds of fit (consistency, reinforcement, optimization of effort), fit
+      // as what makes advantage sustainable, and the multiplying odds of copying a system
+      // (his 0.9 × 0.9 example) follow "What Is Strategy?" (1996) as I remember Magretta
+      // presenting them, unchecked against her wording. The calculators and sorter are ours.
+      "fit": {
+        navLabel: "Fit",
+        title: "Fit",
+        eyebrow: "Part II · Chapter 06",
+        dek:
+          "Fit is how a company's activities work together. Porter calls it the amplifier: it makes each activity worth more, and it turns a strategy into a whole system that a rival would have to copy all at once.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three kinds of fit",
+                paras: [
+                  "Porter describes fit at three levels. The first is simple <strong>consistency</strong>: every activity lines up with the strategy, so a low-cost company runs every part of the business lean, not just the factory. The second is <strong>reinforcement</strong>: activities make each other more effective, as short routes make quick turnarounds possible and quick turnarounds let each plane fly more trips. The third is <strong>optimization of effort</strong>: coordinating activities and sharing information among them so that work isn't duplicated or wasted.",
+                  "Fit amplifies an advantage. Each linked activity is worth more because of the others, so the whole system is worth more than the sum of its parts."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The airline on the <a href=\"@trade-offs\">trade-offs</a> page shows reinforcement at work: its low-cost choices only pay off in combination.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "copy-odds",
+            title: "The odds of copying a system",
+            intro:
+              "Suppose a rival can match any one of your activities nine times out of ten. How likely is it to match all of them, when they only work together?",
+            pLabel: "Chance of matching any one activity",
+            pHint: "How likely the rival is to get each activity right, on its own.",
+            nLabel: "Activities that must all be matched",
+            nHint: "Activities in your system that depend on each other.",
+            maxN: 12,
+            start: { p: 90, n: 4 },
+            caption: "Chance of matching every activity, by the number of activities that have to be matched."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Why fit protects",
+                paras: [
+                  "A rival can often copy a single activity: a sales approach, a process, a product feature. Matching a whole system of activities that depend on each other is far harder. The odds of getting every piece right multiply down with each piece added, and the pieces only pay off together.",
+                  "That's why Porter argues that the most durable advantages rest on fit among many activities rather than on any single strength, whether it's called a core competence, a key resource or a critical success factor."
+                ],
+                side: {
+                  label: "Porter's arithmetic",
+                  html: "<p>Porter's own illustration: if a rival has a 90% chance of matching any one activity, the chance of matching two is 81%, and of matching four, about 66%.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "copy-valley",
+            title: "Copying part of a system",
+            intro:
+              "Take the full-service airline from the trade-offs chapter and have it copy some of the low-cost airline's activities. For each number of activities switched, the chart shows the best and the worst way of choosing them.",
+            airline: AIRLINE,
+            from: "full",
+            to: "low",
+            start: 3,
+            kLabel: "Activities copied",
+            kHint: "Switched from full service to the low-cost way, out of six: routes, fleet, turnarounds, cabin, selling and fares.",
+            stayLabel: "Not copying",
+            caption: "Margin a passenger, by number of activities copied: the best (blue) and worst (red) choice of which to copy."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "The valley between",
+                paras: [
+                  "The chart shows why rivals so rarely copy a strategy built on fit. Copying a few activities doesn't deliver a few of the benefits; it breaks the links in the copier's own system without building the links of the new one. In this model, every partial copy earns less than not copying at all, and only a complete copy pays.",
+                  "Few companies can make that jump, because it means abandoning most of what they already do. That's what makes the original position durable."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Slide from 0 to 6 activities. The best partial copy never climbs back to the line for not copying until all six are switched.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Which kind of fit?",
+            intro: "Six invented companies. Is each one an example of consistency, reinforcement or optimization of effort?",
+            options: [
+              { id: "consistency", label: "Consistency", hint: "Every activity serves the same strategy." },
+              { id: "reinforcement", label: "Reinforcement", hint: "Activities make each other work better." },
+              { id: "optimization", label: "Optimization of effort", hint: "Coordination removes waste." }
+            ],
+            items: [
+              {
+                text: "A discount retailer keeps its stores, its advertising and its head office as plain as its shelves.",
+                answer: "consistency",
+                why: "Every activity lines up with the low-cost strategy, not just the obvious ones."
+              },
+              {
+                text: "A furniture maker's flat-pack designs fit more per truck, and the low shipping cost lets it run large out-of-town stores.",
+                answer: "reinforcement",
+                why: "One activity makes another cheaper or better: the design choice pays off in logistics and in the store format."
+              },
+              {
+                text: "A manufacturer shares its sales forecasts with its suppliers every day, so neither has to hold spare stock.",
+                answer: "optimization",
+                why: "Sharing information across activities removes duplicated buffers on both sides."
+              },
+              {
+                text: "A luxury hotel spends heavily on staff training, room design and its concierge service, all aimed at the same demanding guests.",
+                answer: "consistency",
+                why: "Each activity is tailored to the same position, so none undercuts the others."
+              },
+              {
+                text: "An airline's quick turnarounds let each plane fly more trips a day, which supports frequent departures, which attract the short-haul travelers its routes are built for.",
+                answer: "reinforcement",
+                why: "A chain of activities, each making the next more valuable."
+              },
+              {
+                text: "A clothing chain's stores send sales data to its designers every day, so it makes more of what's selling and less of what isn't.",
+                answer: "optimization",
+                why: "Coordinating sales and design through shared information cuts unsold stock and markdowns."
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
+            { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
             { title: "Continuity", where: "Chapter 7" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }

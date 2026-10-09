@@ -32,6 +32,9 @@
   }
 
   window.Marginalia.blocks["activity-system"] = {
+    // Shared with copy-valley, which runs the same model over every partial copy.
+    evaluate,
+
     render(block, ctx) {
       const toggle = (a) => `<fieldset class="as-act">
           <legend class="as-name">${esc(a.name)}</legend>
