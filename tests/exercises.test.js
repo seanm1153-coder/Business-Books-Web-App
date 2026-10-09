@@ -536,6 +536,27 @@ test("Porter: advantage is a higher relative price, a lower relative cost, or bo
   assert.equal(await sort(["price", "cost", "price", "cost", "cost", "price"]), "6 of 6 right");
 });
 
+test("Porter: consistent airlines earn more than any straddle", async () => {
+  await page.open("ump-trade-offs");
+  const tiles = () => page.text('.as [data-ref="tiles"]');
+  const note = () => page.text('.as [data-ref="note"]');
+  const links = () => page.evaluate(() => ["is-fit", "is-clash"].map((c) => document.querySelectorAll(`.as-links .${c}`).length));
+  assert.match(await tiles(), /\$100 .* \$90 .* \$10$/i);
+  assert.match(await note(), /^Full service, consistently: .* Five links reinforce and none clash\./);
+  await page.click('.as [data-preset="low"]');
+  assert.match(await tiles(), /\$80 .* \$66 .* \$14$/i);
+  // Bolting low fares and quick turnarounds onto full service: three clashes and a loss.
+  await page.click('.as [data-preset="straddle"]');
+  assert.match(await tiles(), /\$90 .* \$98 .* −\$8$/i);
+  assert.deepEqual(await links(), [2, 3]);
+  assert.match(await note(), /^A straddle: .* against \$10 for consistent full service and \$14 for consistent low cost\./);
+  // One change from full service is enough to hurt.
+  await page.click('.as [data-preset="full"]');
+  await page.check('.as [data-act="fleet"][value="one"]');
+  assert.match(await tiles(), /\$97 .* \$92 .* \$5$/i);
+  assert.deepEqual(await links(), [4, 1]);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

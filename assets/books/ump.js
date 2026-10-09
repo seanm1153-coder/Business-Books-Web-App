@@ -25,7 +25,7 @@
     contentsDesc: "From industry structure to the five tests of a good strategy.",
     mapNote: "Pages open as they're written. Chapter titles are paraphrased.",
     casesTitle: "The companies the book uses",
-    nav: ["five-forces", "advantage"],
+    nav: ["five-forces", "advantage", "trade-offs"],
 
     parts: [
       {
@@ -42,7 +42,7 @@
         title: "Strategy",
         chapters: [
           { n: 4, title: "Creating value: the core", blurb: "A distinctive value proposition and a value chain tailored to deliver it." },
-          { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy." },
+          { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy.", page: "trade-offs" },
           { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation." },
           { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build." },
           { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief." }
@@ -51,7 +51,7 @@
     ],
 
     cases: [
-      { era: "Strategy", title: "Southwest Airlines", blurb: "Short, cheap, frequent flights, delivered by activities that reinforce one another.", tag: "Fit" },
+      { era: "Strategy", title: "Southwest Airlines", blurb: "Short, cheap, frequent flights, delivered by activities that reinforce one another.", tag: "Fit", page: "trade-offs" },
       { era: "Strategy", title: "IKEA", blurb: "Self-service, flat-pack furniture for young families on a budget, with trade-offs at every step.", tag: "Trade-offs" },
       { era: "Strategy", title: "Enterprise Rent-A-Car", blurb: "Built for people whose own car is in the shop, not for business travelers at airports.", tag: "Value proposition" },
       { era: "Strategy", title: "Aravind Eye Hospital", blurb: "High-volume, low-cost eye surgery in India, made possible by a value chain designed for it.", tag: "Value chain" }
@@ -202,7 +202,7 @@
           related: [
             { title: "Competition: the right mindset", where: "Chapter 1" },
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
-            { title: "Trade-offs", where: "Chapter 5" }
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
           ],
           cta: { page: "advantage", kicker: "Next", text: "Where a company beats its industry's average" }
         }
@@ -321,7 +321,7 @@
                 n: "3",
                 title: "Why both is rare",
                 paras: [
-                  "It's tempting to aim for a higher price and a lower cost at once. Occasionally a company manages it, usually when a rival is badly run. More often, the activities that make buyers willing to pay more also cost more to perform, and the ones that cut cost also cut what buyers value. Choosing between them is the subject of the second half of the book, starting with the value a company sets out to create."
+                  "It's tempting to aim for a higher price and a lower cost at once. Occasionally a company manages it, usually when a rival is badly run. More often, the activities that make buyers willing to pay more also cost more to perform, and the ones that cut cost also cut what buyers value. Choosing between them is the subject of the second half of the book, and of its idea of <a href=\"@trade-offs\">trade-offs</a>."
                 ],
                 side: {
                   label: "Try this",
@@ -336,7 +336,182 @@
             { title: "The five forces", where: "Chapter 2", page: "five-forces" },
             { title: "Competition: the right mindset", where: "Chapter 1" },
             { title: "Creating value", where: "Chapter 4" },
-            { title: "Trade-offs", where: "Chapter 5" }
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
+          ],
+          cta: { page: "trade-offs", kicker: "Next", text: "Why choosing what not to do protects a strategy" }
+        }
+      },
+      // Trade-offs as the linchpin, Porter's three sources of trade-offs, straddling, his
+      // Continental Lite example and his line about choosing what not to do follow his
+      // "What Is Strategy?" (1996) as I remember Magretta presenting them, unchecked against
+      // her wording. The airline, its numbers and its links are invented.
+      "trade-offs": {
+        navLabel: "Trade-offs",
+        title: "Trade-offs",
+        eyebrow: "Part II · Chapter 05",
+        dek:
+          "A strategy is as much about what a company chooses not to do as what it does. Porter calls trade-offs the linchpin of strategy: they're what make a good position hard to copy.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "You can't be everything",
+                paras: [
+                  "A trade-off arises when doing more of one thing means doing less of another. An airline can't serve hot meals and turn a plane around in 15 minutes. A brand can't stand for both luxury and thrift. A company that sets out to serve some customers especially well has to accept serving others less well, or not at all.",
+                  "Trade-offs are also what protect a strategy. If a rival could copy a successful position without giving up anything it already does, any advantage would soon be competed away. Because copying means sacrificing something the rival values, many won't try, and those that do often end up worse off than before."
+                ],
+                side: {
+                  label: "Straddling",
+                  html: "<p>Porter's word for trying to have it both ways is straddling: bolting a rival's way of competing onto your own. His best-known example is Continental Lite, a low-fare service Continental Airlines ran alongside its full-service flights in the 1990s and soon abandoned after heavy losses.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "activity-system",
+            title: "Design an airline",
+            intro:
+              "An invented airline chooses how to run six activities. Each choice suits either full service or low cost, and the map shows which choices reinforce each other and which clash. Porter's favorite example of a consistent low-cost system is Southwest Airlines. Try the two consistent strategies here, then mix them.",
+            caption: "The airline's six activities and the links between the choices made.",
+            linksLabel: "How the choices interact",
+            priceLabel: "Average fare",
+            costLabel: "Cost a passenger",
+            base: { price: 80, cost: 76 },
+            mapOrder: ["routes", "turnarounds", "fleet", "fares", "selling", "cabin"],
+            activities: [
+              {
+                id: "routes",
+                name: "Routes",
+                options: [
+                  { id: "hub", label: "Hub-and-spoke network", short: "Hub network", price: 2, cost: 3 },
+                  { id: "p2p", label: "Short point-to-point routes", short: "Point-to-point" }
+                ]
+              },
+              {
+                id: "fleet",
+                name: "Fleet",
+                options: [
+                  { id: "mixed", label: "A mixed fleet", short: "Mixed fleet", cost: 1 },
+                  { id: "one", label: "One type of plane", short: "One plane type" }
+                ]
+              },
+              {
+                id: "turnarounds",
+                name: "Turnarounds",
+                options: [
+                  { id: "standard", label: "Standard turnarounds", short: "Standard turns", cost: 1 },
+                  { id: "quick", label: "15-minute turnarounds", short: "15-minute turns" }
+                ]
+              },
+              {
+                id: "cabin",
+                name: "Cabin",
+                options: [
+                  { id: "meals", label: "Assigned seats and meals", short: "Seats and meals", price: 2, cost: 3 },
+                  { id: "open", label: "Open seating, no meals", short: "Open seating" }
+                ]
+              },
+              {
+                id: "selling",
+                name: "Selling",
+                options: [
+                  { id: "agents", label: "Travel agents and booking systems", short: "Travel agents", price: 1, cost: 3 },
+                  { id: "direct", label: "Direct sales only", short: "Direct sales" }
+                ]
+              },
+              {
+                id: "fares",
+                name: "Fares",
+                options: [
+                  { id: "first", label: "First class and flexible fares", short: "First class", price: 2, cost: 3 },
+                  { id: "simple", label: "One class, simple low fares", short: "Low fares" }
+                ]
+              }
+            ],
+            links: [
+              { a: "hub", b: "mixed", price: 3, text: "A hub flies routes of every length, and a mixed fleet has the right plane for each." },
+              { a: "meals", b: "first", price: 3, text: "Assigned seats and meals are what make a first-class fare worth paying." },
+              { a: "agents", b: "first", price: 2, text: "Agents and booking systems bring in the business travelers who buy first class." },
+              { a: "hub", b: "first", price: 3, text: "Business travelers want connections to everywhere, which only a hub offers." },
+              { a: "hub", b: "agents", price: 2, text: "Agents can sell any journey through the hub, which fills planes from everywhere." },
+              { a: "p2p", b: "quick", cost: -3, text: "With no connecting passengers to wait for, short flights can turn around in 15 minutes." },
+              { a: "one", b: "quick", cost: -2, text: "One type of plane means one way to clean, fuel and service it, which speeds every turnaround." },
+              { a: "open", b: "quick", cost: -2, text: "Open seating and no meals make boarding and cleaning faster." },
+              { a: "direct", b: "simple", cost: -1, text: "Simple fares are easy to sell directly, without agents' commissions." },
+              { a: "p2p", b: "one", cost: -2, text: "Short routes of similar length suit a single type of plane, so crews and parts are interchangeable." },
+              { a: "hub", b: "quick", cost: 5, text: "Hub flights wait for connecting passengers and bags, so quick turnarounds fail and the extra ground crew is wasted." },
+              { a: "meals", b: "quick", cost: 4, text: "Catering and seat assignments don't fit in 15 minutes; trying adds staff and delays." },
+              { a: "agents", b: "simple", cost: 3, text: "Agents' commissions and booking fees eat into low fares." },
+              { a: "hub", b: "one", cost: 3, text: "A hub needs planes of different sizes; one type is too big for some routes and too small for others." },
+              { a: "first", b: "open", cost: 3, text: "A first-class cabin with open seating confuses passengers and adds handling at every gate." }
+            ],
+            presets: [
+              {
+                id: "full",
+                label: "Full service",
+                consistent: true,
+                name: "consistent full service",
+                note: "Full service, consistently: every choice supports a network that business travelers will pay more for.",
+                picks: { routes: "hub", fleet: "mixed", turnarounds: "standard", cabin: "meals", selling: "agents", fares: "first" }
+              },
+              {
+                id: "low",
+                label: "Low cost, all the way",
+                consistent: true,
+                name: "consistent low cost",
+                note: "Low cost, consistently: every choice makes the others cheaper to run.",
+                picks: { routes: "p2p", fleet: "one", turnarounds: "quick", cabin: "open", selling: "direct", fares: "simple" }
+              },
+              {
+                id: "turns",
+                label: "Full service, faster turns",
+                picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "first" }
+              },
+              {
+                id: "straddle",
+                label: "Full service plus low fares",
+                picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "simple" }
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Where trade-offs come from",
+                paras: [
+                  "Porter traces trade-offs to three sources. Some are in the activities themselves: equipment, skills and procedures built for one way of working serve another badly. Some are in image and reputation: a company known for one thing confuses customers when it claims the opposite. And some are in coordination: an organization can't pursue every priority with equal force, so clear choices about what matters most make it work better.",
+                  "In the airline, every clash is the first kind. Each is an activity designed for one strategy being asked to serve the other."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Start from “Full service” and switch the turnarounds to 15 minutes. One efficient-sounding change creates two clashes and wipes out most of the margin.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "Choosing what not to do",
+                paras: [
+                  "Porter put it in one line: “the essence of strategy is choosing what not to do.” The hard part isn't seeing the trade-offs; it's accepting them. Every customer turned away, every feature left out and every market not entered looks like lost revenue, and the pressure to add them never stops.",
+                  "A company that gives in ends up with a position nobody can describe and costs that no single strategy would justify. In the model, that's every mix of the two strategies: each one earns less than either strategy run consistently."
+                ],
+                side: {
+                  label: "Next",
+                  html: "<p>The links in the map are the subject of the next chapter, on fit: why activities that reinforce each other are worth more together than apart, and harder to copy.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
+            { title: "Creating value", where: "Chapter 4" },
+            { title: "Fit", where: "Chapter 6" },
+            { title: "Continuity", where: "Chapter 7" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

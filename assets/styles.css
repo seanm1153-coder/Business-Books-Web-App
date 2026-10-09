@@ -794,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1797,6 +1797,29 @@ mark.m-fluff { background: var(--mark-fluff); }
 @media (prefers-reduced-motion: reduce) {
   .adv-cost, .adv-margin, .adv-loss { transition: none; }
 }
+
+/* ---------- Activity system (uses the five forces' segmented control) ---------- */
+
+.as-acts { display: flex; flex-direction: column; gap: 1rem; }
+.as-act { min-width: 0; margin: 0; padding: 0; border: 0; }
+.as-name { float: left; width: 100%; margin: 0 0 0.4rem; padding: 0; font-weight: 600; }
+.as-act .ff-seg { clear: both; margin-top: 0; }
+.as-act .ff-opt span { line-height: 1.35; }
+.as-map { display: block; width: 100%; max-width: 34rem; height: auto; margin: 0 auto; }
+.as-fit { stroke: var(--pen); stroke-width: 2.5; }
+.as-clash { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.as-node rect { fill: var(--paper); stroke-width: 1.5; }
+.as-node.is-side-0 rect { stroke: var(--ink); }
+.as-node.is-side-1 rect { stroke: var(--series-cash); }
+.as-node text { fill: var(--ink); font-family: var(--mono); font-size: 11px; }
+.as-node .as-node-k { fill: var(--ink-2); font-size: 8.5px; letter-spacing: 0.08em; }
+.as .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.as-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.875rem; }
+.as-links li { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr); gap: 0.4rem; }
+.as-mark { font-family: var(--mono); font-weight: 600; }
+.as-links .is-fit .as-mark { color: var(--pen); }
+.as-links .is-clash .as-mark { color: var(--bad); }
+.as-links strong { font-weight: 600; }
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

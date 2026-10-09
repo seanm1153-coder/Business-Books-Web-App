@@ -73,6 +73,7 @@ npm test
 | Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
 | The five forces | `#ump-five-forces` | Porter's five forces and what they divide, a toy model of how much of $100 of value an industry keeps as each force strengthens, and an eight-item sort of developments by the force they change. |
 | Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a calculator comparing your price, cost and margin with a rival's at $100 and $90, the value chain as the source of every difference, and a price-or-cost sort. |
+| Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
 
@@ -107,7 +108,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
                               buffer, system-sketch, forces,
-                              advantage)
+                              advantage, activity-system)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
