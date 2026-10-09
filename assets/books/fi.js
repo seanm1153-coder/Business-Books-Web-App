@@ -491,6 +491,19 @@
             ]
           },
           {
+            type: "table",
+            eyebrow: "Reference",
+            title: "The three parts of the equation",
+            columns: ["", "Assets", "Liabilities", "Equity"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["What it is", "What the company owns", "What it owes to others", "What's left for the owners"],
+              ["Examples", "Cash, receivables, inventory, equipment", "Payables, wages owed, loans, deferred revenue", "Money the owners put in, plus profits kept"],
+              ["Rises when", "The company buys, makes or is owed something", "It borrows, or takes goods or work it hasn't paid for", "It earns a profit, or owners put in more"],
+              ["Falls when", "It spends, sells or uses something up", "It pays what it owes", "It makes a loss, or pays owners a dividend"]
+            ]
+          },
+          {
             type: "figure",
             eyebrow: "Figure",
             title: "One month, both sides",
@@ -510,7 +523,7 @@
             eyebrow: "Double entry",
             title: "Eight transactions, two lines each",
             columns: ["What happens", "Goes up", "Goes down", "Totals"],
-            widths: [null, null, null, "8rem"],
+            widths: [null, null, null, "10.5rem"],
             rows: [
               ["Northline borrows $50,000", "Cash; Bank loan", "—", "Both sides +$50,000"],
               ["It buys $30,000 of frames, to pay next month", "Inventory; Payables", "—", "Both sides +$30,000"],
@@ -531,7 +544,7 @@
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
             { title: "How cash connects with everything else", where: "Chapter 18", page: "cash-connects" }
           ],
-          cta: { page: "cash-connects", kicker: "Next", text: "Build the bridge from profit to cash" }
+          cta: { page: "cash-connects", kicker: "Next", text: "Follow profit down to cash" }
         }
       },
 
@@ -636,6 +649,20 @@
               ["Ten riders each pay $900 for a three-month course starting September 1", "<span class=\"tnum\">$3,000</span>", "<span class=\"tnum\">$9,000</span>", "A third of the course is delivered in September."],
               ["Northline signs a $100,000 bike-share contract for next spring", "<span class=\"tnum\">$0</span>", "<span class=\"tnum\">$0</span>", "Signing delivers nothing. Good news for next year."],
               ["<strong>September</strong>", "<strong class=\"tnum\">$59,000</strong>", "<strong class=\"tnum\">$46,000</strong>", "The same events, two different numbers."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Three statements",
+            title: "Revenue, cash and the balance sheet",
+            columns: ["", "Revenue", "Cash", "On the balance sheet"],
+            widths: ["13rem", null, null, null],
+            rows: [
+              ["Sale on credit, delivered", "Counts now", "Arrives later", "A receivable until paid"],
+              ["Deposit or prepayment", "Counts on delivery", "Arrives now", "Deferred revenue, a liability, until delivered"],
+              ["A year of service paid ahead", "A twelfth each month", "Arrives now", "A liability that shrinks each month"],
+              ["Payment for an earlier sale", "Already counted", "Arrives now", "A receivable turns into cash"],
+              ["Contract signed, nothing delivered", "Not yet", "Not yet", "Nothing yet"]
             ]
           },
           {
@@ -895,16 +922,16 @@
           },
           {
             type: "table",
-            eyebrow: "Words to know",
-            title: "The vocabulary of the next chapter",
-            columns: ["Term", "What it means"],
-            widths: ["11rem", null],
+            eyebrow: "Reference",
+            title: "The rates in an investment case",
+            columns: ["Rate", "What it is", "Why it's at that level"],
+            widths: ["11rem", null, null],
             rows: [
-              ["Compounding", "Earning a return on past returns, so growth builds on itself"],
-              ["Present value", "What a future amount is worth today, at a given rate"],
-              ["Discount rate", "The rate used to turn future amounts into present values"],
-              ["Cost of capital", "What a company pays for its money: lenders' interest and owners' expected return, blended"],
-              ["Hurdle rate", "The minimum return a project must clear to be approved, usually at or above the cost of capital"]
+              ["Interest on debt", "What lenders charge", "Lenders are paid first, so they take the least risk"],
+              ["Owners' expected return", "What shareholders expect to earn", "Owners are paid last, so they expect more"],
+              ["Cost of capital", "A blend of the two, weighted by how much of each the company uses", "It's the true price of the company's money"],
+              ["Hurdle rate", "The minimum a project must return to be approved", "At or above the cost of capital, and higher for riskier projects"],
+              ["Discount rate", "The rate used to turn future amounts into present values", "Usually the cost of capital; the hurdle rate when judging a project"]
             ]
           }
         ],
@@ -1193,6 +1220,19 @@
               ["A machine bought", "Down a little each year, as depreciation", "Down all at once", "Equipment, and investing cash"],
               ["Money borrowed or repaid", "No change (only interest is an expense)", "Up when borrowed, down when repaid", "Debt, and financing cash"],
               ["Cash paid in advance by a customer", "No change until delivery", "Up when received", "Deferred revenue"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "How they tie",
+            title: "The same number in two places",
+            columns: ["Number", "Appears on", "And on"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["Net income", "The bottom of the income statement", "The balance sheet, as an increase in retained earnings, and the top of the cash flow statement"],
+              ["Depreciation", "The income statement, as an expense", "The cash flow statement, added back; the balance sheet, lowering equipment"],
+              ["Changes in receivables, inventory and payables", "The balance sheet", "The cash flow statement, as adjustments from profit to cash"],
+              ["Cash at the end of the period", "The last line of the cash flow statement", "The balance sheet's cash line"]
             ]
           }
         ],

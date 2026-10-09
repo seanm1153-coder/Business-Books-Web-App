@@ -274,7 +274,8 @@ test("FI: the balance sheet balances before and after a month of entries", async
   assert.deepEqual(stacks.map((s) => s.total), [1360, 1360, 1434, 1434]);
   stacks.forEach((s) => assert.equal(s.sum, s.total));
   // Every entry touches two lines and leaves the sheet in balance.
-  const entries = await tableCells(0);
+  assert.deepEqual(await tableRows(), [4, 8]);
+  const entries = await tableCells(1);
   assert.equal(entries.length, 8);
   entries.forEach((r) => assert.match(r.at(-1), /^(Both sides [+−]\$[\d,]+|Unchanged)$/));
 });
