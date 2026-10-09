@@ -128,49 +128,34 @@ test("GSBS: the Cannae map steps through four phases", async () => {
   assert.equal(await page.text('.pm [data-ref="title"]'), "The sides close");
 });
 
-test("GSBS: focused policies lead a group; spread ones lead none", async () => {
-  await page.open("gsbs-focus");
-  const tiles = () => page.text(".pf .tiles");
-  const aim = async (policies, target) => {
-    for (const p of policies) await page.check(`[data-policy="${p}"][value="${target}"]`);
-  };
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  // Coordinated, but aimed where the rival is too strong.
-  await page.click('[data-preset="race"]');
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  assert.match(await page.text('.pf [data-ref="note"]'), /fall short of Veloce: 15 against 18/);
-  await aim(["build", "sell", "service", "pay", "message"], "commute");
-  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
-  // Four of five still lead (10 against 9); three of five do not (6 against 9).
-  await aim(["message"], "family");
-  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
-  await aim(["pay"], "family");
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  assert.match(await page.text('.pf [data-ref="note"]'), /2 different directions/);
+test("GSBS: focus maps Crown's policies on one target", async () => {
+  await dense("gsbs-focus", { points: 6, rows: [2, 5] });
+  // Six policies, each linked to the target, and a list in place of the map on phones.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-link").length), 10);
+  assert.equal(await page.evaluate(() => [...document.querySelectorAll(".dg-link")].filter((l) => /NaN/.test(l.getAttribute("d"))).length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-list li").length), 1);
+  assert.match(await page.text(".dg-list"), /Small plants close to customers/);
 });
 
-test("GSBS: buying growth adds sales but not value", async () => {
-  await page.open("gsbs-growth");
-  const tiles = () => page.text(".deals .tiles");
-  assert.match(await tiles(), /\$90m \| .* \| \$120m \|/i);
-  await page.click('.deals [data-preset="all"]');
-  assert.match(await tiles(), /\$220m \| \+144% .* \| \$98m \| −18% /i);
-  assert.match(await page.text('.deals [data-ref="note"]'), /3 of 4 paid more than they gained/);
-  await page.click('.deals [data-preset="none"]');
-  await page.check('[data-deal="gearhaus"]');
-  assert.match(await tiles(), /\$95m \| \+6% .* \| \$128m \| \+7% /i);
-  assert.equal(await page.text('[data-math="gearhaus"] .deal-net dd'), "+$8m");
+test("GSBS: growth works the arithmetic of buying a company", async () => {
+  await dense("gsbs-growth", { points: 6, calls: 4, rows: [5, 4] });
+  // The waterfall's labels add up: worth on its own + gains − price = value created.
+  const nums = await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide text"), (t) => t.textContent).filter((t) => /^[+−]?\d+$/.test(t)));
+  const [own, gains, price, created] = nums.map((n) => Number(n.replace("−", "-")));
+  assert.equal(own + gains - price, created);
 });
 
-test("GSBS: four ways to raise an advantage's value", async () => {
-  await page.open("gsbs-using-advantage");
-  assert.equal(await sort(["deepen", "broaden", "demand", "protect", "broaden", "protect", "demand", "deepen"]), "8 of 8 right");
+test("GSBS: using advantage tables four ways to raise its value and the silver machine", async () => {
+  await dense("gsbs-using-advantage", { points: 6, rows: [4, 5, 6] });
+  assert.match(await page.text(".dt-table"), /Deepen it[\s\S]*Broaden it[\s\S]*Create demand[\s\S]*Strengthen isolating mechanisms/);
 });
 
 test("GSBS: spot the guideposts of change", async () => {
   await page.open("gsbs-using-dynamics");
-  // Five cards, the odd one spanning the row.
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".hallmark").length), 5);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
+  // Each guidepost carries the highlighter color the exercise uses for it.
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table th .hl"), (h) => h.className.split("-").pop())), ["fixed", "dereg", "bias", "incumbent", "attractor"]);
   await page.click('[data-pen="dereg"]');
   await page.click('[data-seg="0-0"]');
   await page.click('[data-pen="fixed"]');
@@ -182,14 +167,20 @@ test("GSBS: spot the guideposts of change", async () => {
   assert.match(await page.text(".spot-notes"), /Not a guidepost here/i);
 });
 
-test("GSBS: inertia and entropy sorter", async () => {
-  await page.open("gsbs-inertia-entropy");
-  assert.equal(await sort(["routine", "culture", "proxy", "entropy", "routine", "culture", "proxy", "entropy"]), "8 of 8 right");
+test("GSBS: inertia and entropy draws GM's brand ladder coming apart", async () => {
+  await dense("gsbs-inertia-entropy", { points: 6, rows: [4] });
+  // The ladder's ranges don't overlap; the later ones do.
+  const spans = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".fg-wide svg > g"), (g) => Array.from(g.querySelectorAll("rect"), (r) => [Number(r.getAttribute("x")), Number(r.getAttribute("x")) + Number(r.getAttribute("width"))]))
+  );
+  const overlaps = (rs) => rs.slice(1).filter((r, i) => r[0] < rs[i][1]).length;
+  assert.equal(spans.length, 2);
+  assert.equal(overlaps(spans[0]), 0);
+  assert.equal(overlaps(spans[1]), 4);
 });
 
-test("GSBS: strategy-as-hypothesis sorter", async () => {
-  await page.open("gsbs-science-of-strategy");
-  assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");
+test("GSBS: strategy as hypothesis tells hypotheses from articles of faith", async () => {
+  await dense("gsbs-science-of-strategy", { points: 5, rows: [4, 3] });
 });
 
 test("GSBS: the kernel builder flags a corporate draft", async () => {
