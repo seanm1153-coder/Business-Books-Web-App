@@ -114,13 +114,44 @@
     ],
 
     pages: {
+      // A reference page around the judgment-calls tool. Profit as an estimate and cash as the
+      // reality check follow Part I and Chapter 5 as I remember them, unchecked against the
+      // wording. Northline Bikes is invented; the tables are our summary.
       "profit-estimate": {
         navLabel: "Estimates",
         title: "Profit is an estimate",
         eyebrow: "Part II · Chapter 05",
+        layout: "dense",
         dek:
           "Revenue, costs and profit all depend on judgment calls about timing and value. Two careful accountants can report different profits for the same month, while the cash in the bank doesn't change at all.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              {
+                t: "Profit rests on judgment calls.",
+                d: "When a sale counts, how long equipment lasts, how many customers won't pay, what old stock is worth: each is an estimate, and the rules allow a range of reasonable answers."
+              },
+              {
+                t: "Careful accountants can disagree.",
+                d: "Two of them can report different profits for the same month, each within the rules."
+              },
+              {
+                t: "That isn't fraud.",
+                d: "The authors' point is not that the books are cooked, but that profit rests on assumptions a manager should know how to find."
+              },
+              {
+                t: "Cash doesn't move with the estimates.",
+                d: "The same bikes shipped and the same bills were paid, so the change in cash is identical under every choice. Cash is the reality check."
+              },
+              {
+                t: "When profit jumps, ask what changed.",
+                d: "The business, or the estimates? A longer equipment life or a smaller bad-debt reserve can lift profit without a single extra sale. Next: <a href=\"@profit-cash\">profit isn't cash</a>."
+              }
+            ]
+          },
           {
             type: "judgment-calls",
             company: "Northline Bikes",
@@ -189,42 +220,31 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Where the judgment hides",
-                paras: [
-                  "The income statement looks precise, down to the dollar, but many of its lines are estimates. When a sale counts, how long equipment lasts, how many customers won't pay, what old stock is worth: each is a judgment, and accounting rules allow a range of reasonable answers.",
-                  "Berman and Knight's point is not that accountants are cooking the books. It is that profit rests on assumptions, and a manager who knows where they sit can ask better questions about any set of numbers."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Part I calls this the art of finance: the parts of accounting that rest on judgment rather than rules.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "Why cash doesn't move",
-                paras: [
-                  "None of the five choices changes what actually happened in September. The same bikes shipped and the same bills were paid, so the change in cash is the same under every combination. That is why the authors treat cash as a reality check on profit."
-                ],
-                side: {
-                  label: "Next",
-                  html: "<p>See how profit and cash part ways event by event in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "Reading someone else's numbers",
-                paras: [
-                  "When profit jumps, it's worth asking whether the business changed or the estimates did. A longer assumed equipment life, a smaller bad-debt reserve or a change in when revenue counts can each lift profit without a single extra sale."
-                ],
-                side: {
-                  label: "A quick test",
-                  html: "<p>Compare profit with cash from operations over several periods. If profit keeps rising while operating cash doesn't, look at the estimates.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Where the judgment hides",
+            columns: ["Estimate", "The judgment", "The aggressive end", "Where it shows"],
+            widths: ["11rem", null, null, null],
+            rows: [
+              ["Revenue recognition", "When a sale is complete enough to count", "Profit arrives sooner", "<span class=\"pl-tag\">Revenue</span> and gross profit"],
+              ["Useful life", "How many years equipment will last", "Less depreciation each year", "<span class=\"pl-tag\">Depreciation</span>"],
+              ["Bad-debt reserve", "How much of what customers owe won't be paid", "A smaller expense now", "<span class=\"pl-tag\">Operating expenses</span>"],
+              ["Asset or expense", "Whether a cost builds something lasting or is used up now", "The cost spreads over years", "<span class=\"pl-tag\">Amortization</span>; the cash shows under investing"],
+              ["Inventory value", "Whether stock is still worth what it cost", "No write-down", "<span class=\"pl-tag\">Cost of goods sold</span>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "Reading someone else's numbers",
+            intro: "Our summary of the questions the chapter prompts.",
+            columns: ["Sign", "What to ask"],
+            widths: ["20rem", null],
+            rows: [
+              ["Profit rises while operating cash doesn't, period after period", "Has the business changed, or have the estimates?"],
+              ["Equipment is now expected to last longer", "Did the equipment change, or only the assumption?"],
+              ["The bad-debt reserve shrinks as receivables grow", "Are customers really paying better?"],
+              ["Revenue bunches at the end of each quarter", "When do sales count, and has that changed?"]
             ]
           }
         ],
@@ -239,40 +259,45 @@
         }
       },
 
+      // A reference page around the profit-layers tool. Gross, operating and net profit and their
+      // margins follow Chapter 9 as I remember it. Northline's year is invented, and the tool
+      // shows its income statement.
       "forms-of-profit": {
         title: "The many forms of profit",
         navLabel: "Profit",
         eyebrow: "Part II · Chapter 09",
+        layout: "dense",
         dek:
           "“Profit” on its own is ambiguous. An income statement shows several kinds, each a step further down the page, and each answers a different question about the business.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Three questions, three profits",
-                paras: [
-                  "<strong>Gross profit</strong> is revenue minus the cost of goods sold: what's left from sales after paying to make or buy what was sold. It asks whether the product itself makes money.",
-                  "<strong>Operating profit</strong> takes gross profit and subtracts the costs of running the business: selling, administration, research, depreciation. It asks whether the company as a whole is run well. It's often called EBIT, for earnings before interest and taxes.",
-                  "<strong>Net profit</strong> subtracts the rest: interest to lenders, taxes, and one-time gains or losses. It is the bottom line, and it asks what's left for the owners."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Berman and Knight walk down the income statement line by line in the chapters before this one. This chapter is about what each subtotal is for.</p>"
-                }
+                t: "“Profit” on its own is ambiguous.",
+                d: "An income statement shows several kinds, one below another, and each answers a different question."
               },
               {
-                n: "2",
-                title: "Margins make them comparable",
-                paras: [
-                  "Divide each profit by revenue and you get a margin: gross margin, operating margin, net margin. Margins let you compare one year with another, or one company with another, even when they differ in size.",
-                  "Small changes in margin are large in dollars. At Northline, with $2.4 million of sales, one point of gross margin is $24,000, nearly a tenth of the year's operating profit."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Margins are the profitability ratios. <a href=\"@ratios\">Reading the ratios</a> compares them across two years.</p>"
-                }
+                t: "Gross profit: does the product make money?",
+                d: "Revenue minus the cost of goods sold."
+              },
+              {
+                t: "Operating profit: is the business run well?",
+                d: "Gross profit minus selling, administration, research and depreciation. Often called EBIT: earnings before interest and taxes."
+              },
+              {
+                t: "Net profit: what's left for the owners?",
+                d: "Operating profit minus interest, taxes and one-time items. The bottom line."
+              },
+              {
+                t: "Margins make them comparable.",
+                d: "Divide each by revenue. Small changes are large in dollars: at $2.4 million of sales, one point of gross margin is $24,000."
+              },
+              {
+                t: "Always ask which profit.",
+                d: "Net profit can rise in a year when operations got worse, if a one-time gain or a cheaper loan covers the gap."
               }
             ]
           },
@@ -334,32 +359,16 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Reading down the page",
-                paras: [
-                  "Each subtotal isolates a different part of the business. A fall in gross margin points at prices or production costs. A fall in operating margin with gross margin steady points at overheads. A change in net margin with operating margin steady points at financing, taxes or one-off items.",
-                  "So when someone says profit went up, the first question is which profit. A company can report higher net profit in a year when its operations got worse, if a one-time gain or a cheaper loan covers the gap."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Switch on “Sell the old warehouse.” Net profit rises by more than 40% while operating margin doesn't move at all.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Which one is yours?",
-                paras: [
-                  "Most managers have the most influence over the top half of the statement: prices, production costs and operating expenses. Interest and taxes are usually set elsewhere. That makes gross and operating margin the numbers a manager can most directly move, and the ones worth knowing for their own part of the business."
-                ],
-                side: {
-                  label: "A caution",
-                  html: "<p>Every line here still rests on estimates. <a href=\"@profit-estimate\">Profit is an estimate</a> shows how much judgment sits inside them.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "Reading down the page",
+            title: "Which line a change shows up in",
+            columns: ["If this falls", "While this holds", "Look at", "Who usually controls it"],
+            rows: [
+              ["Gross margin", "–", "Prices, or the cost of making or buying the product", "Managers across the business"],
+              ["Operating margin", "Gross margin", "Overheads: selling, administration, research", "Department heads"],
+              ["Net margin", "Operating margin", "Financing, taxes or one-time items", "Finance and the board"]
+            ],
+            foot: "Every line still rests on estimates; see <a href=\"@profit-estimate\">profit is an estimate</a>."
           }
         ],
         end: {
@@ -373,39 +382,57 @@
         }
       },
 
+      // A reference page around the cash-bridge tool. Building cash flow from net income and
+      // balance sheet changes (the indirect method) follows Chapter 18 as I remember it. Northline
+      // is invented; the tables are our summary.
       "cash-connects": {
         title: "How cash connects with everything else",
         navLabel: "Cash bridge",
         eyebrow: "Part IV · Chapter 18",
+        layout: "dense",
         dek:
           "The cash flow statement isn't a separate story. Start from profit, adjust for every change on the balance sheet, and you arrive at the change in cash, to the dollar.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Three statements, one set of books",
-                paras: [
-                  "Berman and Knight show how the cash flow statement can be built from the other two. Take net profit from the income statement. Add back expenses that used no cash, such as depreciation. Then adjust for every change between two balance sheets. What's left is cash from operations; add investing and financing, and you have the change in cash.",
-                  "Most companies present their cash flow statement this way, starting from net profit. Accountants call it the indirect method."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Watch the same links form event by event in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
-                }
+                t: "The cash flow statement can be built from the other two.",
+                d: "Start from net profit, add back expenses that used no cash, then adjust for every change between two balance sheets."
               },
               {
-                n: "2",
-                title: "The rule of thumb",
-                paras: [
-                  "When an asset other than cash goes up, it has used cash: money is tied up in what customers owe, in stock or in machines. When a liability goes up, it has provided cash: someone else is waiting to be paid, or has lent you money. Decreases work the other way round."
-                ],
-                side: {
-                  label: "Why it works",
-                  html: "<p>The balance sheet always balances, so every change in cash must be matched by changes somewhere else on it.</p>"
-                }
+                t: "Most companies present it this way.",
+                d: "Accountants call it the indirect method: it starts from profit and explains the difference."
+              },
+              {
+                t: "An asset rising uses cash.",
+                d: "Money is tied up in what customers owe, in stock or in machines."
+              },
+              {
+                t: "A liability rising provides cash.",
+                d: "Someone else is waiting to be paid, or has lent you money. Decreases work the other way round."
+              },
+              {
+                t: "It always reconciles.",
+                d: "The balance sheet always balances, so every change in cash is matched by changes somewhere else on it."
               }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The rule of thumb",
+            title: "How a balance sheet change moves cash",
+            columns: ["Change on the balance sheet", "Effect on cash", "Why"],
+            widths: ["14rem", "8rem", null],
+            rows: [
+              ["Receivables or inventory up", "Uses cash", "Money tied up in what customers owe or in stock"],
+              ["Receivables or inventory down", "Provides cash", "Customers paid, or stock was sold without being replaced"],
+              ["Payables or accrued expenses up", "Provides cash", "Costs are counted, but not yet paid"],
+              ["Payables or accrued expenses down", "Uses cash", "Old bills were paid"],
+              ["Equipment bought", "Uses cash (investing)", "It reaches profit only slowly, as depreciation"],
+              ["Loans up, or new shares", "Provides cash (financing)", "Borrowed or invested money, never income"]
             ]
           },
           {
@@ -495,21 +522,18 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Reading the bridge",
-                paras: [
-                  "At Northline, most of the gap between profit and cash is working capital. Receivables and inventory together absorbed $150,000, more than the year's profit. Suppliers and unpaid bills covered only $35,000 of it. That is the usual pattern in a growing company: sales rise, and cash gets tied up in what customers owe and in stock waiting to be sold.",
-                  "The bridge also shows what profit leaves out entirely. The $120,000 of new equipment and the $40,000 loan never appear on the income statement, yet both moved cash."
-                ],
-                side: {
-                  label: "Next",
-                  html: "<p>Change how long cash stays tied up in <a href=\"@working-capital\">Working capital levers</a>.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "Reading the bridge",
+            title: "Where Northline's profit went",
+            intro: "Once the bridge is built.",
+            columns: ["", "Amount", "What it shows"],
+            widths: ["13rem", "8rem", null],
+            rows: [
+              ["Receivables and inventory", "−$150,000", "More than the year's profit, absorbed by growth: customers owe more and more stock waits to be sold"],
+              ["Payables and accrued expenses", "+$35,000", "Suppliers and unpaid bills covered only part of it"],
+              ["New equipment and the loan", "−$120,000, +$40,000", "Neither appears on the income statement, yet both moved cash"]
+            ],
+            foot: "Next: change how long cash stays tied up in <a href=\"@working-capital\">working capital levers</a>."
           }
         ],
         end: {
@@ -523,39 +547,54 @@
         }
       },
 
+      // A reference page around the double-entry tool. The accounting equation and where profit
+      // lands follow Chapter 13 as I remember it. Northline is invented; the tables are our summary.
       "balance-sheet": {
         title: "Why the balance sheet balances",
         navLabel: "Balance sheet",
         eyebrow: "Part III · Chapter 13",
+        layout: "dense",
         dek:
           "Assets always equal liabilities plus equity. That isn't luck or a rule someone enforces: every transaction is recorded in at least two places, so the two sides can't drift apart.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Two sides of the same money",
-                paras: [
-                  "One side of the balance sheet lists what the company owns: cash, money customers owe, stock, machines. The other side lists who has a claim on those things: lenders and suppliers (liabilities), and whatever is left for the owners (equity).",
-                  "Every transaction changes at least two lines. Borrow money and cash rises, but so does the loan. Buy a machine for cash and one asset turns into another. Because both changes are always recorded, the totals always match. Accountants call this double-entry bookkeeping."
-                ],
-                side: {
-                  label: "The equation",
-                  html: "<p>Assets = liabilities + equity. Rearranged, equity is simply what the company owns minus what it owes.</p>"
-                }
+                t: "Assets = liabilities + equity.",
+                d: "One side lists what the company owns; the other lists who has a claim on it: lenders and suppliers, then the owners."
               },
               {
-                n: "2",
-                title: "Where profit goes",
-                paras: [
-                  "Profit has to land somewhere on the balance sheet, and it lands in equity. Revenue raises equity; expenses lower it. That's why a sale on credit raises both receivables and equity, and why depreciation lowers both equipment and equity, without any cash moving."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Watch all three statements move together in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
-                }
+                t: "Every transaction changes at least two lines.",
+                d: "Borrow money and cash rises, and so does the loan. That's double-entry bookkeeping, and it's why the totals always match."
+              },
+              {
+                t: "Equity is what's left.",
+                d: "Rearranged, the equation says equity is what the company owns minus what it owes."
+              },
+              {
+                t: "Profit lands in equity.",
+                d: "Revenue raises equity and expenses lower it. A sale on credit raises receivables and equity; depreciation lowers equipment and equity. No cash moves in either."
+              },
+              {
+                t: "Read it alongside the income statement.",
+                d: "Profit says whether the month made money. The balance sheet says what that money turned into."
               }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Reference",
+            title: "The three parts of the equation",
+            columns: ["", "Assets", "Liabilities", "Equity"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["What it is", "What the company owns", "What it owes to others", "What's left for the owners"],
+              ["Examples", "Cash, receivables, inventory, equipment", "Payables, wages owed, loans, deferred revenue", "Money the owners put in, plus profits kept"],
+              ["Rises when", "The company buys, makes or is owed something", "It borrows, or takes goods or work it hasn't paid for", "It earns a profit, or owners put in more"],
+              ["Falls when", "It spends, sells or uses something up", "It pays what it owes", "It makes a loss, or pays owners a dividend"]
             ]
           },
           {
@@ -637,21 +676,19 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Reading it as a manager",
-                paras: [
-                  "Over the month, profit came to just $2,000: $24,000 of gross profit on the sale, less $10,000 of depreciation and $12,000 of wages. Meanwhile receivables rose $60,000 and the bank loan $50,000. The balance sheet shows where the money now sits: owed by a customer, in a new machine, and owed to the bank.",
-                  "That is why the authors push managers to read the balance sheet alongside the income statement. Profit tells you whether the month made money. The balance sheet tells you what that money turned into."
-                ],
-                side: {
-                  label: "Next",
-                  html: "<p>Turn balance sheet changes into a cash flow statement in <a href=\"@cash-connects\">How cash connects</a>.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "Reading it as a manager",
+            title: "What the month added up to",
+            intro: "Once all eight entries are posted.",
+            columns: ["", "Change", "What it means"],
+            widths: ["11rem", "8rem", null],
+            rows: [
+              ["Profit for the month", "+$2,000", "$24,000 of gross profit on the sale, less $10,000 of depreciation and $12,000 of wages"],
+              ["Receivables", "+$60,000", "The sale is owed by a customer, not in the bank"],
+              ["Equipment", "+$15,000", "A $25,000 machine, less $10,000 of depreciation"],
+              ["Bank loan", "+$50,000", "Much of the month's cash came from borrowing"]
+            ],
+            foot: "Next: turn balance sheet changes into a cash flow statement in <a href=\"@cash-connects\">how cash connects</a>."
           }
         ],
         end: {
@@ -665,119 +702,74 @@
         }
       },
 
+      // A reference page. Recognition when earned, and deferred revenue as a liability, follow
+      // Chapter 7 as I remember it. The September examples are invented (they were the page's
+      // sorting quiz); the second table is our summary.
       revenue: {
         title: "Revenue: the issue is recognition",
         navLabel: "Revenue",
         eyebrow: "Part II · Chapter 07",
+        layout: "dense",
         dek:
           "Revenue is the top line, so it looks like the most solid number on the income statement. But when a sale counts is a judgment, and the answer often has little to do with when the cash arrives.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Earned, not paid",
-                paras: [
-                  "The basic rule is that revenue is recorded when it's earned: when the company delivers the product or performs the service. A sale on 30-day terms counts the day the goods are delivered, even though no money has come in. Cash paid in advance doesn't count yet, because nothing has been delivered.",
-                  "So revenue and cash can sit in different months, or different years. The income statement follows delivery; the bank balance follows payment."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The first judgment call on <a href=\"@profit-estimate\">Profit is an estimate</a> is exactly this: does a big order shipped at month-end count now or later?</p>"
-                }
+                t: "Revenue counts when it's earned.",
+                d: "When the product is delivered or the service performed, not when the cash arrives."
               },
               {
-                n: "2",
-                title: "Why it's a judgment",
-                paras: [
-                  "Plenty of deals have no single moment of delivery. A year of servicing is delivered a month at a time. A product sold with installation and training may not be complete until all three are done. Accounting standards set out how to divide these up, but applying them still takes judgment.",
-                  "That is why revenue is one of the first places to look when results seem too good. Counting sales a little early is one of the simplest ways to make a quarter look better."
-                ],
-                side: {
-                  label: "A useful question",
-                  html: "<p>What exactly has the customer received so far? Revenue should match that, not the invoice or the cash.</p>"
-                }
+                t: "So revenue and cash can sit in different months.",
+                d: "A sale on 30-day terms counts on delivery; a deposit for a bike built later doesn't count yet."
+              },
+              {
+                t: "Many deals have no single moment of delivery.",
+                d: "A year of servicing is delivered a month at a time; a product sold with installation may not be complete until both are done. Applying the standards takes judgment."
+              },
+              {
+                t: "Cash in advance is a debt.",
+                d: "Deposits, gift cards and prepaid contracts are liabilities, often called deferred revenue, until the company delivers."
+              },
+              {
+                t: "Revenue is the first place to look.",
+                d: "Counting sales a little early is one of the simplest ways to make a quarter look better. See <a href=\"@profit-estimate\">profit is an estimate</a>."
               }
             ]
           },
           {
-            type: "sorter",
+            type: "table",
+            eyebrow: "Worked examples",
             title: "Does it count in September?",
-            intro:
-              "Eight things happen at Northline, the invented bike maker, in September. For each, decide how much counts as September revenue: all of it, some of it, or none of it yet.",
-            options: [
-              { id: "all", label: "All of it", hint: "Earned in September" },
-              { id: "some", label: "Some of it", hint: "Earned partly in September" },
-              { id: "none", label: "None of it", hint: "Not earned in September" }
-            ],
-            rewriteLabel: "Revenue in September",
-            items: [
-              {
-                text: "Northline ships $40,000 of bikes to a shop on 30-day terms. No cash has arrived yet.",
-                answer: "all",
-                why: "The bikes are delivered, so the sale is earned. When the shop pays only changes cash and receivables, not revenue.",
-                rewrite: "$40,000"
-              },
-              {
-                text: "A rider pays a $2,000 deposit for a custom bike that will be built and delivered in November.",
-                answer: "none",
-                why: "The cash is in the bank, but nothing has been delivered. Until November the deposit is a liability: Northline owes the rider a bike or the money back.",
-                rewrite: "$0. The $2,000 is a liability until November."
-              },
-              {
-                text: "A delivery company pays $12,000 on September 1 for a year of servicing for its bike fleet.",
-                answer: "some",
-                why: "The service is delivered month by month, so the revenue is too: one twelfth now, and the rest over the next eleven months.",
-                rewrite: "$1,000"
-              },
-              {
-                text: "Northline sells $5,000 of gift cards in September. None has been used yet.",
-                answer: "none",
-                why: "A gift card is a promise to deliver later. It becomes revenue when someone spends it on a bike or a repair.",
-                rewrite: "$0. The cards are a liability until they're used."
-              },
-              {
-                text: "A shop pays $18,000 in September for bikes Northline delivered in August.",
-                answer: "none",
-                why: "That sale was earned, and counted, in August. September's payment just turns a receivable into cash.",
-                rewrite: "$0. It was August's revenue."
-              },
-              {
-                text: "Northline delivers $15,000 of bikes to a school that paid for them back in July.",
-                answer: "all",
-                why: "Delivery happens now, so the revenue counts now. The July payment sat on the balance sheet as a liability until today.",
-                rewrite: "$15,000"
-              },
-              {
-                text: "Ten riders each pay $900 up front for a three-month bike maintenance course that starts on September 1.",
-                answer: "some",
-                why: "A third of the course is delivered in September, so a third of the $9,000 counts now.",
-                rewrite: "$3,000"
-              },
-              {
-                text: "Northline signs a $100,000 contract to supply a city's bike-share scheme next spring.",
-                answer: "none",
-                why: "Signing a contract isn't delivering anything. It's good news for next year's revenue, not this month's.",
-                rewrite: "$0"
-              }
+            intro: "Eight things that happen at Northline Bikes, the invented bike maker, in September.",
+            columns: ["What happens", "September revenue", "Why"],
+            widths: [null, "11rem", null],
+            rows: [
+              ["Northline ships $40,000 of bikes to a shop on 30-day terms. No cash has arrived yet.", "$40,000", "The bikes are delivered, so the sale is earned. When the shop pays only changes cash and receivables."],
+              ["A rider pays a $2,000 deposit for a custom bike to be delivered in November.", "$0", "Nothing has been delivered. Until November the deposit is a liability: Northline owes a bike or the money back."],
+              ["A delivery company pays $12,000 on September 1 for a year of servicing.", "$1,000", "The service is delivered month by month, so the revenue is too: a twelfth now."],
+              ["Northline sells $5,000 of gift cards. None has been used yet.", "$0", "A gift card is a promise to deliver later. It becomes revenue when it's spent."],
+              ["A shop pays $18,000 for bikes delivered in August.", "$0", "That sale was counted in August. The payment turns a receivable into cash."],
+              ["Northline delivers $15,000 of bikes to a school that paid in July.", "$15,000", "Delivery happens now. The July payment sat on the balance sheet as a liability until today."],
+              ["Ten riders each pay $900 for a three-month course that starts September 1.", "$3,000", "A third of the course is delivered in September, so a third of the $9,000 counts."],
+              ["Northline signs a $100,000 contract to supply a bike-share scheme next spring.", "$0", "Signing isn't delivering. Good news for next year, not this month."]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Cash in advance is a debt",
-                paras: [
-                  "Deposits, gift cards and prepaid contracts all bring cash in before anything is delivered. Until delivery, that money is a liability, often called deferred revenue: the company owes the customer either the product or a refund. As it delivers, the liability shrinks and revenue grows.",
-                  "A company with lots of deferred revenue can look less profitable than its bank balance suggests, and the opposite is true for one selling heavily on credit."
-                ],
-                side: {
-                  label: "On the balance sheet",
-                  html: "<p>Post a sale and its cost to the books in <a href=\"@balance-sheet\">Why the balance sheet balances</a>.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Three statements",
+            title: "Revenue, cash and the balance sheet",
+            columns: ["", "Revenue", "Cash", "On the balance sheet"],
+            widths: ["13rem", null, null, null],
+            rows: [
+              ["Sale on credit, delivered", "Counts now", "Arrives later", "A receivable until paid"],
+              ["Deposit or prepayment", "Counts on delivery", "Arrives now", "Deferred revenue, a liability, until delivered"],
+              ["A year of service paid ahead", "A twelfth each month", "Arrives now", "A liability that shrinks each month"],
+              ["Payment for an earlier sale", "Already counted", "Arrives now", "A receivable turns into cash"],
+              ["Contract signed, nothing delivered", "Not yet", "Not yet", "Nothing yet"]
             ]
           }
         ],
@@ -792,13 +784,43 @@
         }
       },
 
+      // A reference page around the ratios tool. The four families follow Part V as I remember it.
+      // Northline's two years are invented.
       ratios: {
         title: "Reading the ratios",
         navLabel: "Ratios",
         eyebrow: "Part V · Chapters 19–23",
+        layout: "dense",
         dek:
           "A single number says little. Ratios compare one number with another, and comparing them across years shows what the totals hide. Here is a growing company whose profit looks fine and whose ratios tell a more worried story.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              {
+                t: "A single number says little.",
+                d: "Is $750,000 of profit good? It depends on the sales, the assets and the money behind it."
+              },
+              {
+                t: "Ratios put two numbers side by side.",
+                d: "So companies of different sizes, or one company in different years, can be compared."
+              },
+              {
+                t: "They come in four families.",
+                d: "Profitability, leverage, liquidity and efficiency, each answering a different question."
+              },
+              {
+                t: "Read across the families.",
+                d: "The useful story comes from several ratios moving together, not from any one."
+              },
+              {
+                t: "Northline is growing into a cash squeeze.",
+                d: "Sales rose a fifth and profit rose, but customers pay later, stock sits longer, suppliers are paid sooner, and debt filled the gap."
+              }
+            ]
+          },
           {
             type: "ratios",
             company: "Northline Bikes",
@@ -833,32 +855,16 @@
             }
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Why ratios",
-                paras: [
-                  "Totals are hard to judge on their own. Is $750,000 of profit good? It depends on the sales, the assets and the money behind it. Ratios put two numbers side by side so that companies of different sizes, or one company in different years, can be compared.",
-                  "The authors group them into families: profitability, leverage, liquidity and efficiency. Each family answers a different question, and the useful reading comes from looking across them."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Part V works through each family in turn and closes with the ratios outside investors watch.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "What Northline's ratios say",
-                paras: [
-                  "On the income statement, last year looks like a success: sales up 20%, profit up. The ratios tell the rest. Customers are paying more slowly, stock is piling up, suppliers are being paid sooner, and the gap is being filled with debt. Cash fell from $900,000 to $350,000.",
-                  "None of this shows up as a loss. It shows up as a company that is growing into a cash squeeze."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Move the same levers yourself in <a href=\"@working-capital\">Working capital levers</a>.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Four families of ratios",
+            columns: ["Family", "The question", "Ratios in the tool", "Chapter"],
+            widths: ["9rem", null, null, "6rem"],
+            rows: [
+              ["Profitability", "How much of each sales dollar does the company keep?", "Gross, operating and net margin; return on assets; return on equity", "20"],
+              ["Leverage", "How much does it rely on borrowed money?", "Debt to equity; interest coverage", "21"],
+              ["Liquidity", "Can it pay its bills as they come due?", "Current ratio; quick ratio", "22"],
+              ["Efficiency", "How well does it use its assets?", "Days sales outstanding, days in inventory, days payable; asset turnover", "23"]
             ]
           }
         ],
@@ -873,66 +879,86 @@
         }
       },
 
+      // A reference page. The three categories, and interest paid as operating cash under US
+      // rules, follow Chapter 17 as I remember it. The eight examples are invented (they were the
+      // page's sorting quiz); the patterns table is our summary.
       "cash-flow-language": {
         title: "The language of cash flow",
         navLabel: "Cash flow",
         eyebrow: "Part IV · Chapter 17",
+        layout: "dense",
         dek:
           "The cash flow statement sorts every dollar in and out into three buckets: operating, investing and financing. Which bucket a dollar lands in tells you whether the business is paying its own way.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Three buckets",
-                paras: [
-                  "Operating cash comes from running the business: collecting from customers, paying suppliers and staff, paying interest and taxes. Investing cash goes into, or comes out of, long-lived assets such as equipment and buildings. Financing cash moves between the company and the people who fund it: borrowing and repaying, issuing shares, paying dividends.",
-                  "Add the three together and you get the change in cash for the period, which is exactly the change in the cash line on the balance sheet."
-                ],
-                side: {
-                  label: "One surprise",
-                  html: "<p>Under US accounting rules, interest paid is an operating cash flow, even though the loan itself is financing.</p>"
-                }
+                t: "Every dollar lands in one of three buckets.",
+                d: "Operating, investing or financing. Add them up and you get the change in cash, exactly the change in the balance sheet's cash line."
+              },
+              {
+                t: "Operating: running the business.",
+                d: "Collecting from customers, paying suppliers and staff, paying interest and taxes."
+              },
+              {
+                t: "Investing: long-lived assets.",
+                d: "Buying or selling equipment, buildings and other assets that last for years."
+              },
+              {
+                t: "Financing: the people who fund it.",
+                d: "Borrowing and repaying, issuing shares, paying dividends."
+              },
+              {
+                t: "The bucket tells you who's paying.",
+                d: "An established business usually funds itself from operations. A business can live on financing for a while, but not forever. See <a href=\"@profit-cash\">profit isn't cash</a>."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Operating, investing or financing?",
-            intro:
-              "Eight things that happen at Northline Bikes in a year. Put each one in the bucket where the cash flow statement would report it.",
-            options: [
-              { id: "op", label: "Operating", hint: "Running the business" },
-              { id: "inv", label: "Investing", hint: "Long-lived assets" },
-              { id: "fin", label: "Financing", hint: "Lenders and owners" }
-            ],
-            rewriteLabel: "",
-            items: [
-              { text: "A bike shop pays Northline's invoice.", answer: "op", why: "Collecting from customers is the heart of operating cash." },
-              { text: "Northline buys a new paint line.", answer: "inv", why: "Equipment lasts for years, so the cash spent on it is investing." },
-              { text: "Northline borrows $500,000 from the bank.", answer: "fin", why: "Money from a lender is financing." },
-              { text: "Northline pays its frame supplier.", answer: "op", why: "Paying for materials is part of running the business." },
-              { text: "Northline pays interest on its loan.", answer: "op", why: "The surprise: under US rules, interest paid is an operating cash flow, even though the loan itself is financing." },
-              { text: "Northline sells an old warehouse.", answer: "inv", why: "Selling a long-lived asset brings in investing cash." },
-              { text: "The owners take a dividend.", answer: "fin", why: "Cash going back to owners is financing." },
-              { text: "Northline repays part of the loan.", answer: "fin", why: "Repaying the amount borrowed is financing. Only the interest counts as operating." }
+            type: "table",
+            eyebrow: "Reference",
+            title: "The three buckets",
+            columns: ["", "Operating", "Investing", "Financing"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["Cash in from", "Customers", "Selling equipment or property", "Lenders and new shareholders"],
+              ["Cash out to", "Suppliers, staff, landlords, lenders' interest, tax", "Buying equipment or property", "Repaying loans, dividends, buying back shares"],
+              ["One surprise", "Interest paid counts here under US rules", "–", "The loan itself is here, but not its interest"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "What healthy looks like",
-                paras: [
-                  "A healthy, established business usually generates cash from operations and uses some of it to invest and to pay lenders or owners. A young company may show negative operating cash funded by borrowing or new shares. That can be fine for a while, but a business can't run on financing forever."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Watch all three buckets move in <a href=\"@profit-cash\">Profit isn't cash</a>.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Worked examples",
+            title: "Where each one goes",
+            intro: "Eight things that happen at Northline Bikes, the invented bike maker, in a year.",
+            columns: ["What happens", "Bucket", "Why"],
+            widths: [null, "8rem", null],
+            rows: [
+              ["A bike shop pays Northline's invoice.", "Operating", "Collecting from customers is the heart of operating cash."],
+              ["Northline buys a new paint line.", "Investing", "Equipment lasts for years."],
+              ["Northline borrows $500,000 from the bank.", "Financing", "Money from a lender."],
+              ["Northline pays its frame supplier.", "Operating", "Paying for materials is part of running the business."],
+              ["Northline pays interest on its loan.", "Operating", "Under US rules interest paid is operating, even though the loan is financing."],
+              ["Northline sells an old warehouse.", "Investing", "Selling a long-lived asset."],
+              ["The owners take a dividend.", "Financing", "Cash going back to owners."],
+              ["Northline repays part of the loan.", "Financing", "Repaying what was borrowed. Only the interest is operating."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Patterns",
+            title: "What the three signs often mean",
+            intro: "Our summary. A plus means cash in, a minus cash out.",
+            columns: ["Operating", "Investing", "Financing", "Often means"],
+            widths: ["7rem", "7rem", "7rem", null],
+            rows: [
+              ["+", "−", "−", "An established business paying for its own investment and returning cash to lenders or owners"],
+              ["+", "−", "+", "A business investing faster than its own cash allows, with lenders or owners making up the rest"],
+              ["−", "−", "+", "A young or struggling business living on outside money"],
+              ["−", "+", "+", "A business selling assets and borrowing to cover its operations: a warning sign"]
             ]
           }
         ],
@@ -947,40 +973,59 @@
         }
       },
 
+      // A reference page around the now-or-later tool. Time value, present value, cost of capital
+      // and the hurdle rate follow Part VI as I remember it. The present values are computed;
+      // Northline's 12% hurdle rate is invented.
       "roi-basics": {
         title: "The building blocks of ROI",
         navLabel: "Time value",
         eyebrow: "Part VI · Return on investment",
+        layout: "dense",
         dek:
           "Before you can judge an investment you need two ideas: money today is worth more than the same money later, and the rate that measures the difference is the company's cost of capital.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "A dollar today is worth more",
-                paras: [
-                  "Money you have now can be put to work: invested, lent or used to pay down debt. So $10,000 today is worth more than $10,000 in a year. At 8% a year, $10,000 grows to $10,800 after one year and to $14,693 after five. That growth on growth is compounding.",
-                  "Run it backwards and you get present value: what a future sum is worth today. $14,693 arriving in five years is worth $10,000 now, at 8%. Every ROI method in the next chapter rests on this step."
-                ],
-                side: {
-                  label: "The formula",
-                  html: "<p>Present value = future amount ÷ (1 + rate)<sup>years</sup></p>"
-                }
+                t: "A dollar today is worth more than a dollar later.",
+                d: "Money you have now can be invested, lent or used to pay down debt in the meantime."
               },
               {
-                n: "2",
-                title: "The rate that matters",
-                paras: [
-                  "Which rate? For a company, the starting point is its cost of capital: what it pays for the money it uses. That blends the interest on its loans with the return its owners expect on their stake, which is higher, because owners take more risk than lenders.",
-                  "Companies then set a hurdle rate, the minimum return a project has to clear before it's approved. It's usually at or above the cost of capital, and often higher for riskier projects."
-                ],
-                side: {
-                  label: "At Northline",
-                  html: "<p>The invented bike maker sets its hurdle rate at 12%. A project that can't beat 12% would be better replaced by paying down debt or returning money to its owners.</p>"
-                }
+                t: "Growth on growth is compounding.",
+                d: "At 8% a year, $10,000 grows to $10,800 after one year and $14,693 after five."
+              },
+              {
+                t: "Present value runs it backwards.",
+                d: "Future amount ÷ (1 + rate)<sup>years</sup>. $14,693 in five years is worth $10,000 today, at 8%."
+              },
+              {
+                t: "The rate is the cost of capital.",
+                d: "A blend of the interest on loans and the higher return owners expect, because owners take more risk than lenders."
+              },
+              {
+                t: "The hurdle rate is the bar.",
+                d: "The minimum a project must return to be approved, usually at or above the cost of capital. The invented Northline uses 12%."
+              },
+              {
+                t: "Long waits are hit hardest.",
+                d: "The rate compounds once a year, so late payoffs need a strong case. Next: <a href=\"@roi\">figuring ROI</a>."
               }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Present value",
+            title: "What $10,000 later is worth today",
+            columns: ["Received in", "At 3%", "At 8%", "At 12%"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["1 year", "$9,709", "$9,259", "$8,929"],
+              ["2 years", "$9,426", "$8,573", "$7,972"],
+              ["5 years", "$8,626", "$6,806", "$5,674"],
+              ["10 years", "$7,441", "$4,632", "$3,220"]
             ]
           },
           {
@@ -1007,20 +1052,16 @@
             foot: "Each offer is built to break even at a different rate: 3%, 6%, 15%, 9% and 12% in the order shown. Below its rate the later money wins; above it, the money now does."
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Why the rate decides",
-                paras: [
-                  "The same offer can be a good deal or a bad one depending on the rate, and nothing else about it changes. That's why the choice of discount rate is one of the most argued-over numbers in any investment case.",
-                  "Long waits are hit hardest. The rate compounds once for every year, so $31,058 in ten years looks enormous at 3% and merely adequate at 12%. Projects whose payoffs come late need a strong case at the hurdle rate."
-                ],
-                side: {
-                  label: "Next",
-                  html: "<p>Put this to work on a real decision in <a href=\"@roi\">Figuring ROI</a>, with payback, net present value and internal rate of return.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "The rates in an investment case",
+            columns: ["Rate", "What it is", "Why it's at that level"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Interest on debt", "What lenders charge", "Lenders are paid first, so they take the least risk"],
+              ["Owners' expected return", "What shareholders expect to earn", "Owners are paid last, so they expect more"],
+              ["Cost of capital", "A blend of the two, weighted by how much of each the company uses", "It's the true price of the company's money"],
+              ["Hurdle rate", "The minimum a project must return to be approved", "At or above the cost of capital, and higher for riskier projects"]
             ]
           }
         ],
@@ -1035,13 +1076,44 @@
         }
       },
 
+      // A reference page around the ROI calculator. Payback, net present value and internal rate
+      // of return follow Part VI as I remember it. The welding robot is invented; the second
+      // table's figures are the calculator's own results, checked in tests/exercises.test.js.
       roi: {
         title: "Figuring ROI",
         navLabel: "ROI",
         eyebrow: "Part VI · Return on investment",
+        layout: "dense",
         dek:
           "Should Northline buy the machine? Return on investment asks whether the cash a project brings in, counted at today's value, beats what it costs. The book works through three ways to answer: payback, net present value and internal rate of return.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              {
+                t: "ROI asks whether a project pays for itself.",
+                d: "Does the cash it brings in, counted at today's value, beat what it costs?"
+              },
+              {
+                t: "Payback: how fast does the money come back?",
+                d: "Simple, but it ignores timing and everything after the payback date."
+              },
+              {
+                t: "Net present value: how much value does it add?",
+                d: "Discount each year's cash to today at the hurdle rate and subtract the cost. Positive means it clears the hurdle."
+              },
+              {
+                t: "Internal rate of return: what return does it earn?",
+                d: "The rate at which net present value is zero. Above the hurdle rate, the project clears it."
+              },
+              {
+                t: "The estimates are the decision.",
+                d: "Savings, life and rate are all judgments, and small changes swing the answer, the same lesson as <a href=\"@profit-estimate\">profit is an estimate</a>."
+              }
+            ]
+          },
           {
             type: "roi-calculator",
             company: "Northline Bikes",
@@ -1053,41 +1125,26 @@
             ranges: { savings: [40000, 200000, 5000], years: [2, 12], rate: [2, 20] }
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Money later is worth less",
-                paras: [
-                  "A dollar saved five years from now is worth less than a dollar today, because today's dollar could be earning a return in the meantime. So each future year's savings is discounted back to today's value, at a rate that reflects what the company's money costs and what else it could do with it. Companies call that rate the hurdle rate."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Part VI builds up the time value of money, the cost of capital and the hurdle rate before working through each method.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "Three answers to three questions",
-                paras: [
-                  "Payback asks how fast the money comes back. It's simple and ignores both timing and anything after the payback date. Net present value asks how much value the project adds in today's dollars; positive means it beats the hurdle. Internal rate of return asks what return the project earns; if it's above the hurdle rate, the project clears it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Drop the savings to $90,000. Payback still looks reasonable, but net present value turns negative.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "The estimates are the decision",
-                paras: [
-                  "Every input here is a judgment: how much the machine will save, how long it will last, what rate to use. Small changes in the estimates swing the answer. That's the same lesson as profit being an estimate, applied to the future."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p><a href=\"@profit-estimate\">Profit is an estimate</a> shows the same effect on this year's numbers.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Three methods",
+            columns: ["Method", "The question", "Approve when", "Blind spot"],
+            widths: ["11rem", null, null, null],
+            rows: [
+              ["Payback", "How many years until the cost comes back?", "It's shorter than a set limit", "Ignores the time value of money and anything after payback"],
+              ["Net present value", "How much value does it add, in today's dollars?", "It's above zero at the hurdle rate", "Only as good as the rate and the estimates"],
+              ["Internal rate of return", "What return does it earn?", "It's above the hurdle rate", "Says nothing about size: a small project can have a high rate"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Worked example",
+            title: "The welding robot, two ways",
+            intro: "$400,000 today, six years of savings, a 10% hurdle rate: the calculator's starting values, and one change.",
+            columns: ["Savings a year", "Payback", "Net present value", "Internal rate of return", "At a 10% hurdle"],
+            rows: [
+              ["$110,000", "3.6 years", "+$79,079", "16.5%", "Clears it"],
+              ["$90,000", "4.4 years", "−$8,027", "9.3%", "Falls short, though payback still looks reasonable"]
             ]
           }
         ],
@@ -1102,13 +1159,49 @@
         }
       },
 
+      // A reference page around the working-capital levers, which draw the cash conversion
+      // cycle themselves. DSO, DIO, DPO and the cycle follow Part VII as I remember it. Northline
+      // is invented; a day's value is its $12 million of revenue, or $7.2 million of cost of
+      // goods sold, divided by 365.
       "working-capital": {
         title: "Working capital levers",
         navLabel: "Working capital",
         eyebrow: "Part VII · Working capital",
+        layout: "dense",
         dek:
           "Much of the gap between profit and cash sits in three numbers: how long customers take to pay, how long inventory sits, and how long you take to pay suppliers. Move them and cash appears or disappears, with no change in profit.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "Much of the gap between profit and cash sits in three numbers.",
+                d: "How long customers take to pay, how long stock sits, and how long you take to pay suppliers."
+              },
+              {
+                t: "Each is measured in days.",
+                d: "Days sales outstanding, days in inventory and days payable outstanding."
+              },
+              {
+                t: "Together they make the cash conversion cycle.",
+                d: "Days in inventory plus days sales outstanding, minus days payable: how long a dollar is tied up between paying for materials and collecting from a customer."
+              },
+              {
+                t: "Each day is worth a lot.",
+                d: "At $12 million of sales, collecting one day sooner frees about $33,000 for as long as it lasts. None of it changes profit."
+              },
+              {
+                t: "Managers across the company hold the levers.",
+                d: "Sales sets payment terms, operations decides how much stock to hold, purchasing negotiates with suppliers."
+              },
+              {
+                t: "Stretching suppliers has a cost.",
+                d: "Lost discounts, worse prices, or suppliers who stop putting you first."
+              }
+            ]
+          },
           {
             type: "wc-levers",
             company: "Northline Bikes, a few years on",
@@ -1121,43 +1214,17 @@
             ranges: { dso: [10, 120], dio: [10, 150], dpo: [5, 120] }
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Three levers, measured in days",
-                paras: [
-                  "Days sales outstanding is how long, on average, customers take to pay. Days in inventory is how long stock sits before it's sold. Days payable outstanding is how long the company takes to pay its suppliers.",
-                  "Add the first two and subtract the third to get the cash conversion cycle: the number of days a dollar is tied up between paying for materials and collecting from a customer."
-                ],
-                side: {
-                  label: "The formulas",
-                  html: "<p>DSO = receivables ÷ (revenue ÷ 365)<br>DIO = inventory ÷ (cost of goods sold ÷ 365)<br>DPO = payables ÷ (cost of goods sold ÷ 365)</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "Why small changes matter",
-                paras: [
-                  "At any real scale, each day is worth a lot of money. At Northline's size, collecting from customers one day sooner puts about $33,000 back in the bank for as long as the faster collection lasts. None of it changes profit."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Bring DSO from 55 down to 45 days. Ten days of faster collection frees about $329,000.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "Who controls the levers",
-                paras: [
-                  "These numbers aren't only finance's job. Sales sets payment terms, operations decides how much stock to hold, and purchasing negotiates with suppliers. Managers across the company move cash every day, whether or not they see it."
-                ],
-                side: {
-                  label: "A caution",
-                  html: "<p>Stretching suppliers too far has costs of its own: lost discounts, worse prices, or suppliers who stop putting you first.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "Reference",
+            title: "Three levers, measured in days",
+            columns: ["Lever", "What it measures", "Formula", "Who moves it", "A day at Northline"],
+            widths: ["11rem", null, null, null, "8rem"],
+            rows: [
+              ["Days sales outstanding (DSO)", "How long, on average, customers take to pay", "Receivables ÷ (revenue ÷ 365)", "Sales and finance: terms, credit checks, collections", "$32,877"],
+              ["Days in inventory (DIO)", "How long stock sits before it's sold", "Inventory ÷ (cost of goods sold ÷ 365)", "Operations and purchasing", "$19,726"],
+              ["Days payable outstanding (DPO)", "How long the company takes to pay suppliers", "Payables ÷ (cost of goods sold ÷ 365)", "Purchasing and finance", "$19,726"]
+            ],
+            foot: "Collecting ten days sooner, from 55 days to 45, frees about $329,000."
           }
         ],
         end: {
@@ -1171,14 +1238,49 @@
         }
       },
 
+      // A reference page around the three-statements tool. Profit and cash as different measures,
+      // and how the statements tie, follow Part IV as I remember it. Northline is invented; the
+      // tables are our summary.
       "profit-cash": {
         title: "Profit isn't cash",
         crumb: "Profit isn't cash",
         navLabel: "Profit vs. cash",
         eyebrow: "Part IV · Chapter 16",
+        layout: "dense",
         dek:
           "A company can report a healthy profit and still run out of money. The income statement, balance sheet and cash flow statement each tell part of the story. Run one month of business through all three and watch where profit and cash part ways.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "A profitable company can run out of cash.",
+                d: "Profit measures how the business performed over a period. Cash is what's in the bank. They follow different rules."
+              },
+              {
+                t: "Revenue counts on delivery.",
+                d: "A sale is recorded when the product ships, not when the customer pays."
+              },
+              {
+                t: "Costs are matched to sales.",
+                d: "Materials become an expense when the products they go into are sold, not when they're bought."
+              },
+              {
+                t: "Equipment is spread over its life.",
+                d: "Its cost reaches profit a little at a time, as depreciation, though the cash left all at once."
+              },
+              {
+                t: "The three statements tie together.",
+                d: "Net income becomes retained earnings and starts the cash flow statement; its last line is the cash on the balance sheet."
+              },
+              {
+                t: "Most of the gap is working capital.",
+                d: "Money tied up in receivables and inventory, offset by what's owed to suppliers. See <a href=\"@working-capital\">working capital levers</a>."
+              }
+            ]
+          },
           {
             type: "three-statements",
             scenario: {
@@ -1258,43 +1360,29 @@
             }
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Why profit and cash come apart",
-                paras: [
-                  "The income statement follows accounting rules about <em>when</em> revenue and costs count. A sale is recorded when the product is delivered, not when the customer pays. The cost of the product is recorded in the same period as the sale, not when the materials were bought. Long-lived equipment is spread over its useful life as depreciation.",
-                  "Each rule is sensible on its own. Together they mean profit measures how well the business performed over a period, while cash is simply what is in the bank. Berman and Knight's point is that a manager needs both numbers, and needs to know why they differ."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Part II argues that profit is an estimate, built on judgments about timing and value. Cash involves far fewer of those judgments.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "How the three statements connect",
-                paras: [
-                  "Net income at the bottom of the income statement becomes an increase in retained earnings on the balance sheet. The cash flow statement starts from that same net income and adjusts it, line by line, for everything that changed cash differently from profit: depreciation, and changes in receivables, inventory and payables.",
-                  "Its last line, cash at the end of the period, is the cash on the balance sheet. That is why the statements always tie out. Hover over net income or cash in the simulator to see the same number in two places."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Ship bikes, then record depreciation. Profit and cash now differ for two reasons, and the cash flow statement shows each one on its own line.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "What managers can do about it",
-                paras: [
-                  "Most of the gap between profit and cash sits in working capital: money tied up in receivables and inventory, offset by what is owed to suppliers. Collecting from customers sooner, holding less inventory and negotiating longer payment terms all turn profit into cash faster, without changing profit at all."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>Part VII treats these as balance sheet levers, measured in days: how long customers take to pay, how long stock sits, and how long you take to pay suppliers.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Why they differ",
+            title: "Four rules that pull profit and cash apart",
+            columns: ["Rule", "Profit moves", "Cash moves"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["Revenue counts on delivery", "When the goods ship", "When the customer pays"],
+              ["Costs are matched to sales", "When the products are sold", "When suppliers are paid"],
+              ["Equipment is depreciated", "A slice each month, for years", "All at once, when it's bought"],
+              ["Borrowing isn't income", "Not at all (only the interest)", "In when borrowed, out when repaid"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "How they tie",
+            title: "The same number in two places",
+            columns: ["Number", "Appears on", "And on"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["Net income", "The bottom of the income statement", "The balance sheet, as an increase in retained earnings, and the top of the cash flow statement"],
+              ["Depreciation", "The income statement, as an expense", "The cash flow statement, added back; the balance sheet, lowering equipment"],
+              ["Changes in receivables, inventory and payables", "The balance sheet", "The cash flow statement, as adjustments from profit to cash"],
+              ["Cash at the end of the period", "The last line of the cash flow statement", "The balance sheet's cash line"]
             ]
           }
         ],

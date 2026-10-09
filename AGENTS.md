@@ -39,7 +39,7 @@ A page is a header, a list of blocks and an optional end section:
 ```js
 "my-page": {
   title: "…", navLabel: "Short", eyebrow: "Part II · …", dek: "One or two plain sentences.",
-  blocks: [ { type: "prose", sections: [...] }, { type: "sorter", ... } ],
+  blocks: [ { type: "brief", points: [...] }, { type: "table", ... } ],
   end: {
     related: [ { title: "…", where: "Part I", page: "other-slug" } ],   // omit page if it doesn't exist yet
     cta: { page: "builder", kicker: "Workbench", text: "…" }
@@ -71,7 +71,7 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `table.js` (render only) or `bar-chart.js` (render and mount).
 2. Add its `<script>` tag to `index.html` with the other blocks (before `app.js`).
 3. Add its styles to `styles.css` under a comment header.
-4. Before reaching for a new block, check whether an existing one fits. `sorter` handles two or more options; `prose` handles text with sidenotes.
+4. Before reaching for a new block, check whether an existing one fits. `table` handles most comparisons and worked examples; `figure` handles any diagram; `prose` handles text with sidenotes.
 
 **Write a dense reference page**
 The direction for chapter pages is more of the book per screen and fewer toy models and quizzes. `#ump-five-forces` is the model.

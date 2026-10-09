@@ -43,17 +43,17 @@ npm test
 | The kernel | `#gsbs-kernel` | The argument in six points, the interactive kernel figure (general form, Desert Storm, Apple 1997), the three parts at a glance, four ways a guiding policy creates advantage, and what the kernel leaves out. |
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts are saved for the reader. |
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
-| Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |
-| Revenue recognition | `#fi-revenue` | Revenue counts when it's earned, not when it's paid: sort eight September deals (deposits, gift cards, prepaid servicing, a signed contract) by how much counts this month. |
-| The many forms of profit | `#fi-forms-of-profit` | Gross, operating and net profit and their margins, with six moves (a price rise, a marketing cut, a cheaper loan, a one-time gain…) that each reach only some of them. |
-| Why the balance sheet balances | `#fi-balance-sheet` | Double-entry bookkeeping: post eight of Northline's transactions by choosing the two accounts each one moves, with a balance scale that tips when an entry doesn't balance. |
-| Profit isn't cash | `#fi-profit-cash` | A linked three-statement simulator: apply a month of events at an invented bike maker and watch the income statement, balance sheet and cash flow statement move together, with a profit-vs-cash chart. |
-| The language of cash flow | `#fi-cash-flow-language` | Operating, investing and financing, with a three-way sort of Northline's cash flows. |
-| How cash connects | `#fi-cash-connects` | Build the bridge from net profit to the change in cash: decide whether each balance sheet change adds or uses cash, and the finished bridge checks itself against the cash account. |
-| Reading the ratios | `#fi-ratios` | Thirteen ratios across two years of a growing company, each with its formula worked through with the real numbers. |
-| The building blocks of ROI | `#fi-roi-basics` | Time value of money, cost of capital and the hurdle rate, with a rate slider that decides between $10,000 now and five larger sums later. |
-| Figuring ROI | `#fi-roi` | Payback, net present value and internal rate of return for a welding robot, with sliders and a discounted cash chart. |
-| Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
+| Profit is an estimate | `#fi-profit-estimate` | The argument in five points, five judgment calls that move Northline's September profit while cash stays put, where the judgment hides on the income statement, and questions for reading someone else's numbers. |
+| Revenue recognition | `#fi-revenue` | The argument in five points, eight September events and how much of each counts as September revenue, and how revenue, cash and the balance sheet move for each kind of deal. |
+| The many forms of profit | `#fi-forms-of-profit` | Gross, operating and net profit: the argument in six points, six moves that reach different lines of Northline's income statement, and which line a change shows up in. |
+| Why the balance sheet balances | `#fi-balance-sheet` | The argument in five points, the three parts of the equation, a double-entry exercise posting eight events, and what the month added up to. |
+| Profit isn't cash | `#fi-profit-cash` | The argument in six points, a month of events run through all three statements, four rules that pull profit and cash apart, and the same number in two places. |
+| The language of cash flow | `#fi-cash-flow-language` | Operating, investing and financing: the argument in five points, the three buckets, eight events sorted into them, and what the pattern of signs often means. |
+| How cash connects | `#fi-cash-connects` | The argument in five points, how each balance sheet change moves cash, a bridge from profit to cash built row by row, and where Northline's profit went. |
+| Reading the ratios | `#fi-ratios` | The argument in five points, two years of Northline's ratios with each formula worked through, and the four families of ratios. |
+| The building blocks of ROI | `#fi-roi-basics` | Time value, present value, cost of capital and the hurdle rate: the argument in six points, what $10,000 later is worth today at 3%, 8% and 12%, a now-or-later tool, and the rates in an investment case. |
+| Figuring ROI | `#fi-roi` | The argument in five points, a calculator for a $400,000 welding robot (payback, net present value and internal rate of return), the three methods compared, and the robot worked two ways. |
+| Working capital levers | `#fi-working-capital` | The argument in six points, sliders for days sales outstanding, days in inventory and days payable with the cash conversion cycle drawn live, and the three levers with their formulas and what a day is worth. |
 | Play Bigger home | `#pb` | Thesis, entry points and a map of the book's ideas. |
 | Category kings | `#pb-category-kings` | The argument in six points, the authors' estimate that a category king takes about 76% of its category's market value as a chart, four lines that play smaller rewritten to play bigger, and signs of who owns a category. |
 | The magic triangle | `#pb-magic-triangle` | Company, product and category design developed together: the argument in five points, the triangle drawn with what passes along each side, the three designs and signs each is lagging, and the shapes an imbalance takes. |
@@ -104,18 +104,15 @@ assets/js/ask.js              Claude critique for the workbenches
 assets/js/assistant.js        Ask Claude: the reading companion panel
 assets/js/northline-model.js  the Northline quarterly model (pure; testable in Node)
 assets/js/views/*.js          site-wide pages: notebook, northline
-assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,
-                              spot-exercise, kernel-builder, three-statements,
-                              sorter, chain-link, judgment-calls, wc-levers,
-                              value-split, pov-builder, concentration, ratios,
-                              strike-planner, template-strategy, roi-calculator,
-                              triangle, policy-fit, deals,
-                              profit-layers, cash-bridge, phase-map,
-                              double-entry, now-or-later,
-                              system-sketch, strategy-tests,
-                              and the reference blocks brief, force-map,
-                              bar-chart, table, figure, value-chain,
-                              chain-compare, diagram, behavior, loop-cards)
+assets/js/blocks/*.js         reusable page blocks: the reference blocks (brief,
+                              table, figure, bar-chart, diagram, behavior,
+                              loop-cards, force-map, value-chain, chain-compare,
+                              prose), the tools (three-statements, judgment-calls,
+                              profit-layers, double-entry, cash-bridge, ratios,
+                              now-or-later, roi-calculator, wc-levers), the
+                              figures and exercises (kernel-figure, phase-map,
+                              spot-exercise) and the workbenches (kernel-builder,
+                              pov-builder, strategy-tests, system-sketch)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

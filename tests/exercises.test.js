@@ -16,14 +16,6 @@ test.after(async () => {
   await env.close();
 });
 
-async function sort(answers) {
-  for (const a of answers) {
-    await page.click(`[data-opt="${a}"]`);
-    await page.click('[data-action="next"]');
-  }
-  return page.text(".sorter-score");
-}
-
 const tableRows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
 
 test("GSBS: bad strategy tables the four hallmarks and keeps the spotting exercise", async () => {
@@ -232,17 +224,13 @@ test("FI: the profit-to-cash bridge checks itself against the cash account", asy
   assert.match(await page.text('[data-why="dep"]'), /^Right\. Adds cash/);
 });
 
-test("FI: revenue recognition sorter shows each month's figure", async () => {
-  await page.open("fi-revenue");
-  await page.click('[data-opt="all"]');
-  await page.click('[data-action="next"]');
-  await page.click('[data-opt="none"]');
-  await page.click('[data-action="next"]');
-  await page.click('[data-opt="some"]');
-  assert.match(await page.text(".sorter-rewrite"), /\$1,000$/);
-  await page.click('[data-action="next"]');
-  // The gift cards (item 4) are answered wrong on purpose.
-  assert.equal(await sort(["all", "none", "all", "some", "none"]), "7 of 8 right");
+test("FI: revenue tables what counts in September, and where the cash sits", async () => {
+  await dense("fi-revenue", { points: 5, rows: [8, 5] });
+  // The September figures add up to what was earned in September.
+  const counted = await page.evaluate(() =>
+    Array.from(document.querySelector(".dt-table").tBodies[0].rows, (r) => Number(r.cells[1].textContent.replace(/[$,]/g, "")))
+  );
+  assert.equal(counted.reduce((a, b) => a + b), 59000);
 });
 
 test("FI: double entry keeps the balance sheet in balance", async () => {
@@ -308,11 +296,32 @@ test("FI: the three statements stay in balance through a month of events", async
   assert.equal(await page.text('[data-ref="cash"]'), "$43,000");
 });
 
-test("FI: cash-flow sorter has three buckets and explains a wrong pick", async () => {
-  await page.open("fi-cash-flow-language");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter-opt").length), 3);
-  await page.click('[data-opt="fin"]');
-  assert.match(await page.text(".sorter-why"), /^NOT QUITE/i);
+test("FI: the language of cash flow tables the three buckets and eight examples", async () => {
+  await dense("fi-cash-flow-language", { points: 5, rows: [3, 8, 4] });
+  const buckets = await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table")[1].tBodies[0].rows, (r) => r.cells[1].textContent));
+  assert.deepEqual([...new Set(buckets)].sort(), ["Financing", "Investing", "Operating"]);
+});
+
+test("FI: every page is a dense reference page, and the tools stay", async () => {
+  const tools = {
+    "profit-estimate": ".jc", "forms-of-profit": ".pl", "balance-sheet": ".de", "profit-cash": ".statement",
+    "cash-connects": ".cb", ratios: ".ratios", "roi-basics": ".tv", roi: ".roi", "working-capital": ".wc"
+  };
+  for (const [slug, tool] of Object.entries(tools)) {
+    await page.open(`fi-${slug}`);
+    assert.ok(await page.evaluate(() => document.querySelector(".concept.is-dense") !== null), slug);
+    assert.ok((await page.evaluate(() => document.querySelectorAll(".brief-p").length)) >= 5, slug);
+    assert.ok((await page.evaluate(() => document.querySelectorAll(".dt-table").length)) >= 1, slug);
+    assert.ok(await page.evaluate((sel) => document.querySelector(sel) !== null, tool), `${slug} keeps its tool`);
+  }
+  // The ROI table quotes the calculator's own results.
+  await page.open("fi-roi");
+  const roi = await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.textContent).join(" "));
+  for (const v of ["3.6 years", "+$79,079", "16.5%", "4.4 years", "−$8,027", "9.3%"]) assert.ok(roi.includes(v), v);
+  // The lever table's value of a day matches the tool's own rule of thumb.
+  await page.open("fi-working-capital");
+  assert.match(await page.text(".wc"), /one day of receivables is worth \$32,877/);
+  assert.match(await page.evaluate(() => document.querySelector(".dt-table").textContent), /\$32,877[\s\S]*\$19,726/);
 });
 
 test("FI: ratios compare two years", async () => {

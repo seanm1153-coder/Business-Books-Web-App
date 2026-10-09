@@ -792,47 +792,13 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .jc, .wc, .ratios, .roi, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.jc, .wc, .ratios, .roi, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
-.sorter-card { max-width: 46rem; padding: clamp(1.25rem, 3vw, 2rem); background: var(--field); border: 1px solid var(--rule); border-radius: 4px; }
 .sorter-progress { margin: 0; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
-.sorter-q { margin: 0.75rem 0 1.25rem; font-family: var(--display); font-size: clamp(1.375rem, 3vw, 1.875rem); line-height: 1.25; text-wrap: balance; }
-.sorter-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
 /* Four answers sit two by two rather than three and a straggler. */
-.sorter-opts-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 /* Five answers sit three over two, the second row sharing the full width. */
-.sorter-opts-5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-.sorter-opts-5 .sorter-opt { grid-column: span 2; }
-.sorter-opts-5 .sorter-opt:nth-child(n + 4) { grid-column: span 3; }
-.sorter-opt {
-  display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;
-  padding: 0.85rem 1rem; border: 1px solid var(--rule); border-radius: 4px;
-  background: var(--paper); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
-  transition: border-color 0.2s;
-}
-.sorter-opt:hover:not(:disabled) { border-color: var(--ink); }
-.sorter-opt:disabled { cursor: default; }
-.sorter-opt-t { font-weight: 600; }
-.sorter-opt-d { font-size: 0.8125rem; color: var(--ink-2); }
-.sorter-opt.is-right { border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok); }
-.sorter-opt.is-wrong { border-color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
-.sorter-opt.is-answer { border-style: dashed; border-color: var(--ok); }
-.sorter-why { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
-.sorter-why p { margin: 0 0 0.75rem; }
-.sorter-why .sorter-verdict { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; }
-.sorter-verdict.is-right { color: var(--ok); }
-.sorter-verdict.is-wrong { color: var(--warn); }
-.sorter-why .sorter-rewrite { padding-left: 1rem; border-left: 2px solid var(--pen); }
-.sorter-rewrite span { display: block; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--pen); }
-.sorter-score { margin: 0.5rem 0 1rem; font-family: var(--display); font-size: 1.875rem; }
-.sorter-review { list-style: none; margin: 0 0 1.25rem; padding: 0; border-top: 1px solid var(--rule); }
-.sorter-review li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: 0.6rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); font-size: 0.9375rem; }
-.sorter-review em { font-style: normal; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); margin-left: 0.35rem; }
-.sorter-mark { font-family: var(--mono); font-weight: 700; }
-.sorter-review .is-right .sorter-mark { color: var(--ok); }
-.sorter-review .is-wrong .sorter-mark { color: var(--warn); }
 
 /* ---------- Judgment calls ---------- */
 
@@ -1980,8 +1946,6 @@ body.ac-open .ac-launch { display: none; }
 }
 
 @media (max-width: 640px) {
-  .sorter-opts { grid-template-columns: minmax(0, 1fr); }
-  .sorter-opts-5 .sorter-opt, .sorter-opts-5 .sorter-opt:nth-child(n + 4) { grid-column: auto; }
   .pov-fromto { grid-template-columns: minmax(0, 1fr); }
   .pov-arrow { padding-top: 0; }
   .pov-arrow::before { content: "↓"; }
