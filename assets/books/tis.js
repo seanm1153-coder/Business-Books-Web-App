@@ -82,7 +82,7 @@
     entries: [
       { kicker: "Start here", title: "Stocks and flows", desc: "The building blocks of every system, and why a tub keeps filling while the faucet closes.", page: "stocks-flows" },
       { kicker: "Case", title: "Delays", desc: "How one rise in demand sets a car lot swinging, and why reacting faster makes it worse.", page: "delays" },
-      { kicker: "System traps", title: "The shared pasture", desc: "Five herders, one pasture, and three ways to keep it from being grazed bare.", page: "traps" }
+      { kicker: "System traps", title: "Eight traps", desc: "The structures that produce the same trouble again and again, each drawn as a loop, with its way out.", page: "traps" }
     ],
     mapTitle: "Three parts, seven chapters",
     contentsDesc: "From stocks and flows to system traps and leverage points.",
@@ -912,142 +912,115 @@
       // example of resilience traded for efficiency, that hierarchies arise from the bottom up
       // to serve the lower levels, and her use of "suboptimization" are from my reading of the
       // chapter, unchecked against its wording. The factory and the sorter items are invented.
+      // A reference page. Resilience (many loops on different mechanisms and time scales,
+      // meta-resilience, invisible until tested, traded for efficiency), self-organization
+      // (more complexity from simple rules, suppressed for control) and hierarchy (built
+      // from the bottom up, serving the levels below; suboptimization and overcentralization)
+      // follow Meadows's chapter 3 as I remember it, unchecked against her wording. Simon's
+      // watchmakers are from Herbert Simon's "The Architecture of Complexity" (1962), which I
+      // remember Meadows retelling; the odds are our arithmetic (a 1% chance of interruption
+      // per part). The "how it gets lost" examples are ours.
       "resilience": {
         navLabel: "Resilience",
         title: "Why systems work so well",
         eyebrow: "Part II · Chapter 03",
+        layout: "dense",
         dek:
           "Systems that last share three properties: resilience, self-organization and hierarchy. Each is easy to wear away without noticing, often in the name of efficiency.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Resilience",
-                paras: [
-                  "Resilience is a system's ability to survive and recover in a changing environment. It comes from structure: several balancing loops that can each restore the system when another fails, working through different mechanisms and on different time scales. A body has many ways to keep its temperature steady; a city's food arrives from many farms by many routes.",
-                  "Resilience isn't the same as stability. A system can be steady for years and still brittle, holding its course only because nothing large has hit it yet. And because resilience is usually invisible until it's needed, it's easy to trade away for something that shows: more output, higher efficiency, a lower cost this year."
-                ],
-                side: {
-                  label: "Just in time",
-                  html: "<p>Meadows points to just-in-time supply. Holding almost no inventory cuts costs and smooths production, and leaves a factory exposed to any break in its chain of deliveries.</p>"
-                }
+                t: "Three properties make systems last.",
+                d: "Resilience lets a system survive shocks, self-organization lets it learn and change its own structure, and hierarchy lets it grow complex without being swamped by information."
+              },
+              {
+                t: "Resilience comes from many loops.",
+                d: "Several balancing loops, working by different mechanisms and on different time scales, so one can restore the system when another fails. Higher still are loops that rebuild the others and learn."
+              },
+              {
+                t: "Resilience is not stability.",
+                d: "A system can be steady for years and brittle all along. Because resilience is invisible until it's tested, it gets traded away for things that show: output, efficiency, this year's cost."
+              },
+              {
+                t: "Self-organization adds structure.",
+                d: "Systems learn, diversify and evolve, often from a few simple rules. That produces variety and surprise, so organizations that prize control tend to suppress it."
+              },
+              {
+                t: "Hierarchies grow from the bottom up.",
+                d: "Stable subsystems combine into larger ones. Each level handles most of its own business, so the levels above need far less information. The upper levels exist to serve the lower ones."
+              },
+              {
+                t: "Hierarchies fail in two ways.",
+                d: "Suboptimization, when a part's goals win out over the whole's, and overcentralization, when the top tries to control too much and the parts lose the freedom that made them work."
               }
             ]
           },
           {
-            type: "buffer",
-            title: "What a buffer costs, and what it buys",
+            type: "table",
+            eyebrow: "The three properties",
+            title: "What makes each, and what wears it away",
+            columns: ["Property", "What it is", "Where it comes from", "How it gets lost"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["Resilience", "The ability to survive and recover in a changing environment", "Redundant balancing loops working in different ways and on different time scales; slack and buffers; diversity", "Cutting inventories, staff and suppliers to the minimum; single sources; monocultures; optimizing for one set of conditions"],
+              ["Self-organization", "The ability to make its own structure more complex: to learn, diversify and evolve", "Variety, experimentation and freedom to try things, governed by a few simple rules", "Rigid procedures, narrow targets and central control that make a system easier to manage today and less able to adapt"],
+              ["Hierarchy", "Subsystems nested inside larger systems, each running most of its own affairs", "Stable intermediate units that combine, with upper levels coordinating rather than commanding", "Suboptimization by the parts, or overcentralization by the top"]
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Hierarchy: systems inside systems",
+            intro: "A company of divisions made of teams. Most of what happens stays inside a box, so each level deals with a summary of the levels below.",
+            alt: "Nested boxes. A company box contains three division boxes; each division contains three team boxes. Within each box, most links stay inside.",
+            svg: `<svg viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg">
+              <rect class="sv-box-pen" x="4" y="4" width="512" height="242" rx="8"/>
+              <text class="sv-k" x="18" y="24">COMPANY</text>
+              ${[0, 1, 2].map((d) => `<rect class="sv-box" x="${20 + d * 165}" y="36" width="150" height="196" rx="6"/>
+                <text class="sv-k" x="${32 + d * 165}" y="56">DIVISION</text>
+                ${[0, 1, 2].map((t) => `<rect class="sv-box-ink" x="${32 + d * 165}" y="${68 + t * 52}" width="126" height="40" rx="4"/>
+                  <text class="sv-t sv-tp" x="${95 + d * 165}" y="${92 + t * 52}" text-anchor="middle">Team</text>`).join("")}`).join("")}
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 300 470" xmlns="http://www.w3.org/2000/svg">
+              <rect class="sv-box-pen" x="4" y="4" width="292" height="462" rx="8"/>
+              <text class="sv-k" x="18" y="24">COMPANY</text>
+              ${[0, 1, 2].map((d) => `<rect class="sv-box" x="16" y="${36 + d * 142}" width="268" height="130" rx="6"/>
+                <text class="sv-k" x="28" y="${56 + d * 142}">DIVISION</text>
+                ${[0, 1, 2].map((t) => `<rect class="sv-box-ink" x="${28 + t * 84}" y="${68 + d * 142}" width="76" height="86" rx="4"/>
+                  <text class="sv-t sv-tp" x="${66 + t * 84}" y="${115 + d * 142}" text-anchor="middle">Team</text>`).join("")}`).join("")}
+            </svg>`,
+            notes: [
+              { t: "Less information at the top.", d: "Head office doesn't need to know what every team is doing, only how each division is doing. That is what makes large systems manageable." },
+              { t: "Built from the bottom up.", d: "Teams that work become divisions; divisions that work become companies. The levels above exist to help the levels below do their jobs." },
+              { t: "Suboptimization:", d: "a team hits its own target by pushing work onto another, and the company is no better off. Overcentralization: head office makes the teams' decisions for them, and they stop adapting." }
+            ]
+          },
+          {
+            type: "bar-chart",
+            eyebrow: "The arithmetic",
+            title: "Why stable building blocks matter: Simon's watchmakers",
             intro:
-              "An invented factory gets its parts from one supplier. In any year there's a 30% chance the supplier stops, usually for a week or two, though one stoppage in ten lasts eight weeks. Each week without parts costs $100,000 in lost production; each week of parts kept in reserve costs $5,000 a year to hold.",
-            weeksLabel: "Parts in reserve",
-            weeksHint: "Weeks of production the factory can run without a delivery.",
-            maxWeeks: 8,
-            start: 0,
-            hold: 5000,
-            short: 100000,
-            chance: 0.3,
-            stoppages: [
-              { weeks: 1, p: 0.5 },
-              { weeks: 2, p: 0.25 },
-              { weeks: 4, p: 0.15 },
-              { weeks: 8, p: 0.1 }
+              "Two watchmakers build watches of 1,000 parts and are often interrupted, and an interrupted assembly falls apart. One builds each watch in one go; the other builds stable subassemblies of ten parts. Say each part added carries a 1% chance of interruption. The chance of finishing an assembly in one sitting:",
+            unit: "%",
+            decimals: 1,
+            max: 100,
+            ticks: [0, 25, 50, 75, 100],
+            labelHead: "Parts in one assembly",
+            valueHead: "Chance of finishing it uninterrupted",
+            rows: [
+              { label: "10 parts", value: 90.4, show: true },
+              { label: "50 parts", value: 60.5 },
+              { label: "100 parts", value: 36.6, show: true },
+              { label: "200 parts", value: 13.4 },
+              { label: "500 parts", value: 0.66, text: "0.66%" },
+              { label: "1,000 parts", value: 0.0043, show: true, text: "0.004%" }
             ],
-            years: 10,
-            decades: 2000,
-            seed: 7,
-            presets: [
-              { label: "Lean: none", weeks: 0 },
-              { label: "Two weeks", weeks: 2 },
-              { label: "Four weeks", weeks: 4 },
-              { label: "Eight weeks", weeks: 8 }
-            ],
-            caption:
-              "Cost a year by weeks of parts in reserve: in a calm year, on average, and in the decade that 1 in 20 is worse than, across 2,000 simulated decades."
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "What the buffer shows",
-                paras: [
-                  "The budget sees only the calm-year line, and it says the reserve is pure cost: $5,000 a year for every week of parts held. Remove it and the savings show at once. The losses come later, irregularly, and often in someone else's budget.",
-                  "On average, four weeks of parts is the cheapest choice here, at less than half the average cost of running lean. In a bad decade the gap is wider still. That's resilience in miniature: a cost you can see every year, for protection you see only when it's needed."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Start at “Lean: none” and add one week at a time. The calm-year cost climbs in a straight line, while the bad-decade cost falls steeply at first.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "Self-organization",
-                paras: [
-                  "Self-organization is a system's capacity to make its own structure more complex: to learn, diversify and evolve. A seed becomes a tree; a few founders become a company with habits nobody designed. Meadows notes that it often grows from a few simple rules, like the ones that give a snowflake its shape.",
-                  "It produces variety and surprise, which is why organizations that prize control tend to suppress it. Rigid procedures and narrow targets make a system easier to manage today and less able to adapt tomorrow."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The power to self-organize is fourth on Meadows's list of <a href=\"@leverage-points\">leverage points</a>, above rules and information.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Hierarchy",
-                paras: [
-                  "Hierarchy here means systems nested inside systems: cells in organs in bodies, teams in divisions in companies. It lets each level handle most of its own business, which cuts the information every part needs and makes the whole more stable.",
-                  "Meadows notes that hierarchies grow from the bottom up, and that the upper levels exist to serve the lower ones. They go wrong in two ways. When a part's goals win out over the goals of the whole, she calls it suboptimization. When the center tries to control too much, the parts lose the freedom that made them work."
-                ],
-                side: {
-                  label: "Suboptimization",
-                  html: "<p>A sales team that hits its target by poaching deals from another team is doing well by its own measure and nothing for the company.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Which property?",
-            intro: "Six examples. Which of the three properties is each one about?",
-            options: [
-              { id: "resilience", label: "Resilience", hint: "Survives shocks and recovers." },
-              { id: "self", label: "Self-organization", hint: "Builds new structure on its own." },
-              { id: "hierarchy", label: "Hierarchy", hint: "Systems nested inside systems." }
-            ],
-            items: [
-              {
-                text: "A city's food comes from hundreds of farms and dozens of distributors, so losing any one of them barely shows.",
-                answer: "resilience",
-                why: "Many sources and routes are redundant ways of restoring supply when one fails."
-              },
-              {
-                text: "A startup's habits, jargon and rituals grew up without anyone designing them.",
-                answer: "self",
-                why: "The organization added structure of its own: nobody wrote the culture down before it existed."
-              },
-              {
-                text: "A company is split into divisions, each made of teams that run most of their own work without asking head office.",
-                answer: "hierarchy",
-                why: "Nested subsystems, each handling its own business, so the top needs far less information."
-              },
-              {
-                text: "A hospital keeps spare ventilators that sit unused most years.",
-                answer: "resilience",
-                why: "A buffer that looks wasteful in a calm year, and keeps the hospital working in a bad one."
-              },
-              {
-                text: "A flock of starlings wheels in complex patterns, each bird following a few simple rules about its nearest neighbors.",
-                answer: "self",
-                why: "Simple rules, followed by many individuals, generate complex structure that no one designed."
-              },
-              {
-                text: "A regional office hits its own cost target by pushing work onto another office, and the company's costs don't fall.",
-                answer: "hierarchy",
-                why: "Hierarchy gone wrong: a subsystem pursuing its own goal at the expense of the whole, which Meadows calls suboptimization."
-              }
-            ]
+            source:
+              "Herbert Simon's parable from “The Architecture of Complexity” (1962), which Meadows retells. The odds are 0.99 to the power of the number of parts, our arithmetic. The watchmaker who builds in tens nearly always finishes; the one who builds in a thousand almost never does."
           }
         ],
         end: {
@@ -1064,189 +1037,106 @@
       // delays, bounded rationality); the descriptions and advice are ours, paraphrasing my
       // reading of the chapter, unchecked against its wording. The help-desk queue is our own
       // illustration of nonlinearity, not from the book; the sorter items are invented.
+      // A reference page. Models as incomplete, the six sources of surprise (beguiling
+      // events, nonlinearity, nonexistent boundaries, layers of limits, ubiquitous delays,
+      // bounded rationality), events, behavior and structure, the spruce budworm, Liebig's law
+      // of the minimum and Herbert Simon's bounded rationality follow Meadows's chapter 4 as I
+      // remember it, unchecked against her wording. The waiting-time chart is standard
+      // queueing arithmetic (a single server with random arrivals: waiting time in service
+      // times = utilization / (1 − utilization)), not from the book. The barrel is the usual
+      // picture of Liebig's law, drawn by us with invented staves.
       "surprises": {
         navLabel: "Surprises",
         title: "Why systems surprise us",
         eyebrow: "Part II · Chapter 04",
+        layout: "dense",
         dek:
           "Systems keep doing things their managers didn't expect. Meadows argues the surprise comes less from the systems than from the habits of mind we bring to them, and names six.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              { t: "Every model is incomplete, in predictable places.", d: "Everything we know about the world is a simplified picture of it. The gaps aren't random: they fall in the same six places, and systems surprise us there again and again." },
+              { t: "Events mislead.", d: "News arrives as single happenings. Behavior over time shows the pattern, and only structure, the stocks, flows, loops and delays, explains it." },
+              { t: "Twice the push rarely gives twice the result.", d: "Systems are full of nonlinearities: thresholds, saturation, and loops whose dominance shifts as conditions change." },
+              { t: "Boundaries are drawn by us.", d: "The clouds at the edge of a diagram are a convenience. Real sources run out and real sinks fill up, and then the boundary we drew starts to matter." },
+              { t: "One limit at a time, and it moves.", d: "A growing system is held back by whatever is scarcest. Relieve it and growth resumes until the next limit binds." },
+              { t: "Decisions are rational where they're made.", d: "People act sensibly on the partial, local, short-term information they have. Sensible choices in each place can add up to results nobody wants." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The six sources",
+            title: "Where surprises come from, and the habit that helps",
+            columns: ["Source", "What goes wrong", "Example", "The habit that helps"],
+            widths: ["9.5rem", null, null, null],
+            rows: [
+              ["Beguiling events", "We explain the latest happening instead of the pattern it belongs to.", "A bad quarter blamed on the weather, when sales have swung on the same cycle for years.", "Graph the history, then ask what structure produces that shape."],
+              ["Nonlinearity", "We expect responses to be proportional to the push.", "Spraying against the spruce budworm in eastern Canada kept the forests in a state where outbreaks could recur. Meadows's example.", "Look for thresholds and saturation; test how the response changes near them."],
+              ["Nonexistent boundaries", "We treat the edge of our model as the edge of the world.", "Waste sent \"away\" from a plant comes back in the river downstream.", "Draw the boundary around the question, and redraw it when the question changes."],
+              ["Layers of limits", "We push on factors that aren't limiting, and miss the one that is.", "Liebig's law: a crop grows only as far as its scarcest nutrient allows.", "Find what limits growth now, and expect growth to move the limit."],
+              ["Ubiquitous delays", "We underestimate how long it takes to notice, decide and act.", "The car dealer's swings, or a building boom that finishes after demand has gone.", "Find the delays and allow for them; where they're long, foresight beats speed."],
+              ["Bounded rationality", "We blame people for decisions that make sense where they stand.", "Each fishing crew catches what it can; together they empty the sea.", "Change the information, incentives and goals people act on."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Three levels",
+            title: "Events, behavior and structure",
+            intro: "Each level explains more than the one above it. One company's sales, seen three ways; our example.",
+            columns: ["Level", "What you see", "The question it raises", "What it lets you do"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["Events", "Sales fell 8% last quarter.", "Who or what is to blame?", "React, after the fact."],
+              ["Behavior", "Sales have risen and fallen on a three-year cycle for a decade.", "What keeps producing this shape?", "Anticipate the next turn."],
+              ["Structure", "Retailers order on recent sales, and deliveries take months, so the chain amplifies every change in demand.", "Which stocks, flows, loops and delays produce it?", "Change the structure, and with it the behavior."]
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "A nonlinearity",
+            title: "How waiting time explodes as a desk fills up",
+            intro: "One service desk, customers arriving at random. Average wait, in multiples of the time it takes to serve one customer, against how busy the desk is. Our example of a nonlinearity, from standard queueing arithmetic.",
+            cols: 1,
+            h: 260,
+            charts: [
               {
-                n: "1",
-                title: "Our models are incomplete",
-                paras: [
-                  "Everything we think we know about the world is a model: a simplified picture in our heads, in words or in numbers. Models are useful, and they're always incomplete. Meadows's argument is that the gaps aren't random. They fall in the same few places, and systems surprise us there again and again.",
-                  "Each of the six sources below is a habit of thought that works well enough in daily life and fails with systems."
-                ],
-                side: {
-                  label: "Not a reason for despair",
-                  html: "<p>Knowing where models tend to fail is what makes them improvable. Each source of surprise comes with a habit that helps.</p>"
-                }
+                t: "Average wait against utilization",
+                d: "At half busy, customers wait about one service time. At 80% they wait four, at 90% nine, at 95% nineteen. The last few points of utilization cost far more than the first fifty.",
+                x: [0, 96],
+                y: [0, 25],
+                xLabel: "Utilization, %",
+                yLabel: "Wait, in service times",
+                yTicks: [0, 5, 10, 15, 20, 25],
+                hover: true,
+                series: [{ name: "Service times of waiting", points: curve((u) => u / 100 / (1 - u / 100), 0, 96, 96) }]
               }
             ]
           },
           {
-            type: "trap-cards",
-            eyebrow: "Six sources",
-            title: "Where surprises come from",
-            intro: "Each is a gap between how systems work and how we tend to think about them.",
-            outLabel: "What helps",
-            items: [
-              {
-                name: "Beguiling events",
-                structure: "We see events, not the behavior and structure behind them",
-                trap: "News arrives as events: a stock-out, a record quarter, a resignation. Events are the most visible level of a system and the least useful for understanding it. Behavior over time shows the pattern; structure explains it.",
-                out: "Look at the history as a graph, then ask what structure would produce that shape."
-              },
-              {
-                name: "Linear minds in a nonlinear world",
-                structure: "Effects aren't proportional to causes",
-                trap: "We expect twice the push to give twice the result. In systems, a little more fertilizer may add a lot of yield or none at all, and a road that's nearly full jams when a few more cars join it. Nonlinearities can also shift which loop dominates.",
-                out: "Look for thresholds and saturation, and test how the response changes as the system nears them."
-              },
-              {
-                name: "Nonexistent boundaries",
-                structure: "Every boundary is a choice we made",
-                trap: "Systems blend into one another. The clouds at the edge of a stock-and-flow diagram, where flows come from and go to, are a convenience. Real sources run out and real sinks fill up, and then the boundary we drew starts to matter.",
-                out: "Draw the boundary around the question, not around a department or a discipline, and redraw it when the question changes."
-              },
-              {
-                name: "Layers of limits",
-                structure: "Growth is held back by whatever is scarcest",
-                trap: "At any moment, a growing system is limited by one factor, as a crop is limited by its scarcest nutrient. Supply more of anything else and nothing happens. Supply the limiting factor and growth resumes, until another one runs short.",
-                out: "Find the factor that limits growth now, and expect growth itself to move the limit somewhere else."
-              },
-              {
-                name: "Ubiquitous delays",
-                structure: "Everything takes longer than we expect",
-                trap: "Delays in noticing, deciding and acting are everywhere, and they're usually longer than people estimate. They cause overshoot and oscillation, as the car dealer found.",
-                out: "Look for the delays and allow for them. Where they're long, foresight matters more than speed."
-              },
-              {
-                name: "Bounded rationality",
-                structure: "Sensible choices made with partial information",
-                trap: "People make reasonable decisions with the information they have, but they see only part of the system and act on nearby, short-term goals. Choices that make sense in each place can add up to results nobody wants.",
-                out: "Change the information, incentives and goals people act on, rather than blaming them for acting sensibly where they stand."
-              }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Events, behavior, structure",
-                paras: [
-                  "Meadows asks readers to look at a system on three levels. <strong>Events</strong> are single happenings: what makes the news. <strong>Behavior</strong> is the pattern events make over time, the shape of the line on a graph. <strong>Structure</strong> is the arrangement of stocks, flows, feedback loops and delays that produces the pattern.",
-                  "Explanations at the level of events can't predict anything, and explanations at the level of behavior can only extend a trend. Only structure explains why the pattern looks the way it does, and so where it might be changed."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@delays\">car dealer</a> shows all three: an empty lot (an event), months of swings (behavior), and three delays in a balancing loop (structure).</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Event, behavior or structure?",
-            intro: "Six statements about invented companies. Which level of the system is each one about?",
-            options: [
-              { id: "event", label: "Event", hint: "Something that happened, once." },
-              { id: "behavior", label: "Behavior", hint: "A pattern over time." },
-              { id: "structure", label: "Structure", hint: "What produces the pattern." }
+            type: "figure",
+            eyebrow: "Layers of limits",
+            title: "Liebig's barrel",
+            intro: "A barrel holds water only up to its shortest stave. A growing business is the same: output is set by its scarcest input, whatever the others are.",
+            alt: "A barrel drawn as five staves of different heights: customers, capital, staff, management time and supplier capacity. The water level reaches only the top of the shortest stave, staff.",
+            svg: `<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg">
+              <rect class="sv-wash" x="40" y="146" width="340" height="100"/>
+              <path class="sv-curve" d="M40 146 H380"/>
+              ${[["Customers", 40], ["Capital", 64], ["Staff", 146], ["Management time", 90], ["Supplier capacity", 54]]
+                .map(([name, top], i) => `<rect class="${i === 2 ? "sv-box-pen" : "sv-box"}" x="${40 + i * 68}" y="${top}" width="64" height="${246 - top}" style="fill-opacity: 0.35"/>
+                  <text class="sv-t2" transform="translate(${76 + i * 68} ${240}) rotate(-90)">${name}</text>`)
+                .join("")}
+              <path class="sv-axis" d="M30 246 H390"/>
+              <text class="sv-k" x="212" y="136" text-anchor="middle">WATER LEVEL</text>
+            </svg>`,
+            notes: [
+              { t: "Only the shortest stave matters now.", d: "Here it's staff. More capital, customers or supplier capacity would hold no more water." },
+              { t: "Fix it and another becomes shortest.", d: "Hire, and management time becomes the limit; then capital. Growth keeps moving the limit." },
+              { t: "Meadows's advice:", d: "know which factor limits you now, and look ahead to the next one, rather than pushing on whatever is easiest to push." }
             ],
-            items: [
-              {
-                text: "The warehouse ran out of the best-selling model last Tuesday.",
-                answer: "event",
-                why: "A single happening. It's what gets reported, and on its own it says little about why."
-              },
-              {
-                text: "Stock-outs have come back every spring for five years, each followed by a glut in the summer.",
-                answer: "behavior",
-                why: "A pattern over time. Seeing it as a line on a graph is the first step past the headline."
-              },
-              {
-                text: "Buyers order based on last month's sales, and the factory takes ten weeks to deliver.",
-                answer: "structure",
-                why: "A decision rule and a delay: the structure that produces spring shortages and summer gluts."
-              },
-              {
-                text: "Staff turnover has risen every year for the last four years.",
-                answer: "behavior",
-                why: "A trend, not an event. It invites the question of what keeps pushing it up."
-              },
-              {
-                text: "Each resignation adds to the workload of the people who stay, which leads more of them to leave.",
-                answer: "structure",
-                why: "A reinforcing loop. It explains the rising trend, and it shows where to intervene: the workload, not the exit interviews."
-              },
-              {
-                text: "The finance director resigned this morning.",
-                answer: "event",
-                why: "Newsworthy, but it's one point on a line. Whether it matters depends on the pattern it belongs to."
-              }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Linear minds in a nonlinear world",
-                paras: [
-                  "A relationship is linear when the effect is proportional to the cause: one more unit of input, one more unit of output, wherever you start. Many of the relationships that matter in systems aren't like that. They're flat for a long way and then steep, or steep at first and then flat.",
-                  "The trouble is that experience is gathered in the flat part. A team that has handled more and more work without much extra delay reasonably expects the next increase to go the same way."
-                ],
-                side: {
-                  label: "Our example",
-                  html: "<p>The help desk below isn't from the book. It uses the standard formula for a single queue with random arrivals, which is about as clean a nonlinearity as business offers.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "queue",
-            title: "How busy is too busy?",
-            intro:
-              "An invented help desk closes 20 requests an hour on average, and requests arrive at random. Raise the number of requests and compare how long each one takes with a straight line drawn through the quiet hours.",
-            capacity: 20,
-            min: 1,
-            max: 19.5,
-            step: 0.5,
-            start: 10,
-            quiet: [2, 10],
-            yMax: 120,
-            rateLabel: "Requests arriving",
-            rateHint: "The desk can close 20 an hour, so at 20 it's 100% busy.",
-            presets: [
-              { label: "Half busy", value: 10 },
-              { label: "80% busy", value: 16 },
-              { label: "90% busy", value: 18 },
-              { label: "95% busy", value: 19 }
-            ],
-            caption: "Minutes from arrival to done, by requests arriving per hour. The dashed line extends the quiet hours in a straight line."
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "4",
-                title: "Limits, delays and partial information",
-                paras: [
-                  "The last three sources compound each other. A growing business is limited by one thing at a time: first demand, then capacity, then people, then cash. Relieving the current limit lets growth continue until the next one bites, and each new limit shows up after a delay, to people who can see only their own part of the business.",
-                  "That last point, which Herbert Simon called bounded rationality, is why Meadows warns against blaming individuals. A fisher who adds a boat, a manager who hoards budget and a buyer who over-orders are each acting sensibly on what they can see. If the results are bad, the place to look is what they can see and what they're rewarded for."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@traps\">system traps</a> are bounded rationality at work: structures in which every sensible local choice adds up to a bad result.</p>"
-                }
-              }
-            ]
+            caption: "The usual picture of Liebig's law of the minimum, which Meadows uses. Staves and their heights are invented."
           }
         ],
         end: {
@@ -1263,222 +1153,232 @@
       // examples are ours, and the ways out paraphrase my reading of the chapter, unchecked
       // against its wording. That Meadows uses Hardin's pasture and quotes his "mutual
       // coercion" phrase is from memory and unchecked; the phrase itself is Hardin's (1968).
+      // A reference page. The eight traps and their ways out follow Meadows's chapter 5 as I
+      // remember it, unchecked against her wording. Romania's 1966 ban (births nearly doubled
+      // the next year, then fell back) is from the public record; I remember Meadows using
+      // Romania and contrasting Sweden, unchecked. Hardin's commons (1968), Monopoly and GNP
+      // are in the book as I remember it. The loop diagrams are our simplified drawings of each
+      // structure. The Senge column is from The Fifth Discipline (1990).
       "traps": {
         navLabel: "Traps",
         title: "System traps and opportunities",
         eyebrow: "Part II · Chapter 05",
+        layout: "dense",
         dek:
           "Some structures produce the same trouble wherever they turn up, whoever is inside them. Meadows describes eight of these traps, and for each one a way out.",
         blocks: [
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Same structure, same trouble",
-                paras: [
-                  "Meadows calls them archetypes: common arrangements of feedback that produce characteristic kinds of trouble. An arms race and a price war look nothing alike, but they're built the same way and they go wrong the same way.",
-                  "Because the structure produces the behavior, replacing the people rarely helps. New people in the same position face the same pressures and make much the same choices. What helps is changing the structure: the goals, the rules, the information and the feedback. That's why the chapter is about opportunities as well as traps. Understanding how a trap works shows where the way out is."
-                ],
-                side: {
-                  label: "Archetypes",
-                  html: "<p>Peter Senge's <cite>The Fifth Discipline</cite> (1990) made a similar set of system archetypes widely known in management, and several of the names overlap.</p>"
-                }
-              }
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in four points",
+            cols: 2,
+            points: [
+              { t: "Traps are structures, not people.", d: "An arms race and a price war look nothing alike but are built the same way and go wrong the same way. Replace the people and the new ones, facing the same pressures, make the same choices." },
+              { t: "Each trap has a characteristic behavior.", d: "Endless stalemate, a resource run into the ground, slowly sinking standards, runaway rivalry, winner-take-all, dependence, gamed rules, effort aimed at the wrong target." },
+              { t: "The way out is to change the structure.", d: "The goals, the rules, the information people get and the feedback that reaches them, rather than pushing harder within the trap." },
+              { t: "Every trap is also an opportunity.", d: "Seeing the structure early makes it possible to avoid the trap, or to turn the same loops to good use, such as letting success feed success where it serves everyone." }
             ]
           },
           {
-            type: "trap-cards",
+            type: "loop-cards",
             eyebrow: "The eight traps",
-            title: "Traps, and the ways out",
-            intro: "Each trap is a structure, and each way out changes the structure rather than the people in it.",
-            outLabel: "The way out",
+            title: "Structure, example and way out",
+            intro: "Each card draws the loops behind the trap. + means two things move together, − that they move in opposite directions; R marks a reinforcing loop, B a balancing one, and ‖ a delay.",
+            cols: 2,
             items: [
               {
                 name: "Policy resistance",
-                structure: "Balancing loops pulling one stock toward different goals",
-                trap: "When several groups want different things from the same system, a push from one is met by the others pushing back harder. Everyone works hard and the system barely moves. A crackdown that raises the price of an illegal drug, and so draws in new suppliers, is a familiar case.",
-                out: "Let go: stop pushing, so the resistance relaxes. Then look for a goal all the groups can share, so their effort pulls the same way."
+                alt: "The state of the system, pushed up by actor A and down by actor B. Each push weakens as the state moves its way: two balancing loops pulling against each other.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "s", kind: "var", label: "State of\nthe system", x: 150, y: 35 },
+                    { id: "a", kind: "var", label: "Actor A's\npush", x: 52, y: 118 },
+                    { id: "b", kind: "var", label: "Actor B's\npush", x: 248, y: 118 }
+                  ],
+                  links: [
+                    { from: "s", to: "a", sign: "-", bend: 22 }, { from: "a", to: "s", sign: "+", bend: 22 },
+                    { from: "s", to: "b", sign: "+", bend: -22 }, { from: "b", to: "s", sign: "-", bend: -22 }
+                  ],
+                  marks: [{ x: 98, y: 82, t: "B" }, { x: 202, y: 82, t: "B" }]
+                },
+                rows: [
+                  { k: "The trap", d: "Several groups pull a system toward different goals. A push from one is met by the others pushing harder; everyone works hard and the system barely moves." },
+                  { k: "Example", d: "Romania banned abortion and contraception in 1966. Births nearly doubled the next year, then fell most of the way back as families found ways around the ban, at great human cost." },
+                  { k: "Way out", d: "Let go of the push so the resistance relaxes, then look for a goal everyone can share. Meadows contrasts Sweden, which met falling births by supporting families." }
+                ]
               },
               {
                 name: "The tragedy of the commons",
-                structure: "Use that grows on itself, with weak feedback from the resource",
-                trap: "Each user of a shared resource gets the whole gain from using a little more and bears only a share of the cost. So everyone takes more, and the resource erodes until nobody can use it.",
-                out: "Strengthen the missing feedback: educate and exhort the users, divide the resource so each user bears the cost of overusing their part, or regulate access for everyone."
+                alt: "Each user's use raises their gain, which raises their use: a reinforcing loop. Use draws down the shared resource, after a delay, and a smaller resource lowers each user's gain: a balancing loop that acts too late.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "u", kind: "var", label: "Each user's\nuse", x: 62, y: 40 },
+                    { id: "g", kind: "var", label: "Gain to\neach user", x: 238, y: 40 },
+                    { id: "r", kind: "var", label: "The shared\nresource", x: 150, y: 125 }
+                  ],
+                  links: [
+                    { from: "u", to: "g", sign: "+", bend: -30 }, { from: "g", to: "u", sign: "+", bend: -30 },
+                    { from: "u", to: "r", sign: "-", delay: true }, { from: "r", to: "g", sign: "+" }
+                  ],
+                  marks: [{ x: 150, y: 40, t: "R" }, { x: 150, y: 88, t: "B" }]
+                },
+                rows: [
+                  { k: "The trap", d: "Each user gets the whole gain from using a shared resource a little more and bears only a share of the cost. Everyone takes more, and the resource erodes until nobody can use it." },
+                  { k: "Example", d: "Garrett Hardin's 1968 pasture, open to every herder; overfished seas; air used to carry away waste." },
+                  { k: "Way out", d: "Restore the missing feedback: educate and appeal to users, divide the resource so each bears the cost of overusing their part, or regulate access by rules the users agree to." }
+                ]
               },
               {
                 name: "Drift to low performance",
-                structure: "A balancing loop whose goal is set by its own results",
-                trap: "When the standard is set by past performance, and bad results are believed more readily than good ones, every disappointment lowers the bar. Performance follows the bar down, slowly enough that nobody notices.",
-                out: "Keep standards absolute, whatever the latest results. Better still, let the best results raise the standard rather than the worst lower it."
+                alt: "Actual performance shapes perceived performance, which pulls the goal down; a lower goal means less corrective action and lower performance: a reinforcing drift. Perceived performance below the goal prompts corrective action: the balancing loop the drift erodes.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "act", kind: "var", label: "Actual\nperformance", x: 58, y: 35 },
+                    { id: "per", kind: "var", label: "Perceived\nperformance", x: 242, y: 35 },
+                    { id: "goal", kind: "var", label: "The goal", x: 242, y: 125 },
+                    { id: "fix", kind: "var", label: "Corrective\naction", x: 58, y: 125 }
+                  ],
+                  links: [
+                    { from: "act", to: "per", sign: "+" }, { from: "per", to: "goal", sign: "+" },
+                    { from: "goal", to: "fix", sign: "+" }, { from: "fix", to: "act", sign: "+" },
+                    { from: "per", to: "fix", sign: "-" }
+                  ],
+                  marks: [{ x: 115, y: 70, t: "B" }, { x: 205, y: 88, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "The standard is set by past performance, and bad results are believed more readily than good ones. Each disappointment lowers the bar, and performance follows it down, slowly enough that nobody notices." },
+                  { k: "Example", d: "An “acceptable” delay or error rate that creeps up a little each year." },
+                  { k: "Way out", d: "Keep standards absolute, whatever the latest results, or let the best results raise the standard rather than the worst lower it." }
+                ]
               },
               {
                 name: "Escalation",
-                structure: "Two balancing loops joined into one reinforcing loop",
-                trap: "When each side's goal is to stay ahead of the other, every move provokes a bigger one. Arms races, price wars and advertising battles run this way, and so do two voices getting louder at a party.",
-                out: "Refuse to compete, even if only one side does, which breaks the loop. Or negotiate a new arrangement with balancing loops that limit the race."
+                alt: "A's strength raises B's, and B's strength raises A's: a single reinforcing loop.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "a", kind: "var", label: "A's strength", x: 62, y: 75 },
+                    { id: "b", kind: "var", label: "B's strength", x: 238, y: 75 }
+                  ],
+                  links: [{ from: "a", to: "b", sign: "+", bend: -40 }, { from: "b", to: "a", sign: "+", bend: -40 }],
+                  marks: [{ x: 150, y: 75, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "Each side's goal is to stay ahead of the other, so every move provokes a bigger one. Both grow exponentially until one collapses." },
+                  { k: "Example", d: "Arms races, price wars, advertising battles, negative political campaigns, two voices getting louder at a party." },
+                  { k: "Way out", d: "Refuse to compete, which breaks the loop even if only one side does it, or negotiate an arrangement with balancing loops that cap the race." }
+                ]
               },
               {
                 name: "Success to the successful",
-                structure: "Reinforcing loops competing for one limited resource",
-                trap: "When winning brings the means to win again, the winners take a growing share and the losers are pushed out. Played long enough, the game ends with one player holding everything, as in Monopoly.",
-                out: "Let the losers find another game, limit the share any one winner can hold, and level the field so that each round's prize doesn't decide the next."
+                alt: "A's success brings it a bigger share of resources, which brings more success: a reinforcing loop. The same share is taken from B, whose success falls, which shrinks its claim further: a second reinforcing loop.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "a", kind: "var", label: "A's\nsuccess", x: 50, y: 40 },
+                    { id: "sh", kind: "var", label: "Resources\ngoing to A", x: 150, y: 120 },
+                    { id: "b", kind: "var", label: "B's\nsuccess", x: 250, y: 40 }
+                  ],
+                  links: [
+                    { from: "a", to: "sh", sign: "+", bend: 26 }, { from: "sh", to: "a", sign: "+", bend: 26 },
+                    { from: "sh", to: "b", sign: "-", bend: -26 }, { from: "b", to: "sh", sign: "-", bend: -26 }
+                  ],
+                  marks: [{ x: 98, y: 72, t: "R" }, { x: 202, y: 72, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "Winning brings the means to win again. Winners take a growing share, losers are pushed out, and played long enough the game ends with one player holding everything." },
+                  { k: "Example", d: "Monopoly, the board game; competitive exclusion in ecology; wealth that buys the education and credit that build more wealth." },
+                  { k: "Way out", d: "Let losers find another game, cap the share any winner can hold, and level the field so that one round's prize doesn't decide the next: antitrust, inheritance taxes, public schooling." }
+                ]
               },
               {
                 name: "Shifting the burden to the intervenor",
-                structure: "A quick fix that weakens the system's own correction",
-                trap: "A fix relieves a symptom but leaves the cause alone, and the system's own ability to handle the problem withers through disuse. Each time, more of the fix is needed. Addiction is the extreme case.",
-                out: "Avoid getting hooked in the first place. If already dependent, use the fix while rebuilding the system's own capacity, then withdraw it gradually."
+                alt: "The problem prompts a quick fix, which relieves the problem: a balancing loop. The fix also, after a delay, weakens the system's own capacity to solve the problem, which makes the problem worse: a reinforcing loop of dependence.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "p", kind: "var", label: "The problem", x: 150, y: 28 },
+                    { id: "f", kind: "var", label: "Quick fix", x: 50, y: 122 },
+                    { id: "c", kind: "var", label: "Own capacity\nto solve it", x: 245, y: 122 }
+                  ],
+                  links: [
+                    { from: "p", to: "f", sign: "+", bend: 20 }, { from: "f", to: "p", sign: "-", bend: 20 },
+                    { from: "f", to: "c", sign: "-", delay: true }, { from: "c", to: "p", sign: "-" }
+                  ],
+                  marks: [{ x: 88, y: 72, t: "B" }, { x: 175, y: 95, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "A fix relieves the symptom and leaves the cause alone, so the system's own ability to handle the problem withers through disuse. Each time, more of the fix is needed." },
+                  { k: "Example", d: "Addiction to alcohol, drugs or caffeine; farms that depend on ever more pesticide; industries that depend on subsidies." },
+                  { k: "Way out", d: "Avoid getting hooked. If already dependent, use the fix while rebuilding the system's own capacity, then withdraw it gradually." }
+                ]
               },
               {
                 name: "Rule beating",
-                structure: "Behavior aimed at the letter of a rule, not its purpose",
-                trap: "People obey the wording of a rule while defeating its intent. A department spends whatever is left of its budget in the last weeks of the year so that next year's budget isn't cut.",
-                out: "Treat rule beating as feedback about the rules. Redesign them so that ingenuity goes into meeting their purpose rather than getting around them."
+                alt: "A rule's measure rewards behavior that meets its letter, which raises the measure: a reinforcing loop. That behavior works against what the rule was meant to achieve.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "m", kind: "var", label: "The rule's\nmeasure", x: 58, y: 40 },
+                    { id: "b", kind: "var", label: "Behavior that\nmeets the letter", x: 236, y: 40 },
+                    { id: "aim", kind: "var", label: "What the rule\nwas meant to do", x: 150, y: 125 }
+                  ],
+                  links: [
+                    { from: "m", to: "b", sign: "+", bend: -30 }, { from: "b", to: "m", sign: "+", bend: -30 },
+                    { from: "b", to: "aim", sign: "-" }
+                  ],
+                  marks: [{ x: 147, y: 40, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "People obey the wording of a rule while defeating its intent, and the system distorts around the rule." },
+                  { k: "Example", d: "A department spends whatever is left of its budget in the last weeks of the year so that next year's isn't cut." },
+                  { k: "Way out", d: "Treat rule beating as feedback about the rules, and redesign them so ingenuity goes into meeting their purpose rather than getting around them." }
+                ]
               },
               {
                 name: "Seeking the wrong goal",
-                structure: "A balancing loop aimed at the wrong target",
-                trap: "A system does what its goals and measures ask, not what anyone intended. Judge schools by test scores and they teach to the test; judge a country by its output and it counts activity, not well-being.",
-                out: "Choose goals and indicators that reflect what you actually want, and don't confuse effort with results."
+                alt: "An indicator rewards effort to raise it, and the effort raises the indicator: a reinforcing loop. The link from that effort to what's actually wanted is weak or uncertain, drawn dashed.",
+                diagram: {
+                  w: 300, h: 150,
+                  nodes: [
+                    { id: "i", kind: "var", label: "The indicator\n(say, GNP)", x: 62, y: 40 },
+                    { id: "e", kind: "var", label: "Effort to\nraise it", x: 238, y: 40 },
+                    { id: "w", kind: "var", label: "What's actually\nwanted", x: 150, y: 125 }
+                  ],
+                  links: [
+                    { from: "i", to: "e", sign: "+", bend: -30 }, { from: "e", to: "i", sign: "+", bend: -30 },
+                    { from: "e", to: "w", arrow: true, dash: true }
+                  ],
+                  marks: [{ x: 150, y: 40, t: "R" }]
+                },
+                rows: [
+                  { k: "The trap", d: "A system does what its goals and measures ask, not what anyone intended. If the measure isn't the real aim, effort goes to the measure." },
+                  { k: "Example", d: "GNP counts activity, not well-being: a car crash and the hospital stay that follows add to it. Schools judged by test scores teach to the test." },
+                  { k: "Way out", d: "Choose goals and indicators that reflect what you actually want, and don't confuse effort with results." }
+                ]
               }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "The commons, up close",
-                paras: [
-                  "The best-known trap takes its name from Garrett Hardin's 1968 essay, which imagined a pasture open to every herder. Each herder gets all the benefit of adding one more animal, while the cost, a little less grass, is shared by everyone. So every herder adds animals, and the pasture is grazed bare.",
-                  "Meadows reads it as a problem of missing feedback: the condition of the resource reaches the users too weakly or too late to change what they do. Each of her three ways out repairs that link. Teach users the consequences and ask them to restrain themselves. Divide the resource so each user feels the cost of overusing their own part. Or regulate access for everyone, by what Hardin called “mutual coercion, mutually agreed upon.”"
-                ],
-                side: {
-                  label: "Not only pastures",
-                  html: "<p>Fisheries, groundwater, clean air and a shared office kitchen are all commons: things many people can draw on, where nobody pays more for using more.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "commons",
-            title: "Run the shared pasture",
-            intro:
-              "An invented village pasture feeds five herders' cows. A well-fed cow earns $1,000 a year and costs $300 to keep; when grass runs short, cows go hungry and earn less. Each year a herder adds a cow if the cows made money and sells one if they lost it. Choose how the pasture is run, or try an experiment, and watch 40 years.",
-            herders: 5,
-            startCows: 6,
-            share: 10,
-            years: 40,
-            regrow: 0.5,
-            eat: 0.25,
-            hungry: 40,
-            value: 1000,
-            upkeep: 300,
-            capMin: 20,
-            capMax: 80,
-            failBelow: 25,
-            caption: "Grass cover, as a share of a fully grown pasture, and cows on the pasture over 40 years.",
-            grassLabel: "Grass cover",
-            cowsLabel: "Cows",
-            heldPlotLabel: "Plots held back",
-            otherPlotLabel: "Plots not held back",
-            modes: [
-              { id: "shared", label: "One shared pasture", hint: "Every cow grazes the same grass." },
-              { id: "fenced", label: "Fenced into five plots", hint: "Each herder grazes only their own plot." },
-              { id: "cap", label: "Shared, with a cap", hint: "A limit on the whole herd, split equally and enforced." }
             ],
-            holdersLabel: "Herders who hold back to 10 cows",
-            holdersHint: "The rest keep adding cows as long as their cows make money.",
-            capLabel: "Cap on the whole herd",
-            capHint: "Each herder may keep a fifth of it.",
-            holdsRule: "Holds back",
-            addsRule: "Adds while cows pay",
-            capRule: "Keeps to the cap",
-            presets: [
-              { id: "open", label: "Open pasture", mode: "shared", holders: 0, cap: 50 },
-              { id: "all", label: "Everyone holds back", mode: "shared", holders: 5, cap: 50 },
-              { id: "one", label: "One herder doesn't", mode: "shared", holders: 4, cap: 50 },
-              { id: "fence", label: "Fence it", mode: "fenced", holders: 4, cap: 50 },
-              { id: "cap", label: "Cap it at 50", mode: "cap", holders: 4, cap: 50 }
-            ]
+            caption: "Loop diagrams simplified and drawn by us."
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "What the pasture shows",
-                paras: [
-                  "On the open pasture, the first decade looks like success: more cows and more income every year. The grass is a large stock, and it hides the damage until the herd is far bigger than it can feed. Then it fails for everyone at once, and the herders spend years losing money on hungry cows.",
-                  "An agreement to hold back works only while everyone keeps it. A herder who breaks it earns more than the others, takes more of the grass, and still brings the pasture down. Fence the same pasture into plots, with the same herders and the same habits, and the one who overgrazes ruins only their own plot. The feedback now reaches the person who causes the damage.",
-                  "A cap works for everyone at once, but only if it's set from what the grass can feed. Many commons, such as fish, air and groundwater, can't be fenced, so this is often the only way out that's available."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “One herder doesn't”, then “Fence it”: same herders, same habits, different structure. Then set the cap to 55. The pasture looks fine for more than twenty years before it starts to fail.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Name the trap",
-            intro: "Six invented situations, four traps. Which trap is each one caught in?",
-            options: [
-              { id: "escalation", label: "Escalation", hint: "Each side sets its goal by the other's." },
-              { id: "success", label: "Success to the successful", hint: "Winning brings the means to win again." },
-              { id: "burden", label: "Shifting the burden", hint: "A quick fix weakens the real cure." },
-              { id: "drift", label: "Drift to low performance", hint: "The standard slips with each result." }
-            ],
-            items: [
-              {
-                text: "A help desk misses its four-hour response target, so the target becomes eight hours. The next year it misses eight, and the target becomes twelve.",
-                answer: "drift",
-                why: "The standard is set by recent results, so each disappointment lowers it. Hold the standard where it is, or set it by the best the team has done."
-              },
-              {
-                text: "Two cafés on the same street each cut prices to win customers from the other, until neither makes money on a cup.",
-                answer: "escalation",
-                why: "Each café's price is set by the other's, so two balancing loops have joined into one reinforcing loop. One way out is to stop matching and compete on something else."
-              },
-              {
-                text: "Each time a project slips, a team brings in outside contractors to rescue it. Two years on, nobody on the team understands the system the contractors keep fixing.",
-                answer: "burden",
-                why: "The rescue works, which is the problem: it relieves the symptom while the team's own skill withers. Use the contractors while rebuilding that skill, then step back."
-              },
-              {
-                text: "On an online marketplace, the sellers with the most reviews appear first in search, so they make the most sales and collect the most new reviews.",
-                answer: "success",
-                why: "Each win buys the visibility that wins the next sale. Marketplaces counter it by giving new sellers some visibility of their own, a way of leveling the field."
-              },
-              {
-                text: "Two neighboring towns compete for the same employers with ever-larger tax breaks, until neither collects enough to maintain its roads.",
-                answer: "escalation",
-                why: "Each town's offer is set by the other's. The race stops only when one side refuses to match, or both agree to a limit."
-              },
-              {
-                text: "A sales team makes its quarterly number with ever-deeper discounts in the last week. Customers learn to wait for them, so each quarter needs a bigger discount than the last.",
-                answer: "burden",
-                why: "The discount treats the symptom, a short quarter, while wearing away the real cure: customers willing to pay full price."
-              }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "4",
-                title: "The way out is in the structure",
-                paras: [
-                  "The ways out have a family resemblance. Restore feedback that's missing or too slow. Replace a goal that's set by the wrong thing, or relative to the wrong people. Rewrite rules that reward the wrong behavior. None of them depends on finding better people.",
-                  "They also tend to feel uncomfortable: holding back while others don't, keeping a standard after a bad year, refusing to match a rival's price cut. A trap is a trap because each step into it feels sensible to the person taking it."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Several of the ways out are <a href=\"@leverage-points\">leverage points</a>: information flows, rules and goals.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Cross-reference",
+            title: "The same traps under other names",
+            intro: "Peter Senge's The Fifth Discipline (1990) made a similar set of system archetypes widely known in management.",
+            columns: ["Meadows's trap", "Senge's archetype", "Behavior to look for"],
+            widths: ["14rem", "12rem", null],
+            rows: [
+              ["Policy resistance", "Fixes that fail (in part)", "Effort rises year after year and the problem stays put"],
+              ["The tragedy of the commons", "Tragedy of the commons", "Everyone's yield falls together after a period of growth"],
+              ["Drift to low performance", "Eroding goals", "Targets quietly revised down to match results"],
+              ["Escalation", "Escalation", "Two actors' moves grow in size, each answering the other"],
+              ["Success to the successful", "Success to the successful", "One player's share keeps growing at the others' expense"],
+              ["Shifting the burden to the intervenor", "Shifting the burden", "A remedy needed in ever larger doses"],
+              ["Rule beating", "—", "Measures improve while what they stand for doesn't"],
+              ["Seeking the wrong goal", "—", "Hitting the numbers while missing the point"]
             ]
           }
         ],
@@ -1495,132 +1395,106 @@
       // The meter-in-the-hall story and Meadows's caveat that the list is tentative are
       // from my reading of Chapter 6 and unchecked against the book's wording. The twelve
       // names follow her list; the descriptions are ours.
+      // A reference page. The twelve leverage points in Meadows's order, Forrester's remark
+      // that people find leverage points and push them the wrong way, the Dutch electricity
+      // meters, and the list held loosely follow Meadows's chapter 6 as I remember it,
+      // unchecked against her wording. The US Toxics Release Inventory (1986) as an
+      // information-flow example is my memory of the book; unchecked. The grouping into
+      // parameters, feedbacks, design and intent is from Abson and colleagues, “Leverage
+      // points for sustainability transformation”, Ambio (2017), not from Meadows. The
+      // business examples are ours.
       "leverage-points": {
         navLabel: "Leverage",
         title: "Leverage points",
         eyebrow: "Part III · Chapter 06",
+        layout: "dense",
         dek:
           "Some places in a system respond to a small push with a large change. Meadows ranks twelve kinds of place to intervene, and the ones people reach for first are near the bottom of her list.",
         blocks: [
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Where to push",
-                paras: [
-                  "Faced with a problem in a system, most people adjust a number: a budget, a tax rate, a target. Meadows argues that numbers are among the weakest places to intervene. The structure that produced the problem is still there, so the behavior usually comes back.",
-                  "Higher up her list are places that change the structure itself: how long feedback takes, who gets what information, what the rules are, what the system is for, and the beliefs it grows out of. They're more powerful, harder to see, and more fiercely resisted."
-                ],
-                side: {
-                  label: "Not a recipe",
-                  html: "<p>Meadows offered the list as tentative and its order as open to argument. It's a way of looking at a problem, not a checklist.</p>"
-                }
-              }
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              { t: "Some places respond to a small push with a large change.", d: "Meadows quotes Jay Forrester's observation that people often find these leverage points by instinct, and then push them in the wrong direction." },
+              { t: "Numbers are the weakest.", d: "Budgets, tax rates and targets get most of the attention because they're visible and easy to argue over. Changing them rarely changes how the system behaves." },
+              { t: "Physical structure and delays are strong but stubborn.", d: "Rebuilding plants and networks is slow and costly; many delays can't be changed, only allowed for." },
+              { t: "Information and rules are strong and often cheap.", d: "Restoring a missing flow of information, or changing who may do what, can change behavior quickly. Houses with the electricity meter in the front hall used about a third less power." },
+              { t: "Goals and paradigms are strongest.", d: "Change what a system is for, or the assumptions it grows out of, and everything beneath reorganizes. Resistance is fiercest there too." },
+              { t: "Hold the list loosely.", d: "Meadows offered it as tentative and its order as open to argument. Her highest leverage point is not being attached to any paradigm at all." }
             ]
           },
           {
-            type: "ladder",
-            eyebrow: "The list",
-            title: "Twelve places to intervene",
-            lowLabel: "Least effective",
-            highLabel: "Most effective",
-            items: [
-              { n: 12, name: "Numbers", desc: "Parameters such as tax rates, subsidies, budgets and standards. The most common place to push, and usually the weakest." },
-              { n: 11, name: "Buffers", desc: "The size of a stabilizing stock compared with its flows. A big reserve steadies a system but makes it slow to change." },
-              { n: 10, name: "Stock-and-flow structures", desc: "The physical layout: pipes, roads, factories, who is connected to what. Powerful, but slow and costly to rebuild." },
-              { n: 9, name: "Delays", desc: "How long feedback takes compared with how fast the system changes. Often decisive, often hard to alter." },
-              { n: 8, name: "Balancing feedback loops", desc: "How strong the self-correcting loops are compared with the pressures they have to correct." },
-              { n: 7, name: "Reinforcing feedback loops", desc: "How strongly growth feeds on itself. Slowing a runaway loop usually beats fighting its effects." },
-              { n: 6, name: "Information flows", desc: "Who knows what, and when. Restoring a missing loop of information can change behavior cheaply." },
-              { n: 5, name: "Rules", desc: "Incentives, punishments and constraints: who may do what, and who decides." },
-              { n: 4, name: "Self-organization", desc: "The power of a system to add to, change or evolve its own structure." },
-              { n: 3, name: "Goals", desc: "The purpose the whole system serves. Change it and everything beneath it reorganizes." },
-              { n: 2, name: "Paradigms", desc: "The shared assumptions out of which the system's goals, rules and structure arise." },
-              { n: 1, name: "Transcending paradigms", desc: "Holding no paradigm as the final truth, and staying free to change it." }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Twelve places to intervene, weakest to strongest",
+            intro: "Meadows's list, numbered as she numbers it, from 12 (weakest) to 1 (strongest). The brackets show a later grouping of her list into four realms.",
+            alt: "A staircase of twelve steps rising from left to right: numbers, buffers, stock-and-flow structures, delays, balancing loops, reinforcing loops, information flows, rules, self-organization, goals, paradigms and transcending paradigms. Brackets group them as parameters, feedbacks, design and intent.",
+            svg: (() => {
+              const names = ["Numbers", "Buffers", "Stock-and-flow structures", "Delays", "Balancing loops", "Reinforcing loops", "Information flows", "Rules", "Self-organization", "Goals", "Paradigms", "Transcending paradigms"];
+              const bars = names
+                .map((nm, i) => {
+                  const x = 40 + i * 70;
+                  const h = 26 + i * 16;
+                  return `<rect x="${x}" y="${200 - h}" width="62" height="${h}" rx="2" style="fill: var(--series-profit); fill-opacity: ${(0.22 + 0.065 * i).toFixed(2)}"/>
+                    <text class="sv-k" x="${x + 31}" y="${194 - h}" text-anchor="middle">${12 - i}</text>
+                    <text class="sv-t2" transform="translate(${x + 38} 214) rotate(-38)" text-anchor="end">${nm}</text>`;
+                })
+                .join("");
+              const realms = [["PARAMETERS", 0, 2], ["FEEDBACKS", 3, 5], ["DESIGN", 6, 8], ["INTENT", 9, 11]]
+                .map(([nm, a, b]) => `<path class="sv-axis" d="M${40 + a * 70} 352 V358 H${102 + b * 70} V352"/><text class="sv-k" x="${(142 + (a + b) * 70) / 2}" y="374" text-anchor="middle">${nm}</text>`)
+                .join("");
+              return `<svg viewBox="0 0 900 384" xmlns="http://www.w3.org/2000/svg">${bars}<path class="sv-axis" d="M30 200 H880"/>${realms}</svg>`;
+            })(),
+            svgNarrow: (() => {
+              const names = ["Numbers", "Buffers", "Stock-and-flow structures", "Delays", "Balancing loops", "Reinforcing loops", "Information flows", "Rules", "Self-organization", "Goals", "Paradigms", "Transcending paradigms"];
+              return `<svg viewBox="0 0 330 376" xmlns="http://www.w3.org/2000/svg">${names
+                .map((nm, i) => {
+                  const y = 10 + i * 30;
+                  const w = 40 + i * 9;
+                  return `<text class="sv-k" x="20" y="${y + 15}" text-anchor="end">${12 - i}</text>
+                    <rect x="28" y="${y}" width="${w}" height="22" rx="2" style="fill: var(--series-profit); fill-opacity: ${(0.22 + 0.065 * i).toFixed(2)}"/>
+                    <text class="sv-t2" x="${36 + w}" y="${y + 15}">${nm}</text>`;
+                })
+                .join("")}</svg>`;
+            })(),
+            full: true,
+            caption: "Meadows's order. The four realms are from Abson and colleagues, Ambio, 2017."
+          },
+          {
+            type: "table",
+            eyebrow: "All twelve",
+            title: "What each leverage point is, with a business example",
+            intro: "Meadows's definitions, paraphrased; the examples are ours.",
+            columns: ["", "Leverage point", "What it is", "Business example"],
+            widths: ["2.5rem", "11rem", null, null],
+            rows: [
+              ["12", "Numbers", "Constants and parameters: subsidies, taxes, budgets, standards, targets", "Raising next year's sales target by 10%"],
+              ["11", "Buffers", "The size of stabilizing stocks relative to their flows", "Holding three months of cash, or more stock in the warehouse"],
+              ["10", "Stock-and-flow structures", "The physical arrangement of the system: plants, networks, who connects to whom", "Rebuilding the distribution network around regional hubs"],
+              ["9", "Delays", "How long feedback takes, relative to how fast the system changes", "Cutting the lead time from order to delivery"],
+              ["8", "Balancing feedback loops", "The strength of self-correcting loops relative to the pressures they correct", "Letting customer complaints stop a product line, not just log a ticket"],
+              ["7", "Reinforcing feedback loops", "The strength of loops that drive growth or collapse", "Slowing a spiral of discounting before it becomes a price war"],
+              ["6", "Information flows", "Who has access to which information, and when", "Showing each team the cost of the returns its products cause"],
+              ["5", "Rules", "Incentives, punishments and constraints; who may do what", "Paying salespeople on margin rather than revenue"],
+              ["4", "Self-organization", "The power to add to, change or evolve the system's own structure", "Letting teams run experiments and keep what works"],
+              ["3", "Goals", "The purpose or function of the system", "From maximizing this quarter's earnings to long-term customer value"],
+              ["2", "Paradigms", "The shared mindset out of which the system's goals, rules and structure arise", "Seeing suppliers as partners rather than adversaries"],
+              ["1", "Transcending paradigms", "Holding no paradigm as the final truth, and staying free to change it", "—"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "The meter in the hall",
-                paras: [
-                  "One of Meadows's examples shows how strong an information flow can be. In a Dutch suburb of near-identical houses, some had their electricity meters down in the basement and others in the front hall, where the family passed them every day. The houses with meters in the hall used about a third less electricity. The prices, the houses and the people were the same; only what they could see had changed."
-                ],
-                side: {
-                  label: "Cheap and strong",
-                  html: "<p>Putting feedback where decisions are made is often one of the cheapest interventions available, and one of the most overlooked.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "ranker",
-            title: "Rank the interventions",
-            intro:
-              "An invented city wants to cut traffic jams. Here are five ideas. Put them in order from least leverage at the top to most at the bottom, then check against Meadows's list.",
-            topLabel: "Least leverage",
-            bottomLabel: "Most leverage",
-            descending: true,
-            perfect: "All in order. The most familiar fix, a price change, sat at the bottom of the list.",
-            hint: "Move any item and check again. Meadows's list runs from numbers, through information and rules, to goals and paradigms.",
-            start: ["goal", "fee", "paradigm", "signs", "rules"],
-            items: [
-              {
-                id: "fee",
-                text: "Raise the downtown parking fee by $2 an hour.",
-                rank: 12,
-                label: "Leverage point 12 · Numbers",
-                why: "A parameter. It may trim some traffic, but the system that produces the jams is unchanged."
-              },
-              {
-                id: "signs",
-                text: "Show live journey times by car and by train on a sign at every on-ramp.",
-                rank: 6,
-                label: "Leverage point 6 · Information flows",
-                why: "Drivers get feedback they didn't have, at the moment they choose. Cheap, and it changes behavior directly."
-              },
-              {
-                id: "rules",
-                text: "Let developers build homes near train stations without the parking spaces the code now requires.",
-                rank: 5,
-                label: "Leverage point 5 · Rules",
-                why: "A rule change reshapes what gets built, and so where people live and how they travel, for decades."
-              },
-              {
-                id: "goal",
-                text: "Change the transport department's goal from moving cars quickly to moving people quickly.",
-                rank: 3,
-                label: "Leverage point 3 · Goals",
-                why: "Every budget, plan and measure beneath the goal reorganizes around it."
-              },
-              {
-                id: "paradigm",
-                text: "Challenge the shared belief that a good city is one you can drive across easily.",
-                rank: 2,
-                label: "Leverage point 2 · Paradigms",
-                why: "The goals, rules and roads all grow out of this assumption. Shift it and the rest follows, slowly."
-              }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Why the list runs this way",
-                paras: [
-                  "Numbers get most of the attention because they're visible and easy to argue about. But changing a number leaves the loops, the rules and the purpose of the system as they were, so the system tends to produce the same behavior with slightly different figures.",
-                  "Further up, interventions change how the system is built, what it's allowed to do, what it's trying to achieve and what its people believe. Those changes threaten things people inside the system value, which is why the most powerful points are also where change is hardest."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Delays rank ninth. The <a href=\"@delays\">car lot</a> shows how much they matter, and how hard they can be to change.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "Evidence",
+            title: "Information flows at work",
+            intro: "Two examples of how much changes when feedback reaches the people who make the decisions.",
+            columns: ["Case", "What changed", "Result"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["Dutch houses", "In a suburb of near-identical houses, some had the electricity meter in the basement, others in the front hall where the family passed it daily.", "Houses with the meter in the hall used about a third less electricity. Prices, houses and people were the same; only what they could see differed."],
+              ["US Toxics Release Inventory", "From 1986, companies had to report publicly the toxic chemicals they released.", "No new limits, only disclosure, yet reported releases fell sharply within a few years as companies saw their own numbers and so did their neighbors."]
+            ],
+            foot: "The Dutch houses are Meadows's example. The Toxics Release Inventory is as I remember the book using it; check the figures against the text."
           }
         ],
         end: {
@@ -1633,72 +1507,53 @@
           cta: { page: "living", kicker: "Next", text: "Habits for living in a world of systems" }
         }
       },
-      // The fifteen habit names follow Chapter 7's list as I remember it, in the book's order;
-      // the descriptions and "Try" lines are ours. The dancing image and the account of
-      // systems people giving up on prediction and control are from my reading of the
-      // chapter, unchecked against its wording. The sketch examples are invented.
+      // A reference page. The fifteen habits follow Meadows's chapter 7 as I remember it,
+      // paraphrased and unchecked against her wording; the "Try" suggestions are ours. The
+      // dance image and the admission that systems thinking doesn't give control are hers as I
+      // remember them. The workbench is ours.
       "living": {
         navLabel: "Habits",
         title: "Living in a world of systems",
         eyebrow: "Part III · Chapter 07",
+        layout: "dense",
         dek:
           "Systems can't be controlled, but they can be understood, designed and redesigned. Meadows ends the book with the habits that let people work with systems rather than against them.",
         blocks: [
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Dancing with systems",
-                paras: [
-                  "Meadows ends with an admission. Systems thinking didn't give her and her colleagues the power to predict and control; self-organizing, nonlinear, feedback-driven systems are too surprising for that. What it gave them was a way of living with systems: designing and redesigning them, learning from how they respond, and working with their strengths rather than against them.",
-                  "Her last chapter is a list of habits that follow, drawn from experience rather than proof. They read less like rules than like the practice of a good craftsperson."
-                ],
-                side: {
-                  label: "Dancing",
-                  html: "<p>Meadows's image for this is a dance: we can't control a system, but we can listen to it and move with it.</p>"
-                }
-              }
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in four points",
+            cols: 2,
+            points: [
+              { t: "Systems can't be controlled.", d: "Self-organizing, nonlinear, feedback-driven systems are too complex to predict and command. Systems thinking didn't give Meadows and her colleagues that power, and she says so." },
+              { t: "They can be understood, designed and redesigned.", d: "Her image is a dance: we can't control a system, but we can listen to it, learn its rhythm and move with it." },
+              { t: "What follows is a practice, not a method.", d: "Fifteen habits drawn from experience rather than proof, closer to a good craftsperson's habits than to rules." },
+              { t: "Behavior comes from structure.", d: "The same structure produces the same behavior whoever is inside it. That's hopeful: structures were built by people, and people can rebuild them." }
             ]
           },
           {
-            type: "trap-cards",
+            type: "table",
             eyebrow: "Fifteen habits",
-            title: "Habits for a world of systems",
-            intro: "In the book's order. Each comes with one way to start practicing it.",
-            outLabel: "Try",
-            items: [
-              { name: "Get the beat of the system", trap: "Before changing anything, watch how the system behaves. Gather its history, as a graph if you can, and start from facts rather than theories.", out: "Plot the data you have over the longest period you can find before proposing a fix." },
-              { name: "Expose your mental models to the light of day", trap: "Write your model down, as a diagram or in words, so others can test it. Every model is wrong somewhere; the useful ones get corrected.", out: "Draw the stocks and loops you believe in, and ask a colleague to find the flaw." },
-              { name: "Honor, respect and distribute information", trap: "Many malfunctions trace back to information that is missing, late or distorted. Getting the right information to the right place is often the cheapest intervention there is.", out: "Ask who doesn't see the consequences of their decisions, and show them." },
-              { name: "Use language with care", trap: "Words shape what we can think. Keep them honest and concrete, and add words for stocks, flows, delays and loops.", out: "When someone says “growth”, ask: growth of which stock, and from which flow?" },
-              { name: "Pay attention to what is important, not just what is quantifiable", trap: "Numbers get attention because they can be counted. Quality, trust and morale matter as much, and a model that leaves them out is wrong in a predictable direction.", out: "List what matters that your dashboard doesn't show." },
-              { name: "Make feedback policies for feedback systems", trap: "In a changing system, a fixed rule soon goes out of date. Better policies adjust to the state of the system, like a fee that rises as a resource gets scarce.", out: "Tie a policy to a measure of the system rather than to a fixed number or date." },
-              { name: "Go for the good of the whole", trap: "Don't optimize one part at the expense of the system it serves. Aim for the properties of the whole: resilience, self-organization, a healthy hierarchy.", out: "Before improving a team's metric, check what it costs the teams around it." },
-              { name: "Listen to the wisdom of the system", trap: "Before intervening, find out what already works and how the system sustains itself. Help it do that rather than overriding it.", out: "Ask the people inside what they already do that works, and support it." },
-              { name: "Locate responsibility in the system", trap: "Look for the ways a system creates its own behavior before blaming outside events, and design systems in which decision-makers feel the consequences of their decisions.", out: "Find a decision whose costs land on someone else, and route the feedback back." },
-              { name: "Stay humble, stay a learner", trap: "Systems surprise everyone. Act in small steps, watch what happens, and admit mistakes quickly so they can be corrected.", out: "Run the next change as an experiment, with a way to tell whether it worked." },
-              { name: "Celebrate complexity", trap: "The world is nonlinear, diverse and changing. Expect that, and value the variety that makes systems resilient instead of forcing everything into tidy order.", out: "Distrust the simplest story when the evidence doesn't fit it." },
-              { name: "Expand time horizons", trap: "Short horizons are why so many fixes backfire. Watch the long term and the short term together, as a walker on a rough path watches both the next step and the way ahead.", out: "Ask what the decision looks like in five years, not just this quarter." },
-              { name: "Defy the disciplines", trap: "Systems don't respect academic or departmental boundaries. Follow the problem wherever it leads, and learn enough of other fields to talk with their experts.", out: "Bring someone from outside your function into the next diagnosis." },
-              { name: "Expand the boundary of caring", trap: "Because everything is connected, the success of one part depends on the rest: other people, other places, and the generations to come.", out: "Name who else a decision affects, and how you would know if it hurt them." },
-              { name: "Don't erode the goal of goodness", trap: "Drift to low performance works on standards of behavior too. Hold to high standards, and let good examples set the bar rather than bad news.", out: "Notice when “everyone does it” is lowering a standard you hold." }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Put the book to work",
-                paras: [
-                  "The workbench below runs most of the book's tools in order: behavior before structure, then stocks and flows, a feedback loop, a delay, and finally a place to push. Try it on a problem that keeps coming back, the kind that has survived several fixes. The structure usually shows why the fixes didn't hold."
-                ],
-                side: {
-                  label: "Start from the graph",
-                  html: "<p>Step 1 is the hardest. If you can only describe an event, look for the history first: the first habit is to get the beat of the system.</p>"
-                }
-              }
+            title: "Living in a world of systems",
+            intro: "Meadows's closing guidelines, paraphrased, with a way to try each one; the suggestions are ours.",
+            columns: ["Habit", "What it means", "Try"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["Get the beat of the system", "Before changing anything, watch how the system behaves. Gather its history, as a graph if you can, and start from facts rather than theories.", "Plot the data you have over the longest period you can find before proposing a fix."],
+              ["Expose your mental models to the light of day", "Write your model down, as a diagram or in words, so others can test it. Every model is wrong somewhere; the useful ones get corrected.", "Draw the stocks and loops you believe in, and ask a colleague to find the flaw."],
+              ["Honor, respect and distribute information", "Many malfunctions trace back to information that is missing, late or distorted. Getting the right information to the right place is often the cheapest intervention there is.", "Ask who doesn't see the consequences of their decisions, and show them."],
+              ["Use language with care", "Words shape what we can think. Keep them honest and concrete, and add words for stocks, flows, delays and loops.", "When someone says “growth”, ask: growth of which stock, and from which flow?"],
+              ["Pay attention to what is important, not just what is quantifiable", "Numbers get attention because they can be counted. Quality, trust and morale matter as much, and a model that leaves them out is wrong in a predictable direction.", "List what matters that your dashboard doesn't show."],
+              ["Make feedback policies for feedback systems", "In a changing system, a fixed rule soon goes out of date. Better policies adjust to the state of the system, like a fee that rises as a resource gets scarce.", "Tie a policy to a measure of the system rather than to a fixed number or date."],
+              ["Go for the good of the whole", "Don't optimize one part at the expense of the system it serves. Aim for the properties of the whole: resilience, self-organization, a healthy hierarchy.", "Before improving a team's metric, check what it costs the teams around it."],
+              ["Listen to the wisdom of the system", "Before intervening, find out what already works and how the system sustains itself. Help it do that rather than overriding it.", "Ask the people inside what they already do that works, and support it."],
+              ["Locate responsibility in the system", "Look for the ways a system creates its own behavior before blaming outside events, and design systems in which decision-makers feel the consequences of their decisions.", "Find a decision whose costs land on someone else, and route the feedback back."],
+              ["Stay humble, stay a learner", "Systems surprise everyone. Act in small steps, watch what happens, and admit mistakes quickly so they can be corrected.", "Run the next change as an experiment, with a way to tell whether it worked."],
+              ["Celebrate complexity", "The world is nonlinear, diverse and changing. Expect that, and value the variety that makes systems resilient instead of forcing everything into tidy order.", "Distrust the simplest story when the evidence doesn't fit it."],
+              ["Expand time horizons", "Short horizons are why so many fixes backfire. Watch the long term and the short term together, as a walker on a rough path watches both the next step and the way ahead.", "Ask what the decision looks like in five years, not just this quarter."],
+              ["Defy the disciplines", "Systems don't respect academic or departmental boundaries. Follow the problem wherever it leads, and learn enough of other fields to talk with their experts.", "Bring someone from outside your function into the next diagnosis."],
+              ["Expand the boundary of caring", "Because everything is connected, the success of one part depends on the rest: other people, other places, and the generations to come.", "Name who else a decision affects, and how you would know if it hurt them."],
+              ["Don't erode the goal of goodness", "Drift to low performance works on standards of behavior too. Hold to high standards, and let good examples set the bar rather than bad news.", "Notice when “everyone does it” is lowering a standard you hold."]
             ]
           },
           {
@@ -1734,23 +1589,6 @@
               },
               blank: { label: "Start blank" }
             }
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "The book in one loop",
-                paras: [
-                  "If the book has one lesson, it's that behavior comes from structure. The same structure produces the same behavior, whoever is inside it, so lasting change comes from changing the structure: the information people see, the rules they follow and the goals they serve.",
-                  "That's a hopeful conclusion. Structures were built by people, and people can rebuild them."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@traps\">system traps</a> and the <a href=\"@leverage-points\">leverage points</a> are the two chapters to return to when a sketch shows a structure you want to change.</p>"
-                }
-              }
-            ]
           }
         ],
         end: {

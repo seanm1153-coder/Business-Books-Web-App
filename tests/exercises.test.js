@@ -389,64 +389,45 @@ test("TiS: limits draw the two-stock structure and re-run the oil field and the 
   assert.deepEqual(await rows(), [6, 3]);
 });
 
-test("TiS: a parts buffer costs in calm years and pays in bad ones", async () => {
+test("TiS: resilience draws hierarchy and works Simon's watchmakers", async () => {
   await page.open("tis-resilience");
-  const tiles = () => page.text(".bf .tiles");
-  const note = () => page.text('.bf [data-ref="note"]');
-  // Lean: free in a calm year, dearest on average and in a bad decade.
-  assert.match(await tiles(), /\$0 .* \$72,000 .* \$160,000 /i);
-  assert.match(await note(), /The cheapest on average is 4 weeks, at \$32,000/);
-  await page.click('.bf [data-preset="4"]');
-  assert.match(await tiles(), /\$20,000 .* \$32,000 .* \$60,000 /i);
-  assert.match(await note(), /This is the cheapest buffer on average/);
-  await page.click('.bf [data-preset="8"]');
-  assert.match(await note(), /even the longest stoppage is covered/);
-  await slide(page, '.bf [data-ref="input"]', 2);
-  assert.match(await note(), /^Holding 2 weeks of parts costs \$10,000 .* \$37,000 a year on average.* \$90,000/);
-  assert.equal(await sort(["resilience", "self", "hierarchy", "resilience", "self", "hierarchy"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-box-ink").length), 9);
+  assert.deepEqual(
+    await page.evaluate(() => Array.from(document.querySelectorAll(".bc-v"), (v) => v.textContent)),
+    ["90.4%", "36.6%", "0.004%"]
+  );
+  assert.equal(await page.evaluate(() => document.querySelector(".dt-table").tBodies[0].rows.length), 3);
 });
-
-test("TiS: waiting time outruns a straight line as the desk fills up", async () => {
+test("TiS: surprises tables the six sources and charts a nonlinearity", async () => {
   await page.open("tis-surprises");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 6);
-  const note = () => page.text('.qu [data-ref="note"]');
-  assert.match(await note(), /At 50% busy, a request takes 6\.0 minutes .* against 6\.0 .* a fair guess/);
-  await page.click('.qu [data-preset="18"]');
-  assert.match(await page.text(".qu .tiles"), /90% .* 30 .* 8\.7 /i);
-  assert.match(await note(), /3\.5 times what the straight line predicts\. One more request an hour would make it 60\./);
-  await slide(page, '.qu [data-ref="input"]', 19.5);
-  assert.match(await note(), /At 98% busy, a request takes 120 minutes/);
-  assert.equal(await sort(["event", "behavior", "structure", "behavior", "structure", "event"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [6, 3]);
+  // Waiting time at 90% busy: nine service times.
+  await page.locator(".bh-chart").first().scrollIntoViewIfNeeded();
+  const at = await page.evaluate(() => {
+    const fig = document.querySelector(".bh-chart");
+    const r = fig.querySelector("svg").getBoundingClientRect();
+    const W = fig.bhW;
+    return { x: r.left + (r.width * (34 + (90 / 96) * (W - 44))) / W, y: r.top + r.height / 2 };
+  });
+  await page.mouse.move(at.x, at.y);
+  assert.equal(await page.text(".bh-tip"), "Utilization, % 90 | 9 Service times of waiting");
+  await page.mouse.move(0, 0);
 });
-
-test("TiS: the open pasture collapses; fencing and a cap restore the feedback", async () => {
+test("TiS: traps draw each of the eight structures with its way out", async () => {
   await page.open("tis-traps");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 8);
-  const tiles = () => page.text(".cm .tiles");
-  const note = () => page.text('.cm [data-ref="note"]');
-  // Open pasture: every herder adds cows while they pay.
-  assert.match(await tiles(), /11% .* 0 .* \$0$/i);
-  assert.match(await note(), /peaks at 105 cows in year 15.* earned \$60,000 over 40 years.* each would have earned \$280,000/);
-  await page.click('.cm [data-preset="all"]');
-  assert.match(await tiles(), /67% .* 50 .* \$35,000$/i);
-  // One herder breaks the agreement: they earn more, and the pasture still fails.
-  await page.click('.cm [data-preset="one"]');
-  assert.match(await note(), /four who held back earned \$150,000 each.* the one herder who didn't earned \$251,000\. Breaking the agreement paid better/);
-  // Same herders on fenced plots: only the overgrazer pays.
-  await page.click('.cm [data-preset="fence"]');
-  assert.match(await note(), /kept their plots at 67% cover and earned \$280,000 each.* down to 11%, and earned \$60,000\. Nobody else paid/);
-  assert.match(await page.text(".cm-table tbody tr:last-child"), /^5 Adds while cows pay · plot at 11%\s+0\s+\$60,000$/);
-  // A cap works only if it's set from what the grass can feed.
-  await page.click('.cm [data-preset="cap"]');
-  assert.match(await note(), /That's the most the pasture can feed year after year/);
-  await slide(page, '.cm [data-input="cap"]', 55);
-  assert.match(await note(), /A cap of 55 cows is more than the grass can feed/);
-  assert.equal(await sort(["drift", "escalation", "burden", "success", "escalation", "burden"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".lc-card").length), 8);
+  // Every card has a drawing with links and its three labelled rows.
+  assert.ok(await page.evaluate(() => [...document.querySelectorAll(".lc-card")].every((c) => c.querySelectorAll(".dg-link").length >= 2 && c.querySelectorAll(".lc-rows dt").length === 3)));
+  assert.match(await page.text(".lc-card:nth-child(4)"), /Escalation .* Arms races, price wars/);
+  assert.equal(await page.evaluate(() => document.querySelector(".dt-table").tBodies[0].rows.length), 8);
 });
-
 test("TiS: the system sketch checks behavior, stock, loop, delay and leverage", async () => {
   await page.open("tis-living");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 15);
+  assert.equal(await page.evaluate(() => document.querySelector(".dt-table").tBodies[0].rows.length), 15);
   const statuses = () => page.evaluate(() => [...document.querySelectorAll(".sk .check")].map((c) => c.classList[1]).join(" "));
   assert.match(await page.text(".sk .check-summary"), /6 of 6 checks pass/);
   await page.click('.sk [data-example="blank"]');
@@ -470,25 +451,14 @@ test("TiS: the system sketch checks behavior, stock, loop, delay and leverage", 
   assert.match(await page.text("#view"), /Your system sketch \| The behavior \| Unsold cars have swung/i);
 });
 
-test("TiS: rank interventions by leverage", async () => {
+test("TiS: leverage points rank all twelve and show information at work", async () => {
   await page.open("tis-leverage-points");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".ladder-step").length), 12);
-  const order = () => page.evaluate(() => [...document.querySelectorAll(".rk-item .rk-t")].map((e) => e.textContent.slice(0, 12)));
-  // Start: goal, fee, paradigm, signs, rules. Check as is, then fix it with the buttons.
-  await page.click('.rk [data-ref="check"]');
-  assert.match(await page.text(".rk-score"), /^0 of 5/);
-  await page.click('[data-move="up"][data-id="fee"]'); // fee, goal, paradigm, signs, rules
-  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, goal, signs, rules
-  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, signs, goal, rules
-  await page.click('[data-move="down"][data-id="goal"]'); // fee, paradigm, signs, rules, goal
-  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, paradigm, rules, goal
-  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, rules, paradigm, goal
-  await page.click('[data-move="down"][data-id="paradigm"]'); // fee, signs, rules, goal, paradigm
-  assert.deepEqual(await order(), ["Raise the do", "Show live jo", "Let develope", "Change the t", "Challenge th"]);
-  await page.click('.rk [data-ref="check"]');
-  assert.match(await page.text(".rk-score"), /^5 of 5 in the right place/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input, .rk").length), 0);
+  const steps = await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-k"), (t) => t.textContent));
+  assert.deepEqual(steps.slice(0, 12), ["12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [12, 2]);
 });
-
 test("Porter: the mindset page contrasts best and unique, and draws the productivity frontier", async () => {
   await page.open("ump-mindset");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);

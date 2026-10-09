@@ -65,11 +65,11 @@ npm test
 | Feedback loops | `#tis-feedback` | Causal loop diagrams of the coffee cup, the bank account and the population; charts of goal-seeking, exponential growth, shifting dominance and a leaky thermostat that settles short of its setting; doubling times by the rule of 70 and exactly; balancing and reinforcing loops compared. |
 | Delays and oscillation | `#tis-delays` | Meadows's car dealer as a stock-and-flow diagram with its three delays marked, re-run four ways (base case, react faster, react slower, notice sooner) to show reacting faster widens the swings; which delay to change; the same structure elsewhere. |
 | Growth meets a limit | `#tis-limits` | The capital-and-resource structure behind Meadows's oil field and fishery, re-runs of both (a bigger field peaks later and higher, not longer; better gear turns equilibrium into boom and bust, then collapse), stock-limited against flow-limited resources, and limits that arrived late. |
-| Why systems work so well | `#tis-resilience` | Resilience, self-organization and hierarchy. A just-in-time simulator shows what a parts buffer costs in a calm year, on average and in a bad decade (2,000 seeded decades), and a sorter asks which property each example shows. |
-| Why systems surprise us | `#tis-surprises` | Meadows's six sources of surprise as cards, an event, behavior or structure sorter, and a help-desk queue (our illustration, not the book's) where the wait outruns a straight-line forecast as the desk nears capacity. |
-| System traps | `#tis-traps` | Meadows's eight system traps as cards, each with its way out; a shared-pasture simulator in which the open commons collapses while fencing and a cap restore the missing feedback; and a sorter for naming four of the traps. |
-| Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
-| Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as cards, and a workbench for sketching the system behind a recurring problem (behavior, stock, flows, loop, delay, leverage point) with live checks, a stock-and-flow preview, the notebook and the optional Claude critique. |
+| Why systems work so well | `#tis-resilience` | Resilience, self-organization and hierarchy: what makes each and what wears it away, a drawing of nested subsystems (with a phone layout), and Simon's watchmakers worked as arithmetic: the odds of finishing an assembly fall from 90% at ten parts to 0.004% at a thousand. |
+| Why systems surprise us | `#tis-surprises` | The six sources of surprise with an example and a habit for each; events, behavior and structure as three levels of explanation; a chart of how waiting time explodes as a desk fills up; and Liebig's barrel for layers of limits. |
+| System traps | `#tis-traps` | The eight traps as cards, each with a small causal loop diagram of its structure, an example and the way out; and a cross-reference to Senge's archetypes. |
+| Leverage points | `#tis-leverage-points` | The twelve places to intervene drawn as a staircase from weakest to strongest (a list on phones), each with a definition and a business example, and two cases of information flows at work. |
+| Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as a table with a way to try each, and a workbench for sketching the system behind a problem of your own: behavior, stock and flows, a loop, a delay and a leverage point, checked as you type. |
 | Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
 | Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: the argument in six points, the two mindsets side by side, Porter's productivity frontier drawn with numbered notes, and operational effectiveness set against strategy. |
 | The five forces | `#ump-five-forces` | A dense reference page, the prototype for less simulation and more of the book: the argument in six points, a map of the five forces listing what makes each strong and where it hits the P&L, Porter's chart of average return on invested capital across 31 US industries (1992–2006), the airline industry force by force, factors that aren't forces, and the common mistakes. |
@@ -112,11 +112,10 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               triangle, policy-fit, deals,
                               profit-layers, cash-bridge, phase-map,
                               double-entry, now-or-later,
-                              ladder, ranker, trap-cards, commons, queue,
-                              buffer, system-sketch, strategy-tests,
+                              system-sketch, strategy-tests,
                               and the reference blocks brief, force-map,
                               bar-chart, table, figure, value-chain,
-                              chain-compare, diagram, behavior)
+                              chain-compare, diagram, behavior, loop-cards)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

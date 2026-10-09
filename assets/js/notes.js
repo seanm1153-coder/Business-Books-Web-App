@@ -5,7 +5,7 @@
   const M = window.Marginalia;
   const { esc } = M.util;
 
-  const ANNOTATABLE = ".concept-head .dek, .prose p, .brief-d, .dt-table td";
+  const ANNOTATABLE = ".concept-head .dek, .prose p, .brief-d, .dt-table td, .lc-rows dd";
   const MAX_QUOTE = 600;
 
   let page = null; // { root, book, slug, bookTitle, pageTitle }

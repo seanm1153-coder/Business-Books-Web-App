@@ -133,22 +133,27 @@
     return `${box}<text class="dg-label is-${n.kind}" text-anchor="middle">${text}</text>`;
   }
 
+  // One drawing: measured nodes, their links and any callout marks, in a w × h viewBox.
+  function draw(ns, links, w, h, uid, marks) {
+    const by = Object.fromEntries(ns.map((n) => [n.id, n]));
+    return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="${uid}-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+      ${links.map((l) => linkSVG(l, by, uid)).join("")}
+      ${ns.map(nodeSVG).join("")}
+      ${(marks || []).map((m) => `<g class="sv-call"><circle cx="${m.x}" cy="${m.y}" r="10"/><text x="${m.x}" y="${m.y + 3.8}" text-anchor="middle">${esc(m.t)}</text></g>`).join("")}
+    </svg>`;
+  }
+
   window.Marginalia.blocks.diagram = {
+    // Shared with loop-cards, which draws a small diagram on each card.
+    draw: (d, uid) => draw(d.nodes.map(measure), d.links, d.w, d.h, uid, d.marks),
+
     render(block, ctx) {
       const nodes = block.nodes.map(measure);
       const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
-      const draw = (ns, w, h, uid, marks) => {
-        const by = Object.fromEntries(ns.map((n) => [n.id, n]));
-        return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
-          <defs><marker id="${uid}-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
-          ${block.links.map((l) => linkSVG(l, by, uid)).join("")}
-          ${ns.map(nodeSVG).join("")}
-          ${(marks || []).map((m) => `<g class="sv-call"><circle cx="${m.x}" cy="${m.y}" r="10"/><text x="${m.x}" y="${m.y + 3.8}" text-anchor="middle">${esc(m.t)}</text></g>`).join("")}
-        </svg>`;
-      };
-      const svg = draw(nodes, block.w, block.h, `${ctx.uid}-dg`, block.marks);
+      const svg = draw(nodes, block.links, block.w, block.h, `${ctx.uid}-dg`, block.marks);
       const narrow = block.nw
-        ? draw(nodes.map((n) => ({ ...n, x: n.nx, y: n.ny })), block.nw, block.nh, `${ctx.uid}-dgn`, block.nmarks)
+        ? draw(nodes.map((n) => ({ ...n, x: n.nx, y: n.ny })), block.links, block.nw, block.nh, `${ctx.uid}-dgn`, block.nmarks)
         : "";
       let list = "";
       if (block.list) {

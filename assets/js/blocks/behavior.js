@@ -2,7 +2,7 @@
 // throughout her book. Each chart plots one or more series against time, drawn in a frame
 // matched to its width so labels stay legible. Charts with `hover` get a crosshair that
 // reads every series at the nearest point; the rest are shapes to be read at a glance.
-// Block: { title, intro?, cols?, caption?, charts: [{ t, d?, alt?, hover?, x: [min, max],
+// Block: { title, intro?, cols?, h? (chart height, default 168), caption?, charts: [{ t, d?, alt?, hover?, x: [min, max],
 //   y: [min, max], xLabel?, yLabel?, yTicks?: [..], unit? (for the tooltip), refs?: [{ y, label }],
 //   series: [{ name?, points: [[x, y], ..], tone?: "cash" | "ink", dash? }] }] }.
 (function () {
@@ -11,12 +11,11 @@
 
   // The frame widens with fewer columns, so text draws at much the same size everywhere.
   const WIDTH = { 1: 860, 2: 440, 3: 300, 4: 240 };
-  const H = 168;
   const M = { l: 34, r: 10, t: 18, b: 24 };
 
   const fmt = (v, unit) => `${Math.abs(v) >= 100 ? Math.round(v).toLocaleString("en-US") : Math.round(v * 10) / 10}${unit || ""}`;
 
-  function chartSVG(c, W) {
+  function chartSVG(c, W, H) {
     const sx = (x) => M.l + ((x - c.x[0]) / (c.x[1] - c.x[0])) * (W - M.l - M.r);
     const sy = (y) => H - M.b - ((y - c.y[0]) / (c.y[1] - c.y[0])) * (H - M.t - M.b);
     const path = (pts) => pts.map(([x, y], i) => `${i ? "L" : "M"}${sx(x).toFixed(1)} ${sy(Math.max(c.y[0], Math.min(c.y[1], y))).toFixed(1)}`).join(" ");
@@ -42,6 +41,7 @@
   window.Marginalia.blocks.behavior = {
     render(block, ctx) {
       const W = WIDTH[Number(block.cols) || 3] || 300;
+      const H = block.h || 168;
       const charts = block.charts
         .map((c, i) => {
           const legend =
@@ -52,7 +52,7 @@
             <figcaption class="bh-t">${esc(c.t)}</figcaption>
             ${legend}
             <div class="bh-plot" role="img" aria-label="${esc(c.alt || `${c.t}. ${c.d || ""}`)}">
-              <div aria-hidden="true">${chartSVG(c, W)}</div>
+              <div aria-hidden="true">${chartSVG(c, W, H)}</div>
               ${c.hover ? '<div class="bh-tip" hidden></div>' : ""}
             </div>
             ${c.d ? `<p class="bh-d">${resolveLinks(c.d, ctx)}</p>` : ""}
@@ -69,6 +69,7 @@
     mount(root, block) {
       const figs = Array.from(root.querySelectorAll(".bh-chart"));
       const base = WIDTH[Number(block.cols) || 3] || 300;
+      const H = block.h || 168;
       // Redraw each chart in a frame matched to its rendered width, so its labels stay a
       // readable size from a phone to a wide screen.
       function draw() {
@@ -79,7 +80,7 @@
           const W = Math.round(Math.max(220, Math.min(900, px / 1.1)));
           if (fig.bhW === W) return;
           fig.bhW = W;
-          host.innerHTML = chartSVG(block.charts[Number(fig.dataset.i)], W);
+          host.innerHTML = chartSVG(block.charts[Number(fig.dataset.i)], W, H);
         });
       }
       figs.forEach((fig) => {

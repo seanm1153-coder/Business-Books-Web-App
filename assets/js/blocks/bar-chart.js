@@ -1,7 +1,7 @@
 // Bar chart: a ranked horizontal bar chart of real figures, with an optional reference line
 // (an average), values written only on the rows the text discusses (`show: true`), a
 // tooltip on hover and keyboard focus, and the full table one click away.
-// Block: { title, intro?, rows: [{ label, value, show? }], max, ticks, unit, decimals,
+// Block: { title, intro?, rows: [{ label, value, show?, text? }], max, ticks, unit, decimals,
 // ref?: { value, label }, labelHead, valueHead, source (trusted HTML) }.
 (function () {
   "use strict";
@@ -10,14 +10,16 @@
   window.Marginalia.blocks["bar-chart"] = {
     render(block, ctx) {
       const fmt = (v) => `${v.toFixed(block.decimals ?? 0)}${block.unit || ""}`;
+      // A row's own `text` replaces the rounded value, for values too small to round well.
+      const show = (r) => r.text || fmt(r.value);
       const x = (v) => `${((v / block.max) * 100).toFixed(2)}%`;
       const rows = block.rows
         .map(
-          (r, i) => `<li class="bc-row${r.show ? " is-shown" : ""}" data-i="${i}" tabindex="${i ? -1 : 0}" aria-label="${esc(r.label)}: ${esc(fmt(r.value))}">
+          (r, i) => `<li class="bc-row${r.show ? " is-shown" : ""}" data-i="${i}" tabindex="${i ? -1 : 0}" aria-label="${esc(r.label)}: ${esc(show(r))}">
             <span class="bc-l" aria-hidden="true">${esc(r.label)}</span>
             <span class="bc-track" aria-hidden="true">
               <span class="bc-bar" style="--w: ${x(r.value)}"></span>
-              ${r.show ? `<span class="bc-v tnum${r.value / block.max > 0.6 ? " is-in" : ""}" style="--w: ${x(r.value)}">${esc(fmt(r.value))}</span>` : ""}
+              ${r.show ? `<span class="bc-v tnum${r.value / block.max > 0.6 ? " is-in" : ""}" style="--w: ${x(r.value)}">${esc(show(r))}</span>` : ""}
             </span>
           </li>`
         )
@@ -46,7 +48,7 @@
           <summary>Show the figures as a table</summary>
           <table>
             <thead><tr><th scope="col">${esc(block.labelHead)}</th><th scope="col" class="num">${esc(block.valueHead)}</th></tr></thead>
-            <tbody>${block.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td class="num tnum">${esc(fmt(r.value))}</td></tr>`).join("")}</tbody>
+            <tbody>${block.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td class="num tnum">${esc(show(r))}</td></tr>`).join("")}</tbody>
           </table>
         </details>
       </section>`;
@@ -68,7 +70,7 @@
         }
         row.classList.add("is-hot");
         const r = block.rows[Number(row.dataset.i)];
-        tip.querySelector(".bc-tip-v").textContent = fmt(r.value);
+        tip.querySelector(".bc-tip-v").textContent = r.text || fmt(r.value);
         tip.querySelector(".bc-tip-l").textContent = r.label;
         tip.hidden = false;
         // Beside the end of the bar, kept inside the plot.

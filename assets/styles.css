@@ -2050,6 +2050,24 @@ mark.m-fluff { background: var(--mark-fluff); }
   .bh-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* Loop cards: a catalog of structures, each with a small loop diagram */
+.lc { margin-bottom: clamp(2.25rem, 5vw, 3.25rem); padding-top: 1.25rem; border-top: 1px solid var(--ink); }
+.lc-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 1rem 1.25rem; }
+.lc-card { min-width: 0; padding: 0.9rem 1rem 1rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--field); }
+.lc-n { margin: 0; font-family: var(--mono); font-size: 0.75rem; color: var(--pen); }
+.lc-t { margin: 0.1rem 0 0.35rem; font-family: var(--display); font-size: 1.3rem; font-weight: 400; line-height: 1.15; }
+.lc-art svg { display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto; overflow: visible; }
+.lc-rows { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.4rem 0.75rem; margin: 0.6rem 0 0; font-size: 0.875rem; line-height: 1.5; }
+.lc-rows dt { padding-top: 0.2rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.lc-rows dd { margin: 0; }
+@media (max-width: 760px) {
+  .lc-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 420px) {
+  .lc-rows { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .lc-rows dd + dt { margin-top: 0.4rem; }
+}
+
 /* ---------- Ask Claude (the reading companion; only inside a Claude viewer) ---------- */
 
 .ac-launch {
