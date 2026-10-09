@@ -166,112 +166,135 @@
     ],
 
     pages: {
-      // "Compete to be unique, not the best", competitive convergence, zero-sum versus
-      // positive-sum competition and operational effectiveness versus strategy follow Porter's
-      // published work as I remember Magretta presenting it, unchecked against her wording.
-      // The toy market and the sorter items are ours.
+      // A reference page. "Compete to be unique, not the best", convergence, zero-sum versus
+      // positive-sum competition, return on invested capital as the goal, and operational
+      // effectiveness versus strategy follow Porter's published work as I remember Magretta
+      // presenting it, unchecked against her wording. The productivity frontier and the list of
+      // management tools come from Porter's "What Is Strategy?" (HBR, 1996); unchecked whether
+      // Magretta draws the frontier. The comparison table's rows are our summary.
       "mindset": {
         navLabel: "Mindset",
         title: "Competition: the right mindset",
         eyebrow: "Part I · Chapter 01",
+        layout: "dense",
         dek:
-          "Most managers think competition means being the best. Porter argues that's the wrong goal. In most industries there is no single best way to compete, and when everyone chases the same one, everyone loses.",
+          "Most managers think competition means being the best. Porter argues that's the wrong goal: in most industries there is no single best way to compete, and when everyone chases the same one, everyone's profits suffer.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Best or unique",
-                paras: [
-                  "Competing to be the best treats business like a sport with one winner. Find the best product and the best practices, and beat rivals at them. When every company pursues the same idea of the best, they end up serving the same customers in the same way, and the only thing left to compete on is price. Porter calls the result competitive convergence. It's zero-sum at best, and it drives profits down for everyone.",
-                  "Competing to be unique starts from a different premise: customers differ, and there are many ways to create value for them. A company that chooses a distinct way of competing can serve its chosen customers better than anyone else, while rivals do well serving others. Competition becomes positive-sum."
-                ],
-                side: {
-                  label: "Not a sport",
-                  html: "<p>In sport there's one winner. In business, several companies can do well in the same industry at the same time, as long as they compete in different ways.</p>"
-                }
+                t: "There is rarely one best way to compete.",
+                d: "Customers differ in what they need and what they'll pay, so an industry can support many different ways of creating value. “Best” only makes sense against one set of needs."
+              },
+              {
+                t: "Competing to be the best leads to convergence.",
+                d: "When rivals chase the same idea of best, they copy each other's products and practices. Customers can no longer tell them apart, so they choose on price, and profits fall for everyone."
+              },
+              {
+                t: "Competing to be unique is positive-sum.",
+                d: "A company that chooses a distinct way to serve a chosen set of customers can do well while rivals do well serving others. Several winners can share an industry."
+              },
+              {
+                t: "The goal is superior profitability, not size.",
+                d: "Porter judges success by return on invested capital sustained over years. Market share and growth are poor scoreboards: both can be bought at the expense of returns."
+              },
+              {
+                t: "Operational effectiveness isn't strategy.",
+                d: "Doing the same things better than rivals matters, but best practices spread fast, so the gains rarely last. Strategy means doing different things, or doing similar things differently."
+              },
+              {
+                t: "Focus on customers, not rivals.",
+                d: "The question is how to create value for the customers a company chooses to serve, not how to beat everyone at everything. Rivals matter as the alternatives those customers have."
               }
             ]
           },
           {
-            type: "positions",
-            title: "Four firms, one line of needs",
+            type: "table",
+            eyebrow: "Two mindsets",
+            title: "Competing to be the best, or to be unique",
+            intro: "Our summary of the contrast the chapter draws.",
+            columns: ["", "Competing to be the best", "Competing to be unique"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Aim", "Be number one in the industry, by size or by some single measure of quality", "Earn superior returns by being different in ways that matter to chosen customers"],
+              ["Picture of the market", "One best product and one best way to make and sell it", "Many customers with different needs, so many ways to win"],
+              ["Attention on", "Rivals: match their moves and beat them", "Customers: what the chosen ones need and what they'll pay for"],
+              ["How companies learn", "Imitation and benchmarking, so they grow alike", "Innovation and choice, so they grow apart"],
+              ["What customers choose on", "Increasingly price, because offerings converge", "Fit with their needs, so price is one factor among several"],
+              ["Kind of contest", "Zero-sum: one company's gain is another's loss, and price wars can make it worse", "Positive-sum: several companies can earn good returns at once"],
+              ["Scoreboard", "Market share and sales growth", "Return on invested capital, sustained over time"]
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Operational effectiveness and strategy on one picture",
             intro:
-              "A thousand customers are spread along a line, from those who want the lowest price to those who want the best performance. Each buys from the firm that suits them best. Move the four firms and see who earns what.",
-            customers: 1000,
-            margin: 40,
-            floor: 0.1,
-            room: 25,
-            firms: ["Firm A", "Firm B", "Firm C", "Firm D"],
-            lowLabel: "Lowest price",
-            highLabel: "Best performance",
-            hint: "Each firm's position on the line, from 0 (cheapest) to 100 (best performing).",
-            spreadPreset: "unique",
-            presets: [
-              { id: "best", label: "Everyone chases the best", positions: [50, 50, 50, 50] },
-              { id: "unique", label: "Each finds its own spot", positions: [10, 35, 65, 90] },
-              { id: "breakaway", label: "One breaks away", positions: [50, 50, 50, 90] }
+              "Porter's productivity frontier. Each point is a company: how much value it delivers to buyers, apart from price, against its relative cost.",
+            alt: "A chart with relative cost position on the horizontal axis, from high cost on the left to low cost on the right, and non-price value delivered to buyers on the vertical axis. A curved productivity frontier runs from high value at high cost down to low value at low cost. Companies inside the curve have arrows toward it. Two positions on the curve are marked A, higher value at higher cost, and B, lower cost with less value. A small arrow shows the frontier moving outward.",
+            svg: `<svg viewBox="0 0 450 310" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="sv-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker>
+              <marker id="sv-arr-pen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head-pen" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <path class="sv-wash" d="M60 270 V40 H80 C270 40 400 130 405 255 V270 Z"/>
+              <path class="sv-axis" d="M60 20 V270 H425"/>
+              <text class="sv-k" x="54" y="30" text-anchor="end">HIGH</text>
+              <text class="sv-k" x="54" y="270" text-anchor="end">LOW</text>
+              <text class="sv-t2" transform="translate(24 150) rotate(-90)" text-anchor="middle">Non-price value delivered to buyers</text>
+              <text class="sv-k" x="62" y="287">HIGH COST</text>
+              <text class="sv-k" x="425" y="287" text-anchor="end">LOW COST</text>
+              <text class="sv-t2" x="242" y="305" text-anchor="middle">Relative cost position</text>
+              <path class="sv-curve" d="M80 40 C270 40 400 130 405 255"/>
+              <path class="sv-line sv-dash" d="M318 103 L340 81" marker-end="url(#sv-arr-pen)"/>
+              <path class="sv-line" d="M175 150 L238 87" marker-end="url(#sv-arr)"/>
+              <path class="sv-line" d="M252 200 L328 140" marker-end="url(#sv-arr)"/>
+              <circle class="sv-dot" cx="175" cy="150" r="5"/>
+              <circle class="sv-dot" cx="252" cy="200" r="5"/>
+              <circle class="sv-dot" cx="305" cy="238" r="5"/>
+              <circle class="sv-dot" cx="130" cy="215" r="5"/>
+              <circle class="sv-dot-pen" cx="210" cy="56" r="6"/>
+              <circle class="sv-dot-pen" cx="379" cy="169" r="6"/>
+              <text class="sv-t sv-b" x="210" y="44" text-anchor="middle">A</text>
+              <text class="sv-t sv-b" x="392" y="173">B</text>
+              <g class="sv-call"><circle cx="122" cy="30" r="9"/><text x="122" y="33.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="146" cy="128" r="9"/><text x="146" y="131.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="372" cy="122" r="9"/><text x="372" y="125.5" text-anchor="middle">3</text></g>
+              <g class="sv-call"><circle cx="352" cy="70" r="9"/><text x="352" y="73.5" text-anchor="middle">4</text></g>
+            </svg>`,
+            notes: [
+              {
+                t: "The frontier is best practice today:",
+                d: "the most value a company could deliver at a given cost, using the best technology, skills, management methods and inputs available."
+              },
+              {
+                t: "Operational effectiveness moves a company toward it.",
+                d: "Most companies sit well inside the frontier, so the gains from catching up can be large. That's what quality programs, benchmarking, outsourcing and reengineering are for."
+              },
+              {
+                t: "Strategy chooses where on it to be.",
+                d: "A at more value and higher cost, or B at lower cost and less value, for different customers. Both can be profitable; the choice is the strategy."
+              },
+              {
+                t: "The frontier keeps moving out,",
+                d: "and best practices spread to everyone. Companies competing only on operational effectiveness converge on the same spot, where only price separates them."
+              }
             ],
-            foot:
-              "A toy model, not from the book. A firm keeps up to $40 a customer when its nearest rival is at least 25 points away, less as rivals get closer, and $4 when it shares a spot and competes on price alone."
+            caption: "After Porter's productivity frontier in “What Is Strategy?”, Harvard Business Review, 1996. Drawn by us."
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Operational effectiveness isn't strategy",
-                paras: [
-                  "Porter separates two things that are often confused. <strong>Operational effectiveness</strong> means performing similar activities better than rivals do: less waste, better quality, faster processes. It matters, and the gaps between companies can be large. But best practices spread quickly, so improving them rarely gives a lasting advantage, and as everyone adopts the same ones, companies grow more alike.",
-                  "<strong>Strategy</strong> means performing different activities from rivals, or similar activities in different ways. That's what the rest of the book is about: how a company chooses a distinct position, and why the choice holds."
-                ],
-                side: {
-                  label: "Benchmarking",
-                  html: "<p>The more companies benchmark against each other and copy the same best practices, the more alike they become. Porter sees that as one of the engines of convergence.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Best or unique?",
-            intro: "Six moves by invented companies. Is each one competing to be the best, or competing to be unique?",
-            options: [
-              { id: "best", label: "Competing to be the best", hint: "The same race as rivals, run harder." },
-              { id: "unique", label: "Competing to be unique", hint: "A different race, chosen on purpose." }
-            ],
-            items: [
-              {
-                text: "A bank studies its biggest rival's branches and copies the features customers praise most.",
-                answer: "best",
-                why: "Matching a rival's best features makes the two banks more alike. Whatever gain it brings is easy for the rival to match in turn."
-              },
-              {
-                text: "A carmaker builds only small cars for city drivers and makes no attempt to sell to families.",
-                answer: "unique",
-                why: "It chooses which customers to serve and gives up the rest, so it can serve its chosen ones better than a generalist."
-              },
-              {
-                text: "After one phone maker's launch does well, every rival adds the same three features the next year.",
-                answer: "best",
-                why: "Everyone chasing the same features is convergence. Customers can no longer tell the phones apart, so they choose on price."
-              },
-              {
-                text: "An accounting firm serves only restaurants and builds its software and advice around how they work.",
-                answer: "unique",
-                why: "A distinct set of customers with distinct needs, served by activities tailored to them."
-              },
-              {
-                text: "A retailer's stated goal is to be number one in its market by sales.",
-                answer: "best",
-                why: "Size is a scoreboard, not a strategy. It says nothing about which customers to serve or how, and invites a race for share that can wreck profits."
-              },
-              {
-                text: "A hotel chain gives up restaurants and conference rooms to offer the cheapest clean rooms near airports.",
-                answer: "unique",
-                why: "It serves one kind of traveler in one kind of place, and gives up what those travelers don't need."
-              }
+            type: "table",
+            eyebrow: "The distinction",
+            title: "Operational effectiveness versus strategy",
+            columns: ["", "Operational effectiveness", "Strategy"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Means", "Performing similar activities better than rivals: less waste, fewer defects, faster cycles", "Performing different activities from rivals, or similar activities in different ways"],
+              ["Typical tools", "Total quality management, benchmarking, time-based competition, outsourcing, reengineering", "Choosing a value proposition, tailoring the value chain to it, making trade-offs"],
+              ["How long a lead lasts", "Not long: practices are visible and spread through consultants, suppliers and staff who move", "Years, when the position rests on trade-offs and on activities that fit together"],
+              ["Effect on the industry", "Companies grow alike as everyone adopts the same practices", "Companies grow apart as each tailors itself to its customers"],
+              ["Needed?", "Yes. A company far from the frontier is at a disadvantage whatever its strategy", "Yes. Without it, operational gains are competed away to customers"]
             ]
           }
         ],
@@ -615,127 +638,199 @@
           cta: { page: "advantage", kicker: "Next", text: "Where a company beats its industry's average" }
         }
       },
-      // Advantage as relative price and relative cost, the value chain as its source, and the
-      // value system around it follow Porter's published work as I remember Magretta
-      // presenting it, unchecked against her wording. The rival, the calculator and the
-      // sorter items are invented.
+      // A reference page. Advantage as superior returns from relative price or relative cost,
+      // industry structure plus relative position as the two sources of profitability, the
+      // value chain and the value system follow Porter's published work as I remember
+      // Magretta presenting it, unchecked against her wording. The generic value chain and the
+      // cost and uniqueness drivers are from Porter's Competitive Advantage (1985); unchecked
+      // whether Magretta lists the drivers. The P&L schematic, the activity examples and the
+      // "claims" table are ours.
       "advantage": {
         navLabel: "Advantage",
         title: "Competitive advantage",
         eyebrow: "Part I · Chapter 03",
+        layout: "dense",
         dek:
           "In everyday talk, an advantage is anything a company is good at. Porter means something narrower and more useful: a difference in relative price or relative cost that shows up in the P&L, traced back to differences in what the company does.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Advantage lives in the P&L",
-                paras: [
-                  "For Porter, a company has a competitive advantage only if it earns a higher return than its rivals and keeps doing so. That can come from just two places. Customers may be willing to pay more for what it offers, so it commands a higher <strong>relative price</strong>. Or it may make and deliver its offering at a lower <strong>relative cost</strong>. Sometimes it's some of both.",
-                  "Everything else people call an advantage, a strong brand, a patent, a talented team, counts only if it shows up as one of those two. Profit is the gap between price and cost, and the comparison that matters is with rivals in the same industry."
-                ],
-                side: {
-                  label: "Relative",
-                  html: "<p>The industry sets the average; the <a href=\"@five-forces\">five forces</a> explain it. Advantage means beating that average, which is why Porter compares a company's price and cost with its rivals'.</p>"
-                }
+                t: "Advantage means superior returns, sustained.",
+                d: "A company has a competitive advantage when it earns a higher return on invested capital than its rivals, year after year. Being good at something is not enough."
+              },
+              {
+                t: "Profitability has two sources.",
+                d: "<a href=\"@five-forces\">Industry structure</a> sets the average an industry earns. A company's relative position within the industry decides whether it does better or worse than that average."
+              },
+              {
+                t: "Relative position shows up in two numbers.",
+                d: "A higher relative price, because customers will pay more for what it offers, or a lower relative cost. Sometimes both, but rarely for long."
+              },
+              {
+                t: "Every price or cost difference comes from activities.",
+                d: "The value chain breaks a company into the activities that create value for buyers and incur cost. An advantage must trace back to doing some of them differently, or doing them better."
+              },
+              {
+                t: "Look beyond the company.",
+                d: "Its chain sits in a value system with suppliers, channels and buyers. What a buyer will pay depends on what the product does for the buyer's own activities."
+              },
+              {
+                t: "Strengths count only if they reach the P&L.",
+                d: "A brand, a patent, talented people or a culture are advantages only to the extent that they raise price or lower cost relative to rivals, in ways rivals can't easily match."
               }
             ]
           },
           {
-            type: "advantage",
-            title: "Price, cost and the margin between them",
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Advantage lives in the P&L",
+            intro: "Price and cost per unit for a company at the industry's average and for two companies that beat it in different ways. A schematic: the heights are illustrative.",
+            alt: "Three stacked bars. The industry average has a cost portion and a thin margin on top, reaching the average price. The higher relative price bar costs a little more but sells for more, so its margin is wider. The lower relative cost bar sells for a little less but costs much less, so its margin is also wider.",
+            svg: `<svg viewBox="0 0 400 290" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-grid sv-dash" d="M25 70 H390"/>
+              <text class="sv-k" x="25" y="63">AVERAGE PRICE</text>
+              <path class="sv-axis" d="M20 245 H392"/>
+              <rect class="sv-box" x="40" y="100" width="70" height="145"/>
+              <rect class="sv-box-pen" x="40" y="70" width="70" height="30" style="fill: var(--series-profit)"/>
+              <rect class="sv-box" x="160" y="88" width="70" height="157"/>
+              <rect class="sv-box-pen" x="160" y="40" width="70" height="48" style="fill: var(--series-profit)"/>
+              <rect class="sv-box" x="280" y="128" width="70" height="117"/>
+              <rect class="sv-box-pen" x="280" y="82" width="70" height="46" style="fill: var(--series-profit)"/>
+              <text class="sv-t sv-tp" x="75" y="90" text-anchor="middle">margin</text>
+              <text class="sv-t sv-tp" x="195" y="69" text-anchor="middle">margin</text>
+              <text class="sv-t sv-tp" x="315" y="110" text-anchor="middle">margin</text>
+              <text class="sv-t2" x="75" y="177" text-anchor="middle">cost</text>
+              <text class="sv-t2" x="195" y="171" text-anchor="middle">cost</text>
+              <text class="sv-t2" x="315" y="191" text-anchor="middle">cost</text>
+              <path class="sv-line-pen" d="M237 40 V70"/><text class="sv-t2" x="242" y="54">premium</text>
+              <path class="sv-line-pen" d="M357 100 V128"/><text class="sv-t2" x="362" y="112">cost</text><text class="sv-t2" x="362" y="125">saving</text>
+              <text class="sv-t sv-b" x="75" y="263" text-anchor="middle">Industry</text><text class="sv-t sv-b" x="75" y="279" text-anchor="middle">average</text>
+              <text class="sv-t sv-b" x="195" y="263" text-anchor="middle">Higher</text><text class="sv-t sv-b" x="195" y="279" text-anchor="middle">relative price</text>
+              <text class="sv-t sv-b" x="315" y="263" text-anchor="middle">Lower</text><text class="sv-t sv-b" x="315" y="279" text-anchor="middle">relative cost</text>
+            </svg>`,
+            notes: [
+              {
+                t: "A price premium",
+                d: "is worth having only if it exceeds the extra cost of earning it. Here buyers pay more and the company spends a little more to serve them."
+              },
+              {
+                t: "A cost advantage",
+                d: "is worth having only if it isn't given away in price. Here the company charges a little less than average and spends much less."
+              },
+              {
+                t: "Both at once is unusual.",
+                d: "The activities that make buyers pay more usually cost more, and those that cut cost usually cut what buyers value. Choosing between them is the subject of <a href=\"@trade-offs\">trade-offs</a>."
+              }
+            ]
+          },
+          {
+            type: "value-chain",
+            eyebrow: "Figure",
+            title: "The value chain",
             intro:
-              "An invented rival sells at $100 and spends $90 to do it. Set how much more or less customers will pay you, and how much more or less it costs you to serve them.",
-            rival: { price: 100, cost: 90 },
-            rivalLabel: "The rival",
-            youLabel: "You",
-            priceLabel: "Your price, against the rival's",
-            priceHint: "What customers will pay you for what you offer, compared with the rival's $100.",
-            priceRange: [-20, 30],
-            costLabel: "Your cost, against the rival's",
-            costHint: "What it costs you to make and deliver it, compared with the rival's $90.",
-            costRange: [-30, 30],
-            presets: [
-              { id: "premium", label: "A premium that pays", price: 15, cost: 5 },
-              { id: "costly", label: "A premium that doesn't", price: 10, cost: 15 },
-              { id: "lowcost", label: "Low cost, lower price", price: -5, cost: -15 },
-              { id: "both", label: "Both at once", price: 5, cost: -5 }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "The value chain",
-                paras: [
-                  "Porter's tool for tracing an advantage to its source is the <strong>value chain</strong>: the activities a company performs to design, make, sell, deliver and support what it offers. Every cost is incurred in some activity, and everything customers value is created by some activity. So any difference in relative price or cost must come from a difference in activities.",
-                  "That makes the value chain a way of looking at strategy concretely. Set a company's chain beside the industry's usual one and you can see where it does things differently, and ask of each difference whether it raises what buyers will pay, lowers cost, or does neither."
-                ],
-                side: {
-                  label: "Beyond the company",
-                  html: "<p>Each company's chain sits inside a larger value system that includes its suppliers, its channels and its customers' own activities. An advantage can come from how a company fits into that system too.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Price or cost?",
-            intro: "Six invented companies that beat their industry's average. Does each advantage come mainly from a higher relative price or a lower relative cost?",
-            options: [
-              { id: "price", label: "Higher relative price", hint: "Customers pay more for it." },
-              { id: "cost", label: "Lower relative cost", hint: "It costs less to provide." }
+              "Porter's generic value chain: the activities through which a company designs, makes, sells, delivers and supports what it offers. Every cost is incurred in some activity, and everything buyers value is created by one.",
+            support: [
+              { name: "Firm infrastructure", d: "General management, planning, finance, accounting, legal, quality management" },
+              { name: "Human resource management", d: "Recruiting, training, development and pay, for every activity" },
+              { name: "Technology development", d: "Research, product and process design, information systems" },
+              { name: "Procurement", d: "Buying the inputs every activity uses: materials, equipment, services" }
             ],
-            items: [
+            primary: [
+              { name: "Inbound logistics", d: "Receiving, storing and moving inputs; inventory control" },
+              { name: "Operations", d: "Turning inputs into the product: making, assembling, packaging, testing" },
+              { name: "Outbound logistics", d: "Processing orders, warehousing, shipping and delivery" },
+              { name: "Marketing and sales", d: "Advertising, pricing, channels, the sales force" },
+              { name: "Service", d: "Installation, repair, training, spare parts" }
+            ],
+            marginLabel: "Margin",
+            caption:
+              "After the generic value chain in Porter's Competitive Advantage (1985); Magretta presents a simplified version. Activity descriptions are ours. Industries differ in which activities matter most."
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "The value system",
+            intro: "A company's chain is one link in a larger system. Advantage can come from how it connects to the chains on either side.",
+            alt: "Four boxes in a row joined by arrows: suppliers' value chains, the company's value chain, channels' value chains, and buyers' value chains.",
+            svg: `<svg viewBox="0 0 640 96" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="sv-arr-vs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <rect class="sv-box" x="2" y="18" width="130" height="60" rx="4"/>
+              <rect class="sv-box-pen" x="170" y="18" width="130" height="60" rx="4"/>
+              <rect class="sv-box" x="338" y="18" width="130" height="60" rx="4"/>
+              <rect class="sv-box" x="506" y="18" width="130" height="60" rx="4"/>
+              <path class="sv-line" d="M134 48 H166" marker-end="url(#sv-arr-vs)"/>
+              <path class="sv-line" d="M302 48 H334" marker-end="url(#sv-arr-vs)"/>
+              <path class="sv-line" d="M470 48 H502" marker-end="url(#sv-arr-vs)"/>
+              <text class="sv-t" x="67" y="45" text-anchor="middle">Suppliers'</text><text class="sv-t" x="67" y="61" text-anchor="middle">value chains</text>
+              <text class="sv-t sv-b" x="235" y="45" text-anchor="middle">The company's</text><text class="sv-t sv-b" x="235" y="61" text-anchor="middle">value chain</text>
+              <text class="sv-t" x="403" y="45" text-anchor="middle">Channels'</text><text class="sv-t" x="403" y="61" text-anchor="middle">value chains</text>
+              <text class="sv-t" x="571" y="45" text-anchor="middle">Buyers'</text><text class="sv-t" x="571" y="61" text-anchor="middle">value chains</text>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="sv-arr-vsn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <rect class="sv-box" x="40" y="2" width="220" height="48" rx="4"/>
+              <rect class="sv-box-pen" x="40" y="84" width="220" height="48" rx="4"/>
+              <rect class="sv-box" x="40" y="166" width="220" height="48" rx="4"/>
+              <rect class="sv-box" x="40" y="248" width="220" height="48" rx="4"/>
+              <path class="sv-line" d="M150 52 V80" marker-end="url(#sv-arr-vsn)"/>
+              <path class="sv-line" d="M150 134 V162" marker-end="url(#sv-arr-vsn)"/>
+              <path class="sv-line" d="M150 216 V244" marker-end="url(#sv-arr-vsn)"/>
+              <text class="sv-t" x="150" y="31" text-anchor="middle">Suppliers' value chains</text>
+              <text class="sv-t sv-b" x="150" y="113" text-anchor="middle">The company's value chain</text>
+              <text class="sv-t" x="150" y="195" text-anchor="middle">Channels' value chains</text>
+              <text class="sv-t" x="150" y="277" text-anchor="middle">Buyers' value chains</text>
+            </svg>`,
+            notes: [
               {
-                text: "Customers pay a fifth more for a brand's coffee machines, which cost about the same to make as its rivals'.",
-                answer: "price",
-                why: "The same cost and a higher price: the brand has raised what buyers are willing to pay."
+                t: "Buyer value is what the product does to the buyer's chain.",
+                d: "A business buyer pays more for something that lowers its own costs or raises its performance. A consumer pays more for what makes life easier, better or cheaper overall."
               },
               {
-                text: "A regional airline flies a single type of plane, so its crews, spare parts and maintenance cost far less per seat than its rivals'.",
-                answer: "cost",
-                why: "One aircraft type simplifies training, scheduling and maintenance. The difference is in activities, and it shows up as lower cost."
-              },
-              {
-                text: "A software company's product saves customers so much time that they renew at higher prices than rivals charge.",
-                answer: "price",
-                why: "The value to the buyer, hours saved, supports a premium. It's an advantage only while the premium exceeds the cost of earning it."
-              },
-              {
-                text: "A clinic performs one kind of operation thousands of times a year, so each costs a fraction of what a general hospital spends.",
-                answer: "cost",
-                why: "Volume and specialization make every activity cheaper. The clinic can charge less and still earn more."
-              },
-              {
-                text: "A furniture retailer has customers collect and assemble the goods themselves.",
-                answer: "cost",
-                why: "Customers take over activities the retailer would otherwise pay for. Much of the saving reaches them as lower prices, but the advantage starts as lower cost."
-              },
-              {
-                text: "A carmaker's reputation for reliability lets it charge more for new cars, and its used cars hold their value.",
-                answer: "price",
-                why: "Reliability raises what buyers will pay, new and used. That's an advantage in relative price."
+                t: "Links count as much as activities.",
+                d: "How a company coordinates with suppliers and channels, from shared forecasts to delivery schedules, can lower cost or raise value on both sides."
               }
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Why both is rare",
-                paras: [
-                  "It's tempting to aim for a higher price and a lower cost at once. Occasionally a company manages it, usually when a rival is badly run. More often, the activities that make buyers willing to pay more also cost more to perform, and the ones that cut cost also cut what buyers value. Choosing between them is the subject of the second half of the book, and of its idea of <a href=\"@trade-offs\">trade-offs</a>."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “A premium that doesn't”. Customers pay 10% more, but the extra cost of earning that premium leaves the margin lower than the rival's.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Where advantage comes from",
+            title: "Porter's drivers of cost and uniqueness",
+            intro:
+              "What decides an activity's cost, and what lets it create something buyers will pay more for. The same drivers often work both ways, which is why a company has to choose which to pursue.",
+            columns: ["Driver", "Lowers relative cost when…", "Raises relative price when…"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Scale", "Volume spreads fixed costs, from factories to advertising, over more units", "Size lets a company offer what small rivals can't, such as nationwide service"],
+              ["Learning", "Experience makes activities cheaper: better layouts, schedules, yields", "Experience improves quality and know-how that buyers notice"],
+              ["Capacity utilization", "Assets run full rather than idle through the cycle", "—"],
+              ["Linkages", "Activities are coordinated so one makes another cheaper, inside the chain or with suppliers and channels", "Activities are coordinated to deliver more, such as faster or more reliable delivery"],
+              ["Interrelationships", "Activities are shared with sister businesses, such as a sales force or plant", "Shared activities let a company offer a broader, joined-up product"],
+              ["Integration", "Doing an activity in-house, or outsourcing it, costs less", "Control of more of the chain improves what the buyer gets"],
+              ["Timing", "Moving first, or late, gives access to cheaper inputs or technology", "Being first builds reputation; being late lets a company offer the latest technology"],
+              ["Location", "Sites cut wages, transport, or the cost of reaching customers", "Sites are convenient for buyers"],
+              ["Policy choices", "Choosing what not to offer: fewer features, services or product lines", "Choosing to offer more: features, service, quality, speed"],
+              ["Institutional factors", "Regulation, taxes or unions work in the company's favor", "Rules or standards favor what the company offers"]
+            ],
+            foot: "From Porter's Competitive Advantage (1985). Descriptions are our paraphrase."
+          },
+          {
+            type: "table",
+            eyebrow: "Applying the test",
+            title: "Is it really an advantage?",
+            intro: "Common claims, and the question Porter's definition puts to each. Our examples.",
+            columns: ["The claim", "The test"],
+            widths: ["15rem", null],
+            rows: [
+              ["“We have the best people.”", "Do they let the company perform specific activities at lower cost, or in ways buyers pay more for, and could rivals hire people just as good?"],
+              ["“Our brand is strong.”", "Does it show up as a price premium, or a lower cost of winning customers, sustained against rivals?"],
+              ["“We're the market leader.”", "Leadership helps only through scale-driven cost or what buyers will pay. Many leaders earn no more than the industry average."],
+              ["“We have a core competence in X.”", "Locate it in particular activities, and show what it does to their cost or to buyer value."],
+              ["“We're growing fast.”", "Growth isn't an advantage. Check returns on the capital the growth consumes."],
+              ["“We're cheaper than our rivals.”", "A lower price is not a lower cost. Without a cost advantage, it just moves margin to customers."]
             ]
           }
         ],

@@ -71,9 +71,9 @@ npm test
 | Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
 | Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as cards, and a workbench for sketching the system behind a recurring problem (behavior, stock, flows, loop, delay, leverage point) with live checks, a stock-and-flow preview, the notebook and the optional Claude critique. |
 | Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
-| Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: a toy market of four firms on one line of customer needs, where firms crowding the same spot earn $4,000 between them and the same firms spread out earn $40,000; operational effectiveness versus strategy; and a best-or-unique sort. |
+| Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: the argument in six points, the two mindsets side by side, Porter's productivity frontier drawn with numbered notes, and operational effectiveness set against strategy. |
 | The five forces | `#ump-five-forces` | A dense reference page, the prototype for less simulation and more of the book: the argument in six points, a map of the five forces listing what makes each strong and where it hits the P&L, Porter's chart of average return on invested capital across 31 US industries (1992–2006), the airline industry force by force, factors that aren't forces, and the common mistakes. |
-| Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a calculator comparing your price, cost and margin with a rival's at $100 and $90, the value chain as the source of every difference, and a price-or-cost sort. |
+| Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a P&L schematic, Porter's generic value chain and the value system, his ten drivers of cost and uniqueness, and a table that tests common claims of advantage. |
 | Creating value | `#ump-value` | The three questions of a value proposition (which customers, which needs, what relative price) and the tailored value chain. A builder for an invented car rental company flags answers that contradict or barely fit, and shows the tailored chain for each of the three coherent positions. Ends with a which-question sort. |
 | Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
 | Fit | `#ump-fit` | Porter's three kinds of fit; a calculator for the odds of copying a whole system (90% per activity gives 66% for four); and the airline model run over every partial copy, where each one earns less than not copying at all and only the complete system pays. Ends with a which-kind-of-fit sort. |
@@ -114,12 +114,11 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
-                              buffer, system-sketch,
-                              advantage, activity-system, positions,
+                              buffer, system-sketch, activity-system,
                               copy-odds, copy-valley, value-prop,
                               continuity, strategy-tests, and the
                               reference blocks brief, force-map,
-                              bar-chart, table)
+                              bar-chart, table, figure, value-chain)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

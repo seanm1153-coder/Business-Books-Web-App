@@ -806,7 +806,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .adv, .as, .ps, .co, .cv, .vp, .ct { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .as, .co, .cv, .vp, .ct { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1751,32 +1751,10 @@ mark.m-fluff { background: var(--mark-fluff); }
 .ff-opt.is-on span { background: var(--ink); color: var(--paper); }
 .ff-opt:focus-within { outline: 2px solid var(--pen); outline-offset: -2px; border-radius: 99px; }
 
-/* ---------- Advantage (relative price and cost) ---------- */
+/* ---------- Chart key (the continuity simulator's legend) ---------- */
 
-.adv-bars { display: flex; flex-direction: column; gap: 0.6rem; }
 .adv-key { display: flex; gap: 1rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
 .adv-key span { display: inline-flex; align-items: center; }
-.adv-key-r { margin-left: auto; }
-.adv-k-cost { background: var(--rule); box-shadow: inset 0 0 0 1px var(--ink-2); }
-.adv-k-margin { background: var(--pen); }
-.adv-row { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 4.25rem; gap: 0.75rem; align-items: center; }
-.adv-who, .adv-price { margin: 0; font-family: var(--mono); font-size: 0.75rem; }
-.adv-price { text-align: right; font-variant-numeric: tabular-nums; }
-.adv-track { display: flex; height: 2.1rem; border-bottom: 1px solid var(--ink-2); }
-.adv-cost, .adv-margin, .adv-loss { display: flex; align-items: center; min-width: 0; overflow: hidden; transition: width 0.35s var(--ease); }
-.adv-cost { background: var(--rule); color: var(--ink); }
-.adv-margin { background: var(--pen); color: var(--paper); }
-.adv-loss { background: var(--bad); }
-.adv-mlabel { align-self: center; padding-left: 0.4rem; white-space: nowrap; font-family: var(--mono); font-size: 0.6875rem; font-weight: 600; color: var(--pen); font-variant-numeric: tabular-nums; }
-.adv-mlabel.is-neg { color: var(--bad); }
-.adv-cost > span { overflow: hidden; white-space: nowrap; padding: 0 0.4rem; font-family: var(--mono); font-size: 0.6875rem; font-variant-numeric: tabular-nums; }
-.adv .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
-@media (max-width: 640px) {
-  .adv-row { grid-template-columns: 4.5rem minmax(0, 1fr) 3.75rem; gap: 0.5rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .adv-cost, .adv-margin, .adv-loss { transition: none; }
-}
 
 /* ---------- Activity system (uses the segmented choice above) ---------- */
 
@@ -1800,26 +1778,6 @@ mark.m-fluff { background: var(--mark-fluff); }
 .as-links .is-fit .as-mark { color: var(--pen); }
 .as-links .is-clash .as-mark { color: var(--bad); }
 .as-links strong { font-weight: 600; }
-
-/* ---------- Positions (a toy market on one line of needs) ---------- */
-
-.ps-market { position: relative; height: 3.4rem; border-bottom: 1px solid var(--ink); overflow: hidden; }
-.ps-zone { position: absolute; top: 0; bottom: 0; background: var(--pen-soft); }
-.ps-zone.is-alt { background: var(--paper-2); }
-.ps-firm {
-  position: absolute; transform: translateX(-50%);
-  display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%;
-  background: var(--pen); color: var(--paper);
-  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
-  transition: left 0.3s var(--ease);
-}
-.ps-firm.is-crowded { background: var(--bad); }
-.ps-ends { display: flex; justify-content: space-between; gap: 1rem; margin-top: -0.75rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
-.ps-table tfoot th, .ps-table tfoot td { border-top: 1px solid var(--ink); border-bottom: 0; font-weight: 600; }
-.ps-table tfoot th { font-family: var(--body); }
-@media (prefers-reduced-motion: reduce) {
-  .ps-firm { transition: none; }
-}
 
 /* ---------- Copy odds and the partial-copy valley ---------- */
 
@@ -2005,6 +1963,76 @@ mark.m-fluff { background: var(--mark-fluff); }
   .dt-table tbody th, .dt-table td { padding: 0; border: 0; }
   .dt-table td { margin-top: 0.35rem; }
   .dt-table td::before { content: attr(data-label); display: block; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+}
+
+/* Figure: inline SVG diagrams with numbered notes */
+.fg { margin-bottom: clamp(2.25rem, 5vw, 3.25rem); padding-top: 1.25rem; border-top: 1px solid var(--ink); }
+.fg-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem 2.75rem; align-items: start; }
+.fg-body.has-notes { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+.fg-fig { min-width: 0; margin: 0; }
+.fg-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fg-narrow { display: none; }
+.fg-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+.fg-note { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; padding-top: 0.7rem; border-top: 1px solid var(--rule); }
+@media (max-width: 900px) {
+  .fg-body.has-notes { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .fg-fig.has-narrow .fg-wide { display: none; }
+  .fg-fig.has-narrow .fg-narrow { display: block; }
+}
+
+/* The SVG vocabulary figures draw with, so every diagram follows the theme */
+.sv-axis, .sv-grid, .sv-line, .sv-curve, .sv-curve-2 { fill: none; }
+.sv-axis { stroke: var(--ink-2); stroke-width: 1; }
+.sv-grid { stroke: var(--rule); stroke-width: 1; }
+.sv-line { stroke: var(--ink-2); stroke-width: 1.25; }
+.sv-line-pen { fill: none; stroke: var(--pen); stroke-width: 1.5; }
+.sv-curve { stroke: var(--series-profit); stroke-width: 2; stroke-linecap: round; }
+.sv-curve-2 { stroke: var(--series-cash); stroke-width: 2; stroke-linecap: round; }
+.sv-dash { stroke-dasharray: 5 4; }
+.sv-wash { fill: var(--pen-soft); stroke: none; }
+.sv-box { fill: var(--field); stroke: var(--rule); stroke-width: 1; }
+.sv-box-pen { fill: var(--field); stroke: var(--pen); stroke-width: 1.5; }
+.sv-box-ink { fill: var(--ink); stroke: none; }
+.sv-dot { fill: var(--ink-2); stroke: var(--paper); stroke-width: 2; }
+.sv-dot-pen { fill: var(--series-profit); stroke: var(--paper); stroke-width: 2; }
+.sv-head { fill: var(--ink-2); }
+.sv-head-pen { fill: var(--pen); }
+.sv-t, .sv-t2 { font-family: var(--body); }
+.sv-t { fill: var(--ink); font-size: 13px; }
+.sv-t2 { fill: var(--ink-2); font-size: 12px; }
+.sv-tp { fill: var(--paper); }
+.sv-b { font-weight: 600; }
+.sv-k { fill: var(--ink-2); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; }
+.sv-call circle { fill: var(--paper); stroke: var(--pen); stroke-width: 1.25; }
+.sv-call text { fill: var(--pen); font-family: var(--mono); font-size: 10.5px; }
+
+/* Value chain: support bands over primary columns, the margin as the arrow's point */
+.vc { margin-bottom: clamp(2.25rem, 5vw, 3.25rem); padding-top: 1.25rem; border-top: 1px solid var(--ink); }
+.vc-fig { margin: 0; }
+.vc-chain { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)) 3.25rem; gap: 0.3rem; }
+.vc-k { grid-column: 1 / -2; margin: 0.35rem 0 0.1rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.vc-k-support { grid-row: 1; margin-top: 0; }
+.vc-support { grid-column: 1 / -2; display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: 0 1rem; align-items: baseline; padding: 0.5rem 0.9rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); }
+.vc-primary { min-width: 0; padding: 0.65rem 0.8rem 0.75rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); }
+.vc-name { margin: 0; font-family: var(--body); font-size: 0.9375rem; font-weight: 600; line-height: 1.3; }
+.vc-d { margin: 0.15rem 0 0; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-2); }
+.vc-support .vc-d { margin: 0; }
+.vc-margin {
+  grid-column: -2 / -1; display: flex; align-items: center; padding-left: 0.55rem;
+  background: var(--pen); color: var(--paper); clip-path: polygon(0 0, 40% 0, 100% 50%, 40% 100%, 0 100%);
+}
+.vc-margin span { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; }
+@media (max-width: 900px) {
+  .vc-support { grid-template-columns: 10rem minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .vc-chain { display: flex; flex-direction: column; gap: 0.35rem; }
+  .vc-support { display: block; }
+  .vc-support .vc-d { margin-top: 0.15rem; }
+  .vc-margin { clip-path: none; padding: 0.45rem 0.8rem; border-radius: 3px; }
+  .vc-margin span { writing-mode: horizontal-tb; transform: none; }
 }
 
 /* ---------- Ask Claude (the reading companion; only inside a Claude viewer) ---------- */

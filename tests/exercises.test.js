@@ -499,25 +499,20 @@ test("TiS: rank interventions by leverage", async () => {
   assert.match(await page.text(".rk-score"), /^5 of 5 in the right place/);
 });
 
-test("Porter: firms that chase the same best spot compete away their profits", async () => {
+test("Porter: the mindset page contrasts best and unique, and draws the productivity frontier", async () => {
   await page.open("ump-mindset");
-  const total = () => page.text('.ps [data-ref="total"]');
-  const note = () => page.text('.ps [data-ref="note"]');
-  assert.equal(await total(), "$4,000");
-  assert.match(await note(), /^All four firms chase the same idea of the best.* against \$40,000 for the same firms spread out\./);
-  await page.click('.ps [data-preset="unique"]');
-  assert.equal(await total(), "$40,000");
-  await page.click('.ps [data-preset="breakaway"]');
-  assert.equal(await total(), "$14,800");
-  assert.match(await note(), /^Firms A, B and C crowd together at 50; .* Firm D, standing apart, keeps \$40 a customer and earns \$12,000\./);
-  // Two pairs on two spots: both crowded, so the industry is back to $4,000.
-  await slide(page, '.ps [data-firm="0"]', 40);
-  await slide(page, '.ps [data-firm="1"]', 40);
-  await slide(page, '.ps [data-firm="2"]', 70);
-  await slide(page, '.ps [data-firm="3"]', 70);
-  assert.equal(await total(), "$4,000");
-  assert.match(await note(), /^Firms A and B crowd together at 40, and C and D at 70;/);
-  assert.equal(await sort(["best", "unique", "best", "unique", "best", "unique"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [7, 5]);
+  // The frontier: a labelled image with four numbered callouts and four notes to match.
+  assert.match(await page.evaluate(() => document.querySelector(".fg-art").getAttribute("aria-label")), /productivity frontier/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg .sv-call").length), 4);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 4);
+  // The diagram fits a phone without sideways scrolling.
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.ok(await page.evaluate(() => document.querySelector(".fg-art svg").getBoundingClientRect().width <= 390));
+  await page.setViewportSize({ width: 1280, height: 900 });
 });
 
 test("Porter: the five forces page maps the forces, charts real industry returns and works the airline case", async () => {
@@ -556,20 +551,22 @@ test("Porter: the five forces page maps the forces, charts real industry returns
   assert.match(await page.text(".dt"), /Rivalry\tMany carriers[^|]*\tPrice ↓ Cost ↑ \| Buyers/);
 });
 
-test("Porter: advantage is a higher relative price, a lower relative cost, or both", async () => {
+test("Porter: the advantage page traces price and cost to the value chain", async () => {
   await page.open("ump-advantage");
-  const tiles = () => page.text('.adv [data-ref="tiles"]');
-  const note = () => page.text('.adv [data-ref="note"]');
-  assert.match(await tiles(), /\$115 .* \$94\.50 .* \$20\.50$/i);
-  assert.match(await note(), /^A price advantage: customers pay 15% more, and earning that premium raises your cost by only 5%\./);
-  await page.click('.adv [data-preset="costly"]');
-  assert.match(await note(), /^A premium that doesn't pay: .* Your margin is \$6\.50 a sale, against the rival's \$10\./);
-  await page.click('.adv [data-preset="lowcost"]');
-  assert.match(await note(), /^A cost advantage: serving customers costs you 15% less, more than making up for a price 5% lower\./);
-  await slide(page, '.adv [data-input="price"]', -20);
-  assert.match(await note(), /^Savings that don't pay/);
-  assert.match(await tiles(), /\$80 .* \$76\.50 .* \$3\.50$/i);
-  assert.equal(await sort(["price", "cost", "price", "cost", "cost", "price"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  // Porter's generic chain: four support activities over five primary ones, ending in margin.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".vc-support").length), 4);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".vc-primary").length), 5);
+  assert.match(await page.text(".vc-chain"), /Firm infrastructure .* Procurement .* Inbound logistics .* Service .* MARGIN$/);
+  // The value system swaps to a vertical drawing on phones.
+  const shown = () => page.evaluate(() => Array.from(document.querySelectorAll(".fg-fig.has-narrow > .fg-art > div"), (d) => getComputedStyle(d).display));
+  assert.deepEqual(await shown(), ["block", "none"]);
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.deepEqual(await shown(), ["none", "block"]);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [10, 6]);
 });
 
 test("Porter: a value proposition's three answers must fit together", async () => {
