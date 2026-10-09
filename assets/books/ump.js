@@ -6,109 +6,6 @@
 (function () {
   "use strict";
 
-  // The invented airline used on the trade-offs and fit pages. Each option adds { price,
-  // cost } a passenger to the base; each link adds its own when both of its options are
-  // chosen. Tuned so the two consistent strategies beat every mix of them.
-  const AIRLINE = {
-    base: { price: 80, cost: 76 },
-    mapOrder: ["routes", "turnarounds", "fleet", "fares", "selling", "cabin"],
-    activities: [
-      {
-        id: "routes",
-        name: "Routes",
-        options: [
-          { id: "hub", label: "Hub-and-spoke network", short: "Hub network", price: 2, cost: 3 },
-          { id: "p2p", label: "Short point-to-point routes", short: "Point-to-point" }
-        ]
-      },
-      {
-        id: "fleet",
-        name: "Fleet",
-        options: [
-          { id: "mixed", label: "A mixed fleet", short: "Mixed fleet", cost: 1 },
-          { id: "one", label: "One type of plane", short: "One plane type" }
-        ]
-      },
-      {
-        id: "turnarounds",
-        name: "Turnarounds",
-        options: [
-          { id: "standard", label: "Standard turnarounds", short: "Standard turns", cost: 1 },
-          { id: "quick", label: "15-minute turnarounds", short: "15-minute turns" }
-        ]
-      },
-      {
-        id: "cabin",
-        name: "Cabin",
-        options: [
-          { id: "meals", label: "Assigned seats and meals", short: "Seats and meals", price: 2, cost: 3 },
-          { id: "open", label: "Open seating, no meals", short: "Open seating" }
-        ]
-      },
-      {
-        id: "selling",
-        name: "Selling",
-        options: [
-          { id: "agents", label: "Travel agents and booking systems", short: "Travel agents", price: 1, cost: 3 },
-          { id: "direct", label: "Direct sales only", short: "Direct sales" }
-        ]
-      },
-      {
-        id: "fares",
-        name: "Fares",
-        options: [
-          { id: "first", label: "First class and flexible fares", short: "First class", price: 2, cost: 3 },
-          { id: "simple", label: "One class, simple low fares", short: "Low fares" }
-        ]
-      }
-    ],
-    links: [
-      { a: "hub", b: "mixed", price: 3, text: "A hub flies routes of every length, and a mixed fleet has the right plane for each." },
-      { a: "meals", b: "first", price: 3, text: "Assigned seats and meals are what make a first-class fare worth paying." },
-      { a: "agents", b: "first", price: 2, text: "Agents and booking systems bring in the business travelers who buy first class." },
-      { a: "hub", b: "first", price: 3, text: "Business travelers want connections to everywhere, which only a hub offers." },
-      { a: "hub", b: "agents", price: 2, text: "Agents can sell any journey through the hub, which fills planes from everywhere." },
-      { a: "p2p", b: "quick", cost: -3, text: "With no connecting passengers to wait for, short flights can turn around in 15 minutes." },
-      { a: "one", b: "quick", cost: -2, text: "One type of plane means one way to clean, fuel and service it, which speeds every turnaround." },
-      { a: "open", b: "quick", cost: -2, text: "Open seating and no meals make boarding and cleaning faster." },
-      { a: "direct", b: "simple", cost: -1, text: "Simple fares are easy to sell directly, without agents' commissions." },
-      { a: "p2p", b: "one", cost: -2, text: "Short routes of similar length suit a single type of plane, so crews and parts are interchangeable." },
-      { a: "hub", b: "quick", cost: 5, text: "Hub flights wait for connecting passengers and bags, so quick turnarounds fail and the extra ground crew is wasted." },
-      { a: "meals", b: "quick", cost: 4, text: "Catering and seat assignments don't fit in 15 minutes; trying adds staff and delays." },
-      { a: "agents", b: "simple", cost: 3, text: "Agents' commissions and booking fees eat into low fares." },
-      { a: "hub", b: "one", cost: 3, text: "A hub needs planes of different sizes; one type is too big for some routes and too small for others." },
-      { a: "first", b: "open", cost: 3, text: "A first-class cabin with open seating confuses passengers and adds handling at every gate." }
-    ],
-    presets: [
-      {
-        id: "full",
-        label: "Full service",
-        consistent: true,
-        name: "consistent full service",
-        note: "Full service, consistently: every choice supports a network that business travelers will pay more for.",
-        picks: { routes: "hub", fleet: "mixed", turnarounds: "standard", cabin: "meals", selling: "agents", fares: "first" }
-      },
-      {
-        id: "low",
-        label: "Low cost, all the way",
-        consistent: true,
-        name: "consistent low cost",
-        note: "Low cost, consistently: every choice makes the others cheaper to run.",
-        picks: { routes: "p2p", fleet: "one", turnarounds: "quick", cabin: "open", selling: "direct", fares: "simple" }
-      },
-      {
-        id: "turns",
-        label: "Full service, faster turns",
-        picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "first" }
-      },
-      {
-        id: "straddle",
-        label: "Full service plus low fares",
-        picks: { routes: "hub", fleet: "mixed", turnarounds: "quick", cabin: "meals", selling: "agents", fares: "simple" }
-      }
-    ]
-  };
-
   window.Marginalia.addBook({
     id: "ump",
     title: "Understanding Michael Porter",
@@ -125,7 +22,7 @@
     hero: { lines: ["Understanding", "Michael Porter"], art: "forces" },
     entries: [
       { kicker: "Start here", title: "Best or unique", desc: "Why chasing the best way to compete drives profits down for everyone.", page: "mindset" },
-      { kicker: "Builder", title: "Design an airline", desc: "Choose six activities and watch them reinforce or clash.", page: "trade-offs" },
+      { kicker: "Case", title: "Three airlines", desc: "Southwest, a full-service airline and Continental Lite, activity by activity.", page: "trade-offs" },
       { kicker: "Workbench", title: "Test your strategy", desc: "Write down a strategy and check it against Porter's five tests.", page: "five-tests" }
     ],
     mapTitle: "Two parts, seven chapters",
@@ -844,148 +741,152 @@
           cta: { page: "value", kicker: "Next", text: "The value a strategy sets out to create" }
         }
       },
-      // The three questions of a value proposition, the tailored value chain as the second
-      // test of a strategy, and Enterprise Rent-A-Car as an example follow my reading of
-      // Magretta's chapter 4, unchecked against her wording and her account of Enterprise.
-      // The rental company, its options and the rules are invented.
+      // A reference page. The three questions of a value proposition, distinctiveness, and the
+      // tailored value chain as the second test follow my reading of Magretta's chapter 4,
+      // unchecked against her wording. The case details are the standard published accounts
+      // (Porter's "What Is Strategy?", 1996, for IKEA and Southwest) and are unchecked
+      // against Magretta's telling; underserved and overserved customers is my memory of her
+      // framing, unchecked. The three bases of positioning and their examples (Jiffy Lube,
+      // Vanguard, Bessemer Trust, Carmike Cinemas) are from Porter's 1996 article; unchecked
+      // whether Magretta uses them.
       "value": {
         navLabel: "Value",
         title: "Creating value",
         eyebrow: "Part II · Chapter 04",
+        layout: "dense",
         dek:
           "Strategy starts with the value a company sets out to create: for which customers, meeting which needs, at what relative price. Porter calls the answer the value proposition, and it becomes a strategy only when the value chain is tailored to deliver it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Three questions",
-                paras: [
-                  "A value proposition answers three questions. Which customers will the company serve? Which of their needs will it meet? And at what price, relative to the alternatives? A distinctive proposition answers them differently from rivals: it serves customers others neglect, meets needs others meet poorly, or charges a price that others can't profitably match.",
-                  "The answers have to fit together. A company can't serve price-conscious customers with an expensive feature they don't value, or charge a premium to customers whose budgets are set by someone else. The three questions are one choice, not three."
-                ],
-                side: {
-                  label: "Outward and inward",
-                  html: "<p>The value proposition looks outward, at customers. The value chain looks inward, at the company's own activities. A strategy needs both, and they need to match.</p>"
-                }
+                t: "A strategy starts with the value it will create.",
+                d: "The value proposition answers three questions: which customers the company will serve, which of their needs it will meet, and at what price relative to the alternatives."
+              },
+              {
+                t: "The three answers are one choice.",
+                d: "They have to fit: the needs of the chosen customers, met at a price they'll pay and the company can profitably charge. Change one and the others usually change too."
+              },
+              {
+                t: "Distinctive means different from rivals.",
+                d: "Serving the same customers' same needs at the same price isn't a strategy. A distinctive proposition targets customers or needs rivals serve poorly, or a price they can't match."
+              },
+              {
+                t: "Look for the underserved and the overserved.",
+                d: "Some customers need more than the standard offering gives them; others pay for things they don't value. Each is an opening for a different proposition."
+              },
+              {
+                t: "The value chain must be tailored to it.",
+                d: "A proposition delivered with the same activities as rivals can be copied. Tailoring means different activities, or the same activities done differently. It is Porter's second test of a strategy."
+              },
+              {
+                t: "Tailoring creates the trade-offs.",
+                d: "Activities built for one proposition serve others badly. That's what makes a good position hard to imitate, the subject of <a href=\"@trade-offs\">the next chapter</a>."
               }
             ]
           },
           {
-            type: "value-prop",
-            title: "Answer the three questions",
-            intro:
-              "An invented car rental company is deciding what to stand for. Choose an answer to each question and see whether they make a coherent value proposition, and what it would take to deliver one.",
-            chainLabel: "A value chain tailored to it",
-            badTitle: "The answers contradict each other",
-            weakTitle: "The answers don't quite hang together",
-            hint: "Change one answer at a time. There are three coherent positions to find.",
-            start: { customers: "biz", needs: "speed", price: "below" },
-            questions: [
-              {
-                id: "customers",
-                label: "Which customers?",
-                options: [
-                  { id: "biz", label: "Business travelers flying in" },
-                  { id: "repair", label: "Local drivers whose own car is in the shop" },
-                  { id: "tourists", label: "Holidaymakers on a budget" }
-                ]
-              },
-              {
-                id: "needs",
-                label: "Which needs?",
-                options: [
-                  { id: "speed", label: "Speed at the airport and a new car" },
-                  { id: "home", label: "A car near home, delivered and collected" },
-                  { id: "cheap", label: "The lowest rate, no frills" }
-                ]
-              },
-              {
-                id: "price",
-                label: "What relative price?",
-                options: [
-                  { id: "premium", label: "Above the market" },
-                  { id: "below", label: "Below airport rates" },
-                  { id: "lowest", label: "The lowest in the market" }
-                ]
-              }
+            type: "table",
+            eyebrow: "Cases",
+            title: "Four value propositions, and the chains built for them",
+            intro: "Each company answered the three questions differently from its industry, then built its activities around the answer.",
+            columns: ["Company", "Which customers", "Which needs", "Relative price", "Tailored activities"],
+            widths: ["9.5rem", null, null, "8.5rem", null],
+            rows: [
+              [
+                "Enterprise Rent-A-Car",
+                "Local drivers whose own car is being repaired or replaced",
+                "A car near home, picked up and dropped off, while the insurer handles the bill",
+                "Below airport rental rates",
+                "Many small neighborhood offices rather than airport counters; staff who collect customers; close ties with insurers and body shops, who send the business"
+              ],
+              [
+                "IKEA",
+                "Young furniture buyers who want style at a low price",
+                "Good design for a home on a budget, taken home the same day",
+                "Low",
+                "Its own flat-pack designs; huge out-of-town stores with room settings; self-service; customers collect and assemble the furniture"
+              ],
+              [
+                "Southwest Airlines",
+                "Price-sensitive travelers on short routes, many of whom would otherwise drive or take the bus",
+                "Low fares and frequent, reliable departures",
+                "Low",
+                "One type of plane; short point-to-point routes from secondary airports; fast turnarounds; no meals, seat assignments or baggage transfers"
+              ],
+              [
+                "Aravind Eye Hospital",
+                "People in India who need cataract surgery, most of whom can't pay much or anything",
+                "Safe, high-quality surgery that restores sight",
+                "Free or very low for most; paying patients cover the rest",
+                "Surgery organized for very high volume; surgeons do only the operation while trained staff do the rest; lenses made in-house; outreach camps in villages"
+              ]
             ],
-            rules: [
-              { a: "biz", b: "home", fit: "bad", text: "Travelers who have just flown in aren't near home. Delivery to a home address is no use to them." },
-              { a: "biz", b: "cheap", fit: "weak", text: "Business travelers' employers care more about their time than the daily rate." },
-              { a: "repair", b: "speed", fit: "bad", text: "They aren't at an airport. A fast counter there doesn't help someone whose car is in a local garage." },
-              { a: "repair", b: "cheap", fit: "weak", text: "Price matters, but an insurer often pays. Getting a car without a trip across town matters more." },
-              { a: "tourists", b: "speed", fit: "weak", text: "Holidaymakers will wait a few minutes at the counter to save money." },
-              { a: "tourists", b: "home", fit: "bad", text: "Tourists aren't at home. They need a car where they arrive." },
-              { a: "speed", b: "below", fit: "weak", text: "Fast airport service and new cars are costly to provide, and a below-market price leaves little to pay for them." },
-              { a: "speed", b: "lowest", fit: "bad", text: "The fastest service and the newest cars can't be delivered at the lowest price in the market." },
-              { a: "home", b: "premium", fit: "weak", text: "Delivery is valued, but the customers who need it, or their insurers, cap what they'll pay." },
-              { a: "home", b: "lowest", fit: "bad", text: "Delivering and collecting cars costs money that a rock-bottom rate can't cover." },
-              { a: "cheap", b: "premium", fit: "bad", text: "A no-frills car at a premium price is a contradiction." },
-              { a: "cheap", b: "below", fit: "weak", text: "Below airport rates isn't low enough to win customers who choose on price alone." },
-              { a: "biz", b: "below", fit: "weak", text: "Business travelers won't switch for a lower rate if the service is slower, so the discount gives money away." },
-              { a: "biz", b: "lowest", fit: "bad", text: "The lowest price attracts the customers who care least about what business travelers value." },
-              { a: "repair", b: "premium", fit: "bad", text: "Insurers set daily limits for replacement cars, so a premium price is out of reach." },
-              { a: "repair", b: "lowest", fit: "weak", text: "Insurers will pay a fair rate. Pricing at the bottom of the market leaves money on the table." },
-              { a: "tourists", b: "premium", fit: "bad", text: "Budget holidaymakers won't pay above the market." },
-              { a: "tourists", b: "below", fit: "weak", text: "Budget travelers compare prices online, and below airport rates may still not be the cheapest." }
-            ],
-            positions: [
-              {
-                picks: { customers: "biz", needs: "speed", price: "premium" },
-                title: "The airport position",
-                text: "Fast service and new cars for travelers whose companies pay. It's a sound position, and it's also where most big rental companies already compete, so it's crowded.",
-                activities: ["Counters inside the terminal", "A young fleet, replaced often", "Corporate accounts and loyalty programs", "Express pickup with no paperwork"]
-              },
-              {
-                picks: { customers: "repair", needs: "home", price: "below" },
-                title: "The replacement-car position",
-                text: "Cars for people whose own car is off the road, delivered near home, at rates their insurers will pay. Airport-based rivals aren't set up to serve them.",
-                activities: ["Small offices in neighborhoods, where rents are low", "Staff who pick customers up and drop them off", "Ties with insurers and repair shops, who send the business", "Slightly older cars, kept longer"]
-              },
-              {
-                picks: { customers: "tourists", needs: "cheap", price: "lowest" },
-                title: "The budget leisure position",
-                text: "The lowest rate for holidaymakers who'll trade convenience for price.",
-                activities: ["Lots outside the airport, reached by shuttle bus", "Older, basic cars", "Booking online only", "Extras such as insurance sold separately"]
-              }
-            ]
+            foot: "Details are the standard published accounts of each company, summarized by us."
           },
           {
-            type: "prose",
-            sections: [
+            type: "chain-compare",
+            eyebrow: "Figure",
+            title: "What tailoring looks like: IKEA against a typical furniture retailer",
+            intro: "Activity by activity, IKEA does almost nothing the usual way. Each difference either cuts cost or serves its chosen customers better, and many do both.",
+            activities: ["Design", "Range", "Showroom", "Sales help", "Stock", "Delivery", "Assembly"],
+            rows: [
               {
-                n: "2",
-                title: "A tailored value chain",
-                paras: [
-                  "A distinctive value proposition isn't enough on its own. If a company delivers it with the same activities as everyone else, rivals can offer the same thing and the advantage disappears. The second test of a strategy is a value chain tailored to the proposition: activities done differently, or different activities altogether.",
-                  "In the builder, each coherent position comes with its own chain. The replacement-car position can't be run from airport counters, and the airport position can't be run from neighborhood offices. That's the start of the trade-offs the next chapter is about."
-                ],
-                side: {
-                  label: "Enterprise Rent-A-Car",
-                  html: "<p>The book's example of a distinctive value proposition: Enterprise built its business on drivers who need a car while their own is being repaired, served from neighborhood offices rather than airport counters.</p>"
-                }
+                name: "Typical retailer",
+                cells: [
+                  "Buys ranges from outside makers",
+                  "Wide, with fabrics and finishes made to order",
+                  "Town-center shop, a few pieces on show",
+                  "Sales staff guide each customer",
+                  "Made to order, weeks of waiting",
+                  "Delivered by the store",
+                  "Arrives assembled"
+                ]
+              },
+              {
+                name: "IKEA",
+                pen: true,
+                cells: [
+                  "Its own designers, designing for low cost and flat packing",
+                  "Narrower, all of it in stock",
+                  "Huge out-of-town stores showing everything in room settings",
+                  "Self-service, with catalogs, tags and tape measures",
+                  "Flat-packed in the store's own warehouse",
+                  "Customers take it home",
+                  "Customers build it"
+                ]
               }
-            ]
+            ],
+            caption: "After Porter's account of IKEA in “What Is Strategy?”, Harvard Business Review, 1996. Wording ours."
           },
           {
-            type: "sorter",
-            title: "Which question does it answer?",
-            intro: "Six pieces of invented value propositions. Is each one about which customers, which needs, or what relative price?",
-            options: [
-              { id: "customers", label: "Which customers", hint: "Who the company serves." },
-              { id: "needs", label: "Which needs", hint: "What it does for them." },
-              { id: "price", label: "What relative price", hint: "How it charges, against the alternatives." }
+            type: "table",
+            eyebrow: "Where positions come from",
+            title: "Three bases for a distinctive position",
+            intro: "Porter's three ways a position can arise. They often overlap.",
+            columns: ["Basis", "What it means", "Porter's examples"],
+            widths: ["9.5rem", null, null],
+            rows: [
+              [
+                "Variety",
+                "Choosing a subset of an industry's products or services and doing them better or cheaper than anyone, for whichever customers want them",
+                "Jiffy Lube does only oil changes and lubrication, not repairs. Vanguard offers low-cost funds with predictable performance."
+              ],
+              [
+                "Needs",
+                "Serving most or all the needs of a particular group of customers whose needs differ from the rest",
+                "IKEA serves young buyers who want style cheaply. Bessemer Trust serves only very wealthy families."
+              ],
+              [
+                "Access",
+                "Serving customers who are reached in a different way, because of where they are or how many there are, even if their needs are similar",
+                "Carmike Cinemas ran theaters only in small towns, with lower costs and fewer rivals."
+              ]
             ],
-            items: [
-              { text: "Dental practices with one to three chairs.", answer: "customers", why: "A choice of customer: small practices, not hospital groups or large chains." },
-              { text: "Accounting software that works without an IT department.", answer: "needs", why: "A need the customer has: running the software with no technical staff." },
-              { text: "A third less than the market leader charges.", answer: "price", why: "A position on price, relative to the main alternative." },
-              { text: "Retired couples who travel outside school holidays.", answer: "customers", why: "A group of customers defined by when and how they travel." },
-              { text: "A haircut in ten minutes, no appointment needed.", answer: "needs", why: "The need is speed and convenience, not styling." },
-              { text: "Free for patients who can't pay, full price for those who can.", answer: "price", why: "A pricing choice. It works only if the value chain keeps costs low enough to carry the free patients." }
-            ]
+            foot: "From Porter's “What Is Strategy?” (1996)."
           }
         ],
         end: {
@@ -997,72 +898,153 @@
           cta: { page: "trade-offs", kicker: "Next", text: "Why choosing what not to do protects a strategy" }
         }
       },
-      // Trade-offs as the linchpin, Porter's three sources of trade-offs, straddling, his
-      // Continental Lite example and his line about choosing what not to do follow his
-      // "What Is Strategy?" (1996) as I remember Magretta presenting them, unchecked against
-      // her wording. The airline, its numbers and its links are invented.
+      // A reference page. Trade-offs as the linchpin, Porter's three sources of trade-offs
+      // (image, activities, coordination, with his Ivory and Neutrogena example), straddling
+      // and repositioning, Continental Lite, operational effectiveness gaps as false
+      // trade-offs, and his line about choosing what not to do follow "What Is Strategy?"
+      // (1996) as I remember Magretta presenting them, unchecked against her wording. The
+      // airline comparison follows Porter's account; the cells are our wording. The
+      // objections table is our summary of the chapter's arguments.
       "trade-offs": {
         navLabel: "Trade-offs",
         title: "Trade-offs",
         eyebrow: "Part II · Chapter 05",
+        layout: "dense",
         dek:
           "A strategy is as much about what a company chooses not to do as what it does. Porter calls trade-offs the linchpin of strategy: they're what make a good position hard to copy.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "You can't be everything",
-                paras: [
-                  "A trade-off arises when doing more of one thing means doing less of another. An airline can't serve hot meals and turn a plane around in 15 minutes. A brand can't stand for both luxury and thrift. A company that sets out to serve some customers especially well has to accept serving others less well, or not at all.",
-                  "Trade-offs are also what protect a strategy. If a rival could copy a successful position without giving up anything it already does, any advantage would soon be competed away. Because copying means sacrificing something the rival values, many won't try, and those that do often end up worse off than before."
-                ],
-                side: {
-                  label: "Straddling",
-                  html: "<p>Porter's word for trying to have it both ways is straddling: bolting a rival's way of competing onto your own. His best-known example is Continental Lite, a low-fare service Continental Airlines ran alongside its full-service flights in the 1990s and soon abandoned after heavy losses.</p>"
-                }
+                t: "A trade-off is an incompatibility.",
+                d: "More of one thing means less of another. Activities, features or an image suited to one position serve another badly, so a company has to choose."
+              },
+              {
+                t: "Trade-offs make a position defensible.",
+                d: "A rival can copy a good position only by giving up something it already values. Many won't, and those that try usually end up worse off."
+              },
+              {
+                t: "They come from three sources.",
+                d: "Image and reputation, the activities themselves, and the limits of coordinating one organization around many priorities."
+              },
+              {
+                t: "Imitators reposition or straddle.",
+                d: "A rival can abandon its own position to match the leader's, or bolt the leader's way of competing onto its own. Straddling adds the costs of both positions and the advantages of neither."
+              },
+              {
+                t: "Not every trade-off is real.",
+                d: "A company far from best practice can improve quality and cut cost at once, because it is closing a gap in operational effectiveness. Real trade-offs appear once it reaches the frontier."
+              },
+              {
+                t: "Strategy is choosing what not to do.",
+                d: "In Porter's words, “the essence of strategy is choosing what not to do.” The hard part is holding to it when every customer turned away looks like lost revenue."
               }
             ]
           },
           {
-            type: "activity-system",
-            title: "Design an airline",
+            type: "chain-compare",
+            eyebrow: "Case",
+            title: "Three airlines, seven activities",
             intro:
-              "An invented airline chooses how to run six activities. Each choice suits either full service or low cost, and the map shows which choices reinforce each other and which clash. Porter's favorite example of a consistent low-cost system is Southwest Airlines. Try the two consistent strategies here, then mix them.",
-            caption: "The airline's six activities and the links between the choices made.",
-            linksLabel: "How the choices interact",
-            priceLabel: "Average fare",
-            costLabel: "Cost a passenger",
-            ...AIRLINE
-          },
-          {
-            type: "prose",
-            sections: [
+              "Southwest's choices rule out a full-service airline's, and the reverse. In 1993 Continental tried to have both on some routes with Continental Lite. It copied the visible parts of Southwest's model and kept the rest of its full-service system, the clashes brought delays and cancellations, and within about two years it was abandoned after losses Porter puts at hundreds of millions of dollars.",
+            activities: ["Routes", "Fleet", "Turnarounds", "Cabin", "Fares", "Selling", "Bags"],
+            rows: [
               {
-                n: "2",
-                title: "Where trade-offs come from",
-                paras: [
-                  "Porter traces trade-offs to three sources. Some are in the activities themselves: equipment, skills and procedures built for one way of working serve another badly. Some are in image and reputation: a company known for one thing confuses customers when it claims the opposite. And some are in coordination: an organization can't pursue every priority with equal force, so clear choices about what matters most make it work better.",
-                  "In the airline, every clash is the first kind. Each is an activity designed for one strategy being asked to serve the other."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Start from “Full service” and switch the turnarounds to 15 minutes. One efficient-sounding change creates two clashes and wipes out most of the margin.</p>"
-                }
+                name: "Full-service airline",
+                cells: [
+                  "Hub-and-spoke network reaching everywhere",
+                  "Many aircraft types, sized to each route",
+                  "Long enough to wait for connecting passengers and bags",
+                  "Meals, assigned seats, first class",
+                  "Many fares, including premium business fares",
+                  "Travel agents and booking systems",
+                  "Checked through to the final destination, on other airlines too"
+                ]
               },
               {
-                n: "3",
-                title: "Choosing what not to do",
-                paras: [
-                  "Porter put it in one line: “the essence of strategy is choosing what not to do.” The hard part isn't seeing the trade-offs; it's accepting them. Every customer turned away, every feature left out and every market not entered looks like lost revenue, and the pressure to add them never stops.",
-                  "A company that gives in ends up with a position nobody can describe and costs that no single strategy would justify. In the model, that's every mix of the two strategies: each one earns less than either strategy run consistently."
-                ],
-                side: {
-                  label: "Next",
-                  html: "<p>The links in the map are the subject of the next chapter, on <a href=\"@fit\">fit</a>: why activities that reinforce each other are worth more together than apart, and harder to copy.</p>"
-                }
+                name: "Continental Lite",
+                cells: [
+                  { d: "More frequent flights on chosen routes, still tied into the hubs", tag: "Copied", hot: true },
+                  { d: "The existing mixed fleet", tag: "Kept" },
+                  { d: "Cut short", tag: "Copied", hot: true },
+                  { d: "No meals, no first class", tag: "Copied", hot: true },
+                  { d: "Low fares", tag: "Copied", hot: true },
+                  { d: "Still sold through travel agents", tag: "Kept" },
+                  { d: "Still checked bags through, and still assigned seats", tag: "Kept" }
+                ]
+              },
+              {
+                name: "Southwest",
+                pen: true,
+                cells: [
+                  "Short point-to-point routes between midsize cities and secondary airports",
+                  "One type of plane, the Boeing 737",
+                  "About 15 minutes at the gate",
+                  "No meals, no assigned seats, one class",
+                  "Low, simple fares",
+                  "Mostly direct, with limited use of agents",
+                  "No transfers to other airlines"
+                ]
               }
+            ],
+            caption: "After Porter's account in “What Is Strategy?”, Harvard Business Review, 1996. Wording ours."
+          },
+          {
+            type: "table",
+            eyebrow: "Sources",
+            title: "Where trade-offs come from",
+            columns: ["Source", "Why it forces a choice", "Example"],
+            widths: ["11rem", null, null],
+            rows: [
+              [
+                "Image and reputation",
+                "A company known for one kind of value lacks credibility, and confuses customers, when it claims another, or two contradictory ones at once.",
+                "Porter's: Ivory, a basic, inexpensive everyday soap, would struggle to take on Neutrogena's premium, near-medical reputation."
+              ],
+              [
+                "The activities themselves",
+                "Different positions need different product designs, equipment, skills, employee behavior and management systems. What is built for one serves the other badly.",
+                "A 15-minute turnaround leaves no time for catering, seat assignments or waiting for connecting bags."
+              ],
+              [
+                "Coordination and control",
+                "An organization can't pursue every priority with equal force. Clear choices about what matters tell people what to do; trying to be everything confuses them.",
+                "Staff told to cut cost and to pamper customers, without being told which comes first, do neither well."
+              ]
+            ],
+            foot: "The three sources are Porter's, from “What Is Strategy?” (1996). Wording ours."
+          },
+          {
+            type: "table",
+            eyebrow: "Objections",
+            title: "Arguments against trade-offs, and Porter's answers",
+            intro: "Our summary of the objections the chapter takes on.",
+            columns: ["The objection", "The answer"],
+            widths: ["17rem", null],
+            rows: [
+              [
+                "“The best companies get higher quality and lower cost at the same time.”",
+                "They were closing gaps in operational effectiveness, which needs no trade-off. Once a company reaches best practice, more of one costs some of the other."
+              ],
+              [
+                "“We can keep our customers and win theirs too.”",
+                "That's straddling. The added activities clash with the existing ones, raising cost for everyone, and the new position lacks the fit that made the original hard to copy."
+              ],
+              [
+                "“Customers want everything.”",
+                "Different customers want different things. Serving one group especially well means serving others less well, or not at all."
+              ],
+              [
+                "“Saying no leaves money on the table.”",
+                "Serving the wrong customers dilutes the value to the right ones and raises costs across the business. Revenue isn't profit."
+              ],
+              [
+                "“Trade-offs make a company rigid.”",
+                "Holding the core choices steady is what lets everything else change quickly. See <a href=\"@continuity\">continuity</a>."
+              ]
             ]
           }
         ],
@@ -1076,135 +1058,164 @@
           cta: { page: "fit", kicker: "Next", text: "Why a system of activities is hard to copy" }
         }
       },
-      // Porter's three kinds of fit (consistency, reinforcement, optimization of effort), fit
-      // as what makes advantage sustainable, and the multiplying odds of copying a system
-      // (his 0.9 × 0.9 example) follow "What Is Strategy?" (1996) as I remember Magretta
-      // presenting them, unchecked against her wording. The calculators and sorter are ours.
+      // A reference page. Porter's three kinds of fit (consistency, reinforcement,
+      // optimization of effort) with his Vanguard, Neutrogena and Gap examples, fit as what
+      // makes advantage sustainable, the 0.9 × 0.9 arithmetic of copying a system, fit against
+      // "core competences", and Southwest's activity-system map all follow "What Is
+      // Strategy?" (1996), as I remember Magretta presenting them; unchecked against her
+      // wording and her examples. The map's themes and activities follow Porter's exhibit;
+      // its links are simplified and drawn by us. The Gap detail is unchecked. The odds past
+      // four activities are computed the same way.
       "fit": {
         navLabel: "Fit",
         title: "Fit",
         eyebrow: "Part II · Chapter 06",
+        layout: "dense",
         dek:
-          "Fit is how a company's activities work together. Porter calls it the amplifier: it makes each activity worth more, and it turns a strategy into a whole system that a rival would have to copy all at once.",
+          "Trade-offs decide what a company won't do. Fit is about how the things it does work together. Porter calls it the amplifier: activities that reinforce each other are worth more together than apart, and far harder to copy.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Three kinds of fit",
-                paras: [
-                  "Porter describes fit at three levels. The first is simple <strong>consistency</strong>: every activity lines up with the strategy, so a low-cost company runs every part of the business lean, not just the factory. The second is <strong>reinforcement</strong>: activities make each other more effective, as short routes make quick turnarounds possible and quick turnarounds let each plane fly more trips. The third is <strong>optimization of effort</strong>: coordinating activities and sharing information among them so that work isn't duplicated or wasted.",
-                  "Fit amplifies an advantage. Each linked activity is worth more because of the others, so the whole system is worth more than the sum of its parts."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The airline on the <a href=\"@trade-offs\">trade-offs</a> page shows reinforcement at work: its low-cost choices only pay off in combination.</p>"
-                }
+                t: "Strategy is a system, not a list.",
+                d: "The value of each activity depends on the others. Judged one by one, many of a good strategy's choices look odd; together they make sense."
+              },
+              {
+                t: "Fit comes in three kinds.",
+                d: "Consistency between each activity and the strategy; activities that reinforce one another; and optimization of effort, coordinating across activities to remove waste."
+              },
+              {
+                t: "Fit raises the advantage.",
+                d: "Linked activities cut cost or raise buyer value more than the same activities would separately. The whole is worth more than the sum of its parts."
+              },
+              {
+                t: "Fit makes the advantage last.",
+                d: "A rival has to match the whole system, not one piece of it, and the odds of doing that multiply against it with every activity added."
+              },
+              {
+                t: "It isn't a few core strengths.",
+                d: "Porter's contrast with core competences and key success factors: lasting advantage comes from many activities fitting together, not from excelling at a handful."
+              },
+              {
+                t: "Fit needs the other tests.",
+                d: "Without <a href=\"@trade-offs\">trade-offs</a> there is nothing distinctive to fit around, and without <a href=\"@continuity\">continuity</a> the system never has time to develop."
               }
             ]
           },
           {
-            type: "copy-odds",
-            title: "The odds of copying a system",
-            intro:
-              "Suppose a rival can match any one of your activities nine times out of ten. How likely is it to match all of them, when they only work together?",
-            pLabel: "Chance of matching any one activity",
-            pHint: "How likely the rival is to get each activity right, on its own.",
-            nLabel: "Activities that must all be matched",
-            nHint: "Activities in your system that depend on each other.",
-            maxN: 12,
-            start: { p: 90, n: 4 },
-            caption: "Chance of matching every activity, by the number of activities that have to be matched."
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Why fit protects",
-                paras: [
-                  "A rival can often copy a single activity: a sales approach, a process, a product feature. Matching a whole system of activities that depend on each other is far harder. The odds of getting every piece right multiply down with each piece added, and the pieces only pay off together.",
-                  "That's why Porter argues that the most durable advantages rest on fit among many activities rather than on any single strength, whether it's called a core competence, a key resource or a critical success factor."
-                ],
-                side: {
-                  label: "Porter's arithmetic",
-                  html: "<p>Porter's own illustration: if a rival has a 90% chance of matching any one activity, the chance of matching two is 81%, and of matching four, about 66%.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "copy-valley",
-            title: "Copying part of a system",
-            intro:
-              "Take the full-service airline from the trade-offs chapter and have it copy some of the low-cost airline's activities. For each number of activities switched, the chart shows the best and the worst way of choosing them.",
-            airline: AIRLINE,
-            from: "full",
-            to: "low",
-            start: 3,
-            kLabel: "Activities copied",
-            kHint: "Switched from full service to the low-cost way, out of six: routes, fleet, turnarounds, cabin, selling and fares.",
-            stayLabel: "Not copying",
-            caption: "Margin a passenger, by number of activities copied: the best (blue) and worst (red) choice of which to copy."
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "The valley between",
-                paras: [
-                  "The chart shows why rivals so rarely copy a strategy built on fit. Copying a few activities doesn't deliver a few of the benefits; it breaks the links in the copier's own system without building the links of the new one. In this model, every partial copy earns less than not copying at all, and only a complete copy pays.",
-                  "Few companies can make that jump, because it means abandoning most of what they already do. That's what makes the original position durable."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Slide from 0 to 6 activities. The best partial copy never climbs back to the line for not copying until all six are switched.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "sorter",
-            title: "Which kind of fit?",
-            intro: "Six invented companies. Is each one an example of consistency, reinforcement or optimization of effort?",
-            options: [
-              { id: "consistency", label: "Consistency", hint: "Every activity serves the same strategy." },
-              { id: "reinforcement", label: "Reinforcement", hint: "Activities make each other work better." },
-              { id: "optimization", label: "Optimization of effort", hint: "Coordination removes waste." }
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "Southwest's activity system",
+            intro: "Porter's way of drawing fit. The dark pills are the strategy's themes; the boxes are the activities that deliver them. Lines show where one supports another.",
+            alt: "A network diagram. Six themes: limited passenger service, frequent reliable departures, high aircraft utilization, lean and highly productive ground and gate crews, very low ticket prices, and short-haul point-to-point routes between midsize cities and secondary airports. Eleven activities link to them, including no meals, no seat assignments, no baggage transfers, 15-minute gate turnarounds, a standardized fleet of 737s, limited use of travel agents, automatic ticketing machines, flexible union contracts, high pay and high employee stock ownership.",
+            w: 920,
+            h: 590,
+            nodes: [
+              { id: "L", label: "Limited passenger\nservice", x: 260, y: 165, kind: "theme" },
+              { id: "F", label: "Frequent, reliable\ndepartures", x: 700, y: 110, kind: "theme" },
+              { id: "U", label: "High aircraft\nutilization", x: 470, y: 300, kind: "theme" },
+              { id: "C", label: "Lean, highly productive\nground and gate crews", x: 760, y: 345, kind: "theme" },
+              { id: "P", label: "Very low\nticket prices", x: 160, y: 370, kind: "theme" },
+              { id: "R", label: "Short-haul, point-to-point routes\nbetween midsize cities and\nsecondary airports", x: 470, y: 520, kind: "theme" },
+              { id: "meals", label: "No meals", x: 80, y: 55 },
+              { id: "seats", label: "No seat\nassignments", x: 250, y: 42 },
+              { id: "bags", label: "No baggage\ntransfers", x: 430, y: 55 },
+              { id: "turns", label: "15-minute gate\nturnarounds", x: 520, y: 180 },
+              { id: "fleet", label: "Standardized fleet\nof 737 aircraft", x: 650, y: 240 },
+              { id: "conn", label: "No connections with\nother airlines", x: 285, y: 432 },
+              { id: "agents", label: "Limited use of\ntravel agents", x: 72, y: 478 },
+              { id: "ticket", label: "Automatic ticketing\nmachines", x: 210, y: 548 },
+              { id: "union", label: "Flexible union\ncontracts", x: 852, y: 232 },
+              { id: "pay", label: "High pay for\nemployees", x: 848, y: 470 },
+              { id: "stock", label: "High employee\nstock ownership", x: 700, y: 538 }
             ],
-            items: [
-              {
-                text: "A discount retailer keeps its stores, its advertising and its head office as plain as its shelves.",
-                answer: "consistency",
-                why: "Every activity lines up with the low-cost strategy, not just the obvious ones."
-              },
-              {
-                text: "A furniture maker's flat-pack designs fit more per truck, and the low shipping cost lets it run large out-of-town stores.",
-                answer: "reinforcement",
-                why: "One activity makes another cheaper or better: the design choice pays off in logistics and in the store format."
-              },
-              {
-                text: "A manufacturer shares its sales forecasts with its suppliers every day, so neither has to hold spare stock.",
-                answer: "optimization",
-                why: "Sharing information across activities removes duplicated buffers on both sides."
-              },
-              {
-                text: "A luxury hotel spends heavily on staff training, room design and its concierge service, all aimed at the same demanding guests.",
-                answer: "consistency",
-                why: "Each activity is tailored to the same position, so none undercuts the others."
-              },
-              {
-                text: "An airline's quick turnarounds let each plane fly more trips a day, which supports frequent departures, which attract the short-haul travelers its routes are built for.",
-                answer: "reinforcement",
-                why: "A chain of activities, each making the next more valuable."
-              },
-              {
-                text: "A clothing chain's stores send sales data to its designers every day, so it makes more of what's selling and less of what isn't.",
-                answer: "optimization",
-                why: "Coordinating sales and design through shared information cuts unsold stock and markdowns."
-              }
+            links: [
+              ["meals", "L"], ["seats", "L"], ["bags", "L"], ["conn", "L"], ["L", "turns"], ["L", "P"],
+              ["turns", "U"], ["turns", "F"], ["fleet", "U"], ["fleet", "F"], ["fleet", "C"],
+              ["U", "F"], ["U", "P"], ["R", "U"], ["R", "F"], ["conn", "R"],
+              ["C", "P"], ["union", "C"], ["pay", "C"], ["stock", "C"],
+              ["agents", "P"], ["ticket", "P"], ["agents", "ticket"]
+            ],
+            list: { kind: "theme", k: "Supported by" },
+            full: true,
+            notes: [
+              { t: "Almost every activity serves more than one theme.", d: "No meals and no seat assignments limit service, which makes 15-minute turnarounds possible, which raises aircraft utilization, which lowers fares." },
+              { t: "The links are the advantage.", d: "Each box on its own is easy to copy. What a rival can't easily copy is the way each one makes the others cheaper or more effective." },
+              { t: "A straddler gets the boxes without the links.", d: "Continental Lite copied several activities but kept hubs, agents and a mixed fleet, so the reinforcements never appeared. See <a href=\"@trade-offs\">trade-offs</a>." }
+            ],
+            caption: "After the activity-system map of Southwest in Porter's “What Is Strategy?”, Harvard Business Review, 1996. Links simplified and drawn by us."
+          },
+          {
+            type: "table",
+            eyebrow: "Kinds of fit",
+            title: "Three orders of fit",
+            intro: "Each kind builds on the one before.",
+            columns: ["Kind", "What it means", "Porter's example"],
+            widths: ["11rem", null, null],
+            rows: [
+              [
+                "Consistency",
+                "Each activity is aligned with the overall strategy, so their advantages add up rather than cancel out.",
+                "Vanguard aligns its activities with low cost: it sells funds directly, keeps trading in its funds low, and spends little on marketing."
+              ],
+              [
+                "Reinforcement",
+                "Activities strengthen one another, so each is worth more because of the others.",
+                "Neutrogena markets to dermatologists, whose recommendations support its mild, medical image, which in turn appeals to the upscale hotels that put its soap in their rooms."
+              ],
+              [
+                "Optimization of effort",
+                "Activities are coordinated, sharing information and designed together, to cut redundancy and wasted effort across the chain.",
+                "The Gap restocks its basic items frequently from its own warehouses, so stores carry less stock and still rarely run out."
+              ]
+            ],
+            foot: "From Porter's “What Is Strategy?” (1996). Wording ours."
+          },
+          {
+            type: "bar-chart",
+            eyebrow: "The arithmetic",
+            title: "Why a system is hard to copy",
+            intro:
+              "Suppose a rival has a 90% chance of matching any one activity. Its chance of matching all of them falls fast: below even odds from seven activities, about a third at ten.",
+            unit: "%",
+            decimals: 0,
+            max: 100,
+            ticks: [0, 25, 50, 75, 100],
+            ref: { value: 50, label: "Even odds" },
+            labelHead: "Activities to match",
+            valueHead: "Chance of matching all",
+            rows: [
+              { label: "1 activity", value: 90, show: true },
+              { label: "2 activities", value: 81, show: true },
+              { label: "3 activities", value: 72.9 },
+              { label: "4 activities", value: 65.61, show: true },
+              { label: "5 activities", value: 59.049 },
+              { label: "6 activities", value: 53.1441 },
+              { label: "7 activities", value: 47.82969, show: true },
+              { label: "8 activities", value: 43.046721 },
+              { label: "9 activities", value: 38.7420489 },
+              { label: "10 activities", value: 34.86784401, show: true },
+              { label: "11 activities", value: 31.381059609 },
+              { label: "12 activities", value: 28.2429536481 }
+            ],
+            source: "Porter's arithmetic in “What Is Strategy?” (1996): matching two activities at 90% each is 81%, four is 66%. The other rows follow the same rule, 0.9 to the power of the number of activities."
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "How fit gets lost",
+            intro: "Our summary of the ways a system of activities erodes from the inside.",
+            columns: ["What happens", "Why it hurts"],
+            widths: ["17rem", null],
+            rows: [
+              ["Each function optimizes on its own", "Purchasing buys the cheapest part, marketing adds the feature customers ask for, and the links between them break."],
+              ["Best practices are adopted one activity at a time", "Each looks like an improvement, but it moves the company toward everyone else's way of working."],
+              ["Activities are outsourced for cost alone", "The partner does the work efficiently but not in the way the rest of the system depends on."],
+              ["Activities are added to win new customers", "They clash with the existing ones, which is straddling by another route."],
+              ["The strategy changes every few years", "Fit takes years to build; a system that keeps being redesigned never develops it."]
             ]
           }
         ],
@@ -1217,75 +1228,111 @@
           cta: { page: "continuity", kicker: "Next", text: "Why a strategy needs years to pay off" }
         }
       },
-      // Continuity as the enabler (what it lets a company build, that it isn't standing still,
-      // and when change is warranted) follows my reading of Magretta's chapter 7, unchecked
-      // against her wording. The simulator is ours.
+      // A reference page. Continuity as the enabler, what it builds, the paradox that
+      // continuity enables change, the reasons to change a strategy, and the five tests
+      // follow my reading of Magretta's chapter 7 and part II, unchecked against her wording.
+      // A horizon of a decade or more is from Porter's "What Is Strategy?" (1996). The
+      // Southwest timeline is from the public record, not the book: expansion beyond Texas
+      // after deregulation (1979), booking on southwest.com (1996), larger airports such as
+      // Denver (2006), the AirTran purchase (2011) and the transfer of its 717s to Delta, and
+      // annual profits from 1973 to 2019. The "when to change" table is our summary.
       "continuity": {
         navLabel: "Continuity",
         title: "Continuity",
         eyebrow: "Part II · Chapter 07",
+        layout: "dense",
         dek:
           "A strategy takes years to build: skills, reputation and fit don't appear overnight. Porter calls continuity the enabler, and argues that most companies change direction too often, not too rarely.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Why strategy needs time",
-                paras: [
-                  "Continuity lets a company build what its strategy depends on. Customers learn what it stands for. Employees, suppliers and channels develop skills and assets tailored to it. And the fit among activities, which takes years to work out, has time to grow. Each change of direction throws some of that away.",
-                  "Continuity doesn't mean standing still. Within a stable strategy a company should improve constantly, running its activities better and extending its offer in ways that serve the same customers. What stays fixed is the core: the customers, needs and relative price it has chosen, and the trade-offs that go with them."
-                ],
-                side: {
-                  label: "Reinvention",
-                  html: "<p>Porter is skeptical of constant reinvention. A company that changes its strategy every few years never builds the fit that would make any of them pay.</p>"
-                }
+                t: "A strategy needs years.",
+                d: "Porter suggests a strategic position should last a decade or more, not a single planning cycle."
+              },
+              {
+                t: "Continuity builds what the strategy depends on.",
+                d: "Customers learn what the company stands for. Suppliers, channels and employees build skills and assets tailored to it. Fit among activities has time to develop."
+              },
+              {
+                t: "Frequent change is expensive.",
+                d: "Each change of direction confuses customers, strands tailored investments and resets the fit. A company that keeps reinventing itself ends up straddling its own past positions."
+              },
+              {
+                t: "Continuity makes change easier.",
+                d: "With the core fixed, a company can improve constantly: run its activities better and extend its offer to the same customers, without confusing anyone about what it is for."
+              },
+              {
+                t: "Change when the world changes.",
+                d: "Rethink the strategy when customers' needs shift, when an innovation makes the old trade-offs obsolete, or when a breakthrough undermines every existing position. Not after a bad quarter."
+              },
+              {
+                t: "Continuity is the fifth test.",
+                d: "Together with a distinctive value proposition, a tailored value chain, trade-offs and fit, it completes Porter's tests of a good strategy, set out in the table below."
               }
             ]
           },
           {
-            type: "continuity",
-            title: "Building a strategy, or rebuilding it",
-            intro:
-              "An invented company starts halfway to mastering strategy A. Each year it pursues a strategy it gets better at it, and what it knew about the other fades. Change how often it switches, then let the market shift.",
-            years: 20,
-            start: 0.5,
-            learn: 0.3,
-            decay: 0.5,
-            changeCost: 25,
-            shiftYear: 12,
-            before: { A: 100, B: 90 },
-            after: { A: 50, B: 100 },
-            everyLabel: "Change strategy",
-            everyHint: "How often the company switches between strategies A and B.",
-            shiftLabel: "The market shifts in year 12, making B the better strategy",
-            adaptLabel: "Change once, when the market shifts",
-            caption: "Profit each year, in millions of dollars, over 20 years.",
-            presets: [
-              { id: "steady", label: "Stay the course", state: { every: 11, shift: false, adapt: false } },
-              { id: "churn", label: "Change every two years", state: { every: 2, shift: false, adapt: false } },
-              { id: "stuck", label: "The market shifts", state: { every: 11, shift: true, adapt: false } },
-              { id: "adapt", label: "Change when it shifts", state: { every: 11, shift: true, adapt: true } }
-            ],
-            foot:
-              "A toy model, not from the book. Each year closes 30% of the gap to full capability in the strategy being pursued and loses half of the capability in the other. A change of strategy costs $25 million in the year it happens. At full capability, either strategy earns up to $100 million a year."
+            type: "table",
+            eyebrow: "What continuity builds",
+            title: "Assets that take years, and what a change of strategy does to them",
+            columns: ["Asset", "How it builds", "After a change of strategy"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["Reputation and brand", "Customers see the same promise kept, year after year, until they know what to expect", "Customers are unsure what the company stands for; the old reputation may work against the new position"],
+              ["Customer relationships", "Repeat business and familiarity lower the cost of selling and raise trust", "The customers the old strategy served may be the wrong ones for the new"],
+              ["Suppliers' and channels' capabilities", "Partners invest in equipment, processes and skills tailored to the company's way of working", "Those investments are stranded, and partners grow wary of making the next ones"],
+              ["Employees' skills and culture", "People learn the activities and the reasons behind them, and act consistently without being told", "Skills built for the old trade-offs are wasted; people get mixed signals about what matters"],
+              ["Fit among activities", "Links between activities are discovered, refined and deepened over time", "The system is pulled apart and has to be rebuilt, starting from little fit at all"]
+            ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "When to change",
-                paras: [
-                  "Strategy should change when the world it was built for changes: when customers' needs shift, when a new technology makes the old trade-offs obsolete, or when a new way of competing appears that the existing strategy can't absorb. Even then, the hard part is usually recognizing that the old trade-offs no longer hold, and accepting the cost of building something new.",
-                  "What shouldn't drive a change is impatience: a bad quarter, a rival's announcement, a new management fashion. A strategy abandoned before it has had time to build its fit never gets the chance to pay."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “The market shifts”, then “Change when it shifts”. One well-timed change beats both standing still and changing on a schedule.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Judgment",
+            title: "When to change the strategy, and when not to",
+            intro: "Our summary of the chapter's guidance.",
+            columns: ["Situation", "Change it?", "Why"],
+            widths: ["16rem", "7rem", null],
+            rows: [
+              ["Customers' needs shift so the value proposition no longer fits", "<strong>Yes</strong>", "The strategy was built for needs that are going away."],
+              ["An innovation makes the old trade-offs obsolete", "<strong>Yes</strong>", "If a rival can now offer both sides of a trade-off, the position is no longer protected."],
+              ["A breakthrough undercuts every existing position", "<strong>Yes</strong>", "Rethink from the value proposition up, rather than patching activities."],
+              ["Results disappoint for a quarter or two", "No", "Look first at operational effectiveness within the strategy."],
+              ["A rival makes a bold move", "No", "Unless it changes the trade-offs, copying it is straddling."],
+              ["A new management idea, or a new leader, arrives", "No", "The value of continuity depends on not resetting the strategy for reasons like these."],
+              ["Growth in the core slows", "Rarely", "Look for extensions that serve the same customers or use the same activities before repositioning."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Case",
+            title: "Southwest: what held, and what changed within it",
+            intro: "Southwest's core choices lasted for decades while much else changed. It made a profit every year from 1973 to 2019.",
+            columns: ["Change", "When", "Fit with the core"],
+            widths: ["18rem", "6rem", null],
+            rows: [
+              ["Expanded beyond Texas after airline deregulation", "1979", "Consistent: the same model, flown to new cities"],
+              ["Sold tickets directly on its own website", "1996", "Consistent: direct selling at lower cost than agents"],
+              ["Began serving larger, busier airports, such as Denver", "2000s", "A stretch: congestion slows the quick turnarounds the model depends on"],
+              ["Bought AirTran, with its Atlanta hub and a second aircraft type", "2011", "A stretch: Southwest later moved AirTran's planes to Delta and folded the network into its own model"]
+            ],
+            foot: "From the public record, not the book."
+          },
+          {
+            type: "table",
+            eyebrow: "Part II in one table",
+            title: "Porter's five tests of a good strategy",
+            columns: ["Test", "The question", "Chapter"],
+            widths: ["13rem", null, "8rem"],
+            rows: [
+              ["A distinctive value proposition", "Does the company serve different customers or needs, or charge a different relative price, from its rivals?", "<a href=\"@value\">Creating value</a>"],
+              ["A tailored value chain", "Are its activities designed for that proposition, rather than the industry's usual ones?", "<a href=\"@value\">Creating value</a>"],
+              ["Trade-offs different from rivals'", "What does it choose not to do, and would a rival have to give something up to copy it?", "<a href=\"@trade-offs\">Trade-offs</a>"],
+              ["Fit across the value chain", "Do its activities reinforce one another, so the system is worth more than its parts?", "<a href=\"@fit\">Fit</a>"],
+              ["Continuity over time", "Has the core held long enough for the rest to develop?", "Continuity"]
             ]
           }
         ],

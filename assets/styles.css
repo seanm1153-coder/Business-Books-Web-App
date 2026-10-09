@@ -806,7 +806,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .as, .co, .cv, .vp, .ct { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1740,85 +1740,6 @@ mark.m-fluff { background: var(--mark-fluff); }
   .sk-arrow { transform: rotate(90deg); justify-self: start; margin-left: 0.4rem; }
 }
 
-/* ---------- Segmented choice (the activity system's options) ---------- */
-
-.ff-seg { display: flex; margin-top: 0.7rem; border: 1px solid var(--rule); border-radius: 99px; overflow: hidden; }
-.ff-opt { position: relative; flex: 1; min-width: 0; text-align: center; cursor: pointer; }
-.ff-opt + .ff-opt { border-left: 1px solid var(--rule); }
-.ff-opt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.ff-opt span { display: block; padding: 0.4rem 0.2rem; font-family: var(--mono); font-size: 0.6875rem; }
-.ff-opt:hover span { background: var(--paper-2); }
-.ff-opt.is-on span { background: var(--ink); color: var(--paper); }
-.ff-opt:focus-within { outline: 2px solid var(--pen); outline-offset: -2px; border-radius: 99px; }
-
-/* ---------- Chart key (the continuity simulator's legend) ---------- */
-
-.adv-key { display: flex; gap: 1rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
-.adv-key span { display: inline-flex; align-items: center; }
-
-/* ---------- Activity system (uses the segmented choice above) ---------- */
-
-.as-acts { display: flex; flex-direction: column; gap: 1rem; }
-.as-act { min-width: 0; margin: 0; padding: 0; border: 0; }
-.as-name { float: left; width: 100%; margin: 0 0 0.4rem; padding: 0; font-weight: 600; }
-.as-act .ff-seg { clear: both; margin-top: 0; }
-.as-act .ff-opt span { line-height: 1.35; }
-.as-map { display: block; width: 100%; max-width: 34rem; height: auto; margin: 0 auto; }
-.as-fit { stroke: var(--pen); stroke-width: 2.5; }
-.as-clash { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
-.as-node rect { fill: var(--paper); stroke-width: 1.5; }
-.as-node.is-side-0 rect { stroke: var(--ink); }
-.as-node.is-side-1 rect { stroke: var(--series-cash); }
-.as-node text { fill: var(--ink); font-family: var(--mono); font-size: 11px; }
-.as-node .as-node-k { fill: var(--ink-2); font-size: 8.5px; letter-spacing: 0.08em; }
-.as .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
-.as-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; font-size: 0.875rem; }
-.as-links li { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr); gap: 0.4rem; }
-.as-mark { font-family: var(--mono); font-weight: 600; }
-.as-links .is-fit .as-mark { color: var(--pen); }
-.as-links .is-clash .as-mark { color: var(--bad); }
-.as-links strong { font-weight: 600; }
-
-/* ---------- Copy odds and the partial-copy valley ---------- */
-
-.co-bar { fill: var(--rule); }
-.co-bar.is-on { fill: var(--pen); }
-.co .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
-.cv-range { stroke: var(--ink-2); stroke-width: 2; }
-.cv-range.is-on { stroke: var(--ink); stroke-width: 3; }
-.cv-best, .cv-worst { stroke: var(--paper); stroke-width: 2; }
-.cv-best { fill: var(--pen); }
-.cv-worst { fill: var(--bad); }
-.cv .levers .happened { margin-top: 0.5rem; }
-
-/* ---------- Value proposition (uses the commons block's radio cards) ---------- */
-
-.vp-qs { display: flex; flex-direction: column; gap: 1.5rem; }
-.vp-out { padding: clamp(1.25rem, 3vw, 1.75rem); background: var(--field); border: 1px solid var(--rule); border-radius: 4px; }
-.vp-out p { margin: 0; }
-.vp-out .eyebrow { margin-bottom: 0.4rem; }
-.vp-title { font-family: var(--display); font-size: 1.5rem; line-height: 1.2; }
-.vp-text { margin-top: 0.75rem !important; }
-.vp-out .cm-when { margin-top: 1.25rem; }
-.vp-chain { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
-.vp-flags { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.9375rem; }
-.vp-flags li { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr); gap: 0.4rem; }
-.vp-mark { font-family: var(--mono); font-weight: 600; }
-.vp-flags .is-bad .vp-mark { color: var(--bad); }
-.vp-flags .is-weak .vp-mark { color: var(--warn); }
-/* The verdict stays in view beside the questions when there's room for both. */
-@media (min-width: 901px) {
-  .vp-out { position: sticky; top: 1.5rem; }
-}
-
-/* ---------- Continuity ---------- */
-
-.ct-bar.is-A, .ct-k-a { fill: var(--pen); background: var(--pen); }
-.ct-bar.is-B, .ct-k-b { fill: var(--series-cash); background: var(--series-cash); }
-.ct .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
-.ct .levers { gap: 1rem; }
-.ls-toggle.is-off { opacity: 0.5; cursor: default; }
-
 /* ---------- Dense reference pages (page layout: "dense") ---------- */
 /* Less air, more of the book per screen: a smaller head, compact block headings, and
    reference blocks (brief, force map, bar chart, table) that use the full width. */
@@ -1974,8 +1895,11 @@ mark.m-fluff { background: var(--mark-fluff); }
 .fg-narrow { display: none; }
 .fg-notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
 .fg-note { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; padding-top: 0.7rem; border-top: 1px solid var(--rule); }
+.fg-body.is-full { grid-template-columns: minmax(0, 1fr); }
+.fg-body.is-full .fg-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem 2rem; }
 @media (max-width: 900px) {
   .fg-body.has-notes { grid-template-columns: minmax(0, 1fr); }
+  .fg-body.is-full .fg-notes { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
   .fg-fig.has-narrow .fg-wide { display: none; }
@@ -2033,6 +1957,54 @@ mark.m-fluff { background: var(--mark-fluff); }
   .vc-support .vc-d { margin-top: 0.15rem; }
   .vc-margin { clip-path: none; padding: 0.45rem 0.8rem; border-radius: 3px; }
   .vc-margin span { writing-mode: horizontal-tb; transform: none; }
+}
+
+/* Chain compare: value chains side by side, activity by activity */
+.cc { margin-bottom: clamp(2.25rem, 5vw, 3.25rem); padding-top: 1.25rem; border-top: 1px solid var(--ink); }
+.cc-fig { margin: 0; }
+.cc-grid { display: grid; grid-template-columns: 8.5rem repeat(var(--n), minmax(0, 1fr)); gap: 0.3rem; }
+.cc-act {
+  grid-row: 1; margin: 0; padding: 0.4rem 1.1rem 0.4rem 0.7rem; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1.3;
+  clip-path: polygon(0 0, calc(100% - 0.6rem) 0, 100% 50%, calc(100% - 0.6rem) 100%, 0 100%);
+}
+.cc-row { grid-column: 1; align-self: stretch; margin: 0; padding: 0.55rem 0.6rem 0.55rem 0; font-weight: 600; font-size: 0.875rem; line-height: 1.3; }
+.cc-row.is-pen { color: var(--pen); }
+.cc-cell { min-width: 0; padding: 0.55rem 0.65rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); font-size: 0.8125rem; line-height: 1.45; }
+.cc-cell.is-pen { border-color: var(--pen); box-shadow: inset 0 0 0 1px var(--pen); }
+.cc-who { display: none; }
+.cc-tag { display: table; margin-bottom: 0.3rem; }
+@media (max-width: 760px) {
+  .cc-grid { display: block; }
+  .cc-row { display: none; }
+  .cc-act { margin-top: 0.9rem; clip-path: none; border-radius: 3px; padding: 0.35rem 0.7rem; }
+  .cc-act:first-child { margin-top: 0; }
+  .cc-cell { margin-top: 0.3rem; }
+  .cc-who { display: block; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+  .cc-cell.is-pen .cc-who { color: var(--pen); }
+}
+
+/* Diagram: nodes and links drawn from data (activity maps, causal loops) */
+.dg { margin-bottom: clamp(2.25rem, 5vw, 3.25rem); padding-top: 1.25rem; border-top: 1px solid var(--ink); }
+.dg-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dg-link { fill: none; stroke: var(--ink-2); stroke-width: 1.1; opacity: 0.75; }
+.dg-link.is-directed { stroke-width: 1.4; opacity: 1; }
+.dg-node.is-act { fill: var(--field); stroke: var(--rule); stroke-width: 1; }
+.dg-node.is-theme { fill: var(--ink); }
+.dg-node.is-stock { fill: var(--field); stroke: var(--pen); stroke-width: 1.5; }
+.dg-label { fill: var(--ink); font-family: var(--body); font-size: 12px; }
+.dg-label.is-theme { fill: var(--paper); font-size: 12.5px; font-weight: 600; }
+.dg-label.is-stock, .dg-label.is-var { font-size: 12.5px; }
+.dg-label.is-stock { font-weight: 600; }
+.dg-sign { fill: var(--pen); font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.dg-list { display: none; list-style: none; margin: 0; padding: 0; }
+.dg-list li { padding: 0.6rem 0; border-top: 1px solid var(--rule); }
+.dg-list-t { margin: 0; font-weight: 600; }
+.dg-list-d { margin: 0.2rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); }
+.dg-list-k { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; }
+@media (max-width: 760px) {
+  .fg-fig.has-list .dg-art { display: none; }
+  .fg-fig.has-list .dg-list { display: block; }
 }
 
 /* ---------- Ask Claude (the reading companion; only inside a Claude viewer) ---------- */

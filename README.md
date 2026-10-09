@@ -74,10 +74,10 @@ npm test
 | Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: the argument in six points, the two mindsets side by side, Porter's productivity frontier drawn with numbered notes, and operational effectiveness set against strategy. |
 | The five forces | `#ump-five-forces` | A dense reference page, the prototype for less simulation and more of the book: the argument in six points, a map of the five forces listing what makes each strong and where it hits the P&L, Porter's chart of average return on invested capital across 31 US industries (1992–2006), the airline industry force by force, factors that aren't forces, and the common mistakes. |
 | Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a P&L schematic, Porter's generic value chain and the value system, his ten drivers of cost and uniqueness, and a table that tests common claims of advantage. |
-| Creating value | `#ump-value` | The three questions of a value proposition (which customers, which needs, what relative price) and the tailored value chain. A builder for an invented car rental company flags answers that contradict or barely fit, and shows the tailored chain for each of the three coherent positions. Ends with a which-question sort. |
-| Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
-| Fit | `#ump-fit` | Porter's three kinds of fit; a calculator for the odds of copying a whole system (90% per activity gives 66% for four); and the airline model run over every partial copy, where each one earns less than not copying at all and only the complete system pays. Ends with a which-kind-of-fit sort. |
-| Continuity | `#ump-continuity` | Why strategy needs years, and a toy simulator of two strategies whose capability builds while pursued and fades while not: staying the course earns $1,883m over 20 years, changing every two years $739m, and when the market shifts, one well-timed change beats both. |
+| Creating value | `#ump-value` | The three questions of a value proposition and the tailored value chain: Enterprise, IKEA, Southwest and Aravind answered question by question, IKEA's chain set against a typical furniture retailer's activity by activity, and Porter's three bases for a position (variety, needs, access). |
+| Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position: a full-service airline, Continental Lite and Southwest compared across seven activities, with what Continental Lite copied and kept marked; Porter's three sources of trade-offs; and the usual objections, answered. |
+| Fit | `#ump-fit` | Southwest's activity-system map (six themes, eleven activities; a list on phones), Porter's three orders of fit with his examples, a chart of the odds of copying a whole system (90% per activity gives 66% for four, under half from seven), and how fit gets lost. |
+| Continuity | `#ump-continuity` | Why strategy needs years: what continuity builds and what a change does to it, when to change a strategy and when not to, Southwest's changes within an unchanged core, and Porter's five tests in one table. |
 | Test your strategy | `#ump-five-tests` | Workbench: write down a strategy (customers, needs, relative price, tailored activities, trade-offs, fit, continuity) and check it against Porter's five tests as you type. Drafts go to the notebook, with the optional Claude critique. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
@@ -114,11 +114,10 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
-                              buffer, system-sketch, activity-system,
-                              copy-odds, copy-valley, value-prop,
-                              continuity, strategy-tests, and the
-                              reference blocks brief, force-map,
-                              bar-chart, table, figure, value-chain)
+                              buffer, system-sketch, strategy-tests,
+                              and the reference blocks brief, force-map,
+                              bar-chart, table, figure, value-chain,
+                              chain-compare, diagram)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

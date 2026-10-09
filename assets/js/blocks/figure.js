@@ -2,7 +2,8 @@
 // notes beside it on wide screens and below it on phones. SVG elements take their look from
 // the .sv-* classes in styles.css, so every diagram follows the theme. `svgNarrow`, if
 // given, replaces `svg` on phones (a taller layout that keeps the text legible).
-// Block: { title, intro?, alt, svg, svgNarrow?, notes?: [{ t, d }], caption? }.
+// Block: { title, intro?, alt, svg, svgNarrow?, notes?: [{ t, d }], caption?, full? }; with
+// `full` the drawing takes the full width and the notes sit in a row beneath it.
 (function () {
   "use strict";
   const { esc, figHead, pad2, resolveLinks } = window.Marginalia.util;
@@ -12,7 +13,7 @@
       const notes = block.notes || [];
       return `<section class="fg" aria-labelledby="${ctx.uid}-h">
         ${figHead(block, ctx)}
-        <div class="fg-body${notes.length ? " has-notes" : ""}">
+        <div class="fg-body${notes.length ? " has-notes" : ""}${block.full ? " is-full" : ""}">
           <figure class="fg-fig${block.svgNarrow ? " has-narrow" : ""}">
             <div class="fg-art" role="img" aria-label="${esc(block.alt)}">
               <div class="fg-wide" aria-hidden="true">${block.svg}</div>

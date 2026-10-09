@@ -569,76 +569,63 @@ test("Porter: the advantage page traces price and cost to the value chain", asyn
   assert.deepEqual(await rows(), [10, 6]);
 });
 
-test("Porter: a value proposition's three answers must fit together", async () => {
+test("Porter: the value page sets four value propositions and IKEA's tailored chain side by side", async () => {
   await page.open("ump-value");
-  const out = () => page.text('.vp [data-ref="out"]');
-  assert.match(await out(), /^Not yet a value proposition \| The answers don't quite hang together/i);
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".vp-flags .is-weak").length), 2);
-  // A contradiction: business travelers want nothing delivered to a home address.
-  await page.check('.vp [data-q="needs"][value="home"]');
-  assert.match(await out(), /The answers contradict each other/);
-  await page.check('.vp [data-q="customers"][value="repair"]');
-  assert.match(await out(), /^A coherent position \| The replacement-car position .* Ties with insurers and repair shops/i);
-  await page.check('.vp [data-q="customers"][value="tourists"]');
-  await page.check('.vp [data-q="needs"][value="cheap"]');
-  await page.check('.vp [data-q="price"][value="lowest"]');
-  assert.match(await out(), /The budget leisure position/);
-  assert.equal(await sort(["customers", "needs", "price", "customers", "needs", "price"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [4, 3]);
+  // Seven activities, two chains; IKEA's row is the highlighted one.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".cc-act").length), 7);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".cc-cell.is-pen").length), 7);
+  assert.match(await page.text(".cc-grid"), /Typical retailer .* IKEA .* Design .* Buys ranges from outside makers .* Its own designers/);
+  // On phones the matrix becomes a list by activity, each cell naming its company.
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".cc-who")).display), "block");
+  await page.setViewportSize({ width: 1280, height: 900 });
 });
 
-test("Porter: consistent airlines earn more than any straddle", async () => {
+test("Porter: trade-offs set three airlines side by side and mark what Continental Lite copied", async () => {
   await page.open("ump-trade-offs");
-  const tiles = () => page.text('.as [data-ref="tiles"]');
-  const note = () => page.text('.as [data-ref="note"]');
-  const links = () => page.evaluate(() => ["is-fit", "is-clash"].map((c) => document.querySelectorAll(`.as-links .${c}`).length));
-  assert.match(await tiles(), /\$100 .* \$90 .* \$10$/i);
-  assert.match(await note(), /^Full service, consistently: .* Five links reinforce and none clash\./);
-  await page.click('.as [data-preset="low"]');
-  assert.match(await tiles(), /\$80 .* \$66 .* \$14$/i);
-  // Bolting low fares and quick turnarounds onto full service: three clashes and a loss.
-  await page.click('.as [data-preset="straddle"]');
-  assert.match(await tiles(), /\$90 .* \$98 .* −\$8$/i);
-  assert.deepEqual(await links(), [2, 3]);
-  assert.match(await note(), /^A straddle: .* against \$10 for consistent full service and \$14 for consistent low cost\./);
-  // One change from full service is enough to hurt.
-  await page.click('.as [data-preset="full"]');
-  await page.check('.as [data-act="fleet"][value="one"]');
-  assert.match(await tiles(), /\$97 .* \$92 .* \$5$/i);
-  assert.deepEqual(await links(), [4, 1]);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.deepEqual(
+    await page.evaluate(() => Array.from(document.querySelectorAll(".cc-tag"), (t) => t.textContent)),
+    ["Copied", "Kept", "Copied", "Copied", "Copied", "Kept", "Kept"]
+  );
+  // Southwest's row and the copied cells are drawn in pen.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".cc-cell.is-pen").length), 11);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [3, 5]);
 });
 
-test("Porter: fit makes a system hard to copy, and partial copies earn least", async () => {
+test("Porter: fit maps Southwest's activity system and charts the odds of copying it", async () => {
   await page.open("ump-fit");
-  assert.match(await page.text('.co [data-ref="tiles"]'), /90% .* 66% .* 34%$/i);
-  assert.match(await page.text('.co [data-ref="note"]'), /odds fall below even once 7 activities/);
-  await slide(page, '.co [data-input="n"]', 2);
-  assert.match(await page.text('.co [data-ref="tiles"]'), /90% .* 81% .* 19%$/i);
-  const note = () => page.text('.cv [data-ref="note"]');
-  // The airline model: full service earns $10, the low-cost system $14, every partial copy less than $10.
-  assert.match(await note(), /^Switching three of six activities, the best ones to switch are routes, fleet and turnarounds, earning \$8 a passenger; the worst choice of three earns −\$11\. Even the best partial copy/);
-  await slide(page, '.cv [data-ref="input"]', 1);
-  assert.match(await note(), /the best one to switch is selling, earning \$8/);
-  await slide(page, '.cv [data-ref="input"]', 6);
-  assert.match(await note(), /^A complete copy of the low-cost system earns \$14 a passenger, more than the \$10/);
-  assert.equal(await sort(["consistency", "reinforcement", "optimization", "consistency", "reinforcement", "optimization"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  // Six themes and eleven activities, every link between two real nodes.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-node.is-theme").length), 6);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-node.is-act").length), 11);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-link").length), 23);
+  assert.equal(await page.evaluate(() => [...document.querySelectorAll(".dg-link")].filter((l) => /NaN/.test(l.getAttribute("d"))).length), 0);
+  // On phones the map becomes a list of themes and what supports them.
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".dg-art")).display), "none");
+  assert.match(await page.text(".dg-list"), /^Limited passenger service \| SUPPORTED BY No meals · No seat assignments · No baggage transfers/);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  // 0.9 to the power of the number of activities.
+  assert.deepEqual(
+    await page.evaluate(() => Array.from(document.querySelectorAll(".bc-v"), (v) => v.textContent)),
+    ["90%", "81%", "66%", "48%", "35%"]
+  );
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [3, 5]);
 });
 
-test("Porter: continuity builds a strategy; constant change and standing still both cost", async () => {
+test("Porter: continuity lists what it builds, when to change, and the five tests", async () => {
   await page.open("ump-continuity");
-  const tiles = () => page.text('.ct [data-ref="tiles"]');
-  const note = () => page.text('.ct [data-ref="note"]');
-  assert.match(await tiles(), /\$1,883m .* 0 .* Same$/i);
-  await page.click('.ct [data-preset="churn"]');
-  assert.match(await tiles(), /\$739m .* 9 .* −\$1,144m$/i);
-  assert.match(await note(), /^Changing strategy nine times throws away what was built/);
-  await page.click('.ct [data-preset="stuck"]');
-  assert.match(await note(), /cuts its profit to \$50m a year .* \$1,435m over 20 years/);
-  await page.click('.ct [data-preset="adapt"]');
-  assert.match(await tiles(), /\$1,637m .* 1 .* \+\$202m$/i);
-  // The "change once" option only applies once the market shifts.
-  await page.uncheck('.ct [data-ref="shift"]');
-  assert.equal(await page.evaluate(() => document.querySelector('.ct [data-ref="adapt"]').disabled), true);
-  assert.match(await tiles(), /\$1,883m/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [5, 7, 4, 5]);
+  const tests = await page.evaluate(() => Array.from([...document.querySelectorAll(".dt-table")].pop().tBodies[0].rows, (r) => r.cells[0].textContent));
+  assert.deepEqual(tests, ["A distinctive value proposition", "A tailored value chain", "Trade-offs different from rivals'", "Fit across the value chain", "Continuity over time"]);
 });
 
 test("Porter: the five tests workbench flags a generic plan and saves a draft", async () => {
