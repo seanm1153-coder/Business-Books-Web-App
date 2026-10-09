@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  // Shared by the hallmarks grid and the spot-the-bad-strategy exercise.
+  // Shared by the hallmarks table and the spot-the-bad-strategy exercise.
   const HALLMARKS = [
     {
       id: "fluff",
@@ -39,6 +39,93 @@
       tell: "Could someone start on it Monday? Do the items depend on each other, or just sit side by side?"
     }
   ];
+
+  // The two panels of the Wal-Mart figure on the discovering-power page, each 300 × 290.
+  // A schematic, not a map: the store counts are illustrative.
+  const CHAIN_PANEL = `
+    <text class="sv-k" x="10" y="18">A NATIONAL CHAIN</text>
+    <path class="sv-line sv-dash" d="M31 240 L150 70"/>
+    <path class="sv-line sv-dash" d="M31 240 L250 140"/>
+    <path class="sv-line sv-dash" d="M31 240 L110 160"/>
+    <path class="sv-line sv-dash" d="M31 240 L240 240"/>
+    <circle class="sv-dot" cx="60" cy="90" r="3.5"/>
+    <circle class="sv-dot" cx="205" cy="100" r="3.5"/>
+    <circle class="sv-dot" cx="175" cy="200" r="3.5"/>
+    <circle class="sv-dot" cx="80" cy="215" r="3.5"/>
+    <circle class="sv-dot" cx="275" cy="60" r="3.5"/>
+    <circle class="sv-dot" cx="40" cy="130" r="3.5"/>
+    <circle class="sv-dot" cx="140" cy="250" r="3.5"/>
+    <circle class="sv-dot" cx="285" cy="195" r="3.5"/>
+    <rect class="sv-box-ink" x="143" y="63" width="14" height="14"/>
+    <rect class="sv-box-ink" x="243" y="133" width="14" height="14"/>
+    <rect class="sv-box-ink" x="103" y="153" width="14" height="14"/>
+    <rect class="sv-box-ink" x="233" y="233" width="14" height="14"/>
+    <rect class="sv-box" x="12" y="229" width="38" height="22" rx="2"/>
+    <text class="sv-k" x="31" y="244" text-anchor="middle">WH</text>
+    <text class="sv-t2" x="150" y="284" text-anchor="middle">Big-city stores, supplied from afar</text>
+    <g class="sv-call"><circle cx="205" cy="178" r="9"/><text x="205" y="181.5" text-anchor="middle">1</text></g>
+    <g class="sv-call"><circle cx="258" cy="84" r="9"/><text x="258" y="87.5" text-anchor="middle">2</text></g>`;
+  const NETWORK_PANEL = `
+    <text class="sv-k" x="10" y="18">WAL-MART</text>
+    <circle class="sv-line sv-dash" cx="150" cy="155" r="112"/>
+    <path class="sv-line" d="M150 155 L150 72"/>
+    <path class="sv-line" d="M150 155 L212 92"/>
+    <path class="sv-line" d="M150 155 L238 152"/>
+    <path class="sv-line" d="M150 155 L212 222"/>
+    <path class="sv-line" d="M150 155 L150 242"/>
+    <path class="sv-line" d="M150 155 L86 218"/>
+    <path class="sv-line" d="M150 155 L62 154"/>
+    <path class="sv-line" d="M150 155 L90 92"/>
+    <path class="sv-line" d="M150 155 L190 124"/>
+    <path class="sv-line" d="M150 155 L112 188"/>
+    <circle class="sv-dot-pen" cx="150" cy="72" r="5.5"/>
+    <circle class="sv-dot-pen" cx="212" cy="92" r="5.5"/>
+    <circle class="sv-dot-pen" cx="238" cy="152" r="5.5"/>
+    <circle class="sv-dot-pen" cx="212" cy="222" r="5.5"/>
+    <circle class="sv-dot-pen" cx="150" cy="242" r="5.5"/>
+    <circle class="sv-dot-pen" cx="86" cy="218" r="5.5"/>
+    <circle class="sv-dot-pen" cx="62" cy="154" r="5.5"/>
+    <circle class="sv-dot-pen" cx="90" cy="92" r="5.5"/>
+    <circle class="sv-dot-pen" cx="190" cy="124" r="5.5"/>
+    <circle class="sv-dot-pen" cx="112" cy="188" r="5.5"/>
+    <rect class="sv-box-pen" x="131" y="143" width="38" height="24" rx="2"/>
+    <text class="sv-k" x="150" y="159" text-anchor="middle">DC</text>
+    <text class="sv-t2" x="150" y="284" text-anchor="middle">Small-town stores around its own warehouse</text>
+    <g class="sv-call"><circle cx="183" cy="168" r="9"/><text x="183" y="171.5" text-anchor="middle">3</text></g>
+    <g class="sv-call"><circle cx="55" cy="213" r="9"/><text x="55" y="216.5" text-anchor="middle">4</text></g>`;
+
+  // The two panels of the General Motors figure on the inertia-and-entropy page, each
+  // 250 × 235. A schematic: the price ranges are illustrative, not historical prices.
+  const GM_LADDER = `
+    <text class="sv-k" x="0" y="14">A LADDER: ONE BRAND PER STEP</text>
+    <text class="sv-t2" x="0" y="44">Chevrolet</text>
+    <rect class="sv-box-pen" x="90" y="33" width="26" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="82">Pontiac</text>
+    <rect class="sv-box-pen" x="118" y="71" width="26" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="120">Oldsmobile</text>
+    <rect class="sv-box-pen" x="146" y="109" width="26" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="158">Buick</text>
+    <rect class="sv-box-pen" x="174" y="147" width="30" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="196">Cadillac</text>
+    <rect class="sv-box-pen" x="206" y="185" width="39" height="14" rx="2"/>
+    <path class="sv-axis" d="M90 214 H245"/>
+    <text class="sv-k" x="90" y="230">LOWER PRICE</text>
+    <text class="sv-k" x="245" y="230" text-anchor="end">HIGHER</text>`;
+  const GM_OVERLAP = `
+    <text class="sv-k" x="0" y="14">LATER: OVERLAPPING RANGES</text>
+    <text class="sv-t2" x="0" y="44">Chevrolet</text>
+    <rect class="sv-box-pen" x="90" y="33" width="90" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="82">Pontiac</text>
+    <rect class="sv-box-pen" x="98" y="71" width="78" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="120">Oldsmobile</text>
+    <rect class="sv-box-pen" x="106" y="109" width="86" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="158">Buick</text>
+    <rect class="sv-box-pen" x="114" y="147" width="92" height="14" rx="2"/>
+    <text class="sv-t2" x="0" y="196">Cadillac</text>
+    <rect class="sv-box-pen" x="150" y="185" width="95" height="14" rx="2"/>
+    <path class="sv-axis" d="M90 214 H245"/>
+    <text class="sv-k" x="90" y="230">LOWER PRICE</text>
+    <text class="sv-k" x="245" y="230" text-anchor="end">HIGHER</text>`;
 
   window.Marginalia.addBook({
     id: "gsbs",
@@ -114,14 +201,58 @@
     ],
 
     pages: {
+      // A reference page with one exercise kept. The four hallmarks, "dog's dinner" and
+      // "blue-sky" objectives follow Chapter 3 as I remember it. The chief executive whose
+      // strategy was a pair of targets is Rumelt's "20/20" story (20% growth, 20% margin),
+      // remembered and unchecked against his wording. The repair table is our summary.
       "bad-strategy": {
         title: "Bad strategy",
         eyebrow: "Part I · Chapter 03",
+        layout: "dense",
         dek:
           "Bad strategy is more than a missing strategy. It is a recognizable set of habits that sound strategic while skipping the hard part: " +
           "naming the problem and choosing what to do about it. Rumelt names four hallmarks.",
         blocks: [
-          { type: "hallmarks", label: "The four hallmarks", items: HALLMARKS },
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "Bad strategy isn't just a missing strategy.",
+                d: "It is an active mistake with habits of its own, and it can fill a document that looks complete and confident."
+              },
+              {
+                t: "Its core failure is skipping the problem.",
+                d: "Bad strategy avoids the two things that make a strategy useful: naming the obstacle and choosing what to do about it."
+              },
+              {
+                t: "It has four hallmarks.",
+                d: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives. Any one is a warning; most bad strategies show several."
+              },
+              {
+                t: "A target is not a plan.",
+                d: "A goal says where you want to end up. A strategy says how you'll get past what's in the way. Rumelt tells of a chief executive whose whole strategy was a growth target and a margin target."
+              },
+              {
+                t: "Long lists hide the absence of choice.",
+                d: "A “dog's dinner” of unrelated objectives, or a “blue-sky” objective as hard as the problem itself, gives people nothing they can start on."
+              },
+              {
+                t: "Each hallmark is a missing piece of the kernel.",
+                d: "A diagnosis, a guiding policy and coherent actions. Name which one is missing and you know what to write next. See <a href=\"@kernel\">the kernel</a>."
+              }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Reference",
+            title: "The four hallmarks",
+            intro: "Definitions in our words, with a made-up line that shows each one and a quick test for it.",
+            columns: ["", "What it is", "Sounds like", "How to spot it"],
+            widths: ["11rem", null, null, null],
+            rows: HALLMARKS.map((h) => [`<span class="hl hl-${h.id}">${h.name}</span>`, h.def, `<em>${h.sounds}</em>`, h.tell])
+          },
           {
             type: "spot-exercise",
             title: "Spot the bad strategy",
@@ -193,19 +324,17 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                title: "Why there is so much of it",
-                paras: [
-                  "If bad strategy is this easy to spot, why is it everywhere? Rumelt's answer is that good strategy requires choosing, and choosing means saying no to people, ideas and projects that have supporters. It is much easier to write a document that includes everyone's priorities.",
-                  "Two habits make the avoidance easy. Template-style strategy fills in a vision, a mission, values and goals, and produces something that looks complete without a single hard choice. A culture of relentless positive thinking treats doubts about the plan as a lack of commitment, so problems go unnamed."
-                ],
-                side: {
-                  label: "Chapter 4",
-                  html: "<p>Rumelt traces the second habit to “New Thought,” a movement from around 1900 that held that thinking about success brings it about.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Repair",
+            title: "What each hallmark is missing, and how to fix it",
+            intro: "Our summary, read against the <a href=\"@kernel\">kernel</a>.",
+            columns: ["Hallmark", "What's missing", "The repair"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Fluff", "Plain words, and usually a diagnosis behind them", "Rewrite it in plain language. If what's left is obvious, start on the diagnosis: what is actually hard here?"],
+              ["Failure to face the challenge", "The diagnosis", "Name the obstacle specifically enough that a reasonable person could disagree with you."],
+              ["Mistaking goals for strategy", "The guiding policy and the actions", "Keep the goal, then ask what stands in the way of it and what approach gets past that."],
+              ["Bad strategic objectives", "Focus, and objectives close enough to act on", "Keep the few objectives that address the diagnosis, and bring each one within reach. See <a href=\"@proximate-objectives\">proximate objectives</a>."]
             ]
           }
         ],
@@ -220,13 +349,49 @@
         }
       },
 
+      // A reference page around the kernel figure. The three parts, the doctor analogy and the
+      // four ways a guiding policy draws on advantage (anticipation, reducing complexity,
+      // leverage, coherence) follow Chapter 5 as I remember it, unchecked against his wording.
+      // The Desert Storm and Apple cases come from Chapter 1. The tables are our summary.
       kernel: {
         title: "The kernel",
         eyebrow: "Part I · Chapter 05",
+        layout: "dense",
         dek:
           "Strip any good strategy down and you find three parts: a diagnosis of the challenge, " +
           "a guiding policy for dealing with it, and a set of coherent actions that carry the policy out.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "Every good strategy has a kernel.",
+                d: "Strip away the detail and three parts remain: a diagnosis, a guiding policy and coherent actions."
+              },
+              {
+                t: "The diagnosis names the challenge.",
+                d: "Out of a situation too complicated to grasp at once, it picks what matters and says why it's hard. It is a judgment and can be wrong, so treat it as a hypothesis, stated plainly enough that events can test it."
+              },
+              {
+                t: "The guiding policy is an approach, not a goal.",
+                d: "It works like a guardrail. By ruling out many possible moves, it points effort in one direction without spelling out every step."
+              },
+              {
+                t: "A policy earns its place by creating advantage.",
+                d: "It anticipates how others will act, simplifies a confusing situation, concentrates effort on a pivot point, or makes separate actions reinforce one another."
+              },
+              {
+                t: "Actions make it a strategy.",
+                d: "A diagnosis and a policy with nothing behind them is commentary. The actions commit money, people and attention."
+              },
+              {
+                t: "Coherent means coordinated.",
+                d: "Each action supports the others and none pulls against the policy. Concentrating resources means taking them from somewhere else, so someone always loses something they cared about."
+              }
+            ]
+          },
           {
             type: "kernel-figure",
             caption: "The general form, then two cases from the book in the same three parts. Case summaries are paraphrased.",
@@ -273,55 +438,46 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Diagnosis",
-                paras: [
-                  "A diagnosis takes a situation too complicated to grasp all at once and says which parts of it matter. It names the challenge. A good one also reframes the situation, so that some actions start to look clearly better than others.",
-                  "Rumelt compares it to a doctor's diagnosis. Once a set of symptoms has a name, a course of treatment follows. Like a doctor's diagnosis, it is a judgment and it can be wrong. Treat it as a <span class=\"term\" tabindex=\"0\" data-def=\"In Part III, Rumelt argues that a strategy is a hypothesis about what will work, to be tested against what actually happens.\">hypothesis</span>, stated plainly enough that events can prove it wrong."
-                ],
-                side: {
-                  label: "In practice",
-                  html: "<p>The diagnosis is usually the hardest part to write. It means committing to one reading of the situation and setting the others aside.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "Guiding policy",
-                paras: [
-                  "The guiding policy is the overall approach to the challenge named in the diagnosis. It is not a goal or a vision. It works more like a guardrail: by ruling out a wide range of possible actions, it points effort in one direction without spelling out every step.",
-                  "A guiding policy earns its place by creating an advantage. It might anticipate how rivals will respond, make separate actions reinforce one another, or concentrate effort on a <span class=\"term\" tabindex=\"0\" data-def=\"A place where a small push produces a large effect. Rumelt develops the idea in the chapter on leverage.\">pivot point</span> instead of spreading it thin."
-                ],
-                side: {
-                  label: "A quick test",
-                  html: "<p>If your guiding policy doesn't make some reasonable-sounding option off-limits, it isn't guiding anything. The workbench checks for this.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "Coherent actions",
-                paras: [
-                  "Strategy is about doing something. A diagnosis and a guiding policy with nothing behind them is commentary. The third part of the kernel is the set of actions that carry out the policy: decisions, commitments of money and people, and changes to how things are done.",
-                  "The actions are coherent when they are coordinated. Each makes the others more effective, and none pulls against the policy. This is where strategy gets uncomfortable, because concentrating resources on a few things means taking them away from others, and someone always loses something they cared about."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>Part II comes back to coherence in the chapters on <a href=\"@\">design</a> and <a href=\"@chain-link\">chain-link systems</a>, where actions only work if they work together.</p>"
-                }
-              },
-              {
-                title: "What the kernel leaves out",
-                paras: [
-                  "Vision statements, mission statements, lists of values and financial targets are all missing from the kernel. Rumelt doesn't say these are useless. He says they aren't strategy, and that confusing them with strategy is one of the most common ways organizations fool themselves.",
-                  "A goal like “20% annual growth” says where you would like to end up. It says nothing about what stands in the way or how you will get past it. The kernel is that missing middle."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Chapter 3 names four hallmarks of bad strategy. <a href=\"@bad-strategy\">Mistaking goals for strategy</a> is one of them.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "The three parts at a glance",
+            columns: ["", "Diagnosis", "Guiding policy", "Coherent actions"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["The question", "What's going on here?", "How will we deal with it?", "What will we do?"],
+              ["What it does", "Names the challenge, and reframes the situation so that some actions look clearly better than others", "Sets an overall approach that rules many possible moves out", "Commits money, people and attention, and changes how things are done"],
+              ["A good one", "Is specific enough that someone could disagree with it", "Makes some reasonable-sounding option off-limits", "Has each step making the others more effective"],
+              ["A weak one", "Restates the goals, or blames “a challenging environment” in general terms", "Is a goal or a vision in disguise", "Is a list of unrelated initiatives: a “dog's dinner”"],
+              ["In a doctor's terms", "Naming the condition from the symptoms", "Choosing the approach to treatment", "The specific treatments, given together and in order"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The guiding policy",
+            title: "Four ways a guiding policy creates advantage",
+            intro: "A policy that doesn't draw on one of these is probably a goal in disguise.",
+            columns: ["Source", "What it means", "Example"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Anticipation", "Predicting how rivals, customers or others will act, and acting before they do", "Desert Storm: Iraq's defenses expected an attack from the south, so the main force went around them."],
+              ["Simplification", "Cutting a complicated, ambiguous situation down to a few problems people can work on", "Apple in 1997: a confusing line of overlapping models became a grid of four."],
+              ["Leverage", "Concentrating effort on the pivot point where it has the most effect", "<a href=\"@using-leverage\">Using leverage</a>, Chapter 6"],
+              ["Coherence", "Designing actions and policies to reinforce each other", "<a href=\"@using-design\">Using design</a> and <a href=\"@chain-link\">chain-link systems</a>, Chapters 8 and 9"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Not in the kernel",
+            title: "What the kernel leaves out",
+            intro: "Rumelt doesn't say these are useless. He says they aren't strategy, and that confusing them with strategy is one of the most common ways organizations fool themselves.",
+            columns: ["", "What it is", "Why it isn't strategy"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Vision", "A picture of where the organization wants to be", "It says nothing about what stands in the way."],
+              ["Mission", "What the organization is for", "It rarely rules anything out."],
+              ["Values", "How people should behave", "Important, but not an answer to a particular challenge."],
+              ["Financial targets", "“20% annual growth”, “a 30% margin”", "Goals. They describe an outcome, not how to reach it. See <a href=\"@bad-strategy\">bad strategy</a>."],
+              ["A list of initiatives", "Everything each part of the organization wants to do", "No priority and no coordination: the opposite of coherent action."]
             ]
           }
         ],
@@ -336,64 +492,134 @@
         }
       },
 
+      // A reference page. The unwillingness to choose, template-style strategy and New Thought
+      // follow Chapter 4 as I remember it. The Digital Equipment Corporation meeting (early
+      // 1990s; one executive for chips, one for boxes, one for solutions; every option beaten
+      // by another; a compromise statement that chose none) is Rumelt's story as I remember
+      // it; the rankings in the table are ours, chosen to reproduce the cycle he describes.
+      // DEC's sale to Compaq in 1998 is public record. The last table is our summary.
       "why-bad-strategy": {
         title: "Why so much bad strategy?",
         navLabel: "Why so much bad strategy",
         eyebrow: "Part I · Chapter 04",
+        layout: "dense",
         dek:
           "If bad strategy is so easy to spot, why is it everywhere? Rumelt's answer: good strategy demands choices, and choosing is painful. Templates and relentless positive thinking offer ways to avoid it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "The unwillingness to choose",
-                paras: [
-                  "Every real strategy says no to something: a market, a product, a project with a powerful sponsor. Saying no disappoints people who can make life hard for you. The easy path is a document that includes everyone's priorities, which is a document with no strategy in it.",
-                  "Rumelt's point is that this isn't a failure of intelligence. It is a failure of will, and it happens in smart, successful organizations precisely because so many capable people have something to protect."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Rumelt recounts a meeting at Digital Equipment Corporation in the early 1990s where executives backed different directions and settled on a compromise that committed to none of them.</p>"
-                }
+                t: "Choosing is the hard part.",
+                d: "Every real strategy says no to something: a market, a product, a project with a powerful sponsor. Saying no disappoints people who can make life hard for you."
+              },
+              {
+                t: "Capable organizations avoid it too.",
+                d: "It is a failure of will, not of intelligence. The more capable people have something to protect, the stronger the pull toward a plan that keeps everyone's priorities."
+              },
+              {
+                t: "A group can circle instead of choosing.",
+                d: "Rumelt's account of a meeting at Digital Equipment Corporation: three executives, three directions, and every option beaten by another. The group settled on words that committed to none of them."
+              },
+              {
+                t: "Templates offer a way out.",
+                d: "Fill in a vision, a mission, values and goals, and you have something that looks finished without a single hard choice in it."
+              },
+              {
+                t: "So does relentless positive thinking.",
+                d: "The New Thought movement of around 1900 held that thinking about success brings it about. Where doubt counts as disloyalty, nobody names the problem."
+              },
+              {
+                t: "The result has nothing to work on.",
+                d: "Without a named challenge there's no <a href=\"@kernel\">diagnosis</a>, and without a choice there's no guiding policy."
               }
             ]
           },
           {
-            type: "template-strategy",
-            title: "The strategy template machine",
-            intro:
-              "Press the button for a strategy in the house style of a thousand annual reports. Every draft is complete, confident and well formatted. Then look for the choice.",
-            verdict:
-              "A complete-looking strategy with no diagnosis, no guiding policy and nothing ruled out. Rumelt calls this template-style strategy: the form of a strategy with none of the substance."
-          },
-          {
-            type: "prose",
-            sections: [
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Why the group couldn't choose",
+            intro: "DEC's three options, and which one a majority preferred in each pair, using the rankings in the table below.",
+            alt: "Three boxes in a triangle: Chips, Boxes and Solutions. Arrows run from Chips to Boxes, from Boxes to Solutions and from Solutions back to Chips, each marked 2 to 1, meaning a majority prefers the first to the second. Each option loses to another.",
+            svg: `<svg viewBox="0 0 420 285" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="gs-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <path class="sv-line" d="M245 72 L327 212" marker-end="url(#gs-arr)"/>
+              <path class="sv-line" d="M291 238 L131 238" marker-end="url(#gs-arr)"/>
+              <path class="sv-line" d="M93 214 L175 74" marker-end="url(#gs-arr)"/>
+              <rect class="sv-box-pen" x="155" y="28" width="110" height="40" rx="4"/>
+              <rect class="sv-box-pen" x="295" y="218" width="110" height="40" rx="4"/>
+              <rect class="sv-box-pen" x="15" y="218" width="110" height="40" rx="4"/>
+              <text class="sv-t sv-b" x="210" y="53" text-anchor="middle">Chips</text>
+              <text class="sv-t sv-b" x="350" y="243" text-anchor="middle">Boxes</text>
+              <text class="sv-t sv-b" x="70" y="243" text-anchor="middle">Solutions</text>
+              <text class="sv-k" x="300" y="140">2 TO 1</text>
+              <text class="sv-k" x="211" y="229" text-anchor="middle">2 TO 1</text>
+              <text class="sv-k" x="120" y="140" text-anchor="end">2 TO 1</text>
+              <text class="sv-t2" x="210" y="160" text-anchor="middle">Each option</text>
+              <text class="sv-t2" x="210" y="176" text-anchor="middle">loses to another</text>
+              <text class="sv-k" x="210" y="280" text-anchor="middle">AN ARROW POINTS FROM THE OPTION A MAJORITY PREFERS</text>
+            </svg>`,
+            notes: [
               {
-                n: "2",
-                title: "Template-style strategy",
-                paras: [
-                  "Templates are popular because they feel like progress. Fill in a vision, a mission, some values and a few goals, and you have a document that looks finished. What it can't contain is the hard part: what is going on, what makes it difficult, and what you will do differently because of it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Generate a few drafts. Notice that any of them could belong to a bank, a hospital or a bike maker. That interchangeability is the tell.</p>"
-                }
+                t: "Three executives, three directions.",
+                d: "In Rumelt's account, one wanted DEC to focus on making chips, one on complete computers (“boxes”), and one on integrated solutions for customers."
               },
               {
-                n: "3",
-                title: "New Thought",
-                paras: [
-                  "Rumelt traces a second habit to the New Thought movement of around 1900, which held that thinking about success brings it about. Its modern descendants tell leaders to picture the goal and let belief carry the organization.",
-                  "The trouble is what this does to bad news. If doubt counts as disloyalty, nobody names the problem, and a strategy without a named problem has nothing to work on."
-                ],
-                side: {
-                  label: "Why it matters",
-                  html: "<p>A culture that punishes doubt can't produce a <a href=\"@kernel\">diagnosis</a>.</p>"
-                }
+                t: "Every pair has a majority.",
+                d: "With rankings like those below, two of the three prefer chips to boxes, two prefer boxes to solutions, and two prefer solutions to chips."
+              },
+              {
+                t: "So a vote has no winner.",
+                d: "Whichever direction is picked, a majority prefers another. The group can circle indefinitely, or settle on a statement broad enough to include everything."
+              },
+              {
+                t: "Someone has to choose.",
+                d: "Consensus can't produce a strategy here. It takes a leader willing to decide and to disappoint the people who wanted something else. DEC was sold to Compaq in 1998."
               }
+            ],
+            caption: "Drawn by us from the rankings below."
+          },
+          {
+            type: "table",
+            eyebrow: "The rankings",
+            title: "Three executives, three rankings",
+            intro: "Illustrative rankings, ours, built to show the cycle Rumelt describes.",
+            columns: ["", "First choice", "Second", "Third"],
+            widths: ["12rem", null, null, null],
+            rows: [
+              ["The chips executive", "Chips", "Boxes", "Solutions"],
+              ["The boxes executive", "Boxes", "Solutions", "Chips"],
+              ["The solutions executive", "Solutions", "Chips", "Boxes"]
+            ],
+            foot: "Pair by pair: chips beat boxes with the chips and solutions executives; boxes beat solutions with the chips and boxes executives; solutions beat chips with the boxes and solutions executives."
+          },
+          {
+            type: "table",
+            eyebrow: "Two habits",
+            title: "Two ways to avoid choosing",
+            columns: ["", "Template-style strategy", "New Thought"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["What it is", "A fill-in-the-blanks format: a vision, a mission, values, then a list of goals called strategies", "The belief, from a movement around 1900 and its modern descendants, that picturing success brings it about"],
+              ["Why it appeals", "It produces a finished-looking document and offends nobody", "It feels like leadership: confident, motivating, upbeat"],
+              ["What it leaves out", "The challenge, and what will be done differently because of it", "Doubt and bad news, which is where a diagnosis starts"],
+              ["The tell", "Swap in another organization's name and nothing breaks", "Questions about the plan are treated as a lack of commitment"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "Ways to force a choice",
+            intro: "Our summary, drawing on the chapter and on <a href=\"@kernel\">the kernel</a>.",
+            columns: ["Move", "Why it helps"],
+            widths: ["14rem", null],
+            rows: [
+              ["Write the diagnosis first", "Agreeing on what's wrong narrows the options before anyone starts defending a favorite."],
+              ["Say what's ruled out", "A plan that puts nothing off-limits hasn't chosen anything. Listing the exclusions makes the choice visible, and so does the cost."],
+              ["Rank, don't list", "A ranked list forces the trade-offs an unranked list hides."],
+              ["Give one person the decision", "As at DEC, a vote among favorites can circle. Someone has to decide, and accept that others will be disappointed."]
             ]
           }
         ],
@@ -408,85 +634,69 @@
         }
       },
 
+      // A reference page. Strategy as a hypothesis, and an edge that comes from knowing
+      // something others don't, follow Chapter 16 as I remember it, unchecked against his
+      // wording. That Rumelt uses Howard Schultz's idea, after a trip to Milan, that Italian
+      // espresso bars would work in America is remembered and unchecked. The statements in
+      // the rewrite table are invented; the other table is our summary.
       "science-of-strategy": {
         title: "Strategy as hypothesis",
         crumb: "Strategy as hypothesis",
         eyebrow: "Part III · Chapter 16",
+        layout: "dense",
         dek:
           "Rumelt argues that a good strategy is a hypothesis: an educated judgment about what will work, made under uncertainty and tested against what happens. Treating it that way changes how you write it and how you run it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "A judgment, not a calculation",
-                paras: [
-                  "Strategy can't be derived from data alone, because it is about a future that hasn't happened yet. The best a strategist can do is form a well-reasoned hypothesis about what will work, act on it, and watch closely for evidence.",
-                  "Rumelt draws the parallel with science. An idea is useful when it says something definite enough to be shown wrong, and the people running it are willing to notice when it is."
-                ],
-                side: {
-                  label: "In practice",
-                  html: "<p>Before you start, write down what would convince you the strategy is wrong.</p>"
-                }
+                t: "Strategy is a judgment, not a calculation.",
+                d: "It's about a future that hasn't happened, so it can't be derived from data alone. The best a strategist can do is form a well-reasoned hypothesis, act on it and watch."
               },
               {
-                n: "2",
-                title: "Your edge is what you know",
-                paras: [
-                  "A strategic insight often comes from knowing something others don't: about customers, about a technology, about how a competitor really works. Rumelt treats that knowledge as a genuine source of advantage, and the strategy as a bet placed on it."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The hypothesis starts with the diagnosis in the <a href=\"@kernel\">kernel</a>.</p>"
-                }
+                t: "Like a scientific idea, it should be able to fail.",
+                d: "A hypothesis is useful when it says something definite enough to be shown wrong, and the people running it are willing to notice when it is."
+              },
+              {
+                t: "The edge is what you know that others don't.",
+                d: "About customers, a technology, or how a competitor really works. The strategy is a bet placed on that knowledge."
+              },
+              {
+                t: "Insight often starts with an anomaly.",
+                d: "Something that doesn't fit the usual explanation. Rumelt tells of Howard Schultz seeing Milan's espresso bars and betting that the experience would work in America."
+              },
+              {
+                t: "Run it as an experiment.",
+                d: "Say in advance what would show it wrong, watch for that evidence, and change course when it arrives. It starts with the <a href=\"@kernel\">diagnosis</a>."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Hypothesis or article of faith?",
-            intro:
-              "Six statements from invented strategy documents. Could events show each one wrong? Articles of faith come with a testable rewrite.",
-            options: [
-              { id: "test", label: "A testable hypothesis", hint: "Events could show it wrong" },
-              { id: "faith", label: "An article of faith", hint: "Nothing could disprove it" }
-            ],
-            rewriteLabel: "A testable version",
-            items: [
-              {
-                text: "Customers will love our products if we just keep innovating.",
-                answer: "faith",
-                why: "There's no result that would count against it. If sales fall, the answer is always more innovation.",
-                rewrite: "Commuters will pay 15% more for built-in theft tracking. If fewer than one buyer in ten chooses it by June, we're wrong."
-              },
-              {
-                text: "Shops will stock more of our bikes if we cut delivery from two weeks to two days. We'll know by March from the reorder rate.",
-                answer: "test",
-                why: "A specific cause, a specific effect and a date. March will settle it."
-              },
-              {
-                text: "Our people are our greatest asset.",
-                answer: "faith",
-                why: "A sentiment, not a claim about what will happen.",
-                rewrite: "Giving each sales team one customer segment will halve our response time within a quarter."
-              },
-              {
-                text: "If we stop selling through discount dealers, average order value will rise and total margin won't fall. We'll check after two quarters.",
-                answer: "test",
-                why: "It even names the risk (lower volume) and how it will be measured."
-              },
-              {
-                text: "The market will come around to our vision.",
-                answer: "faith",
-                why: "No timeline and no sign of what “coming around” would look like.",
-                rewrite: "Three of our five largest dealers will reorder within 60 days of the launch. If they don't, the message isn't landing."
-              },
-              {
-                text: "Moving support in-house will cut customer churn from 8% to 5% within a year.",
-                answer: "test",
-                why: "A number now, a number later and a deadline."
-              }
+            type: "table",
+            eyebrow: "Telling them apart",
+            title: "A hypothesis or an article of faith",
+            columns: ["", "A testable hypothesis", "An article of faith"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Could events show it wrong?", "Yes, and it says which events", "No result counts against it"],
+              ["What it names", "A cause, an effect, and when to look", "A hope or a value"],
+              ["When results disappoint", "The strategy changes", "The answer is always more of the same"],
+              ["What it needs from leaders", "Willingness to notice being wrong", "Belief"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Rewrites",
+            title: "Making statements testable",
+            intro: "Invented examples.",
+            columns: ["Article of faith", "Why it can't be tested", "A testable version"],
+            rows: [
+              ["Customers will love our products if we just keep innovating.", "No result counts against it. If sales fall, the answer is always more innovation.", "Commuters will pay 15% more for built-in theft tracking. If fewer than one buyer in ten chooses it by June, we're wrong."],
+              ["Our people are our greatest asset.", "A sentiment, not a claim about what will happen.", "Giving each sales team one customer segment will halve our response time within a quarter."],
+              ["The market will come around to our vision.", "No timeline, and no sign of what “coming around” would look like.", "Three of our five largest dealers will reorder within 60 days of the launch. If they don't, the message isn't landing."]
             ]
           }
         ],
@@ -501,72 +711,108 @@
         }
       },
 
+      // A reference page. Anticipation, pivot points and concentration (with threshold
+      // effects) follow Chapter 6 as I remember it, unchecked against his wording. The
+      // threshold curve is our drawing of the idea; the tables are our summary.
       "using-leverage": {
         title: "Using leverage",
         eyebrow: "Part II · Chapter 06",
+        layout: "dense",
         dek:
           "Leverage is getting a large result from a focused effort. Rumelt finds it in three places: anticipating what others will do, finding the pivot points where a small push has a large effect, and concentrating effort instead of spreading it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Anticipation",
-                paras: [
-                  "Much of the leverage in strategy comes from seeing what others will do, or what will happen anyway, before it happens. A strategist who correctly anticipates a rival's response, a shift in demand or a change in the rules can put resources where they will be needed, instead of reacting late."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>A good <a href=\"@kernel\">guiding policy</a> often works by anticipating how others will respond.</p>"
-                }
+                t: "Leverage is a large result from a focused effort.",
+                d: "No organization has enough resources to push everywhere. Strategy is about finding the few places where pushing pays off most."
               },
               {
-                n: "2",
-                title: "Pivot points",
-                paras: [
-                  "A pivot point is a place where a small, well-aimed push produces a large effect: a bottleneck, a customer whose choice others follow, an idea that changes how people see the situation. Finding one depends on the diagnosis. You can only aim at a pivot point once you understand which parts of the situation really matter."
-                ],
-                side: {
-                  label: "On the map",
-                  html: "<p>The contour map on <a href=\"@\">this book's home page</a> marks a pivot point for this reason.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "concentration",
-            title: "Spread or concentrate",
-            intro:
-              "An invented company has ten units of effort (people, money, management attention) to put behind five initiatives. Each one pays off only once it gets enough effort to cross its threshold, and effort past the threshold adds a little more. Spread the effort, or concentrate it.",
-            impactLabel: "Impact",
-            budget: 10,
-            emptyNote: "No effort placed yet. Use + to add effort to an initiative, or try a preset.",
-            start: [2, 2, 2, 2, 2],
-            focus: [5, 5, 0, 0, 0],
-            fronts: [
-              { name: "Launch a new product line", threshold: 4, value: 30 },
-              { name: "Enter a new region", threshold: 5, value: 35 },
-              { name: "Win back lost customers", threshold: 3, value: 18 },
-              { name: "Cut delivery times", threshold: 3, value: 20 },
-              { name: "Rebuild the website", threshold: 3, value: 8 }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
+                t: "Anticipate.",
+                d: "Much of the leverage comes from seeing what others will do, or what will happen anyway, before it happens, and putting resources where they'll be needed instead of reacting late."
+              },
               {
-                n: "3",
-                title: "Concentration and thresholds",
-                paras: [
-                  "Many results only appear once effort passes a threshold: a product that is nearly good enough doesn't sell, and a campaign that nearly reaches people isn't noticed. Effort spread across many targets can leave every one of them below its threshold, so nothing changes.",
-                  "Concentrating on a few targets gets them past it. That is why a strategy that tries to do everything usually changes nothing, and why choosing what not to do is part of the work."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “Spread evenly”: every initiative gets two units and none crosses its threshold. Then press “Concentrate”.</p>"
-                }
+                t: "Find the pivot point.",
+                d: "A bottleneck, a customer whose choice others follow, an idea that changes how people see the situation: places where a small, well-aimed push has a large effect."
+              },
+              {
+                t: "The diagnosis finds it.",
+                d: "You can only aim at a pivot point once you understand which parts of the situation matter. That's what <a href=\"@kernel\">the diagnosis</a> is for."
+              },
+              {
+                t: "Concentrate past the threshold.",
+                d: "Many results appear only once effort passes a threshold. Spread across many targets, effort can leave every one of them just short, so nothing changes."
+              },
+              {
+                t: "So choosing what not to do is part of the work.",
+                d: "A strategy that tries to do everything usually changes nothing. Concentration means some good ideas get no resources at all."
               }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Why concentration beats spreading",
+            intro: "How the result of one initiative often grows with the effort put behind it.",
+            alt: "A chart with effort on one target along the bottom and the result up the side. An S-shaped curve stays flat near zero until a dashed threshold line, rises steeply just past it, then levels off. A point marked Spread sits on the flat part below the threshold; a point marked Concentrated sits high on the curve past it.",
+            svg: `<svg viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-axis" d="M60 20 V250 H425"/>
+              <text class="sv-t2" transform="translate(30 140) rotate(-90)" text-anchor="middle">Result</text>
+              <text class="sv-t2" x="242" y="282" text-anchor="middle">Effort on one target</text>
+              <path class="sv-line sv-dash" d="M190 30 V250"/>
+              <text class="sv-k" x="196" y="38">THRESHOLD</text>
+              <path class="sv-curve" d="M62 247 C130 247 160 244 185 225 C215 200 225 110 265 85 C300 64 360 58 420 56"/>
+              <circle class="sv-dot" cx="120" cy="246" r="5.5"/>
+              <text class="sv-k" x="120" y="232" text-anchor="middle">SPREAD</text>
+              <circle class="sv-dot-pen" cx="300" cy="66" r="6"/>
+              <text class="sv-k" x="300" y="50" text-anchor="middle">CONCENTRATED</text>
+              <g class="sv-call"><circle cx="128" cy="205" r="9"/><text x="128" y="208.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="248" cy="160" r="9"/><text x="248" y="163.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="380" cy="84" r="9"/><text x="380" y="87.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            notes: [
+              {
+                t: "Below the threshold, little happens.",
+                d: "A product that's nearly good enough doesn't sell, and a campaign that nearly reaches people isn't noticed. Effort spread thin lands here, on every target at once."
+              },
+              {
+                t: "Just past it, results climb fast.",
+                d: "This is where concentrated effort lands. The same total effort, put behind fewer targets, gets some of them across."
+              },
+              {
+                t: "Then the gains level off.",
+                d: "Past a point, more effort adds little. Concentration means enough, not everything, on each chosen target."
+              }
+            ],
+            caption: "Our drawing of the idea. The shape varies from case to case; the threshold is what matters."
+          },
+          {
+            type: "table",
+            eyebrow: "Reference",
+            title: "Three sources of leverage",
+            columns: ["", "What it is", "Where to look", "How it goes wrong"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["Anticipation", "Seeing what others will do, or what will happen anyway, before it happens", "Rivals' habits and constraints; shifts in demand, costs or rules already under way", "Assuming rivals will stand still, or that a trend will run forever"],
+              ["Pivot points", "A place where a small, well-aimed push has a large effect", "Bottlenecks, customers whose choices others follow, ideas that reframe the situation", "Pushing on what's visible rather than what's pivotal"],
+              ["Concentration", "Putting enough effort on a few targets to carry them past their thresholds", "Results that appear only once effort passes a level", "Spreading effort so that every target stays just short"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The temptation",
+            title: "Why spreading feels safer than it is",
+            intro: "Our summary.",
+            columns: ["", "Spreading effort", "Concentrating it"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Who's happy", "Every sponsor gets a share", "Some sponsors get nothing"],
+              ["How it feels", "Prudent: no single bet can fail badly", "Exposed: a failed bet is plain to see"],
+              ["What usually happens", "Every target stays short of its threshold, so little changes", "A few targets cross their thresholds and results appear"],
+              ["What it needs", "A budget split", "A diagnosis that says which targets matter, and the will to say no to the rest"]
             ]
           }
         ],
@@ -581,107 +827,115 @@
         }
       },
 
+      // A reference page. Proximate objectives, the Surveyor story (Rumelt at JPL; a lander
+      // specified for an assumed surface, firm with scattered rocks, like the desert
+      // Southwest) and the idea that one level's proximate objective is the next level's
+      // strategic problem follow Chapter 7 as I remember it, unchecked against his wording.
+      // Kennedy's 1961 goal and Surveyor 1's soft landing in 1966 are public record; the
+      // three-level ladder is our drawing. The objectives in the rewrite table are invented.
       "proximate-objectives": {
         title: "Proximate objectives",
         eyebrow: "Part II · Chapter 07",
+        layout: "dense",
         dek:
           "A good strategy turns an overwhelming aspiration into objectives close enough to reach. A proximate objective is one the organization can reasonably be expected to hit, and hitting it makes the next step clearer.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Close enough to act on",
-                paras: [
-                  "Leaders are often told to set ambitious goals. Rumelt's point is different. Strategy has to produce objectives close enough that people can actually get to work on them. An objective that is as hard as the original problem doesn't help; it only restates it.",
-                  "A proximate objective resolves enough ambiguity to act. It names a target the organization can reasonably be expected to hit with what it knows and has, and reaching it changes the situation so that the next step becomes clearer."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Objectives no easier than the original problem are one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a> in Chapter 3.</p>"
-                }
+                t: "Objectives should be close enough to act on.",
+                d: "Leaders are told to set ambitious goals. Rumelt's point is that strategy has to produce objectives people can actually get to work on."
               },
               {
-                n: "2",
-                title: "The Surveyor problem",
-                paras: [
-                  "Rumelt, who started his career as an engineer at NASA's Jet Propulsion Laboratory, tells how engineers there had to design an unmanned lunar lander before anyone knew what the Moon's surface was like. Was it hard rock, or dust deep enough to swallow a spacecraft? Without an answer, nobody could design the landing legs.",
-                  "The way forward was a specification that simply assumed a surface: firm ground with scattered rocks, much like the deserts of the American Southwest. It might have been wrong. But it gave the engineers a problem they could solve, which is what a proximate objective is for."
-                ],
-                side: {
-                  label: "Why it worked",
-                  html: "<p>The assumption turned an unknown into a stated design condition. If it proved wrong, the team would at least know which assumption to revisit.</p>"
-                }
+                t: "A proximate objective resolves ambiguity.",
+                d: "It turns a fuzzy situation into a problem a team can solve, with a clear sign of being done, using what the organization knows and has."
+              },
+              {
+                t: "Blue-sky objectives only restate the problem.",
+                d: "An objective as hard as the original problem doesn't help. It's one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a>."
+              },
+              {
+                t: "Surveyor: assume, then design.",
+                d: "Engineers had to design a lunar lander before anyone knew what the Moon's surface was like. A specification that simply assumed a surface gave them a problem they could solve."
+              },
+              {
+                t: "Objectives cascade.",
+                d: "One level's proximate objective becomes the strategic problem for the level below, which needs its own diagnosis and policy."
+              },
+              {
+                t: "The more uncertain, the closer in.",
+                d: "When the ground is shifting, objectives need to be nearer, and the right one may be to learn something rather than to hit a number."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Proximate or blue-sky?",
-            intro:
-              "Seven objectives. For each, decide whether a team could start on it tomorrow and know when it's done, or whether it only restates the hope. Blue-sky ones come with a proximate rewrite. The organizations are invented.",
-            options: [
-              { id: "near", label: "Proximate", hint: "Close enough to act on" },
-              { id: "far", label: "Blue-sky", hint: "As hard as the original problem" }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "From aspiration to something engineers can design",
+            intro: "The Surveyor story as a ladder of objectives. Each rung is a proximate objective for the level above and a hard problem for the level below.",
+            alt: "Three stacked boxes joined by downward arrows. Top: the national goal, land people on the Moon and return them safely. Middle: NASA's step, soft-land robot spacecraft first and learn what the surface is like. Bottom: the lander specification, design for firm ground with scattered rocks. Each arrow is labelled: becomes the problem for.",
+            svg: `<svg viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="gs-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <rect class="sv-box" x="20" y="16" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="38">THE GOAL · 1961</text>
+              <text class="sv-t" x="36" y="62">Land people on the Moon and return them safely</text>
+              <path class="sv-line" d="M230 78 L230 132" marker-end="url(#gs-arr2)"/>
+              <text class="sv-k" x="240" y="110">BECOMES THE PROBLEM FOR</text>
+              <rect class="sv-box" x="20" y="134" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="156">A STEP · SURVEYOR</text>
+              <text class="sv-t" x="36" y="180">Soft-land a robot first and see the surface</text>
+              <path class="sv-line" d="M230 196 L230 250" marker-end="url(#gs-arr2)"/>
+              <text class="sv-k" x="240" y="228">BECOMES THE PROBLEM FOR</text>
+              <rect class="sv-box-pen" x="20" y="252" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="274">THE SPECIFICATION</text>
+              <text class="sv-t sv-b" x="36" y="298">Design for firm ground with scattered rocks</text>
+              <g class="sv-call"><circle cx="420" cy="34" r="9"/><text x="420" y="37.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="420" cy="152" r="9"/><text x="420" y="155.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="420" cy="270" r="9"/><text x="420" y="273.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            notes: [
+              {
+                t: "Too far away to design for.",
+                d: "A national goal is a fine aspiration, but nobody can draw landing legs from it."
+              },
+              {
+                t: "Closer, but still open.",
+                d: "Landing a robot first is a sensible step, yet it leaves the hardest question unanswered: is the surface hard rock, or dust deep enough to swallow a spacecraft?"
+              },
+              {
+                t: "An assumption makes it solvable.",
+                d: "The specification simply assumed firm ground with scattered rocks, like the deserts of the American Southwest. It might have been wrong, but it gave engineers a problem they could solve, and said which assumption to revisit if it was."
+              }
             ],
-            rewriteLabel: "A proximate version",
-            items: [
-              {
-                text: "Become the most innovative company in our industry.",
-                answer: "far",
-                why: "It names a hope, not a problem anyone can work on. Nobody can tell what to do on Monday, or when it's done.",
-                rewrite: "Put the redesigned checkout in front of 10% of customers by March and measure how many finish their order."
-              },
-              {
-                text: "Cut the time to quote a custom order from five days to two by the end of the quarter.",
-                answer: "near",
-                why: "It's specific, within the team's control, and clearly done or not done. Reaching it also shows where quotes really get stuck."
-              },
-              {
-                text: "Design the landing legs for firm ground with scattered rocks, like the desert Southwest.",
-                answer: "near",
-                why: "This is the Surveyor move: an assumption that turns an unknown into something engineers can design for."
-              },
-              {
-                text: "Win in Asia.",
-                answer: "far",
-                why: "A destination, not a step. It leaves every hard question open: which country, which customers, which product.",
-                rewrite: "Sign two distributors in Singapore this year and learn which of our three products sells there."
-              },
-              {
-                text: "Train every service technician on the new model before it launches.",
-                answer: "near",
-                why: "Clear, feasible and checkable, and it removes a known obstacle to the launch."
-              },
-              {
-                text: "Delight customers at every touchpoint.",
-                answer: "far",
-                why: "Pleasant, but it doesn't choose. Every touchpoint at once means no touchpoint in particular.",
-                rewrite: "Answer every support email within four hours for the next quarter, then compare repeat purchases."
-              },
-              {
-                text: "Transform our culture to be more agile.",
-                answer: "far",
-                why: "As hard as the original problem, and nobody knows what done looks like.",
-                rewrite: "Cut the approval steps for small product changes from five to two, and track how long changes take."
-              }
+            caption: "Our drawing of the story Rumelt tells from his years at NASA's Jet Propulsion Laboratory. Surveyor 1 landed softly in 1966."
+          },
+          {
+            type: "table",
+            eyebrow: "Telling them apart",
+            title: "Proximate or blue-sky",
+            columns: ["", "Proximate objective", "Blue-sky objective"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["Can a team start on Monday?", "Yes. The first step is obvious", "No. The first step is the open question"],
+              ["Will you know when it's done?", "Yes", "No, or only as a matter of opinion"],
+              ["What it does to ambiguity", "Resolves enough of it to act", "Leaves all of it in place"],
+              ["When things get less certain", "Moves closer in, or becomes something to learn", "Stays the same size"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Proximate isn't the same as easy",
-                paras: [
-                  "Proximate objectives can be hard. The test is whether the organization can reasonably be expected to reach them, given what it knows and has. The more uncertain the situation, the closer in the objectives need to be. When the ground is shifting, the right objective may be to learn something rather than to hit a number."
-                ],
-                side: {
-                  label: "A quick test",
-                  html: "<p>If you can't say what the team will do first, the objective isn't proximate yet.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Rewrites",
+            title: "Bringing blue-sky objectives within reach",
+            intro: "Invented examples.",
+            columns: ["Blue-sky", "Why it doesn't help", "A proximate version"],
+            rows: [
+              ["Become the most innovative company in our industry", "It names a hope, not a problem anyone can work on. Nobody can tell what to do first, or when it's done.", "Put the redesigned checkout in front of 10% of customers by March and measure how many finish their order."],
+              ["Win in Asia", "A destination, not a step. Every hard question stays open: which country, which customers, which product.", "Sign two distributors in Singapore this year and learn which of our three products sells there."],
+              ["Delight customers at every touchpoint", "Pleasant, but it doesn't choose. Every touchpoint at once means none in particular.", "Answer every support email within four hours for the next quarter, then compare repeat purchases."],
+              ["Transform our culture to be more agile", "As hard as the original problem, and nobody knows what done looks like.", "Cut the approval steps for small product changes from five to two, and track how long changes take."]
             ]
           }
         ],
@@ -696,66 +950,150 @@
         }
       },
 
+      // A reference page. Chain-link logic, "stuck" systems and why chain-link excellence is
+      // hard to copy follow Chapter 8 as I remember it, unchecked against his wording. That
+      // Rumelt uses General Motors' long effort to learn Toyota's methods (the NUMMI joint
+      // venture, from 1984, is public record) is remembered and unchecked. The figure's
+      // numbers are illustrative; the tables are our summary.
       "chain-link": {
         title: "Chain-link systems",
         eyebrow: "Part II · Chapter 08",
+        layout: "dense",
         dek:
           "When a system's performance depends on its weakest part, improving any other part does nothing. That makes chain-link systems easy to get stuck in, and hard for rivals to copy once they work well.",
         blocks: [
           {
-            type: "chain-link",
-            title: "Find the weakest link",
-            intro:
-              "An invented neighborhood restaurant. Diners judge the evening by its worst part, so the evening is only as good as the weakest of the five below. You have six improvement points. Spend them one at a time and watch what moves.",
-            outputLabel: "Evening",
-            outputNoun: "evening",
-            points: 6,
-            startNote: "Each point raises one part by 1. Try improving something other than the weakest link first.",
-            links: [
-              { name: "Ingredients", level: 8, desc: "Sourcing and freshness." },
-              { name: "Kitchen", level: 7, desc: "Cooking and plating." },
-              { name: "Service", level: 4, desc: "Timing and attention at the table." },
-              { name: "Bookings", level: 5, desc: "Getting a table when you want one." },
-              { name: "Dining room", level: 6, desc: "Noise, light and comfort." }
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "In some systems the weakest part sets the result.",
+                d: "In most systems the parts add up, so a better part makes the whole a little better. In a chain-link system, performance is set by the weakest link."
+              },
+              {
+                t: "Improving anything else is wasted.",
+                d: "Until the weakest link improves, effort spent on stronger ones doesn't show up in the result at all."
+              },
+              {
+                t: "Chain-link systems get stuck.",
+                d: "When several links are equally weak, no single improvement moves the result, so each one looks pointless and none gets made."
+              },
+              {
+                t: "Getting unstuck takes coordination.",
+                d: "Someone who sees the whole system, and has authority over it, has to improve several links at once."
+              },
+              {
+                t: "Copying the parts isn't enough.",
+                d: "Methods that work only together are hard to transplant one at a time. Rumelt points to General Motors' long struggle to bring Toyota's production methods into its own plants."
+              },
+              {
+                t: "Excellence that works is hard to copy.",
+                d: "A rival has to match every link to match the result. That makes a chain-link system that already works one of the more durable advantages a company can have."
+              }
             ]
           },
           {
-            type: "prose",
-            sections: [
+            type: "figure",
+            eyebrow: "Figure",
+            title: "The weakest link sets the result",
+            intro: "Five parts of one system, scored out of ten. If the parts add up, the result is their average. If it's a chain, the result is the weakest part.",
+            alt: "Five bars, parts A to E, at 8, 7, 4, 5 and 6. A dotted line marks the average, 6. A dashed line in pen marks the weakest link, 4, at the top of part C. A dashed outline above part A shows it raised to 10: the average would rise to 6.4, while the weakest link stays at 4.",
+            svg: `<svg viewBox="0 0 500 275" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-axis" d="M70 240 H380"/>
+              <rect class="sv-line sv-dash" x="82" y="40" width="36" height="40"/>
+              <rect class="sv-box" x="82" y="80" width="36" height="160"/>
+              <rect class="sv-box" x="142" y="100" width="36" height="140"/>
+              <rect class="sv-box-pen" x="202" y="160" width="36" height="80"/>
+              <rect class="sv-box" x="262" y="140" width="36" height="100"/>
+              <rect class="sv-box" x="322" y="120" width="36" height="120"/>
+              <path class="sv-line sv-dash" d="M70 120 H380"/>
+              <path class="sv-line-pen sv-dash" d="M70 160 H380"/>
+              <text class="sv-k" x="388" y="124">AVERAGE 6</text>
+              <text class="sv-k" x="388" y="164">WEAKEST LINK 4</text>
+              <text class="sv-k" x="100" y="96" text-anchor="middle">8</text>
+              <text class="sv-k" x="160" y="116" text-anchor="middle">7</text>
+              <text class="sv-k" x="220" y="176" text-anchor="middle">4</text>
+              <text class="sv-k" x="280" y="156" text-anchor="middle">5</text>
+              <text class="sv-k" x="340" y="136" text-anchor="middle">6</text>
+              <text class="sv-k" x="100" y="258" text-anchor="middle">PART A</text>
+              <text class="sv-k" x="160" y="258" text-anchor="middle">PART B</text>
+              <text class="sv-k" x="220" y="258" text-anchor="middle">PART C</text>
+              <text class="sv-k" x="280" y="258" text-anchor="middle">PART D</text>
+              <text class="sv-k" x="340" y="258" text-anchor="middle">PART E</text>
+              <g class="sv-call"><circle cx="250" cy="205" r="9"/><text x="250" y="208.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="400" cy="184" r="9"/><text x="400" y="187.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="60" cy="58" r="9"/><text x="60" y="61.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 345 285" xmlns="http://www.w3.org/2000/svg">
+                <path class="sv-axis" d="M10 240 H262"/>
+                <rect class="sv-line sv-dash" x="20" y="40" width="36" height="40"/>
+                <rect class="sv-box" x="20" y="80" width="36" height="160"/>
+                <rect class="sv-box" x="70" y="100" width="36" height="140"/>
+                <rect class="sv-box-pen" x="120" y="160" width="36" height="80"/>
+                <rect class="sv-box" x="170" y="140" width="36" height="100"/>
+                <rect class="sv-box" x="220" y="120" width="36" height="120"/>
+                <path class="sv-line sv-dash" d="M10 120 H262"/>
+                <path class="sv-line-pen sv-dash" d="M10 160 H262"/>
+                <text class="sv-k" x="268" y="124">AVERAGE 6</text>
+                <text class="sv-k" x="268" y="164">WEAKEST 4</text>
+                <text class="sv-k" x="38" y="96" text-anchor="middle">8</text>
+                <text class="sv-k" x="88" y="116" text-anchor="middle">7</text>
+                <text class="sv-k" x="138" y="176" text-anchor="middle">4</text>
+                <text class="sv-k" x="188" y="156" text-anchor="middle">5</text>
+                <text class="sv-k" x="238" y="136" text-anchor="middle">6</text>
+                <text class="sv-k" x="38" y="258" text-anchor="middle">A</text>
+                <text class="sv-k" x="88" y="258" text-anchor="middle">B</text>
+                <text class="sv-k" x="138" y="258" text-anchor="middle">C</text>
+                <text class="sv-k" x="188" y="258" text-anchor="middle">D</text>
+                <text class="sv-k" x="238" y="258" text-anchor="middle">E</text>
+                <g class="sv-call"><circle cx="164" cy="205" r="9"/><text x="164" y="208.5" text-anchor="middle">1</text></g>
+                <g class="sv-call"><circle cx="280" cy="184" r="9"/><text x="280" y="187.5" text-anchor="middle">2</text></g>
+                <g class="sv-call"><circle cx="72" cy="40" r="9"/><text x="72" y="43.5" text-anchor="middle">3</text></g>
+              </svg>`,
+            notes: [
               {
-                n: "1",
-                title: "Only as strong as the weakest link",
-                paras: [
-                  "In many systems the parts add up: a better part makes the whole a little better. In a chain-link system they don't. Performance is set by the weakest part, so effort spent anywhere else is wasted until that part improves.",
-                  "Plenty of real operations work this way. A product launch is only as good as the slowest team that has to deliver for it, and a fast kitchen doesn't help if the servers can't keep up."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Improve Service once. Bookings is now just as weak, and raising either one alone changes nothing. You have to move both.</p>"
-                }
+                t: "Part C is the weakest link.",
+                d: "In a chain-link system, it alone sets the result."
               },
               {
-                n: "2",
-                title: "Getting stuck",
-                paras: [
-                  "Rumelt's word for this is stuck. When several links are equally weak, no single improvement shows up in the result, so each one looks pointless and none gets made. Getting unstuck takes someone who can see the whole system and coordinate several changes at once."
-                ],
-                side: {
-                  label: "Why it matters",
-                  html: "<p>Coordinated change usually has to come from someone with authority over the whole system, not from each part improving on its own.</p>"
-                }
+                t: "The result is 4, not 6.",
+                d: "Averaging the parts would say 6. The system delivers what its weakest part can."
               },
               {
-                n: "3",
-                title: "Why excellence is hard to copy",
-                paras: [
-                  "The same logic protects a chain-link system that works well. A rival who copies three of the five parts gets almost nothing; to match the result, they have to match every link. Excellence built across many linked parts is one of the more durable advantages a company can have."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>The chapters on design and on using advantage build on the same idea of tightly fitted parts.</p>"
-                }
+                t: "Raise the strongest part to 10, and nothing changes.",
+                d: "The average would rise to 6.4; the chain stays at 4. Only raising C moves it, and then only as far as D, the next weakest."
               }
+            ],
+            caption: "Illustrative numbers, drawn by us."
+          },
+          {
+            type: "table",
+            eyebrow: "Two kinds of system",
+            title: "Additive and chain-link systems",
+            columns: ["", "Additive", "Chain-link"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["The result is set by", "The sum, or the average, of the parts", "The weakest part"],
+              ["Improving a strong part", "Raises the result a little", "Changes nothing"],
+              ["How it gets stuck", "Rarely: every gain shows", "Several equally weak links, so no single gain shows"],
+              ["How to improve it", "Anywhere, a bit at a time", "The weakest link first, often several at once, by someone who sees the whole"],
+              ["Copying it", "Piece by piece works", "A rival has to match every link"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "Where chain-link logic shows up",
+            intro: "Our examples.",
+            columns: ["", "The weakest link", "What it means"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["A product launch", "The slowest team that has to deliver for it", "Speeding up the fast teams changes the launch date not at all."],
+              ["A customer's experience", "The worst moment in it", "A great meal is remembered for the forty-minute wait for the bill."],
+              ["Manufacturing quality", "The least reliable step", "One sloppy step produces defects no other step can catch up on."],
+              ["A software release", "The last component to pass its tests", "The release ships when everything is ready, not on average."],
+              ["Transplanting a system", "Whichever practice the copy leaves out", "Methods that work together, as Toyota's did, lose most of their value when taken one at a time."]
             ]
           }
         ],
@@ -770,177 +1108,97 @@
         }
       },
 
-      // The Crown Cork & Seal details (Connelly's era, aerosol and drink cans, plants near
-      // customers) follow the widely taught Harvard case. Unchecked against Chapter 10's
-      // wording, as is the pointer to Chapter 11 picking up Crown's later story.
+      // A reference page. Focus as coordination plus a target, and Crown Cork & Seal as the
+      // example, follow Chapter 10 as I remember it. Crown's details (John Connelly from the
+      // late 1950s; cans that are hard to make well, such as aerosol and drink cans; small
+      // plants near customers; engineers who help on customers' lines; a lean head office;
+      // research aimed at customers' problems; larger rivals that diversified) follow the
+      // widely taught Harvard case and are unchecked against Rumelt's wording. The diagram is
+      // our drawing in Porter's activity-map style; the tables are our summary.
       focus: {
         title: "Focus",
         eyebrow: "Part II · Chapter 10",
+        layout: "dense",
         dek:
           "In Rumelt's sense, focus is more than doing fewer things. It means coordinating several policies so their effects overlap and reinforce each other, then aiming that combined force at the right target.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Two parts to focus",
-                paras: [
-                  "The word is used loosely, often to mean “do less.” Rumelt gives it a narrower meaning with two parts. The first is coordination: policies designed to work together, so that each one makes the others more effective and the whole delivers more than the parts would separately.",
-                  "The second is the target. That combined force has to be applied where it counts: a segment of customers, a market or a problem where it can win. Coordination without the right target wastes the power, and a target without coordination never gets enough of it."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p><a href=\"@using-leverage\">Using leverage</a> makes a related point about effort: spread thin, it changes nothing. Focus adds that the policies have to fit together, not just share a goal.</p>"
-                }
+                t: "Focus has two parts.",
+                d: "Coordination: policies designed so each makes the others more effective. And a target: the segment, market or problem where that combined force can win."
               },
               {
-                n: "2",
-                title: "Crown Cork & Seal",
-                paras: [
-                  "Rumelt's example is Crown Cork & Seal, a maker of metal cans that was small next to giants such as American Can and Continental Can. Under John Connelly, who took charge in the late 1950s, Crown stopped trying to serve every can buyer. It concentrated on cans that were hard to make well, such as those for aerosols and carbonated drinks, which have to hold pressure.",
-                  "Around that choice sat a set of ordinary-looking policies. Plants were small and close to the customers they served, so Crown could respond quickly and send its engineers to help with problems on a customer's filling line. None of this was remarkable on its own. Together, aimed at one kind of customer, it gave Crown an edge its larger rivals, built to serve everyone, did not match."
-                ],
-                side: {
-                  label: "What happened next",
-                  html: "<p><a href=\"@growth\">Chapter 11</a>, on growth, picks up Crown's story after Connelly, when buying other can makers replaced focus as the plan.</p>"
-                }
+                t: "Coordination without a target wastes the power.",
+                d: "Policies that reinforce each other but are aimed where a stronger rival already wins still lose."
+              },
+              {
+                t: "A target without coordination never gets enough force.",
+                d: "Policies that each nod at the right customers, but don't work together, add up to less than they could."
+              },
+              {
+                t: "Crown Cork & Seal is the example.",
+                d: "A small can maker beside giants, it aimed every policy at cans that are hard to make well, and at the customers who need them."
+              },
+              {
+                t: "Focus means giving things up.",
+                d: "Every policy aimed at one group is a policy not aimed at others. A plan with something for everyone keeps everyone happy inside the company and leads nowhere outside it."
+              },
+              {
+                t: "The strength is in the combination.",
+                d: "A rival that copies one policy gets little. Like a <a href=\"@chain-link\">chain-link system</a>, a focused company has to be matched as a whole."
               }
             ]
           },
           {
-            type: "policy-fit",
-            title: "Aim the policies",
-            intro:
-              "Northline Bikes, the invented bike maker from elsewhere on this site, sets five policies. Each option serves one group of riders or tries to serve everyone. Choose one option per policy and see which groups Northline leads against the strongest rival in each.",
-            company: "Northline",
-            ledLabel: "Groups you lead",
-            valueLabel: "Sales where you lead",
-            unit: { before: "$", after: "m" },
-            sizeNote: "a year",
-            allLabel: "Everyone",
-            emptyNote: "No policies set. Choose one option for each policy, or try a preset.",
-            foot:
-              "A toy model, not from the book. Each policy aimed at a group adds 1 to Northline's strength there, and each pair of policies aimed at the same group adds 1 more, because they reinforce each other. Options for everyone add 1 to every group and reinforce nothing.",
-            start: "everyone",
-            presets: [
-              { id: "everyone", label: "Something for everyone", picks: ["all", "all", "all", "all", "all"] },
-              { id: "mix", label: "A bit of each", picks: ["commute", "race", "family", "commute", "race"] },
-              { id: "race", label: "All in on racers", picks: ["race", "race", "race", "race", "race"] },
-              { id: "clear", label: "Clear", picks: [] }
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "Crown's policies, aimed at one target",
+            intro: "None of these policies is remarkable on its own. Aimed together at one kind of can and one kind of customer, they gave Crown an edge its larger rivals, built to serve everyone, didn't match.",
+            alt: "A diagram with one target at the center, cans that are hard to make well, and six policies around it, each linked to the target: small plants close to customers, engineers who help with customers' filling lines, quick response and short production runs, know-how in aerosol and drink cans, a lean head office, and research aimed at customers' problems. Some policies also link to each other: the plants to quick response and to the engineers, and the know-how to the engineers and to the research.",
+            w: 720,
+            h: 340,
+            nodes: [
+              { id: "T", label: "Cans that are hard\nto make well", x: 360, y: 170, kind: "theme" },
+              { id: "plants", label: "Small plants close\nto customers", x: 130, y: 55 },
+              { id: "eng", label: "Engineers who help with\ncustomers' filling lines", x: 590, y: 55 },
+              { id: "fast", label: "Quick response and\nshort production runs", x: 120, y: 170 },
+              { id: "skill", label: "Know-how in aerosol\nand drink cans", x: 600, y: 170 },
+              { id: "hq", label: "A lean head office", x: 130, y: 285 },
+              { id: "rd", label: "Research aimed at\ncustomers' problems", x: 590, y: 285 }
             ],
-            segments: [
-              {
-                id: "commute",
-                name: "city commuters",
-                short: "Commuters",
-                size: 40,
-                rival: { name: "the national brands", short: "National brands", strength: 9 },
-                together:
-                  "Station shops make same-day repairs easy to offer, bike-to-work schemes send riders to those shops, and the message tells them why. Each policy makes the others work better."
-              },
-              {
-                id: "race",
-                name: "weekend racers",
-                short: "Racers",
-                size: 35,
-                rival: { name: "Veloce", short: "Veloce", strength: 18 }
-              },
-              {
-                id: "family",
-                name: "families",
-                short: "Families",
-                size: 15,
-                rival: { name: "the importers", short: "Importers", strength: 7 },
-                together:
-                  "Cargo bikes, test-ride showrooms, monthly payments and safety checks all answer the question parents ask: is this safe and affordable enough to replace a car?"
-              }
-            ],
-            policies: [
-              {
-                id: "build",
-                title: "What we build",
-                question: "Which bikes get the design budget?",
-                options: [
-                  { target: "commute", label: "Sturdy city bikes with racks, mudguards and built-in lights" },
-                  { target: "race", label: "Light carbon road frames" },
-                  { target: "family", label: "Cargo bikes that carry two children and the shopping" },
-                  { target: "all", label: "A full range, with a model for every kind of rider" }
-                ]
-              },
-              {
-                id: "sell",
-                title: "Where we sell",
-                question: "Where do riders find a Northline?",
-                options: [
-                  { target: "commute", label: "Small shops by train stations and office districts" },
-                  { target: "race", label: "Online, backed by race-club sponsorships" },
-                  { target: "family", label: "Suburban showrooms with room for test rides" },
-                  { target: "all", label: "Any retailer willing to stock us" }
-                ]
-              },
-              {
-                id: "service",
-                title: "How we look after riders",
-                question: "What happens when something goes wrong?",
-                options: [
-                  { target: "commute", label: "Same-day repairs, so nobody misses a ride to work" },
-                  { target: "race", label: "A mechanic's van at weekend races" },
-                  { target: "family", label: "Free yearly safety checks" },
-                  { target: "all", label: "A two-year warranty on every bike" }
-                ]
-              },
-              {
-                id: "pay",
-                title: "How customers pay",
-                question: "What does buying one feel like?",
-                options: [
-                  { target: "commute", label: "Through employers' bike-to-work schemes" },
-                  { target: "race", label: "Premium prices, with upgrades sold separately" },
-                  { target: "family", label: "Monthly payments spread over two years" },
-                  { target: "all", label: "Mid-range prices across the board" }
-                ]
-              },
-              {
-                id: "message",
-                title: "What we tell the market",
-                question: "What does every ad say?",
-                options: [
-                  { target: "commute", label: "Get to work on time, every day" },
-                  { target: "race", label: "Fastest on the climbs" },
-                  { target: "family", label: "Leave the second car at home" },
-                  { target: "all", label: "Quality bikes for everyone" }
-                ]
-              }
+            links: [["plants", "T"], ["eng", "T"], ["fast", "T"], ["skill", "T"], ["hq", "T"], ["rd", "T"], ["plants", "fast"], ["plants", "eng"], ["skill", "eng"], ["skill", "rd"]],
+            list: { kind: "theme", k: "Supported by" },
+            caption: "Our drawing of Crown's policies as the Harvard case describes them, in the style of Porter's activity maps."
+          },
+          {
+            type: "table",
+            eyebrow: "Two parts",
+            title: "Coordination and target",
+            intro: "Focus needs both. Our summary.",
+            columns: ["", "Aimed at the right target", "Aimed at the wrong target"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Coordinated", "<strong>Focus.</strong> Combined force where it can win, as at Crown", "Power wasted: a strong push into a rival's home ground"],
+              ["Not coordinated", "A good target that never gets enough force", "Something for everyone, leading nowhere"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Focus means giving things up",
-                paras: [
-                  "Every policy aimed at commuters is a policy not aimed at families or racers. That is the cost of focus, and it's why focus is rarer than the word suggests. Someone has to accept that the company will be ordinary, or absent, in places it could have tried to serve.",
-                  "This is the same choice <a href=\"@why-bad-strategy\">Chapter 4</a> says organizations avoid. A plan with something for everyone keeps every group happy inside the company and leads in none of them outside it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Set four policies on commuters and one on families. You still lead commuters, but the family policy does almost nothing on its own.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Hard to copy",
-                paras: [
-                  "Because the advantage lives in how the policies fit together, a rival who copies one of them gets little. Copying Crown's plant locations without its choice of customers, or its engineers without its quick service, would not have reproduced the result.",
-                  "A well-run <a href=\"@chain-link\">chain-link system</a> is protected the same way. In both cases the strength is in the combination, so it has to be matched as a whole."
-                ],
-                side: {
-                  label: "Why not racers?",
-                  html: "<p>Veloce, an invented specialist with twenty years of race wins, beats even five coordinated policies. Choosing the target comes first, which is one reason Rumelt's <a href=\"@kernel\">kernel</a> starts with the diagnosis.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "The case",
+            title: "Crown and its larger rivals",
+            intro: "As the widely taught case describes them. Unchecked against Rumelt's own account.",
+            columns: ["", "Crown Cork & Seal", "American Can, Continental Can"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Size", "Small", "Much larger"],
+              ["Customers", "Makers of products sold in cans that are hard to make well, such as aerosols, beer and soft drinks", "Every kind of can buyer"],
+              ["Plants", "Small, and close to the customers they served", "Large, serving wide areas"],
+              ["Service", "Fast response and engineers on hand for problems on customers' lines", "Standard terms for all"],
+              ["Direction", "Stayed in metal cans", "Diversified into other businesses"]
             ]
           }
         ],
@@ -955,128 +1213,113 @@
         }
       },
 
-      // Crown under William Avery (acquisitions through the 1990s, including Continental
-      // Can businesses and CarnaudMetalbox; the later fall in the share price) follows
-      // public accounts of the company. Unchecked against Chapter 11's wording.
+      // A reference page. Growth as an outcome of advantage, healthy growth, and Crown under
+      // William Avery follow Chapter 11 as I remember it, unchecked against his wording.
+      // Crown's acquisitions in the 1990s (businesses of Continental Can; CarnaudMetalbox in
+      // 1996) and the later collapse in its share price are public record. The waterfall's
+      // numbers are illustrative; the tables are our summary.
       growth: {
         title: "Growth",
         eyebrow: "Part II · Chapter 11",
+        layout: "dense",
         dek:
           "Growth is the reward for having something customers want more of. Rumelt argues that growth pursued for its own sake, especially growth bought through acquisitions, often makes a company bigger and its owners poorer.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Growth is an outcome",
-                paras: [
-                  "Many companies treat growth as a strategy: a target for sales, set first, with the means worked out later. Rumelt treats it as a result. Healthy growth comes from a company having something special, such as a better product, a skill or a cost position, and from more customers wanting it, or from extending that strength into nearby markets.",
-                  "Growth that isn't built on such an advantage has to be manufactured, and the quickest way to manufacture it is to buy it. That is where the trouble usually starts."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>A sales target with no account of how to reach it is one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a>: a goal mistaken for a strategy.</p>"
-                }
+                t: "Growth is an outcome, not a strategy.",
+                d: "Healthy growth comes from having something special, such as a better product, a skill or a cost position, and from more customers wanting it."
               },
               {
-                n: "2",
-                title: "Crown after Connelly",
-                paras: [
-                  "The <a href=\"@focus\">previous chapter</a> left Crown Cork & Seal as a focused, profitable can maker. After John Connelly, the new leadership under William Avery set out to make Crown much larger, buying other packaging companies through the 1990s, including parts of Continental Can and the European group CarnaudMetalbox. Crown became one of the largest packaging companies in the world.",
-                  "Size didn't bring value. The deals were paid for with large premiums and heavy borrowing, the combined business earned less on its capital than the old Crown had, and the share price later fell steeply. Rumelt uses the story to separate getting bigger from getting better."
-                ],
-                side: {
-                  label: "The pattern",
-                  html: "<p>The focus that made Crown strong was the first thing lost: a company built to serve everyone looks like the rivals Crown used to beat.</p>"
-                }
+                t: "Growth without an advantage has to be manufactured.",
+                d: "And the quickest way to manufacture it is to buy it."
+              },
+              {
+                t: "Buying a company at a fair price adds size, not value.",
+                d: "A company for sale is priced at about what it's worth on its own, plus a premium to persuade its owners. The premium is a loss on day one."
+              },
+              {
+                t: "Only real gains from combining can earn the premium back.",
+                d: "They exist when the buyer has something the target can use, or the other way round. They're easy to promise and hard to deliver."
+              },
+              {
+                t: "Crown after Connelly bought its way to size.",
+                d: "Under William Avery, the focused can maker of <a href=\"@focus\">Chapter 10</a> bought other packaging companies through the 1990s and became one of the largest in the world. Its returns fell, and later its share price collapsed."
+              },
+              {
+                t: "Healthy growth follows an advantage.",
+                d: "More customers wanting what the company is uniquely good at, or a strength carried into a neighboring market where it still counts. Slower, and far more likely to make the owners better off."
               }
             ]
           },
           {
-            type: "deals",
-            title: "Buying growth",
-            intro:
-              "Northline Bikes, the invented bike maker, has $90m of sales and is worth $120m to its owners. Four companies are for sale. Buy any of them and watch two numbers: how big Northline gets, and what it's worth.",
-            company: "Northline",
-            base: { sales: 90, value: 120 },
-            unit: { before: "$", after: "m" },
-            valueLabel: "Owners' value",
-            valueNoun: "what Northline is worth to its owners",
-            emptyNote: "Northline as it is today. Tick a company to buy it, or try a preset.",
-            loseNote: "A deal only creates value when the gains from combining are bigger than the premium paid over what the company was worth on its own.",
-            winNote: "Here the gains from combining are bigger than the premium. Northline is extending something it already does well.",
-            foot:
-              "Invented numbers. Value created by a deal = what the company is worth on its own + gains from combining − the price paid. Debt and taxes are left out to keep the arithmetic visible.",
-            deals: [
-              {
-                id: "ridgeway",
-                name: "Ridgeway Cycles",
-                what: "A rival commuter-bike brand.",
-                sales: 40,
-                price: 65,
-                alone: 50,
-                gains: 5,
-                why: "Sharing factories saves a little, but Northline paid a 30% premium to buy sales it was already competing for."
-              },
-              {
-                id: "spoke",
-                name: "Spoke & Co.",
-                what: "A chain of thirty bike shops.",
-                sales: 60,
-                price: 60,
-                alone: 45,
-                gains: 3,
-                why: "The biggest boost to sales, but Northline knows how to make bikes, not how to run shops. Little of what it's good at carries over."
-              },
-              {
-                id: "tandem",
-                name: "Tandem Kids",
-                what: "A maker of children's bikes.",
-                sales: 25,
-                price: 38,
-                alone: 30,
-                gains: 0,
-                why: "Different customers, different bikes, different shops. There is nothing to combine, so the premium is simply lost."
-              },
-              {
-                id: "gearhaus",
-                name: "Gearhaus",
-                what: "A small firm with a sealed gearbox design.",
-                sales: 5,
-                price: 12,
-                alone: 8,
-                gains: 12,
-                why: "Its gearbox makes Northline's commuter bikes, which already sell well, better still. Northline can sell more of what it's good at."
-              }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "What an acquisition has to beat",
+            intro: "The arithmetic of buying a company, with round numbers. Value created = worth on its own + gains from combining − price paid.",
+            alt: "A waterfall chart. The company is worth 100 on its own. Gains from combining add 10, to 110. The price paid is 130, a premium of 30. The value created is 110 minus 130: minus 20.",
+            svg: `<svg viewBox="0 0 460 285" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-axis" d="M40 240 H440"/>
+              <path class="sv-grid sv-dash" d="M120 80 H160 M220 64 H260 M320 32 H360 M320 64 H360"/>
+              <rect class="sv-box" x="60" y="80" width="60" height="160"/>
+              <rect class="sv-box-pen" x="160" y="64" width="60" height="16"/>
+              <rect class="sv-box-ink" x="260" y="32" width="60" height="208"/>
+              <rect class="sv-line-pen sv-dash" x="360" y="32" width="60" height="32"/>
+              <text class="sv-k" x="90" y="72" text-anchor="middle">100</text>
+              <text class="sv-k" x="190" y="56" text-anchor="middle">+10</text>
+              <text class="sv-k" x="290" y="24" text-anchor="middle">130</text>
+              <text class="sv-t sv-b" x="390" y="53" text-anchor="middle">−20</text>
+              <text class="sv-k" x="90" y="258" text-anchor="middle">WORTH ON</text>
+              <text class="sv-k" x="90" y="272" text-anchor="middle">ITS OWN</text>
+              <text class="sv-k" x="190" y="258" text-anchor="middle">GAINS FROM</text>
+              <text class="sv-k" x="190" y="272" text-anchor="middle">COMBINING</text>
+              <text class="sv-k" x="290" y="258" text-anchor="middle">PRICE</text>
+              <text class="sv-k" x="290" y="272" text-anchor="middle">PAID</text>
+              <text class="sv-k" x="390" y="258" text-anchor="middle">VALUE</text>
+              <text class="sv-k" x="390" y="272" text-anchor="middle">CREATED</text>
+              <g class="sv-call"><circle cx="90" cy="160" r="9"/><text x="90" y="163.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="190" cy="110" r="9"/><text x="190" y="113.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="340" cy="56" r="9"/><text x="340" y="59.5" text-anchor="middle">3</text></g>
+              <g class="sv-call"><circle cx="390" cy="90" r="9"/><text x="390" y="93.5" text-anchor="middle">4</text></g>
+            </svg>`,
+            notes: [
+              { t: "The target's value on its own.", d: "Roughly what the market already pays for it." },
+              { t: "Gains from combining.", d: "Lower costs or more sales that exist only because the two are together. Here, 10." },
+              { t: "The price includes a premium.", d: "Here 30% over the stand-alone value, to persuade the owners to sell." },
+              { t: "The buyer's owners are poorer.", d: "Sales went up by the target's sales; value went down by 20. Gains would have to beat the premium, 30, to create anything." }
+            ],
+            caption: "Illustrative numbers, drawn by us. Debt and taxes are left out to keep the arithmetic visible."
+          },
+          {
+            type: "table",
+            eyebrow: "Two kinds",
+            title: "Healthy and unhealthy growth",
+            columns: ["", "Healthy growth", "Bought growth"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Where it comes from", "More demand for what the company is uniquely good at, or a strength extended into a neighboring market", "A sales target set first, met by buying other companies' sales"],
+              ["What it does to returns", "Holds or raises them", "Usually lowers them: premiums paid, little combined"],
+              ["What it does to focus", "Keeps it", "Often loses it. A company built to serve everyone looks like the rivals it used to beat"],
+              ["Speed", "Slower, less dramatic", "Fast, visible, and easy to announce"],
+              ["Example", "Crown under Connelly", "Crown under Avery"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "What a deal has to beat",
-                paras: [
-                  "A company for sale is usually priced at about what it's worth on its own, plus a premium to persuade its owners to sell. Paying that price buys sales and profits, but at a fair price at best. The premium is a loss on day one, and only real gains from combining the two businesses can earn it back.",
-                  "Those gains are easy to promise and hard to deliver. They exist when the buyer has something the target can use, or the other way round. Without that, the deal adds size and subtracts value."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Buy all four. Sales more than double while Northline's owners end up poorer. Then buy only Gearhaus, the smallest deal.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Healthy growth",
-                paras: [
-                  "The growth Rumelt admires follows an advantage. It comes from more customers wanting what the company is uniquely good at, or from carrying a strength into a neighboring market where it still counts. It tends to be slower and less dramatic than a string of acquisitions, and much more likely to make the owners better off."
-                ],
-                side: {
-                  label: "Do the numbers",
-                  html: "<p>The same logic applies to any investment. <a href=\"#fi-roi\">Figuring ROI</a> in <cite>Financial Intelligence</cite> works through payback, net present value and internal rate of return.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "In practice",
+            title: "Questions before buying growth",
+            intro: "Our summary. The same logic applies to any investment; <a href=\"#fi-roi\">Figuring ROI</a> in <cite>Financial Intelligence</cite> works through the numbers.",
+            columns: ["Question", "Why it matters"],
+            widths: ["16rem", null],
+            rows: [
+              ["What do we have that this business can use, or the other way round?", "Without it, there's nothing to combine and the premium is simply lost."],
+              ["How big are the gains, and how sure are we?", "They have to beat the premium, and promised gains are usually larger than delivered ones."],
+              ["Would we do this if it didn't make us bigger?", "If the answer is no, size is the goal, and size isn't value."],
+              ["What happens to our focus?", "A string of deals can turn a focused company into one built to serve everyone."]
             ]
           }
         ],
@@ -1091,121 +1334,115 @@
         }
       },
 
-      // The Wal-Mart and Andrew Marshall accounts follow the well-known histories Rumelt
-      // draws on. Details (Kmart's size, the cost-imposing logic) are unchecked against
-      // Chapter 2's wording.
+      // A reference page. Sources and checks:
+      // - Wal-Mart: stores in small towns the national discount chains passed over, clustered
+      //   around its own distribution centers, with Kmart the larger rival for years. Public
+      //   record, and Rumelt's account as I remember it; unchecked against Chapter 2's wording.
+      // - Andrew Marshall and the Pentagon's Office of Net Assessment: competing by playing US
+      //   strengths against Soviet weaknesses, favoring moves cheap to make and costly to
+      //   answer. As I remember Rumelt telling it; the details are unchecked.
+      // - The figure is a schematic of the logic. The two tables are our summary.
       "discovering-power": {
         title: "Discovering power",
         eyebrow: "Part I · Chapter 02",
+        layout: "dense",
         dek:
           "A good strategy finds a source of power and applies it where it counts. Rumelt names two: putting your strength against a rival's weakness, and the extra force that comes from actions that fit together.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Wal-Mart's small towns",
-                paras: [
-                  "Sam Walton's discount stores began in small towns in the American South and Midwest, places the big chains such as Kmart considered too small to be worth a store. Wal-Mart filled them, and it placed its stores in tight clusters around its own distribution centers, so trucks, managers and information could serve many stores cheaply.",
-                  "For years Kmart was the larger company. Wal-Mart's edge wasn't national size. It came from a system: dense local networks, its own logistics, and a store in towns where no rival wanted to compete. Each part supported the others, and together they were hard to copy."
-                ],
-                side: {
-                  label: "The lesson",
-                  html: "<p>Size is not the same as power. A smaller company can be stronger where it matters if its pieces work together.</p>"
-                }
+                t: "Strategy applies power where it counts.",
+                d: "A good strategy finds a source of strength and brings it to bear on the point that decides the outcome, instead of spreading effort evenly."
               },
               {
-                n: "2",
-                title: "Strength against weakness",
-                paras: [
-                  "Rumelt draws on the work of Andrew Marshall, who led the Pentagon's Office of Net Assessment. During the Cold War, Marshall and his colleagues argued that the United States shouldn't simply try to match the Soviet Union weapon for weapon. It should look for areas where American strengths met Soviet weaknesses, and favor moves that were cheap for the United States but expensive for the Soviets to answer.",
-                  "The idea carries well beyond defense. Every rival has weaknesses, and they often come from the same source as its strengths. A company built to win on volume finds personal service awkward. A company built around one product finds it hard to walk away from it."
-                ],
-                side: {
-                  label: "A useful question",
-                  html: "<p>What would it cost them to respond, compared with what it costs us to act? Good moves make that ratio lopsided.</p>"
-                }
+                t: "Put strength against weakness.",
+                d: "The most basic source of power is to use what you do well where a rival is weak. A strength aimed at a rival's strength is only a contest of resources, and the bigger side usually wins it."
+              },
+              {
+                t: "Weaknesses often come from strengths.",
+                d: "A rival built to win one way is awkward at another. The national discount chains needed big markets, so small towns were empty ground for anyone who could serve them cheaply."
+              },
+              {
+                t: "Compare costs, not just capabilities.",
+                d: "Andrew Marshall's question at the Pentagon: which moves are cheap for us to make and expensive for them to answer? A good move makes that ratio lopsided."
+              },
+              {
+                t: "Coherence is power too.",
+                d: "Actions designed to fit together reinforce one another, so the whole has more force than its parts. No single piece of Wal-Mart's system was hard to copy; the combination was."
+              },
+              {
+                t: "Finding it means studying the other side.",
+                d: "A list of your own strengths isn't enough. Finding where a strength meets a weakness means studying rivals as closely as yourself."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Strength against weakness?",
-            intro:
-              "Seven moves by invented companies. For each, decide whether it plays a strength against the rival's weakness or meets the rival where it's strongest. Moves that pick the wrong fight come with a better aimed version.",
-            options: [
-              { id: "weak", label: "Strength against weakness", hint: "Uses an edge where the rival is exposed" },
-              { id: "strong", label: "Strength against strength", hint: "Fights the rival where it's best" }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Wal-Mart's small towns",
+            intro: "Why a smaller company could be stronger where it competed. Two ways to lay out a discount chain, drawn as a schematic.",
+            alt: "Two panels. A national chain: four large stores in big cities, each linked by long dashed lines to a distant warehouse, with small towns scattered between them and no store in any of them. Wal-Mart: a distribution center in the middle of a dashed circle, with ten small-town stores around it, each linked by a short line.",
+            svg: `<svg viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg">
+              <g>${CHAIN_PANEL}</g>
+              <path class="sv-grid" d="M320 30 V270"/>
+              <g transform="translate(340 0)">${NETWORK_PANEL}</g>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+              <g>${CHAIN_PANEL}</g>
+              <path class="sv-grid" d="M10 302 H290"/>
+              <g transform="translate(0 310)">${NETWORK_PANEL}</g>
+            </svg>`,
+            notes: [
+              {
+                t: "Built for big markets.",
+                d: "The large discount chains put stores in places big enough to support them, and supplied them over long distances."
+              },
+              {
+                t: "Small towns left empty.",
+                d: "Towns below that size weren't worth a store to them, so a rival there met little competition."
+              },
+              {
+                t: "Stores around their own warehouses.",
+                d: "Wal-Mart filled those towns and clustered the stores within reach of its own distribution centers, so trucks, managers and information served many stores cheaply."
+              },
+              {
+                t: "Hard to copy as a whole.",
+                d: "A rival could open a store in one town. Matching the cost of the cluster meant building the whole network, and Kmart, for years the larger company, was built the other way."
+              }
             ],
-            rewriteLabel: "A better aimed move",
-            items: [
-              {
-                text: "A small regional airline cuts fares on the national carrier's busiest route, where the carrier has the most flights and the lowest costs.",
-                answer: "strong",
-                why: "It attacks the carrier where it's strongest. The carrier can match the fares more cheaply than the small airline can keep them up.",
-                rewrite: "Fly direct between two mid-sized cities that the national carrier only serves with a change of planes."
-              },
-              {
-                text: "A local hardware store offers same-day delivery and a repair desk, which the out-of-town superstore's warehouse model can't easily match.",
-                answer: "weak",
-                why: "The superstore wins on volume with few staff per customer. That same model makes personal service hard for it to offer."
-              },
-              {
-                text: "A startup launches a cheaper copy of the market leader's best-selling product, through the same retailers.",
-                answer: "strong",
-                why: "The leader owns those shelves and can cut its price for a while. The startup has chosen the ground where it's weakest.",
-                rewrite: "Sell a simpler version directly to the small customers the leader's retailers don't bother with."
-              },
-              {
-                text: "A planner favors investments that are cheap to make but force a rival to spend far more on countering them.",
-                answer: "weak",
-                why: "This is the cost-imposing logic Rumelt draws from Andrew Marshall. The advantage is in the ratio: a little spent here makes the rival spend a lot."
-              },
-              {
-                text: "A software firm with a clean security record targets banks just after a rival's widely reported data breaches.",
-                answer: "weak",
-                why: "Its strength, a trusted record, lands exactly where the rival is exposed and where buyers are paying attention."
-              },
-              {
-                text: "A new bike maker builds a race team to beat the world's leading racing brand at the sport's biggest event.",
-                answer: "strong",
-                why: "It's the racing brand's home ground, built over decades. Losing there is expensive and likely.",
-                rewrite: "Build cargo bikes for families, a market the racing brand has neither the products nor the interest to serve."
-              },
-              {
-                text: "A discount chain opens stores in towns the national chains think are too small, clustered close to its own warehouses.",
-                answer: "weak",
-                why: "The big chains' model needs big markets, so these towns are empty ground. Clustering adds a cost edge the rivals can't reach from far away."
-              }
+            caption: "A schematic of the logic, drawn by us. Not a map; the number of stores is illustrative."
+          },
+          {
+            type: "table",
+            eyebrow: "Strength against weakness",
+            title: "Where a rival's strength becomes its weakness",
+            intro: "Our summary of the pattern, with the chapter's two cases in the first rows.",
+            columns: ["A rival built for", "Finds it hard to", "So a challenger can"],
+            rows: [
+              ["Big markets and big stores", "Serve small, scattered places at a profit", "Fill the places it passes over, as Wal-Mart did"],
+              ["One fixed idea of what to defend", "Stop spending on that defense, whatever the cost", "Make moves that are cheap to make and expensive to answer, as Marshall urged against the Soviets"],
+              ["Volume, with few staff per customer", "Offer advice and personal service", "Compete on service, advice and speed"],
+              ["One dominant product", "Walk away from it", "Sell what would eat into that product's sales"],
+              ["A powerful retail channel", "Sell around it without upsetting its partners", "Sell direct"],
+              ["Central control", "Respond quickly to local conditions", "Win market by market, where local knowledge counts"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Power from coherence",
-                paras: [
-                  "The second source of power is less obvious. When a company's actions are designed to fit together, they reinforce one another, and the whole has more force than the parts. Wal-Mart's stores, warehouses and trucks are an example. No single piece was hard to copy; the combination was.",
-                  "Rumelt returns to this idea throughout the book, in the chapters on <a href=\"@chain-link\">chain-link systems</a>, design and <a href=\"@focus\">focus</a>."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@kernel\">kernel</a>'s third part, coherent action, is this idea in practice: actions that support each other rather than sit side by side.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Why it's often missed",
-                paras: [
-                  "Strategy documents tend to list strengths, as if having them were enough. The work is to find where a strength meets a weakness, which means studying the rival as closely as yourself. A strength aimed at a rival's strength is just a contest of resources, and the larger side usually wins it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>For each move in the sorter, ask what the rival would have to spend to respond. The good moves make that number large.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Two sources",
+            title: "Strength against weakness, and coherence",
+            columns: ["", "Strength against weakness", "Coherence"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["What it is", "Using an edge where a rival is exposed", "Actions designed to reinforce one another"],
+              ["In the chapter", "Andrew Marshall's net assessment of the Soviet Union", "Wal-Mart's stores, warehouses and trucks"],
+              ["The question to ask", "What would it cost them to respond, compared with what it costs us to act?", "Which of our actions make the others work better?"],
+              ["How it fails", "Aimed at a rival's strength, it becomes a contest of resources", "Actions that only sit side by side add nothing to each other"],
+              ["Later in the book", "<a href=\"@using-leverage\">Using leverage</a> and <a href=\"@using-advantage\">using advantage</a>", "<a href=\"@using-design\">Using design</a>, <a href=\"@chain-link\">chain-link systems</a> and <a href=\"@focus\">focus</a>"]
             ]
           }
         ],
@@ -1220,28 +1457,41 @@
         }
       },
 
-      // Cannae follows the standard modern accounts (Polybius and Livy as retold by
-      // historians). That Rumelt opens Chapter 9 with it, and the framing of design as
-      // a substitute for resources, are unchecked against the chapter's wording.
+      // A reference page around the Cannae map. Cannae follows the standard modern accounts
+      // (Polybius and Livy as retold by historians). That Rumelt opens Chapter 9 with it, and
+      // the framing of design as a substitute for resources and of tight fit as fragile, are
+      // unchecked against the chapter's wording. The tables are our summary.
       "using-design": {
         title: "Using design",
         eyebrow: "Part II · Chapter 09",
+        layout: "dense",
         dek:
           "Some strategies win by the arrangement of their parts rather than their size. Each action is placed and timed so that it sets up the next, and the whole works only because the pieces fit.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Hannibal at Cannae",
-                paras: [
-                  "In 216 BC, near the village of Cannae in southern Italy, the Carthaginian general Hannibal faced a Roman army far larger than his own. By the end of the day the Roman army had been surrounded and almost destroyed. Rumelt uses the battle to show what a strategy built as a design looks like."
-                ],
-                side: {
-                  label: "Why this battle",
-                  html: "<p>Cannae is the classic case of a smaller force winning by how it was arranged, not by weight of numbers. Commanders have studied it for two thousand years.</p>"
-                }
+                t: "Some strategies are designs.",
+                d: "Instead of one clever move, they're an arrangement: each action placed and timed so that what it does makes the next one possible."
+              },
+              {
+                t: "Cannae is the classic case.",
+                d: "In 216 BC Hannibal surrounded and almost destroyed a Roman army far larger than his own, by how he arranged his forces rather than by weight of numbers."
+              },
+              {
+                t: "Design substitutes for resources.",
+                d: "A much larger force can often win by weight alone. A smaller one has to make its parts work together, and that takes a deliberate plan for how they fit."
+              },
+              {
+                t: "A design rests on a premise.",
+                d: "Hannibal's plan assumed the Romans would press hard through the center, as they usually did. Anticipating that was as much a part of the design as placing the troops."
+              },
+              {
+                t: "Tight fit is powerful and fragile.",
+                d: "The tighter the parts fit, the more the design depends on the situation being what its designer expected. More power under the planned conditions means less room when they change."
               }
             ]
           },
@@ -1377,32 +1627,32 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Strategy as design",
-                paras: [
-                  "Hannibal's plan wasn't one clever move. It was an arrangement: each unit placed and timed so that what it did made the next action possible. Rumelt treats this kind of strategy as a design problem, much like engineering, where the work is fitting parts together so the whole performs.",
-                  "Design matters most when resources are short. A much larger army can often win by weight alone. A smaller one has to make its parts work together, and that takes a deliberate plan for how they fit."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The same logic runs through <a href=\"@chain-link\">chain-link systems</a> and <a href=\"@focus\">focus</a>: power from parts that reinforce each other.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "The price of a tight fit",
-                paras: [
-                  "Tightly fitted designs are powerful, and fragile. Hannibal's plan assumed the Romans would press into the center. Had they held back, or had the Gauls and Spaniards broken too soon, the pocket would never have closed.",
-                  "The tighter the fit, the more a design depends on the situation being what its designer expected. That is the trade a strategist makes: more power under the conditions planned for, less room when they change."
-                ],
-                side: {
-                  label: "In business",
-                  html: "<p>A company built tightly around one way of serving one kind of customer can be very hard to beat, and very hard to change.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Anatomy of a design",
+            title: "What made the trap work",
+            columns: ["", "At Cannae", "In a business"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Anticipation", "The Romans would mass in the center and push straight through", "How rivals and customers will respond, built into the plan"],
+              ["Placement", "The least reliable infantry in the center, the best set back on either side, cavalry on the wings", "Each resource put where its strength decides the result, not where it looks best"],
+              ["Timing", "The Libyans turned inward only once the Romans were committed to the pocket", "Moves sequenced so each lands when the one before has prepared the ground"],
+              ["Coordination", "The cavalry, done with its own fight, came around to close the rear", "Units that finish one job are ready for the next one in the plan"],
+              ["The whole", "No unit could have won alone", "The advantage lies in the arrangement, so copying one part gets a rival little"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The trade",
+            title: "The price of a tight fit",
+            intro: "Our summary of the trade-off the chapter describes.",
+            columns: ["", "Tightly designed", "Loosely coupled"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Under the expected conditions", "Very powerful: each part multiplies the others", "Adequate: the parts work, but don't amplify each other"],
+              ["If the premise is wrong", "Can fail all at once, as Cannae would have if the Romans had held back", "Degrades piece by piece"],
+              ["For a rival to copy", "Hard: the whole arrangement has to be matched", "Easier: parts can be copied one at a time"],
+              ["To change later", "Hard: changing one part disturbs the rest", "Easier"],
+              ["Best when", "Resources are short and the situation is well understood", "The situation is uncertain or changing fast"]
             ]
           }
         ],
@@ -1417,124 +1667,91 @@
         }
       },
 
-      // The silver machine thought experiment, the four ways to increase an advantage's
-      // value, and the Resnicks' orchards follow my reading of Chapter 12. All three are
-      // unchecked against the chapter's wording.
+      // A reference page. What an advantage is, the silver machine, the four ways to increase
+      // an advantage's value (deepen it, broaden it, create demand, strengthen the isolating
+      // mechanisms) and the Resnicks' pistachios and pomegranates follow Chapter 12 as I
+      // remember it, unchecked against his wording. "Isolating mechanisms" is Rumelt's term
+      // from his earlier academic work. The examples in the tables are invented unless named.
       "using-advantage": {
         title: "Using advantage",
         eyebrow: "Part II · Chapter 12",
+        layout: "dense",
         dek:
           "Having an advantage is not the same as making money from it. Rumelt's point is that the returns come from making an advantage more valuable over time, and he names four ways to do it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "What an advantage is",
-                paras: [
-                  "An advantage is an asymmetry you can use: the ability to deliver more value than rivals, or the same value at a lower cost. It is always specific. It holds against particular competitors, for particular customers, and it can disappear when either changes.",
-                  "That makes advantage something to look for in detail, not a label to claim. A company can be better than its rivals at one thing, for one kind of buyer, and ordinary everywhere else."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Finding where your strength meets a rival's weakness is the subject of <a href=\"@discovering-power\">Discovering power</a>.</p>"
-                }
+                t: "An advantage is an asymmetry you can use.",
+                d: "The ability to deliver more value than rivals, or the same value at lower cost. It holds against particular competitors, for particular customers, and can vanish when either changes."
               },
               {
-                n: "2",
-                title: "The silver machine",
-                paras: [
-                  "Rumelt asks the reader to imagine owning a machine that produces a fixed amount of silver every year. It's valuable, but if you bought it at a fair price, you earn only a normal return on what you paid. The price already reflects what the machine produces.",
-                  "To do better than that, you have to make the machine itself more valuable: get more silver out of it, or put it to a use worth more. A business advantage works the same way. Owning one isn't enough; the gains come from increasing it."
-                ],
-                side: {
-                  label: "The same logic",
-                  html: "<p>It's why buying a company at a fair price adds size but not value, as the deals on <a href=\"@growth\">Growth</a> show.</p>"
-                }
+                t: "So look for it in detail.",
+                d: "A company can be better than rivals at one thing, for one kind of buyer, and ordinary everywhere else. Advantage is something to find, not a label to claim."
               },
               {
-                n: "3",
-                title: "Four ways to raise its value",
-                paras: [
-                  "<strong>Deepen it:</strong> add more value for buyers, or cut costs further, where you already lead. <strong>Broaden it:</strong> carry the same strength to new products, customers or places. <strong>Create demand:</strong> get more buyers to want what you're best at. <strong>Protect it:</strong> make it harder for rivals to copy, so it lasts longer.",
-                  "Each works on a different part of what the advantage is worth: the edge itself, how widely it's used, how many people want it, and how long it lasts."
-                ],
-                side: {
-                  label: "A useful question",
-                  html: "<p>Which of the four is cheapest for us and hardest for a rival to match?</p>"
-                }
+                t: "Owning an advantage earns a normal return.",
+                d: "Rumelt's silver machine: buy a machine that makes a fixed amount of silver a year at a fair price, and you earn only a normal return on what you paid. The price already reflects the silver."
+              },
+              {
+                t: "The gains come from increasing it.",
+                d: "Get more silver out of the machine, or put it to a use worth more. An advantage that can be made more valuable is the interesting kind."
+              },
+              {
+                t: "There are four ways.",
+                d: "Deepen it, broaden it, create more demand for what it's best at, and strengthen what stops rivals copying it."
+              },
+              {
+                t: "A leader gains most from a bigger market.",
+                d: "The Resnicks, the largest growers of pistachios and pomegranates in California, raised demand for the crops themselves, and as the biggest grower took the largest share of what they created."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Which way does it work?",
-            intro:
-              "Eight moves by companies that already have an advantage. For each, decide which of the four ways it raises that advantage's value. The companies are invented.",
-            options: [
-              { id: "deepen", label: "Deepen it", hint: "More value or lower cost where it already leads" },
-              { id: "broaden", label: "Broaden it", hint: "The same strength used in more places" },
-              { id: "demand", label: "Create demand", hint: "More buyers want what it's best at" },
-              { id: "protect", label: "Protect it", hint: "Harder for rivals to copy" }
-            ],
-            items: [
-              {
-                text: "Northline, already the fastest frame welder in the industry, redesigns its line to cut another 10% from the cost of each frame.",
-                answer: "deepen",
-                why: "The edge it already has, cheap and fast frames, gets bigger. Nothing about who it sells to changes."
-              },
-              {
-                text: "Northline starts selling its frames to two cargo-bike makers, who build them into their own bikes.",
-                answer: "broaden",
-                why: "The same welding strength now earns money from customers Northline didn't serve before."
-              },
-              {
-                text: "Northline funds a city campaign on how much faster commuting by bike is than driving.",
-                answer: "demand",
-                why: "It helps every bike seller a little, but the leader in commuter bikes gains the most from a bigger market."
-              },
-              {
-                text: "Northline patents its sealed gearbox and signs its two key engineers to long contracts.",
-                answer: "protect",
-                why: "Neither makes the gearbox better. Both make it harder and slower for a rival to copy, so the advantage lasts longer."
-              },
-              {
-                text: "A coffee roaster famous for its sourcing launches a cold brew made from the same beans and farm relationships.",
-                answer: "broaden",
-                why: "The sourcing advantage stays the same; it's applied to a new product."
-              },
-              {
-                text: "A software firm whose customers rarely leave builds deeper links into their accounting systems.",
-                answer: "protect",
-                why: "Switching becomes harder still, which keeps rivals out. The product may be no better for a new buyer."
-              },
-              {
-                text: "A large pistachio grower runs national ads persuading people to snack on pistachios.",
-                answer: "demand",
-                why: "Most of the extra demand flows to the biggest grower, so growing the market raises the value of its orchards."
-              },
-              {
-                text: "A hospital known for heart surgery invests in better aftercare and cuts complications further.",
-                answer: "deepen",
-                why: "It strengthens the very thing it's known for, for the patients it already serves."
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Four ways to raise an advantage's value",
+            columns: ["", "What it raises", "What it looks like", "An example"],
+            widths: ["10rem", null, null, null],
+            rows: [
+              ["Deepen it", "The size of the edge", "More value for buyers, or lower cost, where you already lead", "A hospital known for heart surgery cuts complications further with better aftercare."],
+              ["Broaden it", "How widely it's used", "The same strength carried to new products, customers or places", "A coffee roaster known for its sourcing makes a cold brew from the same beans and farm relationships."],
+              ["Create demand", "How many buyers want it", "Getting more people to want what you're best at, so the leader gains most", "The Resnicks promoting pistachios as a snack and turning pomegranates into a branded juice."],
+              ["Strengthen isolating mechanisms", "How long it lasts", "Making it harder for rivals to copy: patents, know-how, relationships, switching costs", "A software firm whose customers rarely leave builds deeper links into their accounting systems."]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "4",
-                title: "Pistachios and pomegranates",
-                paras: [
-                  "Rumelt describes Stewart and Lynda Resnick, who built a large farming business in California around pistachios, almonds and pomegranates. Owning the orchards was an advantage, but the bigger gains came from raising demand for the crops themselves: promoting pistachios as a snack, and turning pomegranates into a branded juice. As the biggest grower, they captured the largest share of the market they had helped create."
-                ],
-                side: {
-                  label: "Why it fits",
-                  html: "<p>A leader gains most from a bigger market. A small grower running the same ads would mostly have helped its rivals.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "The silver machine",
+            title: "Where the returns come from",
+            intro: "Rumelt's thought experiment, followed through.",
+            columns: ["If you…", "You earn…", "Because"],
+            widths: ["16rem", null, null],
+            rows: [
+              ["Bought the machine at a fair price", "A normal return", "The price already reflects the silver it makes."],
+              ["Get more silver out of it each year", "More than normal", "The machine is worth more than you paid."],
+              ["Find a use for the silver worth more", "More than normal", "Same machine, more valuable output."],
+              ["Make it last longer than buyers expected", "More than normal", "More years of silver than the price assumed."],
+              ["Just keep running it", "Normal, until it wears out or someone builds a better one", "Owning an advantage isn't the same as increasing it."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Isolating mechanisms",
+            title: "What stops rivals copying an advantage",
+            intro: "Our list of common ones.",
+            columns: ["Mechanism", "How it protects", "How it erodes"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Patents and rights", "Copying is forbidden for a time", "They expire, or rivals design around them"],
+              ["Know-how", "Skills that live in people and routines are hard to see and harder to move", "Key people leave; the skill gets written down and spreads"],
+              ["Reputation", "Buyers trust what they know; a newcomer has to earn it", "One bad failure; a rival's better record"],
+              ["Switching costs", "Leaving costs the customer time, money or risk", "A rival makes switching easy, or pays the cost for them"],
+              ["Scale", "A rival needs to be as big to be as cheap", "Demand moves somewhere scale doesn't help"],
+              ["Fit among activities", "A rival has to copy the whole system, not one part", "Pieces drift apart as the company adds things"]
             ]
           }
         ],
@@ -1549,113 +1766,78 @@
         }
       },
 
-      // The three kinds of inertia and the General Motors brands as an example of entropy
-      // follow my reading of Chapter 14; both are unchecked against the chapter's wording.
+      // A reference page. The three kinds of inertia (routine, cultural, by proxy) and entropy,
+      // with General Motors' brands as the example of entropy, follow Chapter 14 as I remember
+      // it, unchecked against his wording. The GM figure is a schematic: the ladder from
+      // Chevrolet to Cadillac is Alfred Sloan's well-known design of the 1920s; the price
+      // ranges are illustrative. The tables are our summary; their examples are invented.
       "inertia-entropy": {
         title: "Inertia and entropy",
         eyebrow: "Part II · Chapter 14",
+        layout: "dense",
         dek:
           "Organizations resist change, and left alone they slowly fall into disorder. Rumelt treats both as forces a strategist has to reckon with, in their own company and, as opportunities, in their rivals'.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Three kinds of inertia",
-                paras: [
-                  "<strong>Inertia of routine</strong> is the pull of established procedures. Routines make an organization efficient at what it already does, and they keep running after the situation that justified them has gone. They are the easiest kind to change once someone with authority decides to.",
-                  "<strong>Cultural inertia</strong> runs deeper: shared habits of mind about what matters, who gets listened to and how work is done. It changes slowly, and rarely by announcement.",
-                  "<strong>Inertia by proxy</strong> is when a company doesn't change because its customers don't. If existing buyers rarely switch, keeping the old product and the old prices can stay profitable for years, until a rival goes after those buyers or new customers arrive who expect something better."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>A system where several parts must change together is easy to get <a href=\"@chain-link\">stuck</a> in, which adds to inertia.</p>"
-                }
+                t: "Organizations resist change.",
+                d: "Rumelt calls it inertia, and distinguishes three kinds: routine, culture, and inertia by proxy."
               },
               {
-                n: "2",
-                title: "Entropy",
-                paras: [
-                  "Entropy is the tendency of an organization to drift into disorder unless someone keeps working against it. Product lines multiply, brands blur into each other, costs creep up and old arrangements outlive their purpose.",
-                  "Rumelt's example is General Motors, whose car divisions were once arranged as a clear price ladder from Chevrolet up to Cadillac. Over the decades the ranges spread and overlapped until GM's own brands were competing with each other for the same buyers."
-                ],
-                side: {
-                  label: "The manager's job",
-                  html: "<p>Much of management is simply pushing back against entropy: pruning, simplifying and restating what each part is for.</p>"
-                }
+                t: "Routines are the easiest to change.",
+                d: "They keep running after the situation that justified them has gone, but someone with authority can cut them quickly."
+              },
+              {
+                t: "Culture changes slowly, and rarely by announcement.",
+                d: "Shared habits of mind about what matters, who gets listened to and how work is done."
+              },
+              {
+                t: "Inertia by proxy comes from customers.",
+                d: "If existing buyers rarely switch, keeping the old product and prices can stay profitable for years, until a rival goes after those buyers or new customers arrive."
+              },
+              {
+                t: "Entropy is the drift into disorder.",
+                d: "Product lines multiply, brands blur, costs creep up. Much of management is pushing back: pruning, simplifying and restating what each part is for."
+              },
+              {
+                t: "Both are openings in rivals.",
+                d: "A diagnosis should ask not only what's changing in the market, but which competitors are least able to change with it."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Which force is at work?",
-            intro:
-              "Eight organizations, each held back by something. Decide whether it's routine, culture, customers who don't change, or a slow drift into disorder. The organizations are invented.",
-            options: [
-              { id: "routine", label: "Routine", hint: "Procedures that outlived their reason" },
-              { id: "culture", label: "Culture", hint: "Deep habits about what matters" },
-              { id: "proxy", label: "Inertia by proxy", hint: "Customers who don't change" },
-              { id: "entropy", label: "Entropy", hint: "A slow drift into disorder" }
-            ],
-            items: [
-              {
-                text: "A bank still runs a 30-step approval for small loans, designed for paper files, years after everything moved online.",
-                answer: "routine",
-                why: "A procedure kept running after the reason for it disappeared. A manager with authority could cut it quickly."
-              },
-              {
-                text: "At a manufacturer, engineers quietly ignore any idea that comes from marketing, as they always have.",
-                answer: "culture",
-                why: "Nobody wrote this down as a rule. It's a shared belief about whose ideas count, and it won't change by memo."
-              },
-              {
-                text: "A cable company keeps its old prices and packages because most of its customers never shop around.",
-                answer: "proxy",
-                why: "The company isn't changing because its customers aren't. It pays, for now, and leaves an opening for a rival."
-              },
-              {
-                text: "A clothing retailer's brands slowly multiply until five of them sell nearly the same jacket at nearly the same price.",
-                answer: "entropy",
-                why: "Nobody planned the overlap. It built up because no one kept the ranges distinct."
-              },
-              {
-                text: "A newspaper keeps its print-era schedule and layout meetings, though most readers now read on their phones.",
-                answer: "routine",
-                why: "Working procedures built for one situation keep running in another."
-              },
-              {
-                text: "A hospital's senior surgeons reject a safety checklist as an insult to their professional judgment.",
-                answer: "culture",
-                why: "The resistance comes from a deeply held idea of what a surgeon is, not from a procedure."
-              },
-              {
-                text: "A software vendor earns steady fees from old clients who would find switching painful, so it sees little reason to modernize.",
-                answer: "proxy",
-                why: "Its clients' reluctance to move stands in for the vendor's own. The risk arrives with the first competitor that makes switching easy."
-              },
-              {
-                text: "A restaurant chain's menu creeps from 20 dishes to 90 as each manager adds a favorite, and quality slips.",
-                answer: "entropy",
-                why: "Each addition seemed harmless. Together they turned a tight menu into a sprawling one."
-              }
-            ]
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Entropy at General Motors",
+            intro: "Rumelt's example. GM's car brands were designed as a ladder of prices, one step per brand. Over the decades the ranges spread until GM's own brands competed for the same buyers.",
+            alt: "Two panels, each with five brands from Chevrolet to Cadillac and a price range for each. On the left, a ladder: each brand covers its own step of prices, with no overlap. On the right, later: the ranges have widened until Chevrolet, Pontiac, Oldsmobile and Buick overlap over most of the same prices, and Cadillac reaches down into them.",
+            svg: `<svg viewBox="0 0 530 240" xmlns="http://www.w3.org/2000/svg">
+              <g>${GM_LADDER}</g>
+              <path class="sv-grid" d="M266 20 V220"/>
+              <g transform="translate(280 0)">${GM_OVERLAP}</g>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 250 490" xmlns="http://www.w3.org/2000/svg">
+              <g>${GM_LADDER}</g>
+              <path class="sv-grid" d="M0 246 H250"/>
+              <g transform="translate(0 256)">${GM_OVERLAP}</g>
+            </svg>`,
+            caption: "A schematic, drawn by us. The price ranges are illustrative, not historical prices."
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Openings for rivals",
-                paras: [
-                  "Inertia and entropy are problems at home and opportunities elsewhere. A rival held back by routine will be slow to respond. One whose customers rarely switch has little practice at winning them back. One whose product lines have blurred has left gaps a focused competitor can fill.",
-                  "So part of a diagnosis is asking not only what's changing in the market, but which competitors are least able to change with it."
-                ],
-                side: {
-                  label: "Next in the book",
-                  html: "<p>Chapter 15 brings these ideas together in one long example: Nvidia's rise in graphics chips.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Three kinds of inertia, and entropy",
+            columns: ["", "What it is", "How it shows", "What breaks it", "In a rival, an opening because"],
+            widths: ["9rem", null, null, null, null],
+            rows: [
+              ["Inertia of routine", "Procedures that outlive their reason", "A bank keeps a 30-step approval for small loans, designed for paper files", "A decision by someone with authority", "It will be slow to respond"],
+              ["Cultural inertia", "Shared habits of mind about what matters and who counts", "Engineers quietly ignore any idea that comes from marketing", "Years of consistent leadership, often new people", "It can't see what its culture discounts"],
+              ["Inertia by proxy", "No change because customers don't change", "A cable company keeps old prices because most customers never shop around", "A rival that makes switching easy, or new customers", "Its buyers are there to be won, and it has little practice winning them back"],
+              ["Entropy", "A drift into disorder unless someone works against it", "A restaurant's menu creeps from 20 dishes to 90 and quality slips", "Pruning, simplifying, restating what each part is for", "Blurred lines leave gaps a focused competitor can fill"]
             ]
           }
         ],
@@ -1670,71 +1852,58 @@
         }
       },
 
-      // The five guideposts (rising fixed costs, deregulation, predictable biases, incumbent
-      // response, attractor states) follow my reading of Chapter 13 and are unchecked
-      // against its wording, as is the note on where Rumelt's examples come from.
+      // A reference page with one exercise kept. Waves of change and the five guideposts
+      // (rising fixed costs, deregulation, predictable biases, incumbent response, attractor
+      // states) follow Chapter 13 as I remember it, unchecked against his wording, as is the
+      // note that his examples come mostly from computing and telecommunications. The
+      // briefings in the exercise are invented; the last table is our summary.
       "using-dynamics": {
         title: "Using dynamics",
         eyebrow: "Part II · Chapter 13",
+        layout: "dense",
         dek:
           "The biggest openings in strategy come when an industry is shifting, because a shift upsets the advantages everyone has built. The skill is reading a change early and working out where it leads.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Waves of change",
-                paras: [
-                  "Most of the time an industry's leaders are hard to dislodge. Their advantages took years to build, and rivals can't simply copy them. A wave of change, in technology, costs, rules or what buyers want, can make those advantages matter less, or not at all, and open ground that was closed.",
-                  "Rumelt's point is not that strategists should predict the far future. It's that a few signs show where a shift is heading, and someone who reads them earlier and more clearly than rivals can position for it."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Rumelt's examples come mostly from computing and telecommunications, industries he watched through several waves of change.</p>"
-                }
+                t: "Shifts open ground that was closed.",
+                d: "Most of the time an industry's leaders are hard to dislodge. A wave of change in technology, costs, rules or tastes can make their advantages matter less, or not at all."
+              },
+              {
+                t: "The aim is to read change, not predict the far future.",
+                d: "A few signs show where a shift is heading. Someone who reads them earlier and more clearly than rivals can position for it."
+              },
+              {
+                t: "Rumelt names five guideposts.",
+                d: "Rising fixed costs, deregulation, predictable biases, incumbent response and attractor states."
+              },
+              {
+                t: "Read them together.",
+                d: "One guidepost tells you little. An attractor state the leader can't embrace, plus a consensus betting the leader will win anyway, is an opening."
+              },
+              {
+                t: "Position for where it's going.",
+                d: "Move toward the attractor state early, while incumbents defend the old model and the consensus is still looking the other way. Why incumbents are slow is the subject of <a href=\"@inertia-entropy\">inertia and entropy</a>."
               }
             ]
           },
           {
-            type: "hallmarks",
-            label: "Five guideposts",
-            items: [
-              {
-                id: "fixed",
-                name: "Rising fixed costs",
-                def: "When the cost of staying in the game rises (a new plant, a bigger network, a costlier product to develop), an industry tends to consolidate into fewer, larger players.",
-                sounds: "“The next factory will cost three times what the last one did.”",
-                tell: "Ask what it now costs to compete at an efficient scale, and how many companies that leaves room for."
-              },
-              {
-                id: "dereg",
-                name: "Deregulation",
-                def: "When rules that fixed prices, territories or who may compete are lifted, the old pattern of winners often breaks quickly and new kinds of competitors arrive.",
-                sounds: "“From next year, anyone can apply for a license.”",
-                tell: "Look for rules being removed or rewritten, then ask whose advantage depended on them."
-              },
-              {
-                id: "bias",
-                name: "Predictable biases",
-                def: "Forecasters and investors tend to make the same mistakes, such as extending recent trends in a straight line or assuming today's leader will lead tomorrow. Errors you can anticipate are opportunities.",
-                sounds: "“We've assumed last year's growth rate holds for the next ten years.”",
-                tell: "Find the consensus view and ask which familiar bias it rests on."
-              },
-              {
-                id: "incumbent",
-                name: "Incumbent response",
-                def: "Established leaders often respond to change by protecting what they already earn money from. Their likely response, usually slow or defensive, can be planned around.",
-                sounds: "“Our dealers depend on the current model, so we'll keep it.”",
-                tell: "Ask what the leader would lose by embracing the change. The more it would lose, the slower it will move."
-              },
-              {
-                id: "attractor",
-                name: "Attractor state",
-                def: "The shape an industry is being pulled toward by its underlying economics: the most efficient way to meet demand once things settle. Knowing where it's heading matters more than knowing exactly when.",
-                sounds: "“Once costs settle, the cheapest way to do this will be…”",
-                tell: "Set today's companies aside and ask how you'd design the industry from scratch with today's technology and costs."
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "Five guideposts of change",
+            intro: "Each in its highlighter color for the exercise below, with a made-up line that shows it and a way to look for it.",
+            columns: ["", "What it is", "Sounds like", "How to read it"],
+            widths: ["10rem", null, null, null],
+            rows: [
+              ["<span class=\"hl hl-fixed\">Rising fixed costs</span>", "When the cost of staying in the game rises (a new plant, a bigger network, a costlier product to develop), an industry tends to consolidate into fewer, larger players.", "<em>“The next factory will cost three times what the last one did.”</em>", "Ask what it now costs to compete at an efficient scale, and how many companies that leaves room for."],
+              ["<span class=\"hl hl-dereg\">Deregulation</span>", "When rules that fixed prices, territories or who may compete are lifted, the old pattern of winners often breaks quickly and new kinds of competitors arrive.", "<em>“From next year, anyone can apply for a license.”</em>", "Look for rules being removed or rewritten, then ask whose advantage depended on them."],
+              ["<span class=\"hl hl-bias\">Predictable biases</span>", "Forecasters and investors tend to make the same mistakes, such as extending recent trends in a straight line or assuming today's leader will lead tomorrow. Errors you can anticipate are opportunities.", "<em>“We've assumed last year's growth rate holds for the next ten years.”</em>", "Find the consensus view and ask which familiar bias it rests on."],
+              ["<span class=\"hl hl-incumbent\">Incumbent response</span>", "Established leaders often respond to change by protecting what they already earn money from. Their likely response, usually slow or defensive, can be planned around.", "<em>“Our dealers depend on the current model, so we'll keep it.”</em>", "Ask what the leader would lose by embracing the change. The more it would lose, the slower it will move."],
+              ["<span class=\"hl hl-attractor\">Attractor state</span>", "The shape an industry is being pulled toward by its underlying economics: the most efficient way to meet demand once things settle. Knowing where it's heading matters more than knowing exactly when.", "<em>“Once costs settle, the cheapest way to do this will be…”</em>", "Set today's companies aside and ask how you'd design the industry from scratch with today's technology and costs."]
             ]
           },
           {
@@ -1795,20 +1964,18 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Position for where it's going",
-                paras: [
-                  "Reading the guideposts together tells you more than any one of them. In the bike briefing, the attractor state (electric bikes that need little servicing) is exactly what the leader's repair-based dealers can't embrace, and investors are betting the leader will win anyway. That combination is an opening.",
-                  "The work is to position for the attractor state early, while incumbents defend the old model and the consensus is still looking the other way."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Why leaders are slow to move is the subject of <a href=\"@inertia-entropy\">Inertia and entropy</a>.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reading them together",
+            title: "What the bike briefing adds up to",
+            intro: "The first briefing above, read as a whole. Our summary.",
+            columns: ["Guidepost", "What it says", "What it means for a challenger"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Attractor state", "Commuters are converging on electric bikes that need almost no servicing.", "That's where to be when things settle."],
+              ["Incumbent response", "The leader's dealers live on repairs, and it has told them nothing will change.", "The leader can't move toward the attractor without hurting its own dealers, so it will be late."],
+              ["Predictable biases", "Investors assume the road-bike leader will lead electric bikes too.", "The consensus is looking the other way, so the opening is underpriced."],
+              ["Deregulation", "Tax-free lease schemes end the limits on which shops may sell.", "New channels open that the leader's dealers don't control."],
+              ["Rising fixed costs", "Modern frame lines cost ten times what steel lines did.", "Scale will matter: commit early or partner, rather than arrive small and late."]
             ]
           }
         ],

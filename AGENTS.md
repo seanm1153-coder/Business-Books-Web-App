@@ -68,7 +68,7 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 5. Add a test in `tests/exercises.test.js` if the page has an interactive block.
 
 **Add a block type**
-1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `sorter.js` or `triangle.js`.
+1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `table.js` (render only) or `bar-chart.js` (render and mount).
 2. Add its `<script>` tag to `index.html` with the other blocks (before `app.js`).
 3. Add its styles to `styles.css` under a comment header.
 4. Before reaching for a new block, check whether an existing one fits. `sorter` handles two or more options; `prose` handles text with sidenotes.
@@ -116,7 +116,10 @@ The direction for chapter pages is more of the book per screen and fewer toy mod
 ## Things that look broken but aren't
 
 - **`window.claude` is usually absent.** The site is also published as a claude.ai Artifact. There, `window.claude.use("db" | "user" | "sample")` provides cloud sync, the Claude critique and the Ask Claude panel. Everywhere else, including GitHub Pages and local runs, it's missing, so memory falls back to browser storage and the critique button and Ask Claude panel stay hidden. Don't remove these code paths or make them required. `tests/reader.test.js` covers both modes with a mock.
-- **The claude.ai Artifact is a build output.** It's made with `python3 tools/bundle.py --fragment <file>` and published by a Claude session. Only edit the source files in this repo.
+- **The claude.ai Artifact is a build output.** There is one: https://claude.ai/artifact/9MW8EBXLGaphquenG4MPxn. It's shared between two Claude accounts, and both keep it in step with `main`. Only edit the source files in this repo. After a change reaches `main`:
+  1. Build from `main`: `python3 tools/bundle.py --fragment <file>`.
+  2. Publish that file to the URL above with the Artifact tool (`url` set, `capabilities` omitted so `sample`, `db` and `user` carry forward). Never publish without `url`. That makes a second artifact, and readers' notes and drafts don't follow, because they're stored per artifact.
+  3. If the publish is refused because the live version hasn't been viewed, read the saved source it hands you in full. When it's a build of an earlier `main` commit, your build already contains it, so publish again unchanged. If it has changes that aren't on `main`, get them into the repo first.
 - **`dist/` is ignored.** Don't commit build output.
 
 ## Tests

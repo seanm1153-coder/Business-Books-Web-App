@@ -24,16 +24,24 @@ async function sort(answers) {
   return page.text(".sorter-score");
 }
 
-test("GSBS: spot the bad strategy scores a highlighted sentence", async () => {
+const tableRows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+
+test("GSBS: bad strategy tables the four hallmarks and keeps the spotting exercise", async () => {
   await page.open("gsbs-bad-strategy");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  assert.deepEqual(await tableRows(), [4, 4]);
+  // Each hallmark carries its highlighter color, shared with the exercise below.
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table th .hl"), (h) => h.className)), ["hl hl-fluff", "hl hl-face", "hl hl-goals", "hl hl-objectives"]);
   await page.click('[data-pen="goals"]');
   await page.click('[data-seg="0-0"]');
   await page.click('[data-action="check"]');
   assert.match(await page.text(".spot-count"), /\d+ of \d+/);
 });
 
-test("GSBS: the kernel figure switches between examples", async () => {
+test("GSBS: the kernel figure switches between examples, with the parts tabled", async () => {
   await page.open("gsbs-kernel");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  assert.deepEqual(await tableRows(), [5, 4, 5]);
   const before = await page.evaluate(() => document.querySelector(".kernel-panels").textContent);
   await page.click('[data-view="apple"]');
   assert.equal(await page.getAttribute('[data-view="apple"]', "aria-selected"), "true");
@@ -41,47 +49,72 @@ test("GSBS: the kernel figure switches between examples", async () => {
   await page.waitForFunction((b) => document.querySelector(".kernel-panels").textContent !== b, before);
 });
 
-test("GSBS: the template machine never finds a choice", async () => {
+test("GSBS: why so much bad strategy draws the voting cycle and checks its arithmetic", async () => {
   await page.open("gsbs-why-bad-strategy");
-  const counts = await page.text(".tpl-counts");
-  assert.match(counts, /Challenges named \| 0 \| Things ruled out \| 0 \| Actions anyone could start on Monday \| 0/);
-  const first = await page.text(".tpl-vision");
-  await page.click('[data-ref="again"]');
-  assert.notEqual(await page.text(".tpl-vision"), first);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input, button.tpl-again").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 4);
+  assert.deepEqual(await tableRows(), [3, 4, 4]);
+  // The rankings in the table really do cycle: each option loses to another, 2 to 1.
+  const ranks = await page.evaluate(() =>
+    Array.from(document.querySelector(".dt-table").tBodies[0].rows, (r) => Array.from(r.cells).slice(1).map((c) => c.textContent))
+  );
+  const beats = (a, b) => ranks.filter((r) => r.indexOf(a) < r.indexOf(b)).length;
+  assert.deepEqual([beats("Chips", "Boxes"), beats("Boxes", "Solutions"), beats("Solutions", "Chips")], [2, 2, 2]);
 });
 
-test("GSBS: strength-against-weakness sorter", async () => {
+test("GSBS: discovering power draws Wal-Mart's network and tables strength against weakness", async () => {
   await page.open("gsbs-discovering-power");
-  assert.equal(await sort(["strong", "weak", "strong", "weak", "weak", "strong", "strong"]), "6 of 7 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-call").length), 4);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 4);
+  assert.deepEqual(await tableRows(), [6, 5]);
   assert.match(await page.text(".pager"), /Next → \| Bad strategy \|/i);
+  // On a phone the figure switches to its stacked layout and fits the screen.
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.ok(await page.evaluate(() => {
+    const svg = document.querySelector(".fg-narrow svg");
+    return svg && svg.getBoundingClientRect().width > 0 && svg.getBoundingClientRect().width <= 390;
+  }));
+  await page.setViewportSize({ width: 1280, height: 900 });
 });
 
-test("GSBS: proximate objectives sorter keeps score", async () => {
-  await page.open("gsbs-proximate-objectives");
-  assert.equal(await sort(["far", "far", "near", "near", "near", "far", "far"]), "5 of 7 right");
+// A dense page's shape: no quiz or toy model, the brief, the figure's callouts and notes, and table sizes.
+async function dense(route, { points, calls, rows }) {
+  await page.open(route);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), points);
+  if (calls !== undefined) {
+    assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-call").length), calls);
+    assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), calls);
+  }
+  assert.deepEqual(await tableRows(), rows);
+}
+
+test("GSBS: using leverage draws the threshold and tables the three sources", async () => {
+  await dense("gsbs-using-leverage", { points: 6, calls: 3, rows: [3, 4] });
+  assert.match(await page.text(".dt-table"), /Anticipation\s[\s\S]*Pivot points\s[\s\S]*Concentration\s/);
+});
+
+test("GSBS: proximate objectives draws the Surveyor ladder and rewrites blue-sky objectives", async () => {
+  await dense("gsbs-proximate-objectives", { points: 6, calls: 3, rows: [4, 4] });
+  assert.match(await page.evaluate(() => document.querySelector(".fg-art").getAttribute("aria-label")), /firm ground with scattered rocks/);
   assert.match(await page.text(".pager"), /Using leverage .* Chain-link systems/);
 });
 
-test("GSBS: concentrating effort beats spreading it", async () => {
-  await page.open("gsbs-using-leverage");
-  assert.match(await page.text(".conc .tiles"), /IMPACT \| 0$/i);
-  await page.click('[data-preset="focus"]');
-  assert.match(await page.text(".conc .tiles"), /IMPACT \| 70$/i);
-});
-
-test("GSBS: a chain is only as strong as its weakest link", async () => {
-  await page.open("gsbs-chain-link");
-  await page.click('[data-improve="0"]');
-  assert.match(await page.text('[data-ref="note"]'), /wasted/);
-  await page.click('[data-improve="2"]');
-  await page.click('[data-improve="2"]');
-  await page.click('[data-improve="3"]');
-  assert.equal(await page.text('[data-ref="chain-v"]'), "6/10");
-  assert.match(await page.text('[data-ref="wasted"]'), /^1 of 4 points/);
+test("GSBS: chain-link systems draw the weakest link against the average", async () => {
+  await dense("gsbs-chain-link", { points: 6, calls: 3, rows: [5, 5] });
+  // The figure's labels agree with its bars: average 6, weakest link 4.
+  const labels = await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-k"), (t) => t.textContent));
+  const bars = labels.filter((t) => /^\d+$/.test(t)).map(Number);
+  assert.deepEqual(bars, [8, 7, 4, 5, 6]);
+  assert.ok(labels.includes(`AVERAGE ${bars.reduce((a, b) => a + b) / bars.length}`));
+  assert.ok(labels.includes(`WEAKEST LINK ${Math.min(...bars)}`));
 });
 
 test("GSBS: the Cannae map steps through four phases", async () => {
   await page.open("gsbs-using-design");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
   assert.equal(await page.text('.pm [data-ref="step"]'), "PHASE 1 OF 4");
   assert.equal(await page.getAttribute('.pm [data-ref="prev"]', "disabled"), "");
   for (let i = 0; i < 3; i++) await page.click('.pm [data-ref="next"]');
@@ -95,49 +128,34 @@ test("GSBS: the Cannae map steps through four phases", async () => {
   assert.equal(await page.text('.pm [data-ref="title"]'), "The sides close");
 });
 
-test("GSBS: focused policies lead a group; spread ones lead none", async () => {
-  await page.open("gsbs-focus");
-  const tiles = () => page.text(".pf .tiles");
-  const aim = async (policies, target) => {
-    for (const p of policies) await page.check(`[data-policy="${p}"][value="${target}"]`);
-  };
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  // Coordinated, but aimed where the rival is too strong.
-  await page.click('[data-preset="race"]');
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  assert.match(await page.text('.pf [data-ref="note"]'), /fall short of Veloce: 15 against 18/);
-  await aim(["build", "sell", "service", "pay", "message"], "commute");
-  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
-  // Four of five still lead (10 against 9); three of five do not (6 against 9).
-  await aim(["message"], "family");
-  assert.match(await tiles(), /1 of 3 \| .* \| \$40m$/i);
-  await aim(["pay"], "family");
-  assert.match(await tiles(), /0 of 3 \| .* \| \$0m$/i);
-  assert.match(await page.text('.pf [data-ref="note"]'), /2 different directions/);
+test("GSBS: focus maps Crown's policies on one target", async () => {
+  await dense("gsbs-focus", { points: 6, rows: [2, 5] });
+  // Six policies, each linked to the target, and a list in place of the map on phones.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-link").length), 10);
+  assert.equal(await page.evaluate(() => [...document.querySelectorAll(".dg-link")].filter((l) => /NaN/.test(l.getAttribute("d"))).length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dg-list li").length), 1);
+  assert.match(await page.text(".dg-list"), /Small plants close to customers/);
 });
 
-test("GSBS: buying growth adds sales but not value", async () => {
-  await page.open("gsbs-growth");
-  const tiles = () => page.text(".deals .tiles");
-  assert.match(await tiles(), /\$90m \| .* \| \$120m \|/i);
-  await page.click('.deals [data-preset="all"]');
-  assert.match(await tiles(), /\$220m \| \+144% .* \| \$98m \| −18% /i);
-  assert.match(await page.text('.deals [data-ref="note"]'), /3 of 4 paid more than they gained/);
-  await page.click('.deals [data-preset="none"]');
-  await page.check('[data-deal="gearhaus"]');
-  assert.match(await tiles(), /\$95m \| \+6% .* \| \$128m \| \+7% /i);
-  assert.equal(await page.text('[data-math="gearhaus"] .deal-net dd'), "+$8m");
+test("GSBS: growth works the arithmetic of buying a company", async () => {
+  await dense("gsbs-growth", { points: 6, calls: 4, rows: [5, 4] });
+  // The waterfall's labels add up: worth on its own + gains − price = value created.
+  const nums = await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide text"), (t) => t.textContent).filter((t) => /^[+−]?\d+$/.test(t)));
+  const [own, gains, price, created] = nums.map((n) => Number(n.replace("−", "-")));
+  assert.equal(own + gains - price, created);
 });
 
-test("GSBS: four ways to raise an advantage's value", async () => {
-  await page.open("gsbs-using-advantage");
-  assert.equal(await sort(["deepen", "broaden", "demand", "protect", "broaden", "protect", "demand", "deepen"]), "8 of 8 right");
+test("GSBS: using advantage tables four ways to raise its value and the silver machine", async () => {
+  await dense("gsbs-using-advantage", { points: 6, rows: [4, 5, 6] });
+  assert.match(await page.text(".dt-table"), /Deepen it[\s\S]*Broaden it[\s\S]*Create demand[\s\S]*Strengthen isolating mechanisms/);
 });
 
 test("GSBS: spot the guideposts of change", async () => {
   await page.open("gsbs-using-dynamics");
-  // Five cards, the odd one spanning the row.
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".hallmark").length), 5);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
+  // Each guidepost carries the highlighter color the exercise uses for it.
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table th .hl"), (h) => h.className.split("-").pop())), ["fixed", "dereg", "bias", "incumbent", "attractor"]);
   await page.click('[data-pen="dereg"]');
   await page.click('[data-seg="0-0"]');
   await page.click('[data-pen="fixed"]');
@@ -149,14 +167,20 @@ test("GSBS: spot the guideposts of change", async () => {
   assert.match(await page.text(".spot-notes"), /Not a guidepost here/i);
 });
 
-test("GSBS: inertia and entropy sorter", async () => {
-  await page.open("gsbs-inertia-entropy");
-  assert.equal(await sort(["routine", "culture", "proxy", "entropy", "routine", "culture", "proxy", "entropy"]), "8 of 8 right");
+test("GSBS: inertia and entropy draws GM's brand ladder coming apart", async () => {
+  await dense("gsbs-inertia-entropy", { points: 6, rows: [4] });
+  // The ladder's ranges don't overlap; the later ones do.
+  const spans = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".fg-wide svg > g"), (g) => Array.from(g.querySelectorAll("rect"), (r) => [Number(r.getAttribute("x")), Number(r.getAttribute("x")) + Number(r.getAttribute("width"))]))
+  );
+  const overlaps = (rs) => rs.slice(1).filter((r, i) => r[0] < rs[i][1]).length;
+  assert.equal(spans.length, 2);
+  assert.equal(overlaps(spans[0]), 0);
+  assert.equal(overlaps(spans[1]), 4);
 });
 
-test("GSBS: strategy-as-hypothesis sorter", async () => {
-  await page.open("gsbs-science-of-strategy");
-  assert.equal(await sort(["faith", "test", "faith", "test", "faith", "test"]), "6 of 6 right");
+test("GSBS: strategy as hypothesis tells hypotheses from articles of faith", async () => {
+  await dense("gsbs-science-of-strategy", { points: 5, rows: [4, 3] });
 });
 
 test("GSBS: the kernel builder flags a corporate draft", async () => {
@@ -605,33 +629,42 @@ test("Porter: the five tests workbench flags a generic plan and saves a draft", 
   assert.match(await page.text("#view"), /Your strategy \| Customers and needs \| Families renting a second car/i);
 });
 
-test("PB: the category king takes most of the value", async () => {
-  await page.open("pb-category-kings");
-  assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
-  await page.click('[data-mode="even"]');
-  assert.match(await page.text(".vs .tiles"), /20% .*20% .*1×/);
-  await page.click('[data-mode="king"]');
-  assert.equal(await sort(["small", "big", "small", "big", "small", "small", "big"]), "7 of 7 right");
+test("PB: category kings charts the 76% and rewrites playing smaller", async () => {
+  await dense("pb-category-kings", { points: 6, rows: [4, 4] });
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".bc-row"), (r) => r.getAttribute("aria-label"))), [
+    "The category king: 76%",
+    "Every other company in the category: 24%"
+  ]);
 });
 
-test("PB: the magic triangle names the weak side", async () => {
-  await page.open("pb-magic-triangle");
-  assert.match(await page.text(".tri-status"), /^Out of balance\. Category is holding/);
-  await page.click('[data-preset="2"]');
-  assert.match(await page.text(".tri-status"), /^Spinning\./);
+test("PB: naming sets category names against product names", async () => {
+  await dense("pb-naming", { points: 5, rows: [5, 8] });
+  // Every name that doesn't work comes with one that would.
+  const rows = await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table")[1].tBodies[0].rows, (r) => Array.from(r.cells, (c) => c.textContent)));
+  assert.ok(rows.filter((r) => r[1] === "No").every((r) => r[3] && r[3] !== "Already one"));
 });
 
-test("PB: point-of-view checks", async () => {
+test("PB: the magic triangle draws three designs and what passes between them", async () => {
+  await dense("pb-magic-triangle", { points: 5, calls: 3, rows: [3, 4] });
+});
+
+test("PB: point of view tables its parts and keeps the workbench", async () => {
   await page.open("pb-point-of-view");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
   assert.equal(await page.text(".score"), "6 of 6 checks pass");
   await page.click('[data-example="pitch"]');
   assert.equal(await page.text(".verdict"), "Reads like a product pitch");
 });
 
-test("PB: lightning strike beats a drip", async () => {
-  await page.open("pb-lightning-strike");
-  await page.click('[data-preset="drip"]');
-  assert.match(await page.text(".sp .tiles"), /0 of 12/);
-  await page.click('[data-preset="hijacks"]');
-  assert.match(await page.text(".sp .tiles"), /5 of 12/);
+test("PB: lightning strike charts drip, strike and hijacks from the same six moves", async () => {
+  await dense("pb-lightning-strike", { points: 5, rows: [6, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-line").length), 3);
+  // The weeks each chart says are noticed match the model behind it.
+  const noticed = await page.evaluate(() => {
+    const block = window.Marginalia.books.find((b) => b.id === "pb").pages["lightning-strike"].blocks.find((b) => b.type === "behavior");
+    return block.charts.map((c) => [c.series[0].points.filter(([, a]) => a >= 3).length, c.d]);
+  });
+  assert.deepEqual(noticed.map(([n]) => n), [0, 4, 5]);
+  for (const [n, d] of noticed) assert.match(d, new RegExp(`noticed in ${n} of 12 weeks`));
 });
