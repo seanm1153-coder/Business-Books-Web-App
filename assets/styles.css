@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1617,6 +1617,7 @@ mark.m-fluff { background: var(--mark-fluff); }
 .tc-t { margin: 0.2rem 0 0; font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.2; }
 .tc-s { margin: 0.35rem 0 0.6rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; color: var(--pen); }
 .tc-d { margin: 0; font-size: 0.9375rem; }
+.tc-t + .tc-d { margin-top: 0.5rem; }
 .tc-k { margin: 0.8rem 0 0.15rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
 
 /* ---------- Commons ---------- */
@@ -1666,6 +1667,37 @@ mark.m-fluff { background: var(--mark-fluff); }
 .bf-bad-dot { fill: var(--series-cash); }
 .bf-avg-dot { fill: var(--series-profit); }
 .bf-calm-dot { fill: var(--ink-2); }
+
+/* ---------- System sketch (on the dark check card) ---------- */
+
+.sk .bench-tools { margin-top: 0; }
+.sk .bench-form textarea[rows="1"] { resize: none; }
+.sk-flows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.sk-kinds { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sk-kind { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.8rem; border: 1px solid var(--rule); border-radius: 99px; font-family: var(--mono); font-size: 0.75rem; cursor: pointer; }
+.sk-kind:has(input:checked) { border-color: var(--pen); background: var(--pen-soft); color: var(--pen); }
+.sk-kind:focus-within { outline: 2px solid var(--pen); outline-offset: 2px; }
+.sk-kind input { margin: 0; accent-color: var(--pen); }
+.sk-card { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--night-line); }
+.sk-card p { margin: 0; }
+.sk-card .eyebrow { margin-bottom: 0.5rem; }
+.sk-behavior { font-family: var(--display); font-size: 1.25rem; line-height: 1.3; margin-bottom: 1rem !important; }
+.sk-diagram { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.2fr) auto minmax(0, 1fr); gap: 0.5rem; align-items: center; font-size: 0.875rem; }
+.sk-stock { padding: 0.6rem 0.7rem; border: 1px solid var(--night-ink); border-radius: 4px; }
+.sk-stock p { font-weight: 600; }
+.sk-arrow { font-family: var(--mono); color: var(--pen-bright); }
+.sk-loop { display: flex; gap: 0.6rem; align-items: baseline; margin-top: 1rem !important; font-size: 0.9375rem; }
+.sk-loop-c { flex: none; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1.5px solid currentColor; font-family: var(--mono); font-size: 0.75rem; font-weight: 600; }
+.sk-loop-c.is-reinforcing { color: var(--warn-n); }
+.sk-loop-c.is-balancing { color: var(--pen-bright); }
+.sk-note { margin-top: 0.85rem !important; font-size: 0.875rem; color: var(--night-dim); }
+.sk-lever { color: var(--night-ink); }
+@media (max-width: 640px) {
+  .sk-flows { grid-template-columns: minmax(0, 1fr); }
+  /* The sketch stacks: inflow, then the stock, then the outflow, with arrows pointing down. */
+  .sk-diagram { grid-template-columns: minmax(0, 1fr); }
+  .sk-arrow { transform: rotate(90deg); justify-self: start; margin-left: 0.4rem; }
+}
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

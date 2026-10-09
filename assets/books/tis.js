@@ -56,7 +56,7 @@
         title: "Creating change, in systems and in our philosophy",
         chapters: [
           { n: 6, title: "Leverage points", blurb: "Twelve places to intervene in a system, from changing numbers to changing paradigms.", page: "leverage-points" },
-          { n: 7, title: "Living in a world of systems", blurb: "Habits for working with systems rather than against them." }
+          { n: 7, title: "Living in a world of systems", blurb: "Habits for working with systems rather than against them.", page: "living" }
         ]
       }
     ],
@@ -1317,7 +1317,137 @@
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
-            { title: "Living in a world of systems", where: "Chapter 7" }
+            { title: "Living in a world of systems", where: "Chapter 7", page: "living" }
+          ],
+          cta: { page: "living", kicker: "Next", text: "Habits for living in a world of systems" }
+        }
+      },
+      // The fifteen habit names follow Chapter 7's list as I remember it, in the book's order;
+      // the descriptions and "Try" lines are ours. The dancing image and the account of
+      // systems people giving up on prediction and control are from my reading of the
+      // chapter, unchecked against its wording. The sketch examples are invented.
+      "living": {
+        navLabel: "Habits",
+        title: "Living in a world of systems",
+        eyebrow: "Part III · Chapter 07",
+        dek:
+          "Systems can't be controlled, but they can be understood, designed and redesigned. Meadows ends the book with the habits that let people work with systems rather than against them.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Dancing with systems",
+                paras: [
+                  "Meadows ends with an admission. Systems thinking didn't give her and her colleagues the power to predict and control; self-organizing, nonlinear, feedback-driven systems are too surprising for that. What it gave them was a way of living with systems: designing and redesigning them, learning from how they respond, and working with their strengths rather than against them.",
+                  "Her last chapter is a list of habits that follow, drawn from experience rather than proof. They read less like rules than like the practice of a good craftsperson."
+                ],
+                side: {
+                  label: "Dancing",
+                  html: "<p>Meadows's image for this is a dance: we can't control a system, but we can listen to it and move with it.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "trap-cards",
+            eyebrow: "Fifteen habits",
+            title: "Habits for a world of systems",
+            intro: "In the book's order. Each comes with one way to start practicing it.",
+            outLabel: "Try",
+            items: [
+              { name: "Get the beat of the system", trap: "Before changing anything, watch how the system behaves. Gather its history, as a graph if you can, and start from facts rather than theories.", out: "Plot the data you have over the longest period you can find before proposing a fix." },
+              { name: "Expose your mental models to the light of day", trap: "Write your model down, as a diagram or in words, so others can test it. Every model is wrong somewhere; the useful ones get corrected.", out: "Draw the stocks and loops you believe in, and ask a colleague to find the flaw." },
+              { name: "Honor, respect and distribute information", trap: "Many malfunctions trace back to information that is missing, late or distorted. Getting the right information to the right place is often the cheapest intervention there is.", out: "Ask who doesn't see the consequences of their decisions, and show them." },
+              { name: "Use language with care", trap: "Words shape what we can think. Keep them honest and concrete, and add words for stocks, flows, delays and loops.", out: "When someone says “growth”, ask: growth of which stock, and from which flow?" },
+              { name: "Pay attention to what is important, not just what is quantifiable", trap: "Numbers get attention because they can be counted. Quality, trust and morale matter as much, and a model that leaves them out is wrong in a predictable direction.", out: "List what matters that your dashboard doesn't show." },
+              { name: "Make feedback policies for feedback systems", trap: "In a changing system, a fixed rule soon goes out of date. Better policies adjust to the state of the system, like a fee that rises as a resource gets scarce.", out: "Tie a policy to a measure of the system rather than to a fixed number or date." },
+              { name: "Go for the good of the whole", trap: "Don't optimize one part at the expense of the system it serves. Aim for the properties of the whole: resilience, self-organization, a healthy hierarchy.", out: "Before improving a team's metric, check what it costs the teams around it." },
+              { name: "Listen to the wisdom of the system", trap: "Before intervening, find out what already works and how the system sustains itself. Help it do that rather than overriding it.", out: "Ask the people inside what they already do that works, and support it." },
+              { name: "Locate responsibility in the system", trap: "Look for the ways a system creates its own behavior before blaming outside events, and design systems in which decision-makers feel the consequences of their decisions.", out: "Find a decision whose costs land on someone else, and route the feedback back." },
+              { name: "Stay humble, stay a learner", trap: "Systems surprise everyone. Act in small steps, watch what happens, and admit mistakes quickly so they can be corrected.", out: "Run the next change as an experiment, with a way to tell whether it worked." },
+              { name: "Celebrate complexity", trap: "The world is nonlinear, diverse and changing. Expect that, and value the variety that makes systems resilient instead of forcing everything into tidy order.", out: "Distrust the simplest story when the evidence doesn't fit it." },
+              { name: "Expand time horizons", trap: "Short horizons are why so many fixes backfire. Watch the long term and the short term together, as a walker on a rough path watches both the next step and the way ahead.", out: "Ask what the decision looks like in five years, not just this quarter." },
+              { name: "Defy the disciplines", trap: "Systems don't respect academic or departmental boundaries. Follow the problem wherever it leads, and learn enough of other fields to talk with their experts.", out: "Bring someone from outside your function into the next diagnosis." },
+              { name: "Expand the boundary of caring", trap: "Because everything is connected, the success of one part depends on the rest: other people, other places, and the generations to come.", out: "Name who else a decision affects, and how you would know if it hurt them." },
+              { name: "Don't erode the goal of goodness", trap: "Drift to low performance works on standards of behavior too. Hold to high standards, and let good examples set the bar rather than bad news.", out: "Notice when “everyone does it” is lowering a standard you hold." }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Put the book to work",
+                paras: [
+                  "The workbench below runs most of the book's tools in order: behavior before structure, then stocks and flows, a feedback loop, a delay, and finally a place to push. Try it on a problem that keeps coming back, the kind that has survived several fixes. The structure usually shows why the fixes didn't hold."
+                ],
+                side: {
+                  label: "Start from the graph",
+                  html: "<p>Step 1 is the hardest. If you can only describe an event, look for the history first: the first habit is to get the beat of the system.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "system-sketch",
+            title: "Sketch your system",
+            intro: "Load an example to see how it works, then write your own. The sketch and the checks update as you type.",
+            draftKey: "tis.sketch",
+            defaultExample: "turnover",
+            examples: {
+              turnover: {
+                label: "Staff turnover",
+                note: "An invented example. Edit any field to start your own sketch.",
+                behavior: "Over the past two years, resignations from the support team have risen every quarter, and response times have crept up with them.",
+                stock: "Experienced support staff",
+                inflow: "New hires becoming fully trained",
+                outflow: "Resignations",
+                kind: "reinforcing",
+                loop: "The fewer experienced staff there are, the more work falls on each of those left, so more of them burn out and resign.",
+                delay: "New hires take about six months to handle the work on their own.",
+                lever: "Show workload per person on the weekly dashboard leadership reviews, and change the team's goal from tickets closed to customers helped."
+              },
+              churn: {
+                label: "Subscriber growth stalls",
+                note: "An invented example. Edit any field to start your own sketch.",
+                behavior: "Subscribers grew quickly for three years, then flattened, even though sign-ups are still rising every month.",
+                stock: "Paying subscribers",
+                inflow: "New subscribers",
+                outflow: "Cancellations",
+                kind: "balancing",
+                loop: "The more paying subscribers there are, the more cancel each month, so growth slows until cancellations catch up with sign-ups.",
+                delay: "Most cancellations come three to six months after sign-up, when the introductory price ends.",
+                lever: "Send the product team the cancellation reasons every week, and measure them on subscribers kept rather than sign-ups."
+              },
+              blank: { label: "Start blank" }
+            }
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "The book in one loop",
+                paras: [
+                  "If the book has one lesson, it's that behavior comes from structure. The same structure produces the same behavior, whoever is inside it, so lasting change comes from changing the structure: the information people see, the rules they follow and the goals they serve.",
+                  "That's a hopeful conclusion. Structures were built by people, and people can rebuild them."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The <a href=\"@traps\">system traps</a> and the <a href=\"@leverage-points\">leverage points</a> are the two chapters to return to when a sketch shows a structure you want to change.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" },
+            { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
+            { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

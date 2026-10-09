@@ -454,6 +454,32 @@ test("TiS: the open pasture collapses; fencing and a cap restore the feedback", 
   assert.equal(await sort(["drift", "escalation", "burden", "success", "escalation", "burden"]), "6 of 6 right");
 });
 
+test("TiS: the system sketch checks behavior, stock, loop, delay and leverage", async () => {
+  await page.open("tis-living");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 15);
+  const statuses = () => page.evaluate(() => [...document.querySelectorAll(".sk .check")].map((c) => c.classList[1]).join(" "));
+  assert.match(await page.text(".sk .check-summary"), /6 of 6 checks pass/);
+  await page.click('.sk [data-example="blank"]');
+  assert.match(await page.text(".sk .check-summary"), /^Start with the behavior/);
+  // An event, a flow posing as a stock and a change to a number all get flagged.
+  await page.fill('.sk [data-field="behavior"]', "The finance director resigned this morning.");
+  await page.fill('.sk [data-field="stock"]', "Sales per month");
+  await page.fill('.sk [data-field="lever"]', "Raise the bonus budget.");
+  assert.equal(await statuses(), "warn warn fail fail fail warn");
+  assert.match(await page.text(".sk .checks"), /“Sales” sounds like a flow/);
+  await page.fill('.sk [data-field="behavior"]', "Unsold cars have swung between gluts and shortages every year since 2021.");
+  await page.fill('.sk [data-field="stock"]', "Unsold cars on the lot");
+  await page.fill('.sk [data-field="inflow"]', "Deliveries");
+  await page.fill('.sk [data-field="outflow"]', "Sales");
+  await page.fill('.sk [data-field="loop"]', "The fewer unsold cars on the lot, the more the dealer orders.");
+  await page.check('.sk [data-kind][value="balancing"]');
+  await page.fill('.sk [data-field="delay"]', "Deliveries take about five days.");
+  await page.fill('.sk [data-field="lever"]', "Show the dealer the cars already on order, not just the lot.");
+  assert.equal(await statuses(), "pass pass pass pass pass pass");
+  await page.open("notebook");
+  assert.match(await page.text("#view"), /Your system sketch \| The behavior \| Unsold cars have swung/i);
+});
+
 test("TiS: rank interventions by leverage", async () => {
   await page.open("tis-leverage-points");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".ladder-step").length), 12);

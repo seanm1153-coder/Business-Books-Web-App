@@ -1,5 +1,6 @@
 // Trap cards: a numbered grid of recurring problem structures, each with its structure,
-// how the trap works and the way out. Items: { name, structure, trap, out }.
+// how the trap works and the way out. Items: { name, structure?, trap, out }; the
+// structure line is optional, so the block also serves for lists of habits.
 (function () {
   "use strict";
   const { esc } = window.Marginalia.util;
@@ -18,7 +19,7 @@
               (it, i) => `<li class="tc-card">
                 <p class="tc-n tnum" aria-hidden="true">${String(i + 1).padStart(2, "0")}</p>
                 <h3 class="tc-t">${esc(it.name)}</h3>
-                <p class="tc-s">${esc(it.structure)}</p>
+                ${it.structure ? `<p class="tc-s">${esc(it.structure)}</p>` : ""}
                 <p class="tc-d">${esc(it.trap)}</p>
                 <p class="tc-k">${esc(block.outLabel)}</p>
                 <p class="tc-d">${esc(it.out)}</p>

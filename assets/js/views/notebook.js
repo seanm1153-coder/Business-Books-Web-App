@@ -26,6 +26,17 @@
         ["From → to", d.from && d.to ? `${d.from} → ${d.to}` : ""],
         ["The category", d.name]
       ]
+    },
+    "tis.sketch": {
+      book: "tis",
+      page: "living",
+      label: "Your system sketch",
+      rows: (d) => [
+        ["The behavior", d.behavior],
+        ["Stock and flows", d.stock ? `${d.stock}${d.inflow || d.outflow ? ` (in: ${d.inflow || "…"}; out: ${d.outflow || "…"})` : ""}` : ""],
+        ["The loop", d.loop],
+        ["Where to push", d.lever]
+      ]
     }
   };
 
