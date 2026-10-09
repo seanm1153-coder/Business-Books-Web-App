@@ -47,7 +47,7 @@
         title: "Systems and us",
         chapters: [
           { n: 3, title: "Why systems work so well", blurb: "Resilience, self-organization and hierarchy." },
-          { n: 4, title: "Why systems surprise us", blurb: "Events hide behavior; nonlinearities, boundaries, limits, delays and bounded rationality." },
+          { n: 4, title: "Why systems surprise us", blurb: "Events hide behavior; nonlinearities, boundaries, limits, delays and bounded rationality.", page: "surprises" },
           { n: 5, title: "System traps and opportunities", blurb: "Structures that produce the same problems again and again, and the way out of each.", page: "traps" }
         ]
       },
@@ -154,7 +154,7 @@
           related: [
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
-            { title: "Why systems surprise us", where: "Chapter 4" },
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" },
             { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "feedback", kicker: "Next", text: "Add feedback: loops that run the stock" }
@@ -282,7 +282,7 @@
             { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
             { title: "A brief visit to the systems zoo", where: "Chapter 2" },
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
-            { title: "Why systems surprise us", where: "Chapter 4" }
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
           ],
           cta: { page: "delays", kicker: "Next", text: "Add delays and watch a stock swing" }
         }
@@ -386,7 +386,7 @@
           related: [
             { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
-            { title: "Why systems surprise us", where: "Chapter 4" },
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" },
             { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "limits", kicker: "Next", text: "Grow an industry until its resource pushes back" }
@@ -592,7 +592,206 @@
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
-            { title: "Why systems surprise us", where: "Chapter 4" }
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
+          ],
+          cta: { page: "surprises", kicker: "Next", text: "Why systems keep surprising the people who run them" }
+        }
+      },
+      // The six headings follow Chapter 4 (events, nonlinearity, boundaries, layers of limits,
+      // delays, bounded rationality); the descriptions and advice are ours, paraphrasing my
+      // reading of the chapter, unchecked against its wording. The help-desk queue is our own
+      // illustration of nonlinearity, not from the book; the sorter items are invented.
+      "surprises": {
+        navLabel: "Surprises",
+        title: "Why systems surprise us",
+        eyebrow: "Part II · Chapter 04",
+        dek:
+          "Systems keep doing things their managers didn't expect. Meadows argues the surprise comes less from the systems than from the habits of mind we bring to them, and names six.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Our models are incomplete",
+                paras: [
+                  "Everything we think we know about the world is a model: a simplified picture in our heads, in words or in numbers. Models are useful, and they're always incomplete. Meadows's argument is that the gaps aren't random. They fall in the same few places, and systems surprise us there again and again.",
+                  "Each of the six sources below is a habit of thought that works well enough in daily life and fails with systems."
+                ],
+                side: {
+                  label: "Not a reason for despair",
+                  html: "<p>Knowing where models tend to fail is what makes them improvable. Each source of surprise comes with a habit that helps.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "trap-cards",
+            eyebrow: "Six sources",
+            title: "Where surprises come from",
+            intro: "Each is a gap between how systems work and how we tend to think about them.",
+            outLabel: "What helps",
+            items: [
+              {
+                name: "Beguiling events",
+                structure: "We see events, not the behavior and structure behind them",
+                trap: "News arrives as events: a stock-out, a record quarter, a resignation. Events are the most visible level of a system and the least useful for understanding it. Behavior over time shows the pattern; structure explains it.",
+                out: "Look at the history as a graph, then ask what structure would produce that shape."
+              },
+              {
+                name: "Linear minds in a nonlinear world",
+                structure: "Effects aren't proportional to causes",
+                trap: "We expect twice the push to give twice the result. In systems, a little more fertilizer may add a lot of yield or none at all, and a road that's nearly full jams when a few more cars join it. Nonlinearities can also shift which loop dominates.",
+                out: "Look for thresholds and saturation, and test how the response changes as the system nears them."
+              },
+              {
+                name: "Nonexistent boundaries",
+                structure: "Every boundary is a choice we made",
+                trap: "Systems blend into one another. The clouds at the edge of a stock-and-flow diagram, where flows come from and go to, are a convenience. Real sources run out and real sinks fill up, and then the boundary we drew starts to matter.",
+                out: "Draw the boundary around the question, not around a department or a discipline, and redraw it when the question changes."
+              },
+              {
+                name: "Layers of limits",
+                structure: "Growth is held back by whatever is scarcest",
+                trap: "At any moment, a growing system is limited by one factor, as a crop is limited by its scarcest nutrient. Supply more of anything else and nothing happens. Supply the limiting factor and growth resumes, until another one runs short.",
+                out: "Find the factor that limits growth now, and expect growth itself to move the limit somewhere else."
+              },
+              {
+                name: "Ubiquitous delays",
+                structure: "Everything takes longer than we expect",
+                trap: "Delays in noticing, deciding and acting are everywhere, and they're usually longer than people estimate. They cause overshoot and oscillation, as the car dealer found.",
+                out: "Look for the delays and allow for them. Where they're long, foresight matters more than speed."
+              },
+              {
+                name: "Bounded rationality",
+                structure: "Sensible choices made with partial information",
+                trap: "People make reasonable decisions with the information they have, but they see only part of the system and act on nearby, short-term goals. Choices that make sense in each place can add up to results nobody wants.",
+                out: "Change the information, incentives and goals people act on, rather than blaming them for acting sensibly where they stand."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Events, behavior, structure",
+                paras: [
+                  "Meadows asks readers to look at a system on three levels. <strong>Events</strong> are single happenings: what makes the news. <strong>Behavior</strong> is the pattern events make over time, the shape of the line on a graph. <strong>Structure</strong> is the arrangement of stocks, flows, feedback loops and delays that produces the pattern.",
+                  "Explanations at the level of events can't predict anything, and explanations at the level of behavior can only extend a trend. Only structure explains why the pattern looks the way it does, and so where it might be changed."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The <a href=\"@delays\">car dealer</a> shows all three: an empty lot (an event), months of swings (behavior), and three delays in a balancing loop (structure).</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Event, behavior or structure?",
+            intro: "Six statements about invented companies. Which level of the system is each one about?",
+            options: [
+              { id: "event", label: "Event", hint: "Something that happened, once." },
+              { id: "behavior", label: "Behavior", hint: "A pattern over time." },
+              { id: "structure", label: "Structure", hint: "What produces the pattern." }
+            ],
+            items: [
+              {
+                text: "The warehouse ran out of the best-selling model last Tuesday.",
+                answer: "event",
+                why: "A single happening. It's what gets reported, and on its own it says little about why."
+              },
+              {
+                text: "Stock-outs have come back every spring for five years, each followed by a glut in the summer.",
+                answer: "behavior",
+                why: "A pattern over time. Seeing it as a line on a graph is the first step past the headline."
+              },
+              {
+                text: "Buyers order based on last month's sales, and the factory takes ten weeks to deliver.",
+                answer: "structure",
+                why: "A decision rule and a delay: the structure that produces spring shortages and summer gluts."
+              },
+              {
+                text: "Staff turnover has risen every year for the last four years.",
+                answer: "behavior",
+                why: "A trend, not an event. It invites the question of what keeps pushing it up."
+              },
+              {
+                text: "Each resignation adds to the workload of the people who stay, which leads more of them to leave.",
+                answer: "structure",
+                why: "A reinforcing loop. It explains the rising trend, and it shows where to intervene: the workload, not the exit interviews."
+              },
+              {
+                text: "The finance director resigned this morning.",
+                answer: "event",
+                why: "Newsworthy, but it's one point on a line. Whether it matters depends on the pattern it belongs to."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Linear minds in a nonlinear world",
+                paras: [
+                  "A relationship is linear when the effect is proportional to the cause: one more unit of input, one more unit of output, wherever you start. Many of the relationships that matter in systems aren't like that. They're flat for a long way and then steep, or steep at first and then flat.",
+                  "The trouble is that experience is gathered in the flat part. A team that has handled more and more work without much extra delay reasonably expects the next increase to go the same way."
+                ],
+                side: {
+                  label: "Our example",
+                  html: "<p>The help desk below isn't from the book. It uses the standard formula for a single queue with random arrivals, which is about as clean a nonlinearity as business offers.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "queue",
+            title: "How busy is too busy?",
+            intro:
+              "An invented help desk closes 20 requests an hour on average, and requests arrive at random. Raise the number of requests and compare how long each one takes with a straight line drawn through the quiet hours.",
+            capacity: 20,
+            min: 1,
+            max: 19.5,
+            step: 0.5,
+            start: 10,
+            quiet: [2, 10],
+            yMax: 120,
+            rateLabel: "Requests arriving",
+            rateHint: "The desk can close 20 an hour, so at 20 it's 100% busy.",
+            presets: [
+              { label: "Half busy", value: 10 },
+              { label: "80% busy", value: 16 },
+              { label: "90% busy", value: 18 },
+              { label: "95% busy", value: 19 }
+            ],
+            caption: "Minutes from arrival to done, by requests arriving per hour. The dashed line extends the quiet hours in a straight line."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "4",
+                title: "Limits, delays and partial information",
+                paras: [
+                  "The last three sources compound each other. A growing business is limited by one thing at a time: first demand, then capacity, then people, then cash. Relieving the current limit lets growth continue until the next one bites, and each new limit shows up after a delay, to people who can see only their own part of the business.",
+                  "That last point, which Herbert Simon called bounded rationality, is why Meadows warns against blaming individuals. A fisher who adds a boat, a manager who hoards budget and a buyer who over-orders are each acting sensibly on what they can see. If the results are bad, the place to look is what they can see and what they're rewarded for."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The <a href=\"@traps\">system traps</a> are bounded rationality at work: structures in which every sensible local choice adds up to a bad result.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
+            { title: "Growth meets a limit", where: "Chapter 2", page: "limits" },
+            { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "traps", kicker: "Next", text: "See the traps that structures set" }
         }
@@ -825,7 +1024,7 @@
             { title: "Leverage points", where: "Chapter 6", page: "leverage-points" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
-            { title: "Why systems surprise us", where: "Chapter 4" }
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
           ],
           cta: { page: "leverage-points", kicker: "Next", text: "Where to push: twelve leverage points" }
         }

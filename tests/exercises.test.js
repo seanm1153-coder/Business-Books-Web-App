@@ -399,6 +399,19 @@ test("TiS: a bigger oil field peaks later, not longer; better gear sinks the fis
   assert.equal(await sort(["stock", "flow", "stock", "flow", "stock", "flow"]), "6 of 6 right");
 });
 
+test("TiS: waiting time outruns a straight line as the desk fills up", async () => {
+  await page.open("tis-surprises");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 6);
+  const note = () => page.text('.qu [data-ref="note"]');
+  assert.match(await note(), /At 50% busy, a request takes 6\.0 minutes .* against 6\.0 .* a fair guess/);
+  await page.click('.qu [data-preset="18"]');
+  assert.match(await page.text(".qu .tiles"), /90% .* 30 .* 8\.7 /i);
+  assert.match(await note(), /3\.5 times what the straight line predicts\. One more request an hour would make it 60\./);
+  await slide(page, '.qu [data-ref="input"]', 19.5);
+  assert.match(await note(), /At 98% busy, a request takes 120 minutes/);
+  assert.equal(await sort(["event", "behavior", "structure", "behavior", "structure", "event"]), "6 of 6 right");
+});
+
 test("TiS: the open pasture collapses; fencing and a cap restore the feedback", async () => {
   await page.open("tis-traps");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 8);
