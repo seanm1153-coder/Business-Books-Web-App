@@ -223,25 +223,16 @@ test("Ask Claude: hidden without a viewer; reads the page, works its controls an
   assert.match(notes[0].quote, /^Asked Claude: What if customers paid in 45 days\?/);
   assert.match(notes[0].note, /^Claude: I set days sales outstanding to 45/);
 
-  // Select a passage and ask about it.
-  await page.evaluate(() => {
-    const p = document.querySelector(".prose p");
-    const range = document.createRange();
-    range.setStart(p.firstChild, 0);
-    range.setEnd(p.firstChild, 40);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    document.dispatchEvent(new Event("selectionchange"));
-  });
+  // Select a passage of the brief and ask about it.
+  assert.ok(await select(page, "Days sales outstanding is how long customers take to pay"));
   await page.waitForSelector('.hl-toolbar [data-act="ask"]:not([hidden])');
   await page.click('.hl-toolbar [data-act="ask"]');
-  assert.match(await page.text(".ac-quote"), /^About: “Days sales outstanding is how long, on a/);
+  assert.match(await page.text(".ac-quote"), /^About: “Days sales outstanding is how long customers take to pay/);
   await page.fill("#ac-input", "What does this mean?");
   await page.press("#ac-input", "Enter");
   await page.waitForFunction(() => window.__inputs.length === 2);
   const second = await page.evaluate(() => window.__inputs[1]);
-  assert.match(second[second.length - 1].content, /^About this passage on the page: "Days sales outstanding is how long, on a[\s\S]*What does this mean\?$/);
+  assert.match(second[second.length - 1].content, /^About this passage on the page: "Days sales outstanding is how long customers take to pay"[\s\S]*What does this mean\?$/);
   // The earlier question and answer travel with the new one.
   assert.equal(second.length, 4);
 

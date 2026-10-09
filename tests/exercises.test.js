@@ -16,15 +16,33 @@ test.after(async () => {
   await env.close();
 });
 
-async function sort(answers) {
-  for (const a of answers) {
-    await page.click(`[data-opt="${a}"]`);
-    await page.click('[data-action="next"]');
-  }
-  return page.text(".sorter-score");
-}
-
 const tableRows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+
+// One table's body as text, row by row.
+const tableCells = (i = 0) =>
+  page.evaluate((i) => Array.from(document.querySelectorAll(".dt-table")[i].tBodies[0].rows, (r) => Array.from(r.cells, (c) => c.textContent.trim())), i);
+
+// "$142.5k", "−$1,000" or "+$70k" as a number of dollars.
+const dollars = (t) => (t.trim().startsWith("−") ? -1 : 1) * Number(t.replace(/[^\d.]/g, "")) * (/k$/i.test(t.trim()) ? 1000 : 1);
+
+// Each waterfall on the page as rows of { label, v, total }.
+const waterfalls = async () =>
+  (
+    await page.evaluate(() =>
+      Array.from(document.querySelectorAll(".wf-chart"), (c) =>
+        Array.from(c.querySelectorAll(".wf-row"), (r) => ({ label: r.querySelector(".wf-l").textContent, t: r.querySelector(".wf-v").textContent, total: r.classList.contains("is-total") }))
+      )
+    )
+  ).map((rows) => rows.map((r) => ({ label: r.label, v: dollars(r.t), total: r.total })));
+
+// Every subtotal in a waterfall equals the sum of the steps above it.
+function assertAddsUp(rows) {
+  rows.forEach((r, i) => {
+    if (!r.total) return;
+    const sum = rows.slice(0, i).filter((s) => !s.total).reduce((a, s) => a + s.v, 0);
+    assert.ok(Math.abs(sum - r.v) < 0.5, `${r.label}: steps add to ${sum}, shown ${r.v}`);
+  });
+}
 
 test("GSBS: bad strategy tables the four hallmarks and keeps the spotting exercise", async () => {
   await page.open("gsbs-bad-strategy");
@@ -192,97 +210,97 @@ test("GSBS: the kernel builder flags a corporate draft", async () => {
   assert.equal(await page.evaluate(() => document.querySelectorAll(".action-row").length), rows + 1);
 });
 
-test("FI: judgment calls move profit while cash stays put", async () => {
+test("FI: profit is an estimate walks two versions of one month down to profit", async () => {
   await page.open("fi-profit-estimate");
-  assert.equal(await page.text('[data-ref="profit"]'), "$39,683");
-  const cash = await page.text('[data-ref="cash"]');
-  await page.click('[data-preset="low"]');
-  assert.equal(await page.text('[data-ref="profit"]'), "−$3,000");
-  assert.equal(await page.text('[data-ref="cash"]'), cash);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const [high, low] = await waterfalls();
+  assertAddsUp(high);
+  assertAddsUp(low);
+  assert.equal(high.at(-1).v, 39683);
+  assert.equal(low.at(-1).v, -3000);
+  // The five calls account for the whole gap between the two versions.
+  const calls = await tableCells(0);
+  const gaps = calls.slice(0, -1).map((r) => dollars(r.at(-1)));
+  assert.equal(gaps.length, 5);
+  assert.equal(gaps.reduce((a, g) => a + g, 0), 39683 + 3000);
+  assert.equal(dollars(calls.at(-1).at(-1)), 39683 + 3000);
+  assert.deepEqual(await tableRows(), [6, 6, 5]);
 });
 
-test("FI: each move reaches only the profits below it", async () => {
+test("FI: the forms of profit tie the income statement to its margins", async () => {
   await page.open("fi-forms-of-profit");
-  const tiles = () => page.text(".pl .tiles");
-  assert.match(await tiles(), /40\.0% .* 10\.4% .* 5\.9% /i);
-  await page.click('[data-move="warehouse"]');
-  assert.match(await tiles(), /40\.0% \| Unchanged .* 10\.4% \| Unchanged .* 8\.4% \| \+2\.5 points$/i);
-  assert.equal(await page.text('[data-reach="warehouse"]'), "Reaches net profit only");
-  await page.click('[data-move="price"]');
-  assert.match(await tiles(), /42\.9% .* 14\.7% .* 11\.6% /i);
-  assert.equal(await page.text('[data-reach="price"]'), "Reaches gross profit, operating profit and net profit");
-  await page.click('[data-move="marketing"]');
-  assert.equal(await page.text('[data-reach="marketing"]'), "Reaches operating profit and net profit");
-  await page.click('.pl [data-ref="reset"]');
-  assert.match(await tiles(), /40\.0% .* 10\.4% .* 5\.9% /i);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const [steps] = await waterfalls();
+  assertAddsUp(steps);
+  const totals = steps.filter((r) => r.total).map((r) => r.v);
+  assert.deepEqual(totals, [960000, 250000, 142500]);
+  // The three-profits table shows the same figures, and margins on $2.4 million of revenue.
+  const profits = await tableCells(0);
+  assert.deepEqual(profits.map((r) => dollars(r[1])), totals);
+  assert.deepEqual(profits.map((r) => r[2]), totals.map((v) => `${((v / 2400000) * 100).toFixed(1)}%`));
+  assert.deepEqual(await tableRows(), [3, 7]);
 });
 
-test("FI: the profit-to-cash bridge checks itself against the cash account", async () => {
-  await page.open("fi-cash-connects");
-  const pick = (id, sign) => page.click(`[data-pick="${id}"][data-sign="${sign}"]`);
-  const right = { dep: 1, ar: -1, inv: -1, ap: 1, accr: 1, capex: -1, loan: 1 };
-  for (const [id, sign] of Object.entries(right)) await pick(id, sign);
-  assert.match(await page.text('.cb [data-ref="note"]'), /ends at \$17,500, .* They match/);
-  assert.equal(await page.text('.cb [data-total="5"]'), "$97,500");
-  // One row the wrong way moves the end by twice its amount.
-  await pick("ar", 1);
-  assert.match(await page.text('.cb [data-ref="note"]'), /ends at \$197,500, .* over by \$180,000/);
-  await page.click('.cb [data-ref="reveal"]');
-  assert.ok(await page.evaluate(() => document.querySelector('[data-row="ar"]').classList.contains("is-wrong")));
-  assert.match(await page.text('[data-why="dep"]'), /^Right\. Adds cash/);
-});
-
-test("FI: revenue recognition sorter shows each month's figure", async () => {
+test("FI: revenue recognition tables a month of events, revenue apart from cash", async () => {
   await page.open("fi-revenue");
-  await page.click('[data-opt="all"]');
-  await page.click('[data-action="next"]');
-  await page.click('[data-opt="none"]');
-  await page.click('[data-action="next"]');
-  await page.click('[data-opt="some"]');
-  assert.match(await page.text(".sorter-rewrite"), /\$1,000$/);
-  await page.click('[data-action="next"]');
-  // The gift cards (item 4) are answered wrong on purpose.
-  assert.equal(await sort(["all", "none", "all", "some", "none"]), "7 of 8 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
+  const rows = await tableCells(0);
+  const events = rows.slice(0, -1);
+  assert.equal(events.length, 8);
+  // The total row adds up both columns: $59,000 of revenue, $46,000 of cash.
+  for (const col of [1, 2]) assert.equal(events.reduce((a, r) => a + dollars(r[col]), 0), dollars(rows.at(-1)[col]));
+  assert.deepEqual([rows.at(-1)[1], rows.at(-1)[2]], ["$59,000", "$46,000"]);
 });
 
-test("FI: double entry keeps the balance sheet in balance", async () => {
+test("FI: the balance sheet balances before and after a month of entries", async () => {
   await page.open("fi-balance-sheet");
-  const post = async ([a1, s1], [a2, s2]) => {
-    await page.selectOption('.de [data-acct="1"]', a1);
-    await page.click(`.de [data-dir="1"][data-sign="${s1}"]`);
-    await page.selectOption('.de [data-acct="2"]', a2);
-    await page.click(`.de [data-dir="2"][data-sign="${s2}"]`);
-    await page.click('.de [data-ref="post"]');
-  };
-  const verdict = () => page.text('.de [data-ref="verdict"]');
-  // A one-sided mistake tips the scale; retrying keeps the books clean.
-  await post(["cash", 1], ["loan", -1]);
-  assert.match(await verdict(), /out of balance by \$100,000/i);
-  await page.click('.de [data-ref="retry"]');
-  await post(["cash", 1], ["loan", 1]);
-  assert.match(await verdict(), /^right/i);
-  await page.click('.de [data-ref="next"]');
-  // A balanced but wrong entry is caught too; "Show the answer" posts the right one.
-  await post(["inv", 1], ["cash", -1]);
-  assert.match(await verdict(), /it balances, but/i);
-  await page.click('.de [data-ref="reveal"]');
-  await page.click('.de [data-ref="next"]');
-  const rest = [
-    [["cash", -1], ["ap", -1]],
-    [["equip", 1], ["cash", -1]],
-    [["ar", 1], ["equity", 1]],
-    [["inv", -1], ["equity", -1]],
-    [["equip", -1], ["equity", -1]],
-    [["accr", 1], ["equity", -1]]
-  ];
-  for (const [k, [a, b]] of rest.entries()) {
-    await post(a, b);
-    assert.match(await verdict(), /^right/i, `transaction ${k + 3}`);
-    if (k < rest.length - 1) await page.click('.de [data-ref="next"]');
-  }
-  assert.equal(await page.text('.de [data-ref="progress"]'), "DONE · 6 OF 8 RIGHT FIRST TIME");
-  assert.equal(await page.text('.de [data-ref="assets"]'), "$1,434,000");
-  assert.equal(await page.text('.de [data-ref="claims"]'), "$1,434,000");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input, select").length), 0);
+  // Each stack's lines add up to its total, and both sides match at each date.
+  const stacks = await page.evaluate(() => {
+    const t = Array.from(document.querySelectorAll(".fg-wide text"), (e) => e.textContent);
+    const out = [];
+    let cur = [];
+    for (const s of t) {
+      const m = s.match(/\$([\d,]+)k$/);
+      if (!m) continue;
+      if (s === `$${m[1]}k` && /,/.test(m[1])) {
+        out.push({ sum: cur.reduce((a, v) => a + v, 0), total: Number(m[1].replace(/,/g, "")) });
+        cur = [];
+      } else cur.push(Number(m[1].replace(/,/g, "")));
+    }
+    return out;
+  });
+  assert.deepEqual(stacks.map((s) => s.total), [1360, 1360, 1434, 1434]);
+  stacks.forEach((s) => assert.equal(s.sum, s.total));
+  // Every entry touches two lines and leaves the sheet in balance.
+  const entries = await tableCells(0);
+  assert.equal(entries.length, 8);
+  entries.forEach((r) => assert.match(r.at(-1), /^(Both sides [+−]\$[\d,]+|Unchanged)$/));
+});
+
+test("FI: cash flow language sorts Northline's flows into three sections", async () => {
+  await page.open("fi-cash-flow-language");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.deepEqual(await tableRows(), [3, 8, 5]);
+  const flows = await tableCells(1);
+  assert.ok(flows.every((r) => ["Operating", "Investing", "Financing"].includes(r[1])));
+  // Interest paid is the one that surprises: operating, under US rules.
+  assert.equal(flows.find((r) => /interest/i.test(r[0]))[1], "Operating");
+});
+
+test("FI: the cash bridge runs from net profit to the change in cash", async () => {
+  await page.open("fi-cash-connects");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  const [bridge] = await waterfalls();
+  assertAddsUp(bridge);
+  assert.equal(bridge[0].v, 142500);
+  assert.deepEqual(bridge.filter((r) => r.total).map((r) => r.v), [97500, 17500]);
+  // The bridge lands on the change in the cash line of the two balance sheets.
+  const sheet = await tableCells(0);
+  const cash = sheet.find((r) => r[0] === "Cash");
+  assert.equal(dollars(cash[2]) - dollars(cash[1]), 17500);
+  assert.equal(cash[3], "+$17,500");
 });
 
 test("FI: the three statements stay in balance through a month of events", async () => {
@@ -308,13 +326,6 @@ test("FI: the three statements stay in balance through a month of events", async
   assert.equal(await page.text('[data-ref="cash"]'), "$43,000");
 });
 
-test("FI: cash-flow sorter has three buckets and explains a wrong pick", async () => {
-  await page.open("fi-cash-flow-language");
-  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter-opt").length), 3);
-  await page.click('[data-opt="fin"]');
-  assert.match(await page.text(".sorter-why"), /^NOT QUITE/i);
-});
-
 test("FI: ratios compare two years", async () => {
   await page.open("fi-ratios");
   assert.match(await page.text(".ratios .tiles-3"), /\$675k → \$750k/);
@@ -323,28 +334,32 @@ test("FI: ratios compare two years", async () => {
   assert.match(await page.text(".ratio-detail"), /10\.0×.*6\.0×/);
 });
 
-test("FI: the rate decides between money now and later", async () => {
+test("FI: the building blocks of ROI chart present value at three rates", async () => {
   await page.open("fi-roi-basics");
-  const note = () => page.text('.tv [data-ref="note"]');
-  assert.match(await note(), /^At 5%, 4 of 5 later offers are worth more/);
-  await page.click('.tv [data-rate="0.12"]');
-  assert.match(await note(), /^At 12%, 1 of 5 later offers is worth more/);
-  // The ten-year offer breaks even at exactly 12%.
-  assert.match(await page.text(".tv-offer:last-child"), /About the same/i);
-  await slide(page, '.tv [data-ref="rate"]', 0);
-  assert.match(await note(), /^At 0%, 5 of 5 .* waiting costs nothing/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart .bh-line").length), 3);
+  // Each offer's present value is the amount over (1 + rate) ^ years, and it breaks even at the stated rate.
+  const offers = await tableCells(0);
+  assert.equal(offers.length, 5);
+  for (const r of offers) {
+    const [, amount, years] = r[0].match(/^\$([\d,]+) in (\d+) years?$/);
+    const a = Number(amount.replace(/,/g, ""));
+    [0, 0.03, 0.08, 0.12].forEach((rate, i) => assert.equal(dollars(r[i + 1]), Math.round(a / Math.pow(1 + rate, years)), `${r[0]} at ${rate}`));
+    assert.equal(Math.round(a / Math.pow(1 + parseFloat(r[5]) / 100, years)), 10000, `${r[0]} breaks even`);
+  }
 });
 
 test("FI: ROI calculator", async () => {
   await page.open("fi-roi");
   const tiles = () => page.text(".roi .tiles-3");
-  assert.match(await tiles(), /3\.6 years .*\$79,079 .*16\.5% \| Above the 10% hurdle/);
+  // Opens at Northline's 12% hurdle, the rate the page's tables use.
+  assert.match(await tiles(), /3\.6 years .*\$52,255 .*16\.5% \| Above the 12% hurdle/);
   await slide(page, 'input[data-key="savings"]', 90000);
-  assert.match(await tiles(), /4\.4 years .*−\$8,027 .*9\.3% \| Below the 10% hurdle/);
+  assert.match(await tiles(), /4\.4 years .*−\$29,973 .*9\.3% \| Below the 12% hurdle/);
   await slide(page, 'input[data-key="savings"]', 60000);
   assert.match(await tiles(), /Never .*None/);
   await page.click('[data-ref="reset"]');
-  assert.match(await tiles(), /\$79,079/);
+  assert.match(await tiles(), /\$52,255/);
 });
 
 test("FI: working capital levers free cash", async () => {

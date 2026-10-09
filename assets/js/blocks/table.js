@@ -1,10 +1,12 @@
 // Table: a dense comparison with a row heading in the first column. Cells are trusted HTML
 // (they may carry links and P&L tags). On phones each row becomes a small card, every cell
-// labelled with its column, so nothing scrolls sideways.
+// labelled with its column, so nothing scrolls sideways; a short cell (a figure, a word)
+// sits on one line beside its label.
 // Block: { title, intro?, columns: [..], widths?: [css width | null, ..], rows: [[..]], foot? }.
 (function () {
   "use strict";
   const { esc, figHead, resolveLinks } = window.Marginalia.util;
+  const short = (cell) => String(cell).replace(/<[^>]*>/g, "").length <= 16;
 
   window.Marginalia.blocks.table = {
     render(block, ctx) {
@@ -21,7 +23,7 @@
                   .map((cell, i) =>
                     i === 0
                       ? `<th scope="row">${resolveLinks(cell, ctx)}</th>`
-                      : `<td data-label="${esc(cols[i])}">${resolveLinks(cell, ctx)}</td>`
+                      : `<td data-label="${esc(cols[i])}"${short(cell) ? ' class="is-short"' : ""}>${resolveLinks(cell, ctx)}</td>`
                   )
                   .join("")}</tr>`
               )

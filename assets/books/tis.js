@@ -717,7 +717,7 @@
       // numbers. The terms stock-limited and flow-limited, the fishery's three outcomes (settle,
       // oscillate, collapse as boats get better at finding scarce fish) and the point that limits
       // are either self-imposed or imposed by the system are from my reading of the book,
-      // unchecked against its wording. The Grand Banks note and the sorter items are ours.
+      // unchecked against its wording. The Grand Banks note is ours.
       // A reference page. Growth meeting a limit, two-stock systems (capital and resource),
       // stock-limited and flow-limited resources, the oil field (bigger discoveries buy a
       // later, higher peak, not a longer plateau) and the fishery (equilibrium, oscillation
@@ -911,7 +911,7 @@
       // The three properties follow Chapter 3. That Meadows uses just-in-time supply as an
       // example of resilience traded for efficiency, that hierarchies arise from the bottom up
       // to serve the lower levels, and her use of "suboptimization" are from my reading of the
-      // chapter, unchecked against its wording. The factory and the sorter items are invented.
+      // chapter, unchecked against its wording. The factory is invented.
       // A reference page. Resilience (many loops on different mechanisms and time scales,
       // meta-resilience, invisible until tested, traded for efficiency), self-organization
       // (more complexity from simple rules, suppressed for control) and hierarchy (built
@@ -1035,8 +1035,7 @@
       },
       // The six headings follow Chapter 4 (events, nonlinearity, boundaries, layers of limits,
       // delays, bounded rationality); the descriptions and advice are ours, paraphrasing my
-      // reading of the chapter, unchecked against its wording. The help-desk queue is our own
-      // illustration of nonlinearity, not from the book; the sorter items are invented.
+      // reading of the chapter, unchecked against its wording.
       // A reference page. Models as incomplete, the six sources of surprise (beguiling
       // events, nonlinearity, nonexistent boundaries, layers of limits, ubiquitous delays,
       // bounded rationality), events, behavior and structure, the spruce budworm, Liebig's law

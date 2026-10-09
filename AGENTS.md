@@ -39,7 +39,7 @@ A page is a header, a list of blocks and an optional end section:
 ```js
 "my-page": {
   title: "…", navLabel: "Short", eyebrow: "Part II · …", dek: "One or two plain sentences.",
-  blocks: [ { type: "prose", sections: [...] }, { type: "sorter", ... } ],
+  blocks: [ { type: "brief", points: [...] }, { type: "table", ... } ],
   end: {
     related: [ { title: "…", where: "Part I", page: "other-slug" } ],   // omit page if it doesn't exist yet
     cta: { page: "builder", kicker: "Workbench", text: "…" }
@@ -71,13 +71,13 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `table.js` (render only) or `bar-chart.js` (render and mount).
 2. Add its `<script>` tag to `index.html` with the other blocks (before `app.js`).
 3. Add its styles to `styles.css` under a comment header.
-4. Before reaching for a new block, check whether an existing one fits. `sorter` handles two or more options; `prose` handles text with sidenotes.
+4. Before reaching for a new block, check whether an existing one fits. `table` handles most comparisons, `figure` any one-off diagram, and `prose` text with sidenotes.
 
 **Write a dense reference page**
 The direction for chapter pages is more of the book per screen and fewer toy models and quizzes. `#ump-five-forces` is the model.
 1. Set `layout: "dense"` on the page for the compact head.
 2. Open with a `brief`: the chapter's argument as numbered claims (`{ t, d }`).
-3. Draw the chapter's own framework and chart real figures from the book. `force-map` draws a hub and spokes, `value-chain` Porter's chain, `chain-compare` two or more chains side by side, `diagram` nodes and links from data (activity maps, causal loops; `list` turns a dense map into a list on phones), `loop-cards` a catalog of structures, each with a small loop diagram, `behavior` small multiples of behavior-over-time charts (Meadows's line graphs; series can come from a small model in the book file), and `figure` any other diagram as inline SVG built from the `.sv-*` classes in `styles.css` (numbered `.sv-call` markers tie it to its notes; give a taller `svgNarrow` when the wide drawing would be too small on a phone). `bar-chart` charts real figures; name the source, and flag any figure you couldn't check in a code comment.
+3. Draw the chapter's own framework and chart real figures from the book. `force-map` draws a hub and spokes, `value-chain` Porter's chain, `chain-compare` two or more chains side by side, `diagram` nodes and links from data (activity maps, causal loops; `list` turns a dense map into a list on phones), `loop-cards` a catalog of structures, each with a small loop diagram, `behavior` small multiples of behavior-over-time charts (Meadows's line graphs; series can come from a small model in the book file), and `figure` any other diagram as inline SVG built from the `.sv-*` classes in `styles.css` (numbered `.sv-call` markers tie it to its notes; give a taller `svgNarrow` when the wide drawing would be too small on a phone). `bar-chart` charts real figures; name the source, and flag any figure you couldn't check in a code comment. `waterfall` walks a running total step by step (an income statement down to profit, a bridge from profit to cash); several charts in one block share a scale, so two versions of the same account can be compared.
 4. Put comparisons, worked cases and common mistakes in `table` blocks. Cells are trusted HTML; `<span class="pl-tag">Price ↓</span>` marks where something hits the P&L.
 
 **Add a book**

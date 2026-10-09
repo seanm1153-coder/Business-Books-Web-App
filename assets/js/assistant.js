@@ -36,7 +36,7 @@
   function labelText(input) {
     const label = input.labels && input.labels[0];
     if (label) {
-      const t = label.querySelector(".lever-t, .cm-mode-t, span");
+      const t = label.querySelector(".lever-t, span");
       return clean((t || label).textContent);
     }
     return clean(input.getAttribute("aria-label") || "");
