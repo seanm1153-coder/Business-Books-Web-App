@@ -151,7 +151,7 @@
           { n: 4, title: "Creating value: the core", blurb: "A distinctive value proposition and a value chain tailored to deliver it.", page: "value" },
           { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy.", page: "trade-offs" },
           { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation.", page: "fit" },
-          { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build." },
+          { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build.", page: "continuity" },
           { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief." }
         ]
       }
@@ -793,7 +793,7 @@
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
             { title: "Creating value", where: "Chapter 4", page: "value" },
             { title: "Fit", where: "Chapter 6", page: "fit" },
-            { title: "Continuity", where: "Chapter 7" }
+            { title: "Continuity", where: "Chapter 7", page: "continuity" }
           ],
           cta: { page: "fit", kicker: "Next", text: "Why a system of activities is hard to copy" }
         }
@@ -934,7 +934,88 @@
           related: [
             { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
-            { title: "Continuity", where: "Chapter 7" }
+            { title: "Continuity", where: "Chapter 7", page: "continuity" }
+          ],
+          cta: { page: "continuity", kicker: "Next", text: "Why a strategy needs years to pay off" }
+        }
+      },
+      // Continuity as the enabler (what it lets a company build, that it isn't standing still,
+      // and when change is warranted) follows my reading of Magretta's chapter 7, unchecked
+      // against her wording. The simulator is ours.
+      "continuity": {
+        navLabel: "Continuity",
+        title: "Continuity",
+        eyebrow: "Part II · Chapter 07",
+        dek:
+          "A strategy takes years to build: skills, reputation and fit don't appear overnight. Porter calls continuity the enabler, and argues that most companies change direction too often, not too rarely.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Why strategy needs time",
+                paras: [
+                  "Continuity lets a company build what its strategy depends on. Customers learn what it stands for. Employees, suppliers and channels develop skills and assets tailored to it. And the fit among activities, which takes years to work out, has time to grow. Each change of direction throws some of that away.",
+                  "Continuity doesn't mean standing still. Within a stable strategy a company should improve constantly, running its activities better and extending its offer in ways that serve the same customers. What stays fixed is the core: the customers, needs and relative price it has chosen, and the trade-offs that go with them."
+                ],
+                side: {
+                  label: "Reinvention",
+                  html: "<p>Porter is skeptical of constant reinvention. A company that changes its strategy every few years never builds the fit that would make any of them pay.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "continuity",
+            title: "Building a strategy, or rebuilding it",
+            intro:
+              "An invented company starts halfway to mastering strategy A. Each year it pursues a strategy it gets better at it, and what it knew about the other fades. Change how often it switches, then let the market shift.",
+            years: 20,
+            start: 0.5,
+            learn: 0.3,
+            decay: 0.5,
+            changeCost: 25,
+            shiftYear: 12,
+            before: { A: 100, B: 90 },
+            after: { A: 50, B: 100 },
+            everyLabel: "Change strategy",
+            everyHint: "How often the company switches between strategies A and B.",
+            shiftLabel: "The market shifts in year 12, making B the better strategy",
+            adaptLabel: "Change once, when the market shifts",
+            caption: "Profit each year, in millions of dollars, over 20 years.",
+            presets: [
+              { id: "steady", label: "Stay the course", state: { every: 11, shift: false, adapt: false } },
+              { id: "churn", label: "Change every two years", state: { every: 2, shift: false, adapt: false } },
+              { id: "stuck", label: "The market shifts", state: { every: 11, shift: true, adapt: false } },
+              { id: "adapt", label: "Change when it shifts", state: { every: 11, shift: true, adapt: true } }
+            ],
+            foot:
+              "A toy model, not from the book. Each year closes 30% of the gap to full capability in the strategy being pursued and loses half of the capability in the other. A change of strategy costs $25 million in the year it happens. At full capability, either strategy earns up to $100 million a year."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "When to change",
+                paras: [
+                  "Strategy should change when the world it was built for changes: when customers' needs shift, when a new technology makes the old trade-offs obsolete, or when a new way of competing appears that the existing strategy can't absorb. Even then, the hard part is usually recognizing that the old trade-offs no longer hold, and accepting the cost of building something new.",
+                  "What shouldn't drive a change is impatience: a bad quarter, a rival's announcement, a new management fashion. A strategy abandoned before it has had time to build its fit never gets the chance to pay."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “The market shifts”, then “Change when it shifts”. One well-timed change beats both standing still and changing on a schedule.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Fit", where: "Chapter 6", page: "fit" },
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
+            { title: "Creating value", where: "Chapter 4", page: "value" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }

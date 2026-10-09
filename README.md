@@ -77,6 +77,7 @@ npm test
 | Creating value | `#ump-value` | The three questions of a value proposition (which customers, which needs, what relative price) and the tailored value chain. A builder for an invented car rental company flags answers that contradict or barely fit, and shows the tailored chain for each of the three coherent positions. Ends with a which-question sort. |
 | Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
 | Fit | `#ump-fit` | Porter's three kinds of fit; a calculator for the odds of copying a whole system (90% per activity gives 66% for four); and the airline model run over every partial copy, where each one earns less than not copying at all and only the complete system pays. Ends with a which-kind-of-fit sort. |
+| Continuity | `#ump-continuity` | Why strategy needs years, and a toy simulator of two strategies whose capability builds while pursued and fades while not: staying the course earns $1,883m over 20 years, changing every two years $739m, and when the market shifts, one well-timed change beats both. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
 | Notebook | `#notebook` | The reader's commonplace book: highlights and margin notes, workbench drafts, exercise scores, pages explored and their Northline result. |
 
@@ -112,7 +113,8 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               commons, limits, queue,
                               buffer, system-sketch, forces,
                               advantage, activity-system, positions,
-                              copy-odds, copy-valley, value-prop)
+                              copy-odds, copy-valley, value-prop,
+                              continuity)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

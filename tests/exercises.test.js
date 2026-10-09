@@ -611,6 +611,24 @@ test("Porter: fit makes a system hard to copy, and partial copies earn least", a
   assert.equal(await sort(["consistency", "reinforcement", "optimization", "consistency", "reinforcement", "optimization"]), "6 of 6 right");
 });
 
+test("Porter: continuity builds a strategy; constant change and standing still both cost", async () => {
+  await page.open("ump-continuity");
+  const tiles = () => page.text('.ct [data-ref="tiles"]');
+  const note = () => page.text('.ct [data-ref="note"]');
+  assert.match(await tiles(), /\$1,883m .* 0 .* Same$/i);
+  await page.click('.ct [data-preset="churn"]');
+  assert.match(await tiles(), /\$739m .* 9 .* −\$1,144m$/i);
+  assert.match(await note(), /^Changing strategy nine times throws away what was built/);
+  await page.click('.ct [data-preset="stuck"]');
+  assert.match(await note(), /cuts its profit to \$50m a year .* \$1,435m over 20 years/);
+  await page.click('.ct [data-preset="adapt"]');
+  assert.match(await tiles(), /\$1,637m .* 1 .* \+\$202m$/i);
+  // The "change once" option only applies once the market shifts.
+  await page.uncheck('.ct [data-ref="shift"]');
+  assert.equal(await page.evaluate(() => document.querySelector('.ct [data-ref="adapt"]').disabled), true);
+  assert.match(await tiles(), /\$1,883m/);
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

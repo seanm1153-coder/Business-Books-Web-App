@@ -794,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps, .co, .cv, .vp { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps, .co, .cv, .vp, .ct { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1872,6 +1872,14 @@ mark.m-fluff { background: var(--mark-fluff); }
 @media (min-width: 901px) {
   .vp-out { position: sticky; top: 1.5rem; }
 }
+
+/* ---------- Continuity ---------- */
+
+.ct-bar.is-A, .ct-k-a { fill: var(--pen); background: var(--pen); }
+.ct-bar.is-B, .ct-k-b { fill: var(--series-cash); background: var(--series-cash); }
+.ct .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+.ct .levers { gap: 1rem; }
+.ls-toggle.is-off { opacity: 0.5; cursor: default; }
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
