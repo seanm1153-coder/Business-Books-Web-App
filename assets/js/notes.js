@@ -148,6 +148,7 @@
       return;
     }
     pending = target;
+    toolbar.querySelector('[data-act="ask"]').hidden = !(M.assistant && M.assistant.available);
     toolbar.hidden = false;
     if (window.matchMedia("(max-width: 640px)").matches) {
       toolbar.classList.add("is-docked");
@@ -180,6 +181,16 @@
       const mark = page.root.querySelector(`mark.user-hl[data-note="${n.id}"][data-last]`) || page.root.querySelector(`mark.user-hl[data-note="${n.id}"]`);
       openEditor(n.id, mark);
     }
+  }
+
+  // Hand the selected passage to the reading companion (assistant.js) as the subject of a question.
+  function askAboutSelection() {
+    if (!pending || !M.assistant) return;
+    const { quote, key } = pending;
+    window.getSelection().removeAllRanges();
+    toolbar.hidden = true;
+    pending = null;
+    M.assistant.open({ quote, para: key });
   }
 
   /* ---------- Note editor ---------- */
@@ -222,12 +233,14 @@
     toolbar.setAttribute("role", "toolbar");
     toolbar.setAttribute("aria-label", "Selected text");
     toolbar.hidden = true;
-    toolbar.innerHTML = `<button type="button" data-act="hl"><span class="hl-swatch" aria-hidden="true"></span>Highlight</button><button type="button" data-act="note">Add a note</button>`;
+    toolbar.innerHTML = `<button type="button" data-act="hl"><span class="hl-swatch" aria-hidden="true"></span>Highlight</button><button type="button" data-act="note">Add a note</button><button type="button" data-act="ask" hidden>Ask Claude</button>`;
     // Keep the selection alive when the toolbar is pressed.
     toolbar.addEventListener("mousedown", (e) => e.preventDefault());
     toolbar.addEventListener("click", (e) => {
       const b = e.target.closest("[data-act]");
-      if (b) addFromSelection(b.dataset.act === "note");
+      if (!b) return;
+      if (b.dataset.act === "ask") askAboutSelection();
+      else addFromSelection(b.dataset.act === "note");
     });
 
     pop = document.createElement("div");

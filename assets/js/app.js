@@ -77,6 +77,7 @@
       renderPage(route.book, route.slug, route.page);
       document.title = `${route.page.title} · ${route.book.title} · Marginalia`;
     }
+    if (M.assistant) M.assistant.setRoute(route);
     window.scrollTo(0, 0);
     view.focus({ preventScroll: true });
     // Restart the short fade-in (styles.css, Motion) for the new view.

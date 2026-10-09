@@ -24,7 +24,7 @@ Run `npm test` before every commit. It must pass, with no console errors. CI run
 - `assets/js/blocks/<type>.js` holds one reusable page block per file.
 - `assets/js/views/*.js` are site-wide pages (`#notebook`, `#northline`).
 - `assets/js/art/*.js` draws the hero art on each book's home page.
-- `assets/js/memory.js` stores everything a reader leaves behind (notes, drafts, scores, visits). `notes.js` does highlights and margin notes. `ask.js` does the Claude critique.
+- `assets/js/memory.js` stores everything a reader leaves behind (notes, drafts, scores, visits). `notes.js` does highlights and margin notes. `ask.js` does the Claude critique, and `assistant.js` the Ask Claude panel, which reads every interactive's controls generically (sliders, radio groups, checkboxes, presets, tabs) and can operate them. Use real labelled controls in new blocks and the panel works with them for free.
 - `assets/js/northline-model.js` is a pure quarterly finance model. It works both in the browser and in Node (`module.exports`).
 - `assets/styles.css` holds every style. Design tokens are at the top, with a light theme and a dark theme.
 
@@ -108,7 +108,7 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 
 ## Things that look broken but aren't
 
-- **`window.claude` is usually absent.** The site is also published as a claude.ai Artifact. There, `window.claude.use("db" | "user" | "sample")` provides cloud sync and the Claude critique. Everywhere else, including GitHub Pages and local runs, it's missing, so memory falls back to browser storage and the critique button stays hidden. Don't remove these code paths or make them required. `tests/reader.test.js` covers both modes with a mock.
+- **`window.claude` is usually absent.** The site is also published as a claude.ai Artifact. There, `window.claude.use("db" | "user" | "sample")` provides cloud sync, the Claude critique and the Ask Claude panel. Everywhere else, including GitHub Pages and local runs, it's missing, so memory falls back to browser storage and the critique button and Ask Claude panel stay hidden. Don't remove these code paths or make them required. `tests/reader.test.js` covers both modes with a mock.
 - **The claude.ai Artifact is a build output.** It's made with `python3 tools/bundle.py --fragment <file>` and published by a Claude session. Only edit the source files in this repo.
 - **`dist/` is ignored.** Don't commit build output.
 

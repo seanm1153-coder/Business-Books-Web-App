@@ -86,6 +86,7 @@ npm test
 
 - **Margin notes.** Select text in any chapter's prose to highlight it or add a note. Highlights come back on every visit and collect in the notebook.
 - **Memory.** `assets/js/memory.js` keeps notes, drafts, scores and visits. Inside a Claude viewer with the `db` and `user` capabilities, they live in the reader's private store (`data/users/<id>/library`) and follow them across devices; anywhere else they stay in the browser.
+- **Ask Claude.** Inside a Claude viewer, an "Ask Claude" button opens a side panel on every page. Each question carries the page's text, the state of its interactives and any passage the reader selected (select text, then "Ask Claude" in the toolbar). Where the viewer allows page tools, Claude can move the page's own controls to show something (`get_page_state`, `set_control`). Answers can be saved as margin notes. It uses the `sample` capability and the reader's own Claude account; elsewhere it doesn't appear. Code: `assets/js/assistant.js`.
 - **Claude critique.** The four workbenches (kernel, point of view, system sketch, strategy tests) can ask Claude for a critique of the draft through the `sample` capability. Where Claude isn't reachable (for example on GitHub Pages) the button stays hidden.
 
 Routes are `#<book>` for a book's home and `#<book>-<page>` for its pages. Older links (`#kernel`, `#builder`, …) redirect.
@@ -100,6 +101,7 @@ assets/js/util.js             shared namespace and helpers
 assets/js/memory.js           what the site remembers per reader (cloud or browser)
 assets/js/notes.js            highlights and margin notes on chapter prose
 assets/js/ask.js              Claude critique for the workbenches
+assets/js/assistant.js        Ask Claude: the reading companion panel
 assets/js/northline-model.js  the Northline quarterly model (pure; testable in Node)
 assets/js/views/*.js          site-wide pages: notebook, northline
 assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallmarks,

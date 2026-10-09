@@ -1,5 +1,6 @@
 // Ask Claude for a critique of a workbench draft. Uses the `sample` capability when the
-// page runs inside a Claude viewer; anywhere else the feature stays hidden.
+// page runs inside a Claude viewer; anywhere else the feature stays hidden. The reading
+// companion (assistant.js) shares the same capability through getSample().
 (function () {
   "use strict";
   const M = window.Marginalia;
@@ -46,6 +47,9 @@
   }
 
   M.ask = {
+    // The `sample` capability, or null where the page isn't inside a Claude viewer.
+    getSample,
+
     // Fills `host` with a critique control once Claude is reachable. `prompt()` builds
     // the full instruction from the current draft at click time.
     mount(host, { label, prompt, isEmpty }) {

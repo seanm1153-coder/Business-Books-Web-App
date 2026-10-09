@@ -175,3 +175,79 @@ test("the Claude critique is hidden without a viewer and streams an answer with 
   }
   assert.deepEqual([...plain.errors, ...page.errors], []);
 });
+
+test("Ask Claude: hidden without a viewer; reads the page, works its controls and saves answers", async () => {
+  const plain = await env.page();
+  await plain.open("ump-five-forces");
+  await plain.waitForTimeout(300);
+  assert.equal(await plain.evaluate(() => document.querySelector(".ac-launch")), null);
+
+  const page = await env.page({
+    init: () => {
+      const answer = "I set **Buyer power** to strong. The industry now keeps $42 of every $100.\n\n- Buyers take more\n- Suppliers are unchanged";
+      const sample = async (input, opts) => {
+        window.__inputs = (window.__inputs || []).concat([input]);
+        // Like Claude, find the control in the page state and use the tool to change it.
+        const m = input[0].content.match(/- (c\d+) choice "Buyer power"/);
+        if (opts.tools && m) await opts.tools.find((t) => t.name === "set_control").execute({ id: m[1], value: "Strong" }, { signal: new AbortController().signal });
+        await new Promise((r) => setTimeout(r, 30));
+        opts.onText({ text: answer, delta: answer });
+        return { text: answer, truncated: false, modelTierApplied: "default" };
+      };
+      sample.limits = async () => ({ maxPromptBytes: 262144, tools: { maxCount: 8 } });
+      window.claude = { use: async (n) => (n === "sample" ? sample : null) };
+    }
+  });
+  await page.open("ump-five-forces");
+  await page.waitForSelector(".ac-launch");
+  await page.click(".ac-launch");
+  assert.equal(await page.evaluate(() => document.querySelector(".ac-panel").hidden), false);
+  assert.match(await page.text(".ac-about"), /The five forces/);
+
+  await page.fill("#ac-input", "Show me what strong buyers do");
+  await page.press("#ac-input", "Enter");
+  await page.waitForSelector(".ac-msg.is-claude .ac-md strong");
+  assert.match(await page.text(".ac-msg.is-claude .ac-md"), /Buyer power .* Buyers take more/);
+  // The tool really moved the control, and the panel says so.
+  assert.match(await page.text('.ff [data-ref="tiles"]'), /\$42 .* \$5 .* \$53$/i);
+  assert.match(await page.text(".ac-did"), /Chose “Strong” for “Buyer power”/);
+  const first = await page.evaluate(() => window.__inputs[0]);
+  assert.equal(first[0].role, "user");
+  assert.match(first[0].content, /Page: Part I · Chapter 02 · The five forces[\s\S]*<page_text>[\s\S]*<interactives>[\s\S]*choice "Buyer power": Weak \[chosen\]/);
+  assert.equal(first[first.length - 1].content, "Show me what strong buyers do");
+
+  // Keep the answer as a margin note.
+  await page.click('.ac-msg [data-act="save"]');
+  const notes = await page.evaluate(() => window.Marginalia.memory.notes({ book: "ump", page: "five-forces" }));
+  assert.equal(notes.length, 1);
+  assert.match(notes[0].quote, /^Asked Claude: Show me what strong buyers do/);
+  assert.match(notes[0].note, /^Claude: I set Buyer power to strong/);
+
+  // Select a passage and ask about it.
+  await page.evaluate(() => {
+    const p = document.querySelector(".prose p");
+    const range = document.createRange();
+    range.setStart(p.firstChild, 0);
+    range.setEnd(p.firstChild, 40);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.dispatchEvent(new Event("selectionchange"));
+  });
+  await page.waitForSelector('.hl-toolbar [data-act="ask"]:not([hidden])');
+  await page.click('.hl-toolbar [data-act="ask"]');
+  assert.match(await page.text(".ac-quote"), /^About: “Most people picture competition as a/);
+  await page.fill("#ac-input", "What does this mean?");
+  await page.press("#ac-input", "Enter");
+  await page.waitForFunction(() => window.__inputs.length === 2);
+  const second = await page.evaluate(() => window.__inputs[1]);
+  assert.match(second[second.length - 1].content, /^About this passage on the page: "Most people picture competition as a[\s\S]*What does this mean\?$/);
+  // The earlier question and answer travel with the new one.
+  assert.equal(second.length, 4);
+
+  // A new page starts a new conversation.
+  await page.open("ump-advantage");
+  await page.waitForSelector(".ac-empty");
+  assert.match(await page.text(".ac-about"), /Competitive advantage/);
+  assert.deepEqual([...plain.errors, ...page.errors], []);
+});

@@ -248,12 +248,19 @@ body[data-header="night"] .crumbs { color: var(--night-dim); }
 .book-nav:not([hidden]) + .site-nav { margin-left: 0; padding-left: 1.25rem; border-left: 1px solid currentColor; }
 .site-nav a { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; padding-block: 0.25rem; border-bottom: 1px solid transparent; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { border-color: currentColor; }
-/* Between tablet and desktop widths, tighten the spacing so the book and site navs stay on one line. */
+/* Between tablet and desktop widths, tighten the spacing so the book and site navs stay on one
+   line. The same applies while the Ask Claude panel takes 27rem of a wider screen. */
 @media (min-width: 901px) and (max-width: 1100px) {
   .header-inner { column-gap: 1.25rem; }
   .crumbs { flex-basis: 6rem; }
   .book-nav, .site-nav { column-gap: 0.9rem; letter-spacing: 0.03em; }
   .book-nav:not([hidden]) + .site-nav { padding-left: 0.9rem; }
+}
+@media (min-width: 1100px) and (max-width: 1540px) {
+  body.ac-open .header-inner { column-gap: 1.25rem; }
+  body.ac-open .crumbs { flex-basis: 6rem; }
+  body.ac-open .book-nav, body.ac-open .site-nav { column-gap: 0.9rem; letter-spacing: 0.03em; }
+  body.ac-open .book-nav:not([hidden]) + .site-nav { padding-left: 0.9rem; }
 }
 .note-count { display: inline-grid; place-items: center; min-width: 1.25rem; height: 1.25rem; padding: 0 0.3rem; border-radius: 99px; background: var(--pen); color: var(--paper); font-size: 0.625rem; letter-spacing: 0; }
 body[data-header="night"] .note-count { background: var(--pen-bright); color: var(--night); }
@@ -1889,6 +1896,75 @@ mark.m-fluff { background: var(--mark-fluff); }
 .ct .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
 .ct .levers { gap: 1rem; }
 .ls-toggle.is-off { opacity: 0.5; cursor: default; }
+
+/* ---------- Ask Claude (the reading companion; only inside a Claude viewer) ---------- */
+
+.ac-launch {
+  position: fixed; z-index: 40;
+  right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.1rem;
+  border: 0; border-radius: 99px;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+  box-shadow: 0 12px 28px -14px color-mix(in srgb, var(--ink) 70%, transparent);
+  cursor: pointer;
+}
+.ac-launch:hover { background: var(--pen); }
+.ac-glyph { font-size: 0.9rem; line-height: 1; }
+body.ac-open .ac-launch { display: none; }
+.ac-panel {
+  position: fixed; z-index: 50; top: 0; right: 0; bottom: 0;
+  width: min(27rem, 100vw);
+  display: flex; flex-direction: column;
+  background: var(--paper); color: var(--ink);
+  border-left: 1px solid var(--rule);
+  box-shadow: -24px 0 48px -36px color-mix(in srgb, var(--ink) 60%, transparent);
+}
+/* On wide screens the page makes room for the panel instead of sitting under it. */
+@media (min-width: 1100px) {
+  body.ac-open { padding-right: 27rem; }
+}
+.ac-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1rem 1.1rem 0.8rem; border-bottom: 1px solid var(--rule); }
+.ac-head-t p { margin: 0; }
+.ac-title { font-family: var(--display); font-size: 1.375rem; line-height: 1.2; }
+.ac-about { margin-top: 0.15rem !important; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; color: var(--ink-2); }
+.ac-x { flex: none; width: 2rem; height: 2rem; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--ink-2); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.ac-x:hover { background: var(--paper-2); color: var(--ink); }
+.ac-log { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 1.1rem; padding: 1rem 1.1rem; }
+.ac-empty p { margin: 0 0 0.9rem; color: var(--ink-2); font-size: 0.9375rem; }
+.ac-suggest { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ac-suggest .pill { text-transform: none; letter-spacing: 0; font-family: var(--body); font-size: 0.875rem; text-align: left; }
+.ac-msg p { margin: 0; }
+.ac-msg.is-user { align-self: flex-end; max-width: 88%; padding: 0.55rem 0.8rem; background: var(--field); border: 1px solid var(--rule); border-radius: 12px 12px 3px 12px; font-size: 0.9375rem; }
+.ac-q { margin-bottom: 0.35rem !important; font-size: 0.8125rem; font-style: italic; color: var(--ink-2); }
+.ac-msg.is-claude { font-size: 0.9375rem; line-height: 1.6; }
+.ac-md p, .ac-md ul, .ac-md ol { margin: 0 0 0.65rem; }
+.ac-md ul, .ac-md ol { padding-left: 1.2rem; }
+.ac-md li + li { margin-top: 0.25rem; }
+.ac-md code { font-family: var(--mono); font-size: 0.8125rem; background: var(--paper-2); padding: 0 0.25rem; border-radius: 3px; }
+.ac-thinking { color: var(--ink-2); font-style: italic; }
+.ac-did { list-style: none; margin: 0 0 0.6rem; padding: 0; display: flex; flex-direction: column; gap: 0.2rem; font-family: var(--mono); font-size: 0.6875rem; color: var(--pen); }
+.ac-did li::before { content: "↳ "; }
+.ac-note { color: var(--ink-2); font-size: 0.8125rem; }
+.ac-msg-actions { margin-top: 0.1rem; }
+.ac-link { padding: 0; border: 0; background: none; color: var(--pen); font: inherit; font-size: 0.8125rem; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.ac-link:disabled { color: var(--ink-2); text-decoration: none; cursor: default; }
+.ac-form { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem 1.1rem calc(0.75rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); }
+.ac-form textarea { resize: none; min-height: 2.9rem; max-height: 9rem; overflow-y: auto; }
+.ac-actions { display: flex; align-items: center; gap: 0.5rem; }
+.ac-actions .pill, .ac-actions .btn-primary { flex: none; white-space: nowrap; }
+.ac-meta { margin: 0 auto 0 0; font-size: 0.6875rem; color: var(--ink-2); }
+.ac-quote { display: flex; align-items: flex-start; gap: 0.4rem; padding: 0.4rem 0.4rem 0.4rem 0.65rem; background: var(--pen-soft); border-left: 2px solid var(--pen); font-size: 0.8125rem; }
+.ac-quote-t { flex: 1; min-width: 0; }
+.ac-quote .ac-x { width: 1.5rem; height: 1.5rem; font-size: 1rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .ac-flash { animation: ac-flash 1.6s ease-out; }
+}
+@keyframes ac-flash {
+  from { box-shadow: 0 0 0 3px var(--pen-soft), 0 0 0 1px var(--pen); }
+  to { box-shadow: 0 0 0 3px transparent, 0 0 0 1px transparent; }
+}
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
