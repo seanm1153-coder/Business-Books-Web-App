@@ -331,72 +331,62 @@ test("FI: working capital levers free cash", async () => {
   assert.equal(await page.text('[data-ref="ccc"]'), "80 days");
 });
 
-test("TiS: the bathtub keeps rising while the faucet closes", async () => {
+test("TiS: stocks and flows draw the bathtub and chart what the level does", async () => {
   await page.open("tis-stocks-flows");
-  const level = () => page.text('.bt [data-ref="level"]');
-  const note = () => page.text('.bt [data-ref="note"]');
-  assert.equal(await level(), "20 L");
-  await page.click('.bt [data-ref="jump"]');
-  assert.equal(await level(), "35 L");
-  await page.click('.bt [data-scenario="drain"]');
-  await page.click('.bt [data-ref="jump"]');
-  assert.equal(await level(), "75 L");
-  await page.click('.bt [data-scenario="ease"]');
-  await page.click('.bt [data-ref="jump"]');
-  assert.match(await note(), /faucet is closing, yet the level keeps rising/);
-  // Taking the faucet by hand stops the scripted ramp.
-  await slide(page, '.bt [data-flow="inflow"]', 5);
-  assert.match(await note(), /level holds still/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  // Stock-and-flow notation: two clouds, a stock, two flows with valves.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-cloud").length), 2);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-valve").length), 2);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart").length), 4);
+  // Hovering a chart reads the level: the closing faucet's tub peaks at 45 liters at minute 10.
+  await page.locator(".bh-chart").nth(3).scrollIntoViewIfNeeded();
+  const at = await page.evaluate(() => {
+    const fig = document.querySelectorAll(".bh-chart")[3];
+    const r = fig.querySelector("svg").getBoundingClientRect();
+    const W = fig.bhW;
+    return { x: r.left + (r.width * (34 + (10 / 30) * (W - 44))) / W, y: r.top + r.height / 2 };
+  });
+  await page.mouse.move(at.x, at.y);
+  assert.equal(await page.text(".bh-chart:nth-child(4) .bh-tip"), "Minutes 10 | 45 L Water in the tub");
+  await page.mouse.move(0, 0);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [7, 6]);
 });
 
-test("TiS: feedback loops seek goals, compound and shift dominance", async () => {
+test("TiS: feedback draws three loops and their behavior, with doubling times", async () => {
   await page.open("tis-feedback");
-  const note = () => page.text('.ls [data-ref="note"]');
-  assert.match(await note(), /about 5\.2° in the first minute.* within 1° of the room after 52 minutes/);
-  await page.click('.ls [data-sys="savings"]');
-  assert.match(await note(), /doubles every 14 years .* \$7,040 after 40 years/);
-  await page.click('.ls [data-sys="population"]');
-  assert.match(await note(), /grows 2% a year/);
-  await page.check('.ls [data-param="falling"]');
-  assert.match(await note(), /in year 80 it drops below the death rate.* peaks at about 223 million/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  // Two reinforcing and two balancing loop marks; every signed link has its sign.
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-call text"), (t) => t.textContent)), ["B", "R", "R", "B"]);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-sign").length), 13);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart").length), 4);
+  assert.match(await page.text(".dt-table"), /10% a year\t7 years\t7\.3 years/);
 });
 
-test("TiS: delays make the car lot swing; slowing the response calms it", async () => {
+test("TiS: delays draw the dealer's loop and re-run it four ways", async () => {
   await page.open("tis-delays");
-  const tiles = () => page.text(".inv .tiles");
-  const note = () => page.text('.inv [data-ref="note"]');
-  assert.match(await tiles(), /315 .* 132 .* 183$/i);
-  assert.match(await note(), /never settles/);
-  await page.click('.inv [data-preset="notice"]');
-  assert.match(await note(), /about the same as with Meadows's settings/);
-  await page.click('.inv [data-preset="react"]');
-  assert.match(await tiles(), /422 .* 121 .* 301$/i);
-  assert.match(await note(), /worse than with Meadows's settings/);
-  await page.click('.inv [data-preset="slow"]');
-  assert.match(await note(), /settles near its new target.* calmer than/);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-delay").length), 6);
+  // The re-run behind the charts: reacting faster widens the swing, reacting slower narrows it.
+  const swing = (i) =>
+    page.evaluate((i) => {
+      const d = document.querySelectorAll(".bh-chart")[i].querySelector(".bh-line").getAttribute("d");
+      const ys = d.match(/[ML][\d.]+ ([\d.]+)/g).map((m) => Number(m.split(" ")[1]));
+      return Math.max(...ys) - Math.min(...ys);
+    }, i);
+  const [base, faster, slower] = [await swing(0), await swing(1), await swing(2)];
+  assert.ok(faster > base * 1.5 && slower < base * 0.5, `${base} ${faster} ${slower}`);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [3, 5]);
 });
 
-test("TiS: a bigger oil field peaks later, not longer; better gear sinks the fishery", async () => {
+test("TiS: limits draw the two-stock structure and re-run the oil field and the fishery", async () => {
   await page.open("tis-limits");
-  const tiles = () => page.text('.lim [data-ref="tiles"]');
-  const note = () => page.text('.lim [data-ref="note"]');
-  assert.match(await tiles(), /^Peak year \| 40 \| of 100 \| Peak output \| 29 .* Boom years \| 29 /i);
-  assert.match(await note(), /output grows for 40 years, to 29 million barrels a year.* by year 68/);
-  // Each doubling of the field buys about the same 13 years, and the boom doesn't lengthen.
-  await page.click('.lim [data-preset="2"]');
-  assert.match(await note(), /the peak comes 13 years later than in the original field, and output stays above half its peak for 30 years, against 29/);
-  await page.click('.lim [data-preset="4"]');
-  assert.match(await note(), /the peak comes 26 years later/);
-  await page.click('.lim [data-sys="fish"]');
-  assert.match(await tiles(), /^Fish \| 45% .* Boats \| 138 \| Catch \| 124 /i);
-  assert.match(await note(), /overshoots to 169 boats.* close to the most the fish can yield for good/);
-  await page.click('.lim [data-preset="40"]');
-  assert.match(await note(), /swing between 13% and 21% .* averages 71 thousand tonnes a year, below the 125/);
-  await page.click('.lim [data-preset="20"]');
-  assert.match(await note(), /the fish are all but gone.* Only once the fleet has shrunk to 17 boats/);
-  await slide(page, '.lim [data-ref="input"]', 10);
-  assert.match(await note(), /haven't come back by year 80/);
-  assert.equal(await sort(["stock", "flow", "stock", "flow", "stock", "flow"]), "6 of 6 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-node.is-stock").length), 2);
+  assert.match(await page.text(".bh-chart"), /Output peaks in year 42\b.*year 52\b.*year 61\b/);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [6, 3]);
 });
 
 test("TiS: a parts buffer costs in calm years and pays in bad ones", async () => {

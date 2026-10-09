@@ -5,6 +5,66 @@
 (function () {
   "use strict";
 
+  // Points for behavior charts: f sampled at n + 1 evenly spaced times from x0 to x1.
+  const curve = (f, x0, x1, n = 60) =>
+    Array.from({ length: n + 1 }, (_, i) => {
+      const x = x0 + ((x1 - x0) * i) / n;
+      return [x, f(x)];
+    });
+
+  // Meadows's car dealer, re-run: inventory on the lot, day by day, when demand steps up
+  // 10% on day 25. Sales are averaged over the perception delay, orders close the gap to ten
+  // days' perceived sales over the response delay, and orders arrive after the delivery
+  // delay. Our reconstruction from her description, not her model's equations.
+  const dealer = ({ perc = 5, resp = 3, deliv = 5, days = 100 } = {}) => {
+    let inv = 200;
+    let seen = 20;
+    const pipe = Array(deliv).fill(20);
+    const pts = [];
+    for (let t = 0; t <= days; t++) {
+      const sales = t >= 25 ? 22 : 20;
+      seen += (sales - seen) / perc;
+      const orders = Math.max(0, seen + (seen * 10 - inv) / resp);
+      inv += pipe.shift() - sales;
+      pipe.push(orders);
+      pts.push([t, inv]);
+    }
+    return pts;
+  };
+
+  // An oil field and a fishery, re-run from Meadows's descriptions; our reconstructions,
+  // not her models' equations. In both, profit buys capital (rigs, boats) that wears out.
+  // Oil: each rig yields a barrel-unit a year until the field is down to 500, then less.
+  const oil = (size, years = 100) => {
+    let left = size;
+    let rigs = 1;
+    const pts = [];
+    for (let t = 0; t <= years; t++) {
+      const out = Math.min(left, rigs * Math.min(1, left / 500));
+      pts.push([t, out]);
+      left -= out;
+      rigs += Math.max(0, 0.05 * (5 * out - 2 * rigs)) - rigs / 20;
+    }
+    return pts;
+  };
+  // Fish regrow fastest at half the sea's capacity; each boat's catch falls with fish
+  // density to the power `a`, so the lower `a`, the better boats are at finding the last
+  // fish. Returns fish as a share of capacity, yearly.
+  const fishery = (a, years = 150) => {
+    let fish = 1000;
+    let boats = 1;
+    const pts = [];
+    const dt = 0.25;
+    for (let i = 0; i <= years / dt; i++) {
+      if (i % 4 === 0) pts.push([i * dt, fish / 10]);
+      const regrow = 0.4 * fish * (1 - fish / 1000);
+      const catchNow = Math.min(fish / dt, boats * 20 * Math.pow(fish / 1000, a));
+      fish = Math.max(0, fish + (regrow - catchNow) * dt);
+      boats = Math.max(0, boats + (0.006 * (2 * catchNow - 10 * boats) - boats / 15) * dt);
+    }
+    return pts;
+  };
+
   window.Marginalia.addBook({
     id: "tis",
     title: "Thinking in Systems",
@@ -20,8 +80,8 @@
       "Summaries on this page are written in our own words from Donella H. Meadows, <cite>Thinking in Systems: A Primer</cite>, edited by Diana Wright (Chelsea Green, 2008). Example systems are invented unless the book uses them. Read the book for the full argument.",
     hero: { lines: ["Thinking", "in Systems"], art: "behavior" },
     entries: [
-      { kicker: "Start here", title: "Stocks and flows", desc: "Fill and drain a bathtub, and watch what the level does.", page: "stocks-flows" },
-      { kicker: "Simulator", title: "Delays", desc: "Run a car lot and watch one rise in demand set off months of swings.", page: "delays" },
+      { kicker: "Start here", title: "Stocks and flows", desc: "The building blocks of every system, and why a tub keeps filling while the faucet closes.", page: "stocks-flows" },
+      { kicker: "Case", title: "Delays", desc: "How one rise in demand sets a car lot swinging, and why reacting faster makes it worse.", page: "delays" },
       { kicker: "System traps", title: "The shared pasture", desc: "Five herders, one pasture, and three ways to keep it from being grazed bare.", page: "traps" }
     ],
     mapTitle: "Three parts, seven chapters",
@@ -73,80 +133,168 @@
     ],
 
     pages: {
+      // A reference page. The definition of a system (quoted), elements, interconnections and
+      // purpose, the football team, stocks and flows, dynamic equilibrium and the stock
+      // principles follow Meadows's chapter 1 and its end-of-chapter summary as I remember
+      // them, unchecked against her wording. The bathtub charts are drawn from simple
+      // arithmetic (a faucet closing steadily against a fixed drain), not from the book's
+      // figures. The examples table is ours, built from systems the book mentions.
       "stocks-flows": {
         navLabel: "Stocks and flows",
         title: "Stocks and flows",
         eyebrow: "Part I · Chapter 01",
+        layout: "dense",
         dek:
           "Every system is built from stocks, the things you can see, count or measure at any moment, and flows, the rates that fill and drain them. Meadows starts with the simplest case there is: a bathtub.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The chapter in six points",
+            points: [
               {
-                n: "1",
-                title: "What a system is",
-                paras: [
-                  "Meadows defines a system as “an interconnected set of elements that is coherently organized in a way that achieves something.” It has three kinds of things: elements, the interconnections between them, and a function or purpose.",
-                  "The elements are the easiest part to see and usually the least important. A football team can replace every player and still be recognizably the same team. Change the rules of the game, or what the team is trying to achieve, and it becomes something else."
-                ],
-                side: {
-                  label: "Look past the players",
-                  html: "<p>When a system misbehaves, the first instinct is to blame the people in it. Meadows suggests looking at the structure they're working inside instead.</p>"
-                }
+                t: "A system is elements, interconnections and a purpose.",
+                d: "Meadows defines it as “an interconnected set of elements that is coherently organized in a way that achieves something.” The elements are the easiest part to see and usually the least important: a football team can replace every player and stay the same team, but change its rules or its goal and it becomes something else."
               },
               {
-                n: "2",
-                title: "Stocks and flows",
-                paras: [
-                  "A stock is anything that accumulates: water in a tub, money in an account, trees in a forest, stock in a warehouse, a person's reputation. Flows are what change it. Inflows add to a stock, outflows take away from it, and nothing else does.",
-                  "That makes a stock a kind of memory. The level of water in the tub is the running total of everything that has flowed in, minus everything that has drained out."
-                ],
-                side: {
-                  label: "Units",
-                  html: "<p>Stocks and flows are measured differently: a stock in liters, a flow in liters per minute. Mixing them up is a common source of confused arguments.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "bathtub",
-            title: "Fill and drain the tub",
-            intro:
-              "A 100-liter tub with a faucet and a drain. Run the clock, move either slider while it runs, and watch the level trace its path over half an hour. Or try one of the scenarios.",
-            capacity: 100,
-            minutes: 30,
-            maxFlow: 10,
-            unit: "L",
-            stockLabel: "Water in the tub",
-            inflowLabel: "Faucet (inflow)",
-            inflowHint: "Liters per minute coming in.",
-            outflowLabel: "Drain (outflow)",
-            outflowHint: "Liters per minute going out, as long as there's water.",
-            chartCaption: "Water in the tub, in liters, over 30 minutes.",
-            initial: { start: 20, inflow: 5, outflow: 2 },
-            scenarios: [
-              { id: "drain", label: "Full tub, drain open", start: 100, inflow: 0, outflow: 5 },
-              { id: "steady", label: "Faucet matches drain", start: 50, inflow: 5, outflow: 5 },
-              { id: "ease", label: "Ease the faucet off", start: 30, inflow: 8, outflow: 5, ramp: { from: 8, to: 2, over: 20 } }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
+                t: "Stocks are what you can count at a moment.",
+                d: "Water in a tub, money in an account, trees in a forest, goods in a warehouse, a reputation. A stock is the memory of every flow that has filled or drained it."
+              },
               {
-                n: "3",
-                title: "What the bathtub teaches",
-                paras: [
-                  "A stock rises whenever inflow is bigger than outflow, whichever way the flows are moving. Close the faucet slowly and the level keeps climbing until the faucet runs slower than the drain. People watching the faucet expect the level to fall the moment they start closing it.",
-                  "There are two ways to raise a stock: add to the inflow, or cut the outflow. A company can keep more staff by hiring faster or by losing fewer; a household can build savings by earning more or by spending less. The second way is often cheaper and easier to overlook.",
-                  "Stocks also change slowly. Even a wide-open faucet takes time to fill a tub. That makes stocks buffers, which let inflows and outflows be out of step for a while, as a warehouse lets a factory produce at a different pace from sales. It also makes them a source of delay."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Pick “Ease the faucet off” and press +5 min twice. The faucet starts closing at once, yet the tub goes on filling for ten minutes.</p>"
-                }
+                t: "Only flows change a stock.",
+                d: "When inflow exceeds outflow, the stock rises; when it falls short, the stock falls; when they match, the stock holds steady in dynamic equilibrium, even though both flows keep running."
+              },
+              {
+                t: "There are two ways to raise a stock.",
+                d: "Add to the inflow, or cut the outflow. A company can keep more staff by hiring faster or by losing fewer people. The second way is often cheaper, and often overlooked."
+              },
+              {
+                t: "Stocks change slowly.",
+                d: "Even large flows take time to move a large stock. That makes stocks delays, buffers and shock absorbers, and gives systems their momentum."
+              },
+              {
+                t: "Stocks let flows run out of step.",
+                d: "A warehouse lets a factory produce at a different pace from sales; a reservoir lets a city use water in a drought. Much of managing anything is adjusting flows to keep stocks where you want them."
               }
+            ]
+          },
+          {
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "How Meadows draws a stock and its flows",
+            intro: "The bathtub in stock-and-flow notation. The same three symbols draw every system in the book.",
+            alt: "A stock-and-flow diagram. A cloud on the left feeds a pipe with a valve labelled faucet into a box labelled water in the tub. A second pipe with a valve labelled drain leads from the box to a cloud on the right.",
+            w: 520,
+            h: 110,
+            nw: 300,
+            nh: 340,
+            nodes: [
+              { id: "src", kind: "cloud", x: 30, y: 60, nx: 150, ny: 22 },
+              { id: "tub", kind: "stock", label: "Water in\nthe tub", x: 260, y: 60, w: 110, nx: 150, ny: 170 },
+              { id: "sink", kind: "cloud", x: 490, y: 60, nx: 150, ny: 318 }
+            ],
+            links: [
+              { from: "src", to: "tub", flow: true, label: "Faucet (inflow)" },
+              { from: "tub", to: "sink", flow: true, label: "Drain (outflow)" }
+            ],
+            notes: [
+              { t: "A box is a stock:", d: "an amount, measured in units such as liters, dollars or people." },
+              { t: "A pipe with a valve is a flow:", d: "a rate, in units per period, such as liters per minute. The valve is where the rate is set." },
+              { t: "A cloud is the system's edge:", d: "where a flow comes from, or goes to, that this model doesn't track." }
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "Behavior over time",
+            title: "What the level does",
+            intro: "A 100-liter tub. The level follows the gap between faucet and drain, not either flow alone.",
+            cols: 2,
+            charts: [
+              {
+                t: "Faucet runs faster than the drain",
+                d: "In at 5 liters a minute, out at 2: the level climbs 3 liters a minute, from 20 to 80 in 20 minutes.",
+                x: [0, 20],
+                y: [0, 100],
+                xLabel: "Minutes",
+                yTicks: [0, 50, 100],
+                yLabel: "Liters",
+                unit: " L",
+                hover: true,
+                series: [{ name: "Water in the tub", points: curve((t) => 20 + 3 * t, 0, 20, 20) }]
+              },
+              {
+                t: "Faucet matches the drain",
+                d: "In and out at 5 liters a minute: dynamic equilibrium. Water keeps moving through the tub, but the level holds at 50.",
+                x: [0, 20],
+                y: [0, 100],
+                xLabel: "Minutes",
+                yTicks: [0, 50, 100],
+                yLabel: "Liters",
+                unit: " L",
+                hover: true,
+                series: [{ name: "Water in the tub", points: curve(() => 50, 0, 20, 20) }]
+              },
+              {
+                t: "Closing the faucet: the flows",
+                d: "The faucet closes steadily from 8 liters a minute to 2 over 20 minutes; the drain stays at 5. They cross at minute 10.",
+                x: [0, 30],
+                y: [0, 10],
+                xLabel: "Minutes",
+                yTicks: [0, 5, 10],
+                yLabel: "Liters a minute",
+                unit: " L/min",
+                hover: true,
+                series: [
+                  { name: "Faucet", points: curve((t) => (t <= 20 ? 8 - 0.3 * t : 2), 0, 30, 30) },
+                  { name: "Drain", tone: "cash", points: curve(() => 5, 0, 30, 30) }
+                ]
+              },
+              {
+                t: "Closing the faucet: the level",
+                d: "The level goes on rising for ten minutes after the faucet starts closing, peaks at 45 liters when the flows cross, and only then falls.",
+                x: [0, 30],
+                y: [0, 100],
+                xLabel: "Minutes",
+                yTicks: [0, 50, 100],
+                yLabel: "Liters",
+                unit: " L",
+                hover: true,
+                series: [{ name: "Water in the tub", points: curve((t) => (t <= 20 ? 30 + 3 * t - 0.15 * t * t : 30 - 3 * (t - 20)), 0, 30, 30) }]
+              }
+            ],
+            caption: "Drawn from simple arithmetic, not the book's figures."
+          },
+          {
+            type: "table",
+            eyebrow: "Everywhere",
+            title: "Stocks and the flows that change them",
+            intro: "The same structure in very different systems. Our examples, from systems the book mentions.",
+            columns: ["Stock", "Inflows", "Outflows", "Why it matters"],
+            widths: ["11rem", null, null, null],
+            rows: [
+              ["Water in a reservoir", "Rain, rivers", "Evaporation, releases to the city", "Lets a city use water at a steady rate while rainfall comes and goes"],
+              ["A population", "Births, people moving in", "Deaths, people moving out", "Changes for decades after birth rates change, because of the people already born"],
+              ["Trees in a forest", "Growth", "Logging, fire, death", "Takes decades to rebuild once cut, whatever the harvest rate allows"],
+              ["Money in an account", "Deposits, interest", "Withdrawals, fees", "Its own size drives one inflow, interest: a feedback loop, the next page's subject"],
+              ["Goods in a warehouse", "Deliveries from the factory", "Shipments to customers", "Lets production and sales run at different paces"],
+              ["A workforce", "Hiring", "Quits, retirements, layoffs", "Can be kept up by losing fewer people as well as by hiring more"],
+              ["A company's reputation", "Promises kept", "Promises broken", "Builds slowly and can drain fast"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Principles",
+            title: "What stocks and flows imply",
+            intro: "Meadows closes the chapter with a summary of principles like these. Our wording.",
+            columns: ["Principle", "What it means in practice"],
+            widths: ["19rem", null],
+            rows: [
+              ["A stock is the memory of the history of its flows.", "To understand where a stock is going, look at its flows, not just its level."],
+              ["If inflows exceed outflows, the stock rises, and the reverse.", "A shrinking inflow does not mean a shrinking stock. Watch the gap."],
+              ["A stock can be raised by cutting outflow as well as by raising inflow.", "Retention, maintenance and conservation are as much levers as recruitment, investment and supply."],
+              ["Stocks act as delays, buffers and shock absorbers.", "Big stocks change slowly, so expect lags between a change in flows and a visible result."],
+              ["Stocks let inflows and outflows be decoupled.", "That gives slack and stability, at the cost of tying up resources in the stock."],
+              ["Most decisions are made to adjust stocks.", "People and organizations watch stock levels and change flows to correct them: feedback."]
             ]
           }
         ],
@@ -160,120 +308,203 @@
           cta: { page: "feedback", kicker: "Next", text: "Add feedback: loops that run the stock" }
         }
       },
+      // A reference page. Balancing and reinforcing loops, the coffee cup (hot and iced), the
+      // bank account, the population with competing loops and shifting dominance, the leaky
+      // thermostat that settles below its setting, and feedback acting only on future
+      // behavior follow Meadows's chapters 1 and 2 as I remember them, unchecked against her
+      // wording. The charts are drawn from simple formulas, not the book's figures. The
+      // doubling times are arithmetic. The polarity rule in the comparison table is standard
+      // system dynamics; unchecked whether the book states it.
       "feedback": {
-        navLabel: "Feedback",
+        navLabel: "Feedback loops",
         title: "Feedback loops",
         eyebrow: "Part I · Chapter 01",
+        layout: "dense",
         dek:
           "A system starts to run itself when a stock affects its own flows. Meadows calls that a feedback loop, and there are only two kinds: loops that pull a stock toward a goal, and loops that make it grow on itself.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "When a stock talks back",
-                paras: [
-                  "In the bathtub, someone outside the system works the faucet. Most real systems don't need that: the level of a stock itself changes the flows in or out. A cup of coffee loses heat faster when it's hotter; a bank account earns more interest when it's bigger. Each is a closed chain from the stock, through a rule or a decision or a law of physics, back to a flow that changes the stock.",
-                  "Meadows names two kinds. A <strong>balancing loop</strong> works against a gap: it pulls a stock toward a goal and keeps it there. A <strong>reinforcing loop</strong> amplifies whatever is happening: growth feeds more growth, and decline feeds more decline."
-                ],
-                side: {
-                  label: "In diagrams",
-                  html: "<p>Loops are marked B for balancing and R for reinforcing. Reading a diagram mostly means finding the loops and asking which one is stronger.</p>"
-                }
+                t: "A feedback loop is a stock that changes its own flows.",
+                d: "A closed chain runs from the level of a stock, through a decision, a rule or a physical law, back to a flow that changes it."
               },
               {
-                n: "2",
-                title: "Goal-seeking and runaway",
-                paras: [
-                  "Balancing loops produce goal-seeking behavior. The bigger the gap, the faster the correction, so the stock moves quickly at first and then slows as it closes in. A thermostat, a driver keeping to a lane and a shop restocking its shelves all work this way.",
-                  "Reinforcing loops produce exponential growth or collapse. Because the change is a share of the stock, the stock grows by the same percentage each period and by ever larger amounts. A handy rule: something growing at a steady rate doubles in about 70 divided by the percentage growth rate, so 7% a year doubles in about ten years."
-                ],
-                side: {
-                  label: "Vicious and virtuous",
-                  html: "<p>Reinforcing loops run both ways. The same structure that compounds savings compounds debt, and a price war that feeds itself is a reinforcing loop too.</p>"
-                }
+                t: "Balancing loops seek a goal.",
+                d: "They oppose whatever direction of change is imposed on them. The bigger the gap, the faster the correction, so the stock moves quickly at first and then settles."
+              },
+              {
+                t: "Reinforcing loops amplify.",
+                d: "Change is proportional to the stock, so it compounds: exponential growth, or runaway collapse. The same structure compounds savings and debt."
+              },
+              {
+                t: "Doubling time is about 70 divided by the growth rate.",
+                d: "Something growing steadily at 7% a year doubles in about ten years, then again in ten more. Exponential growth outruns intuition fast."
+              },
+              {
+                t: "Loops compete, and dominance shifts.",
+                d: "Most stocks have several loops acting on them, and whichever is stronger sets the behavior. When the balance between them changes, a long trend can reverse with no push from outside."
+              },
+              {
+                t: "Feedback acts on the future, with delay.",
+                d: "Information about a stock arrives too late to change the flow that has already happened. And a balancing loop's goal has to allow for any steady drain: a leaky room settles below its thermostat's setting."
               }
             ]
           },
           {
-            type: "loop-sim",
-            title: "Run the loops",
-            intro:
-              "Three small systems, one stock each. Change the settings and watch the shape of the curve change, not only its size.",
-            systems: [
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "Three loops in Meadows's examples",
+            intro: "Causal loop diagrams. An arrow marked + means the two move in the same direction; − means they move in opposite directions. B marks a balancing loop, R a reinforcing one.",
+            alt: "Three causal loop diagrams. Coffee: coffee temperature raises the gap to room temperature, the gap raises cooling, and cooling lowers coffee temperature, a balancing loop; room temperature lowers the gap. Bank account: money in the bank raises interest earned, which raises money in the bank, a reinforcing loop; the interest rate raises interest earned. Population: population raises births, which raise population, a reinforcing loop; population raises deaths, which lower population, a balancing loop; fertility raises births and mortality raises deaths.",
+            w: 900,
+            h: 280,
+            nw: 300,
+            nh: 860,
+            nodes: [
+              { id: "temp", kind: "var", label: "Coffee\ntemperature", x: 150, y: 45, nx: 150, ny: 40 },
+              { id: "gap", kind: "var", label: "Gap to room\ntemperature", x: 252, y: 175, nx: 245, ny: 165 },
+              { id: "cool", kind: "var", label: "Cooling", x: 48, y: 175, nx: 52, ny: 165 },
+              { id: "room", kind: "var", label: "Room\ntemperature", x: 252, y: 250, nx: 245, ny: 245 },
+              { id: "money", kind: "var", label: "Money in\nthe bank", x: 450, y: 45, nx: 150, ny: 330 },
+              { id: "int", kind: "var", label: "Interest\nearned", x: 450, y: 200, nx: 150, ny: 480 },
+              { id: "rate", kind: "var", label: "Interest\nrate", x: 560, y: 250, nx: 252, ny: 540 },
+              { id: "pop", kind: "var", label: "Population", x: 760, y: 45, nx: 150, ny: 620 },
+              { id: "births", kind: "var", label: "Births", x: 670, y: 175, nx: 58, ny: 735 },
+              { id: "deaths", kind: "var", label: "Deaths", x: 850, y: 175, nx: 242, ny: 735 },
+              { id: "fert", kind: "var", label: "Fertility", x: 670, y: 250, nx: 58, ny: 815 },
+              { id: "mort", kind: "var", label: "Mortality", x: 850, y: 250, nx: 242, ny: 815 }
+            ],
+            links: [
+              { from: "temp", to: "gap", sign: "+", bend: -30 },
+              { from: "gap", to: "cool", sign: "+", bend: -30 },
+              { from: "cool", to: "temp", sign: "-", bend: -30 },
+              { from: "room", to: "gap", sign: "-" },
+              { from: "money", to: "int", sign: "+", bend: -55 },
+              { from: "int", to: "money", sign: "+", bend: -55 },
+              { from: "rate", to: "int", sign: "+" },
+              { from: "pop", to: "births", sign: "+", bend: 40 },
+              { from: "births", to: "pop", sign: "+", bend: 40 },
+              { from: "pop", to: "deaths", sign: "+", bend: -40 },
+              { from: "deaths", to: "pop", sign: "-", bend: -40 },
+              { from: "fert", to: "births", sign: "+" },
+              { from: "mort", to: "deaths", sign: "+" }
+            ],
+            marks: [
+              { x: 150, y: 128, t: "B" },
+              { x: 450, y: 122, t: "R" },
+              { x: 712, y: 105, t: "R" },
+              { x: 808, y: 105, t: "B" }
+            ],
+            nmarks: [
+              { x: 150, y: 118, t: "B" },
+              { x: 150, y: 405, t: "R" },
+              { x: 102, y: 680, t: "R" },
+              { x: 198, y: 680, t: "B" }
+            ],
+            full: true
+          },
+          {
+            type: "behavior",
+            eyebrow: "Behavior over time",
+            title: "What each structure does",
+            intro: "The shape of the curve tells you which loop is in charge.",
+            cols: 2,
+            charts: [
               {
-                id: "coffee",
-                label: "Cooling coffee",
-                model: "cooling",
-                kind: "One balancing loop: the bigger the gap to the room, the faster the drink cools.",
-                stockShort: "Temperature",
-                outflow: "Heat lost",
-                loops: [{ kind: "balancing", label: "Cooling" }],
-                unit: "deg",
-                goalParam: "room",
-                goalLabel: "Room temperature",
-                caption: "Temperature of the drink, in °C, over 60 minutes.",
-                params: [
-                  { key: "start", label: "Starting temperature", min: 0, max: 100, step: 1, value: 85, format: "deg", hint: "Try a cold drink too: below room temperature, the same loop warms it." },
-                  { key: "room", label: "Room temperature", min: 0, max: 40, step: 1, value: 20, format: "deg" },
-                  { key: "k", label: "Cooling rate", min: 0.02, max: 0.2, step: 0.01, value: 0.08, format: "gapPerMin", hint: "A thin paper cup cools faster than a thick mug." }
+                t: "Balancing: goal-seeking",
+                d: "A hot coffee and an iced drink in a 20° room. Each closes most of its gap early, then creeps toward room temperature. Same loop, opposite directions.",
+                x: [0, 60],
+                y: [0, 100],
+                xLabel: "Minutes",
+                yLabel: "Degrees",
+                yTicks: [0, 20, 50, 80],
+                unit: "°",
+                hover: true,
+                refs: [{ y: 20, label: "Room" }],
+                series: [
+                  { name: "Hot coffee", points: curve((t) => 20 + 60 * Math.exp(-0.05 * t), 0, 60, 60) },
+                  { name: "Iced drink", tone: "cash", points: curve((t) => 20 - 15 * Math.exp(-0.05 * t), 0, 60, 60) }
                 ]
               },
               {
-                id: "savings",
-                label: "Money in the bank",
-                model: "interest",
-                kind: "One reinforcing loop: the bigger the balance, the more interest it earns.",
-                stockShort: "Money",
-                inflow: "Interest",
-                loops: [{ kind: "reinforcing", label: "Interest" }],
-                unit: "money",
-                caption: "Balance, in dollars, over 40 years.",
-                params: [
-                  { key: "start", label: "Starting balance", min: 100, max: 10000, step: 100, value: 1000, format: "money" },
-                  { key: "r", label: "Interest rate", min: 0, max: 0.15, step: 0.005, value: 0.05, format: "pctYear" }
+                t: "Reinforcing: exponential growth",
+                d: "$100 left to compound. At 2% it barely doubles in 30 years; at 10% it doubles about every seven years and ends near $1,745.",
+                x: [0, 30],
+                y: [0, 1800],
+                xLabel: "Years",
+                yLabel: "Dollars",
+                yTicks: [0, 500, 1000, 1500],
+                unit: "",
+                hover: true,
+                series: [
+                  { name: "10% a year", points: curve((t) => 100 * Math.pow(1.1, t), 0, 30, 30) },
+                  { name: "5% a year", tone: "cash", points: curve((t) => 100 * Math.pow(1.05, t), 0, 30, 30) },
+                  { name: "2% a year", tone: "ink", dash: true, points: curve((t) => 100 * Math.pow(1.02, t), 0, 30, 30) }
                 ]
               },
               {
-                id: "population",
-                label: "A population",
-                model: "population",
-                kind: "Two loops on one stock: births reinforce, deaths balance. Whichever is stronger decides the behavior.",
-                stockShort: "Population",
-                inflow: "Births",
-                outflow: "Deaths",
-                loops: [
-                  { kind: "reinforcing", label: "Births" },
-                  { kind: "balancing", label: "Deaths" }
-                ],
-                unit: "millions",
-                caption: "Population, in millions, over 100 years.",
-                params: [
-                  { key: "start", label: "Starting population", min: 10, max: 200, step: 10, value: 100, format: "millions" },
-                  { key: "b", label: "Birth rate", min: 0, max: 0.05, step: 0.001, value: 0.03, format: "pctYear" },
-                  { key: "d", label: "Death rate", min: 0, max: 0.05, step: 0.001, value: 0.01, format: "pctYear" },
-                  { key: "falling", type: "toggle", label: "Let the birth rate fall over the century", value: false },
-                  { key: "bEnd", label: "Birth rate by year 100", min: 0, max: 0.05, step: 0.001, value: 0.005, format: "pctYear", dependsOn: "falling" }
+                t: "Two loops: shifting dominance",
+                d: "Births at 3% a year, deaths at 2%. Held steady, the population grows 2.7 times in a century. Let the birth rate drift down to 1.5% and growth slows, peaks in year 67 and turns into decline, with no outside push.",
+                x: [0, 100],
+                y: [0, 300],
+                xLabel: "Years",
+                yLabel: "Population, year 0 = 100",
+                yTicks: [0, 100, 200, 300],
+                hover: true,
+                series: [
+                  { name: "Birth rate steady", tone: "ink", dash: true, points: curve((t) => 100 * Math.exp(0.01 * t), 0, 100, 50) },
+                  { name: "Birth rate falling", points: curve((t) => 100 * Math.exp(0.01 * t - 0.000075 * t * t), 0, 100, 50) }
                 ]
+              },
+              {
+                t: "A leaky room settles short of its goal",
+                d: "A thermostat set to 18° in a room losing heat to 10° outside. The furnace answers the gap, the leak answers the outside, and the room settles at 16°, where they balance.",
+                x: [0, 12],
+                y: [0, 20],
+                xLabel: "Hours",
+                yLabel: "Degrees",
+                yTicks: [0, 10, 16, 20],
+                unit: "°",
+                hover: true,
+                refs: [{ y: 18, label: "Setting" }],
+                series: [{ name: "Room temperature", points: curve((t) => 16 - 6 * Math.exp(-0.4 * t), 0, 12, 48) }]
               }
+            ],
+            caption: "Drawn from simple formulas, not the book's figures."
+          },
+          {
+            type: "table",
+            eyebrow: "Compounding",
+            title: "How long it takes to double",
+            intro: "The rule of 70 against the exact answer. The rule is close enough for anything below about 10%.",
+            columns: ["Steady growth", "Rule of 70", "Exact", "In practice"],
+            widths: ["9rem", "8rem", "7rem", null],
+            rows: [
+              ["1% a year", "70 years", "69.7 years", "A population growing at 1% doubles within a lifetime"],
+              ["2% a year", "35 years", "35.0 years", "Prices at 2% inflation double over a career"],
+              ["3% a year", "23 years", "23.4 years", "A typical rate for a growing economy"],
+              ["5% a year", "14 years", "14.2 years", "Three doublings, eight times as much, in about 43 years"],
+              ["7% a year", "10 years", "10.2 years", "Ten times as much in about 34 years"],
+              ["10% a year", "7 years", "7.3 years", "A thousand times as much in about 72 years"],
+              ["15% a year", "4.7 years", "5.0 years", "The rule starts to undershoot"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Shifting dominance",
-                paras: [
-                  "Most real systems have several loops acting on the same stock, and the behavior depends on which is stronger at the time. In the population, births and deaths are both proportional to the population. If the birth rate is higher, the reinforcing loop dominates and the population grows; if the death rate is higher, it shrinks.",
-                  "Dominance can shift without anyone pushing the system from outside. Let the birth rate fall slowly and the same population grows for decades, peaks, and turns down. Nothing about the structure changed. That's one reason systems surprise people: a trend that has held for years can reverse on its own."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>On the population tab, tick “Let the birth rate fall over the century”. Growth continues for 80 years, then the curve bends over.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Side by side",
+            title: "Balancing and reinforcing loops",
+            columns: ["", "Balancing loop", "Reinforcing loop"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["What it does", "Opposes change, closing the gap between a stock and a goal", "Amplifies change in whichever direction it is going"],
+              ["Typical behavior", "Goal-seeking; with delays, oscillation around the goal", "Exponential growth or collapse"],
+              ["How to spot one", "An odd number of − links around the loop", "No − links, or an even number"],
+              ["Examples", "Thermostats, restocking shelves, a body regulating its temperature, a market adjusting price to supply", "Compound interest, population growth, word of mouth, erosion, a price war"],
+              ["What goes wrong", "A goal set too low, or one that drifts; delays that make the correction overshoot", "Runaway growth into a limit, or a downward spiral that feeds on itself"]
             ]
           }
         ],
@@ -291,94 +522,184 @@
       // (perception 5 days, response 3, delivery 5) and the findings that a faster
       // response makes the swings worse and a slower one damps them follow my reading
       // of Chapter 2 and are unchecked against the book.
+      // A reference page. Delays in balancing loops, the three delays, the car dealer (ten
+      // days of sales on the lot, a 10% rise in demand), and the counterintuitive results
+      // (reacting faster worsens the swings, slowing the response damps them, noticing sooner
+      // barely helps) follow Meadows's chapter 2 as I remember it, unchecked against her
+      // wording and numbers. The charts are our re-run (see `dealer` above), not her figures.
+      // The "delays elsewhere" table is ours.
       "delays": {
         navLabel: "Delays",
         title: "Delays and oscillation",
         eyebrow: "Part I · Chapter 02",
+        layout: "dense",
         dek:
           "Every feedback loop takes time to act: time to notice a change, time to decide, time for the response to arrive. Meadows shows how those delays turn a balancing loop into a system that swings.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Delays are everywhere",
-                paras: [
-                  "A balancing loop corrects a gap, but never instantly. Information about the stock takes time to arrive and be believed; deciding what to do takes time; and the action, an order or a hire or a new policy, takes time to have an effect. Meanwhile the stock keeps moving.",
-                  "Meadows's point is that a delay in a balancing loop makes a system likely to oscillate. The correction arrives late, overshoots, and has to be corrected again."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Delays come from stocks: a stock takes time to fill or drain, as the <a href=\"@stocks-flows\">bathtub</a> shows.</p>"
-                }
+                t: "Every loop has delays.",
+                d: "Time to notice a change and believe it (perception), time to decide and act (response), and time for the action to take effect (delivery). Meanwhile the stock keeps moving."
               },
               {
-                n: "2",
-                title: "The car dealer",
-                paras: [
-                  "Meadows's example is a car dealer who tries to keep enough cars on the lot to cover ten days of sales. Three delays sit in the loop. The dealer averages sales over several days before believing demand has changed, a perception delay. Orders make up only part of any shortfall at a time, a response delay. And new cars take days to arrive, a delivery delay.",
-                  "Then sales rise by 10% and stay there. It's the smallest, simplest change a business could face, and it sets the lot swinging."
-                ],
-                side: {
-                  label: "Why it swings",
-                  html: "<p>The dealer keeps ordering to fill a gap that orders already on the road will fill. By the time they arrive, the lot is overstocked, and the dealer cuts back too far.</p>"
-                }
+                t: "A balancing loop with delays oscillates.",
+                d: "It keeps correcting a gap that orders already on their way will close. The correction overshoots, then has to be corrected the other way."
+              },
+              {
+                t: "One small change can set off months of swings.",
+                d: "Meadows's car dealer faces the simplest change a business could meet, a 10% rise in demand that then holds steady, and the lot swings above and below its target for months."
+              },
+              {
+                t: "Reacting faster makes it worse.",
+                d: "The instinct is to respond more aggressively. Shortening the response delay amplifies the swings; lengthening it damps them. Noticing the change sooner barely helps."
+              },
+              {
+                t: "Not every delay can be changed.",
+                d: "Delivery times are often set by physics or by someone else. The response delay is usually the manager's own choice, and the one that feels wrong to lengthen."
+              },
+              {
+                t: "Delays are leverage points.",
+                d: "Changing a delay can change behavior dramatically, for better or worse. A policy has to fit the system's own rhythm, its delays, or it will fight them."
               }
             ]
           },
           {
-            type: "inventory",
-            title: "Run the car lot",
-            intro:
-              "An invented dealer sells 20 cars a day and aims to keep 10 days of sales on the lot. On day 25, demand rises 10% and stays there. Set the three delays, or try one of the experiments, and watch the stock over 100 days.",
-            base: 20,
-            rise: 0.1,
-            at: 25,
-            cover: 10,
-            days: 100,
-            unit: "cars",
-            settleWithin: 5,
-            caption: "Cars on the lot over 100 days.",
-            delays: [
-              { key: "P", label: "Perception delay", hint: "Days of sales the dealer averages before believing demand has changed." },
-              { key: "R", label: "Response delay", hint: "How hard orders chase the gap: each day's order makes up one part in this many of the shortfall." },
-              { key: "D", label: "Delivery delay", hint: "Days between placing an order and the cars arriving." }
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "The car dealer's system",
+            intro: "One stock, the cars on the lot, regulated by a balancing loop with three delays in it, each marked ‖.",
+            alt: "A stock-and-flow diagram. Deliveries flow into the stock of cars on the lot, and sales flow out to customers. Customer demand sets sales. Sales are noticed, after a perception delay, as perceived sales, which set the desired inventory of ten days' sales. The gap between desired inventory and cars on the lot sets orders to the factory, after a response delay. Orders become deliveries after a delivery delay.",
+            w: 860,
+            h: 310,
+            nw: 320,
+            nh: 560,
+            nodes: [
+              { id: "src", kind: "cloud", x: 40, y: 60, nx: 40, ny: 40 },
+              { id: "lot", kind: "stock", label: "Cars on\nthe lot", x: 430, y: 60, w: 120, nx: 160, ny: 150 },
+              { id: "sink", kind: "cloud", x: 820, y: 60, nx: 280, ny: 40 },
+              { id: "dv", kind: "point", x: 210, y: 60, nx: 82, ny: 92 },
+              { id: "sv", kind: "point", x: 645, y: 60, nx: 238, ny: 92 },
+              { id: "demand", kind: "var", label: "Customer\ndemand", x: 760, y: 160, nx: 270, ny: 200 },
+              { id: "seen", kind: "var", label: "Perceived\nsales", x: 600, y: 270, nx: 250, ny: 320 },
+              { id: "want", kind: "var", label: "Desired inventory\n(10 days of sales)", x: 400, y: 270, nx: 160, ny: 420 },
+              { id: "orders", kind: "var", label: "Orders to\nthe factory", x: 175, y: 200, nx: 60, ny: 330 }
             ],
-            presets: [
-              { id: "meadows", label: "Meadows's settings", delays: { P: 5, R: 3, D: 5 } },
-              { id: "notice", label: "Notice faster", delays: { P: 2, R: 3, D: 5 } },
-              { id: "react", label: "React faster", delays: { P: 5, R: 2, D: 5 } },
-              { id: "slow", label: "React more slowly", delays: { P: 5, R: 6, D: 5 } },
-              { id: "deliver", label: "Faster deliveries", delays: { P: 5, R: 3, D: 2 } }
+            links: [
+              { from: "src", to: "lot", flow: true, label: "Deliveries" },
+              { from: "lot", to: "sink", flow: true, label: "Sales" },
+              { from: "demand", to: "sv", sign: "+" },
+              { from: "sv", to: "seen", sign: "+", delay: true, bend: -30 },
+              { from: "seen", to: "want", sign: "+" },
+              { from: "want", to: "orders", sign: "+", delay: true },
+              { from: "lot", to: "orders", sign: "-", bend: 20 },
+              { from: "orders", to: "dv", sign: "+", delay: true }
+            ],
+            marks: [{ x: 300, y: 170, t: "B" }],
+            nmarks: [{ x: 120, y: 245, t: "B" }],
+            full: true,
+            notes: [
+              { t: "Perception delay:", d: "the dealer averages sales over several days before believing demand has changed." },
+              { t: "Response delay:", d: "each day's order makes up only part of the gap between the cars on the lot and the target." },
+              { t: "Delivery delay:", d: "cars ordered today arrive days later, while the dealer keeps ordering against the same gap." }
             ]
           },
           {
-            type: "prose",
-            sections: [
+            type: "behavior",
+            eyebrow: "Behavior over time",
+            title: "One rise in demand, four ways to respond",
+            intro: "Cars on the lot over 100 days. Demand rises from 20 cars a day to 22 on day 25, so the target rises from 200 cars to 220 (the dashed line). The grey line is the base case.",
+            cols: 2,
+            charts: [
               {
-                n: "3",
-                title: "Why reacting faster makes it worse",
-                paras: [
-                  "The natural response to swings is to act faster. Try it: cut the response delay from three days to two, and the swings grow. Noticing the change sooner barely helps either, because the trouble isn't seeing the change, it's overreacting to it while earlier orders are still on the way.",
-                  "Slowing the response down, so that each day's order makes up a smaller part of the gap, calms the swings almost completely. Shorter deliveries help too, but delivery times are usually set by someone else. The lever the dealer actually controls is the one that feels wrong to pull."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “React faster”, then “React more slowly”, and compare the swing in the last 20 days.</p>"
-                }
+                t: "Base case: delays of 5, 3 and 5 days",
+                d: "The lot dips as sales rise, then swings above and below the new target, between about 136 and 289 cars, and the swings are still growing at day 100.",
+                x: [0, 100],
+                y: [0, 450],
+                xLabel: "Days",
+                yLabel: "Cars on the lot",
+                yTicks: [0, 200, 400],
+                hover: true,
+                refs: [{ y: 220, label: "New target" }],
+                series: [{ name: "Cars on the lot", points: dealer() }]
               },
               {
-                n: "4",
-                title: "Beyond the car lot",
-                paras: [
-                  "The same structure shows up wherever someone manages a stock through a delay: a factory planning output, a hospital hiring nurses, a city building housing, a central bank setting interest rates. In each, an aggressive response to a gap that's already being closed produces a boom and a bust. Knowing the length of the delays is often more useful than reacting faster to them."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>Meadows ranks the length of delays among the places to intervene in a system, while noting they are often hard to change.</p>"
-                }
+                t: "React faster: response delay 2 days",
+                d: "Each order chases half the gap instead of a third. The swings grow, to between about 121 and 423 cars.",
+                x: [0, 100],
+                y: [0, 450],
+                xLabel: "Days",
+                yLabel: "Cars on the lot",
+                yTicks: [0, 200, 400],
+                hover: true,
+                refs: [{ y: 220 }],
+                series: [
+                  { name: "Respond in 2 days", points: dealer({ resp: 2 }) },
+                  { name: "Base case", tone: "ink", points: dealer() }
+                ]
+              },
+              {
+                t: "React more slowly: response delay 6 days",
+                d: "Each order makes up a sixth of the gap. The lot dips once, overshoots a little and settles near 220.",
+                x: [0, 100],
+                y: [0, 450],
+                xLabel: "Days",
+                yLabel: "Cars on the lot",
+                yTicks: [0, 200, 400],
+                hover: true,
+                refs: [{ y: 220 }],
+                series: [
+                  { name: "Respond in 6 days", points: dealer({ resp: 6 }) },
+                  { name: "Base case", tone: "ink", points: dealer() }
+                ]
+              },
+              {
+                t: "Notice sooner: perception delay 2 days",
+                d: "Seeing the change sooner barely helps; the swings are slightly larger. The trouble is overreacting, not noticing.",
+                x: [0, 100],
+                y: [0, 450],
+                xLabel: "Days",
+                yLabel: "Cars on the lot",
+                yTicks: [0, 200, 400],
+                hover: true,
+                refs: [{ y: 220 }],
+                series: [
+                  { name: "Perceive in 2 days", points: dealer({ perc: 2 }) },
+                  { name: "Base case", tone: "ink", points: dealer() }
+                ]
               }
+            ],
+            caption: "Our re-run of a model built from Meadows's description, not her figures."
+          },
+          {
+            type: "table",
+            eyebrow: "The three delays",
+            title: "Which delay to change",
+            columns: ["Delay", "In the dealer's case", "Shorten it", "Lengthen it", "Who controls it"],
+            widths: ["8rem", null, null, null, "9rem"],
+            rows: [
+              ["Perception", "Averaging sales over 5 days before believing a change", "Barely helps; swings slightly larger", "Slower to see real changes", "The dealer"],
+              ["Response", "Ordering a third of the gap each day", "Swings grow sharply", "Swings damp; the lot settles", "The dealer"],
+              ["Delivery", "5 days from order to the lot", "Swings shrink to almost nothing (196 to 220 cars at 2 days)", "Swings grow", "The factory and the trucks, usually not the dealer"]
+            ],
+            foot: "Effects from our re-run of the model above."
+          },
+          {
+            type: "table",
+            eyebrow: "Elsewhere",
+            title: "The same structure in other systems",
+            intro: "Our examples of balancing loops with long delays, and the swings they produce.",
+            columns: ["System", "The delays", "What swings"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Electricity supply", "Years to plan and build power plants after demand rises", "Shortage, then overcapacity, then shortage again"],
+              ["Commodity farming", "A season or more between seeing high prices and harvesting more", "Prices and plantings, out of step year after year"],
+              ["Commercial property", "Years from a decision to build to an opened building", "Booms that end in empty offices"],
+              ["Hiring", "Months to notice a shortage, recruit and train", "Hiring sprees followed by layoffs"],
+              ["A shower", "Seconds between turning the tap and feeling the change", "Scalding, then freezing, until you slow down"]
             ]
           }
         ],
@@ -397,194 +718,184 @@
       // oscillate, collapse as boats get better at finding scarce fish) and the point that limits
       // are either self-imposed or imposed by the system are from my reading of the book,
       // unchecked against its wording. The Grand Banks note and the sorter items are ours.
+      // A reference page. Growth meeting a limit, two-stock systems (capital and resource),
+      // stock-limited and flow-limited resources, the oil field (bigger discoveries buy a
+      // later, higher peak, not a longer plateau) and the fishery (equilibrium, oscillation
+      // or collapse, depending on how well boats find scarce fish) follow Meadows's chapter
+      // 2 as I remember it, unchecked against her wording and numbers. The charts are our
+      // re-runs (see `oil` and `fishery` above). The Grand Banks cod moratorium (1992) is
+      // from the public record; unchecked whether the book mentions it.
       "limits": {
         navLabel: "Limits",
         title: "Growth meets a limit",
         eyebrow: "Part I · Chapter 02",
+        layout: "dense",
         dek:
           "Anything physical that grows will eventually run into a constraint. The last two systems in Meadows's zoo show the two kinds of limit a resource sets: one that runs out, and one that regrows.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Every growing system meets a limit",
-                paras: [
-                  "A reinforcing loop can't run forever in a finite world. Sooner or later a balancing loop takes over, and the question is what form it takes. For an industry that lives on a resource, the limit is usually the resource itself.",
-                  "Meadows distinguishes two kinds. A nonrenewable resource, such as oil or a copper deposit, is <strong>stock-limited</strong>: all of it is there to be used, but once it's gone it's gone, and the faster it's used, the sooner that happens. A renewable resource, such as a fishery or a forest, is <strong>flow-limited</strong>: it can be used forever, but only as fast as it regenerates. Take more than that and the stock shrinks, and a small enough stock may barely regenerate at all."
-                ],
-                side: {
-                  label: "Two stocks",
-                  html: "<p>Both models below have two stocks: the resource, and the capital that harvests it, rigs or boats. Profits from the first build the second.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "limits",
-            title: "Run an oil field and a fishery",
-            intro:
-              "Each tab runs an invented industry that reinvests its profits in more rigs or boats until the resource pushes back. Try the experiments, or move the slider.",
-            systems: [
-              {
-                id: "oil",
-                label: "An oil field",
-                model: "oil",
-                kind: "A reinforcing loop: profits buy rigs, and more rigs make more profit. A balancing loop: as the field empties, each rig gets less oil.",
-                years: 100,
-                size: 1000,
-                startStock: 1,
-                capital: 20,
-                perUnit: 0.2,
-                regrow: 0,
-                fullUntil: 0.5,
-                growth: 0.1,
-                costShare: 0.3,
-                payback: 2,
-                life: 20,
-                slider: {
-                  key: "size",
-                  label: "Size of the field",
-                  min: 1,
-                  max: 8,
-                  step: 1,
-                  value: 1,
-                  format: "{v} billion barrels",
-                  hint: "The field starts at a billion barrels. Try doubling it, then doubling it again."
-                },
-                presets: [
-                  { label: "The original field", value: 1 },
-                  { label: "Twice the oil", value: 2 },
-                  { label: "Four times", value: 4 }
-                ],
-                stockLabel: "Oil left in the field",
-                flowLabel: "Output, million barrels a year",
-                flowNoun: "output",
-                caption: "Oil left, as a share of the field, and output in million barrels a year, over 100 years."
+                t: "Every growing physical system meets a limit.",
+                d: "A reinforcing loop can't run forever in a finite world. Sooner or later a balancing loop takes over; the question is what form it takes, and when."
               },
               {
-                id: "fish",
-                label: "A fishery",
-                model: "fish",
-                kind: "The same reinforcing loop of profits and boats, but the fish regrow, fastest when the sea holds about half as many as it could.",
-                years: 80,
-                size: 1000,
-                startStock: 0.95,
-                capital: 20,
-                perUnit: 2,
-                regrow: 0.5,
-                growth: 0.15,
-                costShare: 0.4,
-                payback: 1,
-                life: 20,
-                slider: {
-                  key: "fullUntil",
-                  label: "Boats keep full catches until fish fall to",
-                  min: 10,
-                  max: 100,
-                  step: 10,
-                  value: 100,
-                  format: "{v}%",
-                  hint: "Of what the sea can hold. At 100%, every fall in the fish shows up in the catch; sonar, bigger nets and faster boats keep catches up as fish get scarce."
-                },
-                presets: [
-                  { label: "Catches fall as fish thin", value: 100 },
-                  { label: "Better gear", value: 40 },
-                  { label: "Sonar and factory ships", value: 20 }
-                ],
-                stockLabel: "Fish in the sea",
-                flowLabel: "Catch",
-                flowNoun: "catch",
-                caption: "Fish, as a share of what the sea can hold, and the catch in thousand tonnes a year, over 80 years."
-              }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "What the oil field shows",
-                paras: [
-                  "Output rises, peaks and falls, and the shape of the curve barely depends on how much oil there is. Twice the oil moves the peak about 13 years later and makes it nearly twice as high; four times the oil moves it about 26 years. Each doubling buys roughly the same few years, because the rigs grow exponentially, and an exponentially growing industry works through each doubling of its resource in about the same time.",
-                  "The boom lasts about 30 years whatever the size of the field. A bigger discovery means a later, higher peak and a steeper fall, not a longer plateau."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “Twice the oil”, then “Four times”, and watch the peak year in the first tile.</p>"
-                }
+                t: "Two stocks: the capital and the resource.",
+                d: "Profits buy more rigs or boats, a reinforcing loop. As the resource thins, each rig or boat gets less, a balancing loop. Which one dominates changes over time."
               },
               {
-                n: "3",
-                title: "What the fishery shows",
-                paras: [
-                  "When each boat's catch falls as soon as the fish thin, falling catches cut profits, and the fleet stops growing before the fish are lost. Fish and fleet settle close to the largest catch the sea can sustain.",
-                  "Better gear weakens that signal. Boats keep catching well while the fish decline, so the fleet keeps growing, and by the time catches fall the fish are far below the level at which they regrow fastest. The result is a cycle of boom and bust. With gear good enough to keep catches full until the fish are nearly gone, there's no warning at all, and fish and fleet collapse together. In this model, the more efficient the boats, the worse the outcome for the people who own them."
-                ],
-                side: {
-                  label: "A real collapse",
-                  html: "<p>The cod fishery on the Grand Banks off Newfoundland, once among the richest in the world, collapsed in the early 1990s and was closed in 1992. Decades later the cod had still not fully recovered.</p>"
-                }
+                t: "Nonrenewable resources are stock-limited.",
+                d: "All of an oil field or an ore body is there to use, but once it's gone it's gone. The faster it's used, the sooner the end."
+              },
+              {
+                t: "A bigger discovery buys a later, higher peak, not a plateau.",
+                d: "Because the capital grows exponentially, each doubling of the resource adds only about one doubling time to the boom, and makes the fall steeper."
+              },
+              {
+                t: "Renewable resources are flow-limited.",
+                d: "A fishery or a forest can be used forever, but only as fast as it regenerates. Harvest faster and the stock shrinks, and a small enough stock barely regrows."
+              },
+              {
+                t: "Efficiency can hasten collapse.",
+                d: "Gear that keeps catches up as fish get scarce hides the signal that should stop the fleet growing. The better the boats, the worse the outcome for the people who own them."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Stock-limited or flow-limited?",
-            intro: "Six resources. Is each one a fixed stock that runs out, or a flow that can be used forever at the rate it renews?",
-            options: [
-              { id: "stock", label: "Stock-limited", hint: "A fixed amount: the faster it's used, the sooner it's gone." },
-              { id: "flow", label: "Flow-limited", hint: "It renews: usable forever, but only as fast as it renews." }
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "The structure behind both systems",
+            intro: "Capital that harvests a resource. Profit from the harvest builds more capital; the harvest draws the resource down, which makes each unit of capital less productive.",
+            alt: "A stock-and-flow diagram with two stocks. Investment flows into capital, rigs or boats, and depreciation flows out. Harvest flows out of the resource stock. Capital raises the harvest, the harvest raises profit, and profit raises investment: a reinforcing loop. The harvest draws down the resource, and a smaller resource lowers the yield per unit of capital, which lowers the harvest: a balancing loop.",
+            w: 860,
+            h: 300,
+            nw: 320,
+            nh: 560,
+            nodes: [
+              { id: "c1", kind: "cloud", x: 40, y: 60, nx: 32, ny: 140 },
+              { id: "cap", kind: "stock", label: "Capital\n(rigs or boats)", x: 270, y: 60, w: 130, nx: 205, ny: 140 },
+              { id: "c2", kind: "cloud", x: 500, y: 60, nx: 205, ny: 25 },
+              { id: "res", kind: "stock", label: "Resource\n(oil or fish)", x: 270, y: 255, w: 130, nx: 110, ny: 490 },
+              { id: "c3", kind: "cloud", x: 820, y: 255, nx: 290, ny: 490 },
+              { id: "iv", kind: "point", x: 155, y: 60, nx: 92, ny: 140 },
+              { id: "hv", kind: "point", x: 570, y: 255, nx: 222, ny: 490 },
+              { id: "profit", kind: "var", label: "Profit", x: 95, y: 175, nx: 55, ny: 290 },
+              { id: "yield", kind: "var", label: "Yield per rig\nor boat", x: 420, y: 185, nx: 80, ny: 395 },
+              { id: "harvest", kind: "var", label: "Harvest", x: 570, y: 150, nx: 235, ny: 300 }
             ],
-            items: [
+            links: [
+              { from: "c1", to: "cap", flow: true, label: "Investment" },
+              { from: "cap", to: "c2", flow: true, label: "Depreciation" },
+              { from: "res", to: "c3", flow: true, label: "Extraction or catch", labelSide: "below" },
+              { from: "cap", to: "harvest", sign: "+" },
+              { from: "harvest", to: "hv", sign: "+" },
+              { from: "res", to: "yield", sign: "+" },
+              { from: "yield", to: "harvest", sign: "+" },
+              { from: "harvest", to: "profit", sign: "+", bend: 45 },
+              { from: "profit", to: "iv", sign: "+" }
+            ],
+            marks: [
+              { x: 300, y: 150, t: "R" },
+              { x: 480, y: 222, t: "B" }
+            ],
+            nmarks: [
+              { x: 140, y: 220, t: "R" },
+              { x: 165, y: 415, t: "B" }
+            ],
+            full: true
+          },
+          {
+            type: "behavior",
+            eyebrow: "Behavior over time",
+            title: "Four runs of the same structure",
+            intro: "Our re-runs of an oil field and a fishery built from Meadows's descriptions.",
+            cols: 2,
+            charts: [
               {
-                text: "A copper deposit in a mountain.",
-                answer: "stock",
-                why: "There's a fixed amount of ore, and no more forms on any time scale that matters. Mining it faster only brings the end sooner."
+                t: "Oil: twice and four times the field",
+                d: "Output peaks in year 42 for the base field. Twice the oil moves the peak to year 52; four times, to year 61. Each peak is higher and each fall steeper.",
+                x: [0, 100],
+                y: [0, 350],
+                xLabel: "Years",
+                yLabel: "Output a year",
+                yTicks: [0, 100, 200, 300],
+                hover: true,
+                series: [
+                  { name: "Four times the oil", points: oil(4000) },
+                  { name: "Twice the oil", tone: "cash", points: oil(2000) },
+                  { name: "The base field", tone: "ink", points: oil(1000) }
+                ]
               },
               {
-                text: "A forest managed for timber.",
-                answer: "flow",
-                why: "Trees regrow. Cut no faster than they grow and the forest yields timber forever; cut faster and the stock shrinks."
+                t: "Fish: catch falls as the fish thin",
+                d: "Each boat catches less as soon as fish get scarcer, so falling profits stop the fleet growing. Fish settle at about half the sea's capacity, near the largest sustainable catch.",
+                x: [0, 150],
+                y: [0, 100],
+                xLabel: "Years",
+                yLabel: "Fish, % of capacity",
+                yTicks: [0, 50, 100],
+                unit: "%",
+                hover: true,
+                series: [{ name: "Fish", points: fishery(1) }]
               },
               {
-                text: "Water in an aquifer that filled during the last ice age and gets almost no rain today.",
-                answer: "stock",
-                why: "It's water, but it doesn't renew on any useful time scale, so it behaves like oil: every well draws down a fixed stock."
+                t: "Fish: better gear, boom and bust",
+                d: "Boats keep catching well as fish decline, so the fleet overshoots. Fish fall to about a fifth of capacity, recover, and keep cycling.",
+                x: [0, 150],
+                y: [0, 100],
+                xLabel: "Years",
+                yLabel: "Fish, % of capacity",
+                yTicks: [0, 50, 100],
+                unit: "%",
+                hover: true,
+                series: [{ name: "Fish", points: fishery(0.6) }]
               },
               {
-                text: "A river's capacity to break down the waste a town puts into it.",
-                answer: "flow",
-                why: "The river cleans up a certain amount each day. Below that rate the waste disappears; above it, pollution builds up as a stock."
-              },
-              {
-                text: "Households in a town that have never owned a dishwasher.",
-                answer: "stock",
-                why: "Each household buys its first dishwasher once. A company selling to first-time buyers is drawing down a stock, and its sales will rise, peak and fall like the oil field's output."
-              },
-              {
-                text: "Households replacing a dishwasher that has worn out.",
-                answer: "flow",
-                why: "Replacement demand renews as machines wear out. It can be served forever, but only at the rate machines fail."
+                t: "Fish: gear good enough to find the last fish",
+                d: "Catches stay high until the fish are nearly gone. There's no warning: fish and fleet collapse together within about 40 years.",
+                x: [0, 150],
+                y: [0, 100],
+                xLabel: "Years",
+                yLabel: "Fish, % of capacity",
+                yTicks: [0, 50, 100],
+                unit: "%",
+                hover: true,
+                series: [{ name: "Fish", points: fishery(0.5) }]
               }
+            ],
+            caption: "Our re-runs of models built from Meadows's descriptions, not her figures."
+          },
+          {
+            type: "table",
+            eyebrow: "Two kinds of limit",
+            title: "Stock-limited and flow-limited",
+            columns: ["", "Stock-limited (nonrenewable)", "Flow-limited (renewable)"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["The limit", "The amount in the ground: once used, gone", "The rate of regeneration: usable forever at that rate"],
+              ["Examples", "Oil, coal, metal ores, water in an aquifer that no longer refills", "Fish, forests, grassland, soil fertility, a river's capacity to clean waste"],
+              ["Faster use means", "An earlier end", "A shrinking stock, and less regrowth"],
+              ["Typical path under growth", "Rise, peak, decline", "Equilibrium, oscillation or collapse, depending on the feedback"],
+              ["The warning sign", "Rising cost per unit extracted", "Falling catch or yield per unit of effort"],
+              ["In business", "Selling a product to first-time buyers who each buy once", "Replacement demand, renewing as products wear out"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "4",
-                title: "Choosing the limit",
-                paras: [
-                  "Every growing system will meet some limit. What the people inside it can choose is which one: a limit they set themselves, such as a fishing quota or a slower rate of expansion, or one the resource eventually imposes on them. Meadows's point is that the second kind tends to arrive late, and hard."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@traps\">tragedy of the commons</a> is the fishery's problem with many owners: each boat gains from fishing harder, while the cost of an empty sea is shared.</p>"
-                }
-              }
-            ]
+            type: "table",
+            eyebrow: "In the world",
+            title: "Limits that arrived late, and hard",
+            intro: "Meadows's point is that a limit the system imposes tends to arrive late and hard, while a limit people set for themselves can arrive early and gently.",
+            columns: ["Case", "What happened"],
+            widths: ["13rem", null],
+            rows: [
+              ["Grand Banks cod, Newfoundland", "One of the world's richest fisheries collapsed in the early 1990s and was closed in 1992. Decades later the cod had not fully recovered."],
+              ["A fossil aquifer", "Wells that draw water laid down thousands of years ago lower the water table with every season; when it falls below the pumps, farming stops."],
+              ["First-time buyer markets", "Sales rise, peak and fall as households buy their first of something, just as an oil field's output does."]
+            ],
+            foot: "The cod collapse is from the public record; the other rows are general examples."
           }
         ],
         end: {

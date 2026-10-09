@@ -61,10 +61,10 @@ npm test
 | Point of view | `#pb-point-of-view` | Write a category's story (problem, from, to, why now, name) with a live preview and checks for product-pitch habits. Drafts are saved for the reader. |
 | The lightning strike | `#pb-lightning-strike` | Schedule six launch moves over twelve weeks and see, in a labeled toy model, whether a drip, a strike or a strike with hijacks gets noticed. |
 | Thinking in Systems home | `#tis` | Thesis, a map of the book's three parts and seven chapters, and the small systems Meadows uses as examples. |
-| Stocks and flows | `#tis-stocks-flows` | A bathtub simulator: run the clock, move the faucet and drain, and watch the level trace a behavior-over-time graph, including a tub that keeps filling while the faucet closes. |
-| Feedback loops | `#tis-feedback` | Balancing and reinforcing loops in three simulators on tabs: a cooling coffee, money earning interest, and a population whose birth rate can fall until the dominant loop shifts. |
-| Delays and oscillation | `#tis-delays` | Meadows's car dealer rebuilt as a simulator: three delays, one 10% rise in demand, and experiments showing that reacting faster makes the swings worse while reacting more slowly calms them. |
-| Growth meets a limit | `#tis-limits` | Meadows's oil and fishing economies as a two-tab simulator: a bigger oil field moves the peak later without lengthening the boom, and better fishing gear turns a steady fishery into boom and bust, then collapse. Ends with a stock-limited or flow-limited sorter. |
+| Stocks and flows | `#tis-stocks-flows` | Elements, interconnections and purpose; stocks and flows in Meadows's notation (a diagram that turns vertical on phones); four behavior-over-time charts of the bathtub, including the tub that keeps filling while the faucet closes; stocks and flows in other systems; and the chapter's principles. |
+| Feedback loops | `#tis-feedback` | Causal loop diagrams of the coffee cup, the bank account and the population; charts of goal-seeking, exponential growth, shifting dominance and a leaky thermostat that settles short of its setting; doubling times by the rule of 70 and exactly; balancing and reinforcing loops compared. |
+| Delays and oscillation | `#tis-delays` | Meadows's car dealer as a stock-and-flow diagram with its three delays marked, re-run four ways (base case, react faster, react slower, notice sooner) to show reacting faster widens the swings; which delay to change; the same structure elsewhere. |
+| Growth meets a limit | `#tis-limits` | The capital-and-resource structure behind Meadows's oil field and fishery, re-runs of both (a bigger field peaks later and higher, not longer; better gear turns equilibrium into boom and bust, then collapse), stock-limited against flow-limited resources, and limits that arrived late. |
 | Why systems work so well | `#tis-resilience` | Resilience, self-organization and hierarchy. A just-in-time simulator shows what a parts buffer costs in a calm year, on average and in a bad decade (2,000 seeded decades), and a sorter asks which property each example shows. |
 | Why systems surprise us | `#tis-surprises` | Meadows's six sources of surprise as cards, an event, behavior or structure sorter, and a help-desk queue (our illustration, not the book's) where the wait outruns a straight-line forecast as the desk nears capacity. |
 | System traps | `#tis-traps` | Meadows's eight system traps as cards, each with its way out; a shared-pasture simulator in which the open commons collapses while fencing and a cap restore the missing feedback; and a sorter for naming four of the traps. |
@@ -111,13 +111,12 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               strike-planner, template-strategy, roi-calculator,
                               triangle, policy-fit, deals,
                               profit-layers, cash-bridge, phase-map,
-                              double-entry, now-or-later, bathtub,
-                              loop-sim, inventory, ladder, ranker, trap-cards,
-                              commons, limits, queue,
+                              double-entry, now-or-later,
+                              ladder, ranker, trap-cards, commons, queue,
                               buffer, system-sketch, strategy-tests,
                               and the reference blocks brief, force-map,
                               bar-chart, table, figure, value-chain,
-                              chain-compare, diagram)
+                              chain-compare, diagram, behavior)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
