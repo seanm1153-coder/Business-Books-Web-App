@@ -520,6 +520,22 @@ test("Porter: the five forces divide an industry's value", async () => {
   );
 });
 
+test("Porter: advantage is a higher relative price, a lower relative cost, or both", async () => {
+  await page.open("ump-advantage");
+  const tiles = () => page.text('.adv [data-ref="tiles"]');
+  const note = () => page.text('.adv [data-ref="note"]');
+  assert.match(await tiles(), /\$115 .* \$94\.50 .* \$20\.50$/i);
+  assert.match(await note(), /^A price advantage: customers pay 15% more, and earning that premium raises your cost by only 5%\./);
+  await page.click('.adv [data-preset="costly"]');
+  assert.match(await note(), /^A premium that doesn't pay: .* Your margin is \$6\.50 a sale, against the rival's \$10\./);
+  await page.click('.adv [data-preset="lowcost"]');
+  assert.match(await note(), /^A cost advantage: serving customers costs you 15% less, more than making up for a price 5% lower\./);
+  await slide(page, '.adv [data-input="price"]', -20);
+  assert.match(await note(), /^Savings that don't pay/);
+  assert.match(await tiles(), /\$80 .* \$76\.50 .* \$3\.50$/i);
+  assert.equal(await sort(["price", "cost", "price", "cost", "cost", "price"]), "6 of 6 right");
+});
+
 test("PB: the category king takes most of the value", async () => {
   await page.open("pb-category-kings");
   assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);

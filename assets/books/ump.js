@@ -25,7 +25,7 @@
     contentsDesc: "From industry structure to the five tests of a good strategy.",
     mapNote: "Pages open as they're written. Chapter titles are paraphrased.",
     casesTitle: "The companies the book uses",
-    nav: ["five-forces"],
+    nav: ["five-forces", "advantage"],
 
     parts: [
       {
@@ -34,7 +34,7 @@
         chapters: [
           { n: 1, title: "Competition: the right mindset", blurb: "Compete to be unique, not to be the best." },
           { n: 2, title: "The five forces: competing for profits", blurb: "Industry structure decides how much of the value an industry creates it gets to keep.", page: "five-forces" },
-          { n: 3, title: "Competitive advantage: the value chain and your P&L", blurb: "Advantage shows up as a higher relative price, a lower relative cost, or both." }
+          { n: 3, title: "Competitive advantage: the value chain and your P&L", blurb: "Advantage shows up as a higher relative price, a lower relative cost, or both.", page: "advantage" }
         ]
       },
       {
@@ -188,7 +188,7 @@
                 title: "What the analysis is for",
                 paras: [
                   "The point isn't to label an industry attractive or unattractive. It's to understand what drives profitability in it, so a company can find a position where the forces are weakest, act to change them, and see shifts in structure coming before its rivals do.",
-                  "The forces set the average. Some companies in a poor industry earn well above it, and some in a rich industry earn well below. Explaining that difference is the job of competitive advantage, the subject of the next chapter."
+                  "The forces set the average. Some companies in a poor industry earn well above it, and some in a rich industry earn well below. Explaining that difference is the job of <a href=\"@advantage\">competitive advantage</a>, the subject of the next chapter."
                 ],
                 side: {
                   label: "Try this",
@@ -201,7 +201,141 @@
         end: {
           related: [
             { title: "Competition: the right mindset", where: "Chapter 1" },
-            { title: "Competitive advantage", where: "Chapter 3" },
+            { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
+            { title: "Trade-offs", where: "Chapter 5" }
+          ],
+          cta: { page: "advantage", kicker: "Next", text: "Where a company beats its industry's average" }
+        }
+      },
+      // Advantage as relative price and relative cost, the value chain as its source, and the
+      // value system around it follow Porter's published work as I remember Magretta
+      // presenting it, unchecked against her wording. The rival, the calculator and the
+      // sorter items are invented.
+      "advantage": {
+        navLabel: "Advantage",
+        title: "Competitive advantage",
+        eyebrow: "Part I · Chapter 03",
+        dek:
+          "In everyday talk, an advantage is anything a company is good at. Porter means something narrower and more useful: a difference in relative price or relative cost that shows up in the P&L, traced back to differences in what the company does.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Advantage lives in the P&L",
+                paras: [
+                  "For Porter, a company has a competitive advantage only if it earns a higher return than its rivals and keeps doing so. That can come from just two places. Customers may be willing to pay more for what it offers, so it commands a higher <strong>relative price</strong>. Or it may make and deliver its offering at a lower <strong>relative cost</strong>. Sometimes it's some of both.",
+                  "Everything else people call an advantage, a strong brand, a patent, a talented team, counts only if it shows up as one of those two. Profit is the gap between price and cost, and the comparison that matters is with rivals in the same industry."
+                ],
+                side: {
+                  label: "Relative",
+                  html: "<p>The industry sets the average; the <a href=\"@five-forces\">five forces</a> explain it. Advantage means beating that average, which is why Porter compares a company's price and cost with its rivals'.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "advantage",
+            title: "Price, cost and the margin between them",
+            intro:
+              "An invented rival sells at $100 and spends $90 to do it. Set how much more or less customers will pay you, and how much more or less it costs you to serve them.",
+            rival: { price: 100, cost: 90 },
+            rivalLabel: "The rival",
+            youLabel: "You",
+            priceLabel: "Your price, against the rival's",
+            priceHint: "What customers will pay you for what you offer, compared with the rival's $100.",
+            priceRange: [-20, 30],
+            costLabel: "Your cost, against the rival's",
+            costHint: "What it costs you to make and deliver it, compared with the rival's $90.",
+            costRange: [-30, 30],
+            presets: [
+              { id: "premium", label: "A premium that pays", price: 15, cost: 5 },
+              { id: "costly", label: "A premium that doesn't", price: 10, cost: 15 },
+              { id: "lowcost", label: "Low cost, lower price", price: -5, cost: -15 },
+              { id: "both", label: "Both at once", price: 5, cost: -5 }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "The value chain",
+                paras: [
+                  "Porter's tool for tracing an advantage to its source is the <strong>value chain</strong>: the activities a company performs to design, make, sell, deliver and support what it offers. Every cost is incurred in some activity, and everything customers value is created by some activity. So any difference in relative price or cost must come from a difference in activities.",
+                  "That makes the value chain a way of looking at strategy concretely. Set a company's chain beside the industry's usual one and you can see where it does things differently, and ask of each difference whether it raises what buyers will pay, lowers cost, or does neither."
+                ],
+                side: {
+                  label: "Beyond the company",
+                  html: "<p>Each company's chain sits inside a larger value system that includes its suppliers, its channels and its customers' own activities. An advantage can come from how a company fits into that system too.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Price or cost?",
+            intro: "Six invented companies that beat their industry's average. Does each advantage come mainly from a higher relative price or a lower relative cost?",
+            options: [
+              { id: "price", label: "Higher relative price", hint: "Customers pay more for it." },
+              { id: "cost", label: "Lower relative cost", hint: "It costs less to provide." }
+            ],
+            items: [
+              {
+                text: "Customers pay a fifth more for a brand's coffee machines, which cost about the same to make as its rivals'.",
+                answer: "price",
+                why: "The same cost and a higher price: the brand has raised what buyers are willing to pay."
+              },
+              {
+                text: "A regional airline flies a single type of plane, so its crews, spare parts and maintenance cost far less per seat than its rivals'.",
+                answer: "cost",
+                why: "One aircraft type simplifies training, scheduling and maintenance. The difference is in activities, and it shows up as lower cost."
+              },
+              {
+                text: "A software company's product saves customers so much time that they renew at higher prices than rivals charge.",
+                answer: "price",
+                why: "The value to the buyer, hours saved, supports a premium. It's an advantage only while the premium exceeds the cost of earning it."
+              },
+              {
+                text: "A clinic performs one kind of operation thousands of times a year, so each costs a fraction of what a general hospital spends.",
+                answer: "cost",
+                why: "Volume and specialization make every activity cheaper. The clinic can charge less and still earn more."
+              },
+              {
+                text: "A furniture retailer has customers collect and assemble the goods themselves.",
+                answer: "cost",
+                why: "Customers take over activities the retailer would otherwise pay for. Much of the saving reaches them as lower prices, but the advantage starts as lower cost."
+              },
+              {
+                text: "A carmaker's reputation for reliability lets it charge more for new cars, and its used cars hold their value.",
+                answer: "price",
+                why: "Reliability raises what buyers will pay, new and used. That's an advantage in relative price."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "3",
+                title: "Why both is rare",
+                paras: [
+                  "It's tempting to aim for a higher price and a lower cost at once. Occasionally a company manages it, usually when a rival is badly run. More often, the activities that make buyers willing to pay more also cost more to perform, and the ones that cut cost also cut what buyers value. Choosing between them is the subject of the second half of the book, starting with the value a company sets out to create."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “A premium that doesn't”. Customers pay 10% more, but the extra cost of earning that premium leaves the margin lower than the rival's.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The five forces", where: "Chapter 2", page: "five-forces" },
+            { title: "Competition: the right mindset", where: "Chapter 1" },
+            { title: "Creating value", where: "Chapter 4" },
             { title: "Trade-offs", where: "Chapter 5" }
           ],
           cta: { page: "", kicker: "Contents", text: "See the map of the book" }
