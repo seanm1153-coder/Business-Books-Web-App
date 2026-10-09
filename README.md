@@ -27,9 +27,9 @@ npm test
 | --- | --- | --- |
 | Library | `#shelf` | A shelf of 3D books: Good Strategy Bad Strategy, Financial Intelligence, Play Bigger, Thinking in Systems and Understanding Michael Porter. |
 | Book home | `#gsbs` | Thesis, entry points, a map of all 18 chapters, and the cases Rumelt uses. |
-| Discovering power | `#gsbs-discovering-power` | Wal-Mart's small towns, Andrew Marshall's strength-against-weakness thinking, and a "strength against weakness?" sort with better-aimed rewrites. |
-| Bad strategy | `#gsbs-bad-strategy` | The four hallmarks of bad strategy, plus "Spot the bad strategy": highlight sentences in three invented plans, then check your answers against annotated notes. |
-| Why so much bad strategy? | `#gsbs-why-bad-strategy` | The unwillingness to choose, template-style strategy and New Thought, with a strategy template machine whose choice detector always reads zero. |
+| Discovering power | `#gsbs-discovering-power` | Rumelt's two sources of power: the argument in six points, Wal-Mart's small towns drawn as a schematic (a national chain's far-flung stores against a cluster around its own warehouse; stacked on phones), where a rival's strength becomes its weakness, and strength against weakness set beside coherence. |
+| Bad strategy | `#gsbs-bad-strategy` | The argument in six points, the four hallmarks as a table in their highlighter colors, "Spot the bad strategy" (highlight sentences in three invented plans, then check your answers against annotated notes), and what each hallmark is missing and how to repair it. |
+| Why so much bad strategy? | `#gsbs-why-bad-strategy` | The unwillingness to choose: the argument in six points, the DEC meeting drawn as a voting cycle (chips beat boxes, boxes beat solutions, solutions beat chips, each 2 to 1) with the rankings behind it, template-style strategy set against New Thought, and ways to force a choice. |
 | Using leverage | `#gsbs-using-leverage` | Anticipation, pivot points, and a spread-or-concentrate exercise where initiatives only pay off past a threshold. |
 | Proximate objectives | `#gsbs-proximate-objectives` | The Surveyor story and a "proximate or blue-sky?" sorting game with rewrites. |
 | Chain-link systems | `#gsbs-chain-link` | Spend six improvement points on a restaurant whose evening is only as good as its weakest part; compare with an additive system. |
@@ -40,7 +40,7 @@ npm test
 | Using dynamics | `#gsbs-using-dynamics` | Five guideposts of change (rising fixed costs, deregulation, predictable biases, incumbent response, attractor states) and a highlighter exercise on two invented market briefings. |
 | Inertia and entropy | `#gsbs-inertia-entropy` | Inertia of routine, cultural inertia, inertia by proxy and entropy, with a four-way sort of invented organizations held back by each. |
 | Strategy as hypothesis | `#gsbs-science-of-strategy` | Strategy as an educated, testable judgment, with a "hypothesis or article of faith?" sort. |
-| The kernel | `#gsbs-kernel` | A concept page with an interactive figure (general form, Desert Storm, Apple 1997), sidenotes and definition pop-ups. |
+| The kernel | `#gsbs-kernel` | The argument in six points, the interactive kernel figure (general form, Desert Storm, Apple 1997), the three parts at a glance, four ways a guiding policy creates advantage, and what the kernel leaves out. |
 | Workbench | `#gsbs-builder` | Write a diagnosis, guiding policy and actions. Rule-based checks flag goals posing as strategy, buzzwords, unlinked actions and policies that rule nothing out. Drafts are saved for the reader. |
 | Financial Intelligence home | `#fi` | Thesis, entry points and a map of all eight parts. |
 | Profit is an estimate | `#fi-profit-estimate` | Five accounting judgment calls on the same month: profit ranges from a loss to about $40,000 while the change in cash stays fixed. |

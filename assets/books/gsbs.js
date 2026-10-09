@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  // Shared by the hallmarks grid and the spot-the-bad-strategy exercise.
+  // Shared by the hallmarks table and the spot-the-bad-strategy exercise.
   const HALLMARKS = [
     {
       id: "fluff",
@@ -39,6 +39,60 @@
       tell: "Could someone start on it Monday? Do the items depend on each other, or just sit side by side?"
     }
   ];
+
+  // The two panels of the Wal-Mart figure on the discovering-power page, each 300 × 290.
+  // A schematic, not a map: the store counts are illustrative.
+  const CHAIN_PANEL = `
+    <text class="sv-k" x="10" y="18">A NATIONAL CHAIN</text>
+    <path class="sv-line sv-dash" d="M31 240 L150 70"/>
+    <path class="sv-line sv-dash" d="M31 240 L250 140"/>
+    <path class="sv-line sv-dash" d="M31 240 L110 160"/>
+    <path class="sv-line sv-dash" d="M31 240 L240 240"/>
+    <circle class="sv-dot" cx="60" cy="90" r="3.5"/>
+    <circle class="sv-dot" cx="205" cy="100" r="3.5"/>
+    <circle class="sv-dot" cx="175" cy="200" r="3.5"/>
+    <circle class="sv-dot" cx="80" cy="215" r="3.5"/>
+    <circle class="sv-dot" cx="275" cy="60" r="3.5"/>
+    <circle class="sv-dot" cx="40" cy="130" r="3.5"/>
+    <circle class="sv-dot" cx="140" cy="250" r="3.5"/>
+    <circle class="sv-dot" cx="285" cy="195" r="3.5"/>
+    <rect class="sv-box-ink" x="143" y="63" width="14" height="14"/>
+    <rect class="sv-box-ink" x="243" y="133" width="14" height="14"/>
+    <rect class="sv-box-ink" x="103" y="153" width="14" height="14"/>
+    <rect class="sv-box-ink" x="233" y="233" width="14" height="14"/>
+    <rect class="sv-box" x="12" y="229" width="38" height="22" rx="2"/>
+    <text class="sv-k" x="31" y="244" text-anchor="middle">WH</text>
+    <text class="sv-t2" x="150" y="284" text-anchor="middle">Big-city stores, supplied from afar</text>
+    <g class="sv-call"><circle cx="205" cy="178" r="9"/><text x="205" y="181.5" text-anchor="middle">1</text></g>
+    <g class="sv-call"><circle cx="258" cy="84" r="9"/><text x="258" y="87.5" text-anchor="middle">2</text></g>`;
+  const NETWORK_PANEL = `
+    <text class="sv-k" x="10" y="18">WAL-MART</text>
+    <circle class="sv-line sv-dash" cx="150" cy="155" r="112"/>
+    <path class="sv-line" d="M150 155 L150 72"/>
+    <path class="sv-line" d="M150 155 L212 92"/>
+    <path class="sv-line" d="M150 155 L238 152"/>
+    <path class="sv-line" d="M150 155 L212 222"/>
+    <path class="sv-line" d="M150 155 L150 242"/>
+    <path class="sv-line" d="M150 155 L86 218"/>
+    <path class="sv-line" d="M150 155 L62 154"/>
+    <path class="sv-line" d="M150 155 L90 92"/>
+    <path class="sv-line" d="M150 155 L190 124"/>
+    <path class="sv-line" d="M150 155 L112 188"/>
+    <circle class="sv-dot-pen" cx="150" cy="72" r="5.5"/>
+    <circle class="sv-dot-pen" cx="212" cy="92" r="5.5"/>
+    <circle class="sv-dot-pen" cx="238" cy="152" r="5.5"/>
+    <circle class="sv-dot-pen" cx="212" cy="222" r="5.5"/>
+    <circle class="sv-dot-pen" cx="150" cy="242" r="5.5"/>
+    <circle class="sv-dot-pen" cx="86" cy="218" r="5.5"/>
+    <circle class="sv-dot-pen" cx="62" cy="154" r="5.5"/>
+    <circle class="sv-dot-pen" cx="90" cy="92" r="5.5"/>
+    <circle class="sv-dot-pen" cx="190" cy="124" r="5.5"/>
+    <circle class="sv-dot-pen" cx="112" cy="188" r="5.5"/>
+    <rect class="sv-box-pen" x="131" y="143" width="38" height="24" rx="2"/>
+    <text class="sv-k" x="150" y="159" text-anchor="middle">DC</text>
+    <text class="sv-t2" x="150" y="284" text-anchor="middle">Small-town stores around its own warehouse</text>
+    <g class="sv-call"><circle cx="183" cy="168" r="9"/><text x="183" y="171.5" text-anchor="middle">3</text></g>
+    <g class="sv-call"><circle cx="55" cy="213" r="9"/><text x="55" y="216.5" text-anchor="middle">4</text></g>`;
 
   window.Marginalia.addBook({
     id: "gsbs",
@@ -114,14 +168,58 @@
     ],
 
     pages: {
+      // A reference page with one exercise kept. The four hallmarks, "dog's dinner" and
+      // "blue-sky" objectives follow Chapter 3 as I remember it. The chief executive whose
+      // strategy was a pair of targets is Rumelt's "20/20" story (20% growth, 20% margin),
+      // remembered and unchecked against his wording. The repair table is our summary.
       "bad-strategy": {
         title: "Bad strategy",
         eyebrow: "Part I · Chapter 03",
+        layout: "dense",
         dek:
           "Bad strategy is more than a missing strategy. It is a recognizable set of habits that sound strategic while skipping the hard part: " +
           "naming the problem and choosing what to do about it. Rumelt names four hallmarks.",
         blocks: [
-          { type: "hallmarks", label: "The four hallmarks", items: HALLMARKS },
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "Bad strategy isn't just a missing strategy.",
+                d: "It is an active mistake with habits of its own, and it can fill a document that looks complete and confident."
+              },
+              {
+                t: "Its core failure is skipping the problem.",
+                d: "Bad strategy avoids the two things that make a strategy useful: naming the obstacle and choosing what to do about it."
+              },
+              {
+                t: "It has four hallmarks.",
+                d: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives. Any one is a warning; most bad strategies show several."
+              },
+              {
+                t: "A target is not a plan.",
+                d: "A goal says where you want to end up. A strategy says how you'll get past what's in the way. Rumelt tells of a chief executive whose whole strategy was a growth target and a margin target."
+              },
+              {
+                t: "Long lists hide the absence of choice.",
+                d: "A “dog's dinner” of unrelated objectives, or a “blue-sky” objective as hard as the problem itself, gives people nothing they can start on."
+              },
+              {
+                t: "Each hallmark is a missing piece of the kernel.",
+                d: "A diagnosis, a guiding policy and coherent actions. Name which one is missing and you know what to write next. See <a href=\"@kernel\">the kernel</a>."
+              }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Reference",
+            title: "The four hallmarks",
+            intro: "Definitions in our words, with a made-up line that shows each one and a quick test for it.",
+            columns: ["", "What it is", "Sounds like", "How to spot it"],
+            widths: ["11rem", null, null, null],
+            rows: HALLMARKS.map((h) => [`<span class="hl hl-${h.id}">${h.name}</span>`, h.def, `<em>${h.sounds}</em>`, h.tell])
+          },
           {
             type: "spot-exercise",
             title: "Spot the bad strategy",
@@ -193,19 +291,17 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                title: "Why there is so much of it",
-                paras: [
-                  "If bad strategy is this easy to spot, why is it everywhere? Rumelt's answer is that good strategy requires choosing, and choosing means saying no to people, ideas and projects that have supporters. It is much easier to write a document that includes everyone's priorities.",
-                  "Two habits make the avoidance easy. Template-style strategy fills in a vision, a mission, values and goals, and produces something that looks complete without a single hard choice. A culture of relentless positive thinking treats doubts about the plan as a lack of commitment, so problems go unnamed."
-                ],
-                side: {
-                  label: "Chapter 4",
-                  html: "<p>Rumelt traces the second habit to “New Thought,” a movement from around 1900 that held that thinking about success brings it about.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Repair",
+            title: "What each hallmark is missing, and how to fix it",
+            intro: "Our summary, read against the <a href=\"@kernel\">kernel</a>.",
+            columns: ["Hallmark", "What's missing", "The repair"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Fluff", "Plain words, and usually a diagnosis behind them", "Rewrite it in plain language. If what's left is obvious, start on the diagnosis: what is actually hard here?"],
+              ["Failure to face the challenge", "The diagnosis", "Name the obstacle specifically enough that a reasonable person could disagree with you."],
+              ["Mistaking goals for strategy", "The guiding policy and the actions", "Keep the goal, then ask what stands in the way of it and what approach gets past that."],
+              ["Bad strategic objectives", "Focus, and objectives close enough to act on", "Keep the few objectives that address the diagnosis, and bring each one within reach. See <a href=\"@proximate-objectives\">proximate objectives</a>."]
             ]
           }
         ],
@@ -220,13 +316,49 @@
         }
       },
 
+      // A reference page around the kernel figure. The three parts, the doctor analogy and the
+      // four ways a guiding policy draws on advantage (anticipation, reducing complexity,
+      // leverage, coherence) follow Chapter 5 as I remember it, unchecked against his wording.
+      // The Desert Storm and Apple cases come from Chapter 1. The tables are our summary.
       kernel: {
         title: "The kernel",
         eyebrow: "Part I · Chapter 05",
+        layout: "dense",
         dek:
           "Strip any good strategy down and you find three parts: a diagnosis of the challenge, " +
           "a guiding policy for dealing with it, and a set of coherent actions that carry the policy out.",
         blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "Every good strategy has a kernel.",
+                d: "Strip away the detail and three parts remain: a diagnosis, a guiding policy and coherent actions."
+              },
+              {
+                t: "The diagnosis names the challenge.",
+                d: "Out of a situation too complicated to grasp at once, it picks what matters and says why it's hard. It is a judgment and can be wrong, so treat it as a hypothesis, stated plainly enough that events can test it."
+              },
+              {
+                t: "The guiding policy is an approach, not a goal.",
+                d: "It works like a guardrail. By ruling out many possible moves, it points effort in one direction without spelling out every step."
+              },
+              {
+                t: "A policy earns its place by creating advantage.",
+                d: "It anticipates how others will act, simplifies a confusing situation, concentrates effort on a pivot point, or makes separate actions reinforce one another."
+              },
+              {
+                t: "Actions make it a strategy.",
+                d: "A diagnosis and a policy with nothing behind them is commentary. The actions commit money, people and attention."
+              },
+              {
+                t: "Coherent means coordinated.",
+                d: "Each action supports the others and none pulls against the policy. Concentrating resources means taking them from somewhere else, so someone always loses something they cared about."
+              }
+            ]
+          },
           {
             type: "kernel-figure",
             caption: "The general form, then two cases from the book in the same three parts. Case summaries are paraphrased.",
@@ -273,55 +405,46 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "1",
-                title: "Diagnosis",
-                paras: [
-                  "A diagnosis takes a situation too complicated to grasp all at once and says which parts of it matter. It names the challenge. A good one also reframes the situation, so that some actions start to look clearly better than others.",
-                  "Rumelt compares it to a doctor's diagnosis. Once a set of symptoms has a name, a course of treatment follows. Like a doctor's diagnosis, it is a judgment and it can be wrong. Treat it as a <span class=\"term\" tabindex=\"0\" data-def=\"In Part III, Rumelt argues that a strategy is a hypothesis about what will work, to be tested against what actually happens.\">hypothesis</span>, stated plainly enough that events can prove it wrong."
-                ],
-                side: {
-                  label: "In practice",
-                  html: "<p>The diagnosis is usually the hardest part to write. It means committing to one reading of the situation and setting the others aside.</p>"
-                }
-              },
-              {
-                n: "2",
-                title: "Guiding policy",
-                paras: [
-                  "The guiding policy is the overall approach to the challenge named in the diagnosis. It is not a goal or a vision. It works more like a guardrail: by ruling out a wide range of possible actions, it points effort in one direction without spelling out every step.",
-                  "A guiding policy earns its place by creating an advantage. It might anticipate how rivals will respond, make separate actions reinforce one another, or concentrate effort on a <span class=\"term\" tabindex=\"0\" data-def=\"A place where a small push produces a large effect. Rumelt develops the idea in the chapter on leverage.\">pivot point</span> instead of spreading it thin."
-                ],
-                side: {
-                  label: "A quick test",
-                  html: "<p>If your guiding policy doesn't make some reasonable-sounding option off-limits, it isn't guiding anything. The workbench checks for this.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "Coherent actions",
-                paras: [
-                  "Strategy is about doing something. A diagnosis and a guiding policy with nothing behind them is commentary. The third part of the kernel is the set of actions that carry out the policy: decisions, commitments of money and people, and changes to how things are done.",
-                  "The actions are coherent when they are coordinated. Each makes the others more effective, and none pulls against the policy. This is where strategy gets uncomfortable, because concentrating resources on a few things means taking them away from others, and someone always loses something they cared about."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>Part II comes back to coherence in the chapters on <a href=\"@\">design</a> and <a href=\"@chain-link\">chain-link systems</a>, where actions only work if they work together.</p>"
-                }
-              },
-              {
-                title: "What the kernel leaves out",
-                paras: [
-                  "Vision statements, mission statements, lists of values and financial targets are all missing from the kernel. Rumelt doesn't say these are useless. He says they aren't strategy, and that confusing them with strategy is one of the most common ways organizations fool themselves.",
-                  "A goal like “20% annual growth” says where you would like to end up. It says nothing about what stands in the way or how you will get past it. The kernel is that missing middle."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Chapter 3 names four hallmarks of bad strategy. <a href=\"@bad-strategy\">Mistaking goals for strategy</a> is one of them.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Reference",
+            title: "The three parts at a glance",
+            columns: ["", "Diagnosis", "Guiding policy", "Coherent actions"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["The question", "What's going on here?", "How will we deal with it?", "What will we do?"],
+              ["What it does", "Names the challenge, and reframes the situation so that some actions look clearly better than others", "Sets an overall approach that rules many possible moves out", "Commits money, people and attention, and changes how things are done"],
+              ["A good one", "Is specific enough that someone could disagree with it", "Makes some reasonable-sounding option off-limits", "Has each step making the others more effective"],
+              ["A weak one", "Restates the goals, or blames “a challenging environment” in general terms", "Is a goal or a vision in disguise", "Is a list of unrelated initiatives: a “dog's dinner”"],
+              ["In a doctor's terms", "Naming the condition from the symptoms", "Choosing the approach to treatment", "The specific treatments, given together and in order"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The guiding policy",
+            title: "Four ways a guiding policy creates advantage",
+            intro: "A policy that doesn't draw on one of these is probably a goal in disguise.",
+            columns: ["Source", "What it means", "Example"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Anticipation", "Predicting how rivals, customers or others will act, and acting before they do", "Desert Storm: Iraq's defenses expected an attack from the south, so the main force went around them."],
+              ["Simplification", "Cutting a complicated, ambiguous situation down to a few problems people can work on", "Apple in 1997: a confusing line of overlapping models became a grid of four."],
+              ["Leverage", "Concentrating effort on the pivot point where it has the most effect", "<a href=\"@using-leverage\">Using leverage</a>, Chapter 6"],
+              ["Coherence", "Designing actions and policies to reinforce each other", "<a href=\"@using-design\">Using design</a> and <a href=\"@chain-link\">chain-link systems</a>, Chapters 8 and 9"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Not in the kernel",
+            title: "What the kernel leaves out",
+            intro: "Rumelt doesn't say these are useless. He says they aren't strategy, and that confusing them with strategy is one of the most common ways organizations fool themselves.",
+            columns: ["", "What it is", "Why it isn't strategy"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Vision", "A picture of where the organization wants to be", "It says nothing about what stands in the way."],
+              ["Mission", "What the organization is for", "It rarely rules anything out."],
+              ["Values", "How people should behave", "Important, but not an answer to a particular challenge."],
+              ["Financial targets", "“20% annual growth”, “a 30% margin”", "Goals. They describe an outcome, not how to reach it. See <a href=\"@bad-strategy\">bad strategy</a>."],
+              ["A list of initiatives", "Everything each part of the organization wants to do", "No priority and no coordination: the opposite of coherent action."]
             ]
           }
         ],
@@ -336,64 +459,134 @@
         }
       },
 
+      // A reference page. The unwillingness to choose, template-style strategy and New Thought
+      // follow Chapter 4 as I remember it. The Digital Equipment Corporation meeting (early
+      // 1990s; one executive for chips, one for boxes, one for solutions; every option beaten
+      // by another; a compromise statement that chose none) is Rumelt's story as I remember
+      // it; the rankings in the table are ours, chosen to reproduce the cycle he describes.
+      // DEC's sale to Compaq in 1998 is public record. The last table is our summary.
       "why-bad-strategy": {
         title: "Why so much bad strategy?",
         navLabel: "Why so much bad strategy",
         eyebrow: "Part I · Chapter 04",
+        layout: "dense",
         dek:
           "If bad strategy is so easy to spot, why is it everywhere? Rumelt's answer: good strategy demands choices, and choosing is painful. Templates and relentless positive thinking offer ways to avoid it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "The unwillingness to choose",
-                paras: [
-                  "Every real strategy says no to something: a market, a product, a project with a powerful sponsor. Saying no disappoints people who can make life hard for you. The easy path is a document that includes everyone's priorities, which is a document with no strategy in it.",
-                  "Rumelt's point is that this isn't a failure of intelligence. It is a failure of will, and it happens in smart, successful organizations precisely because so many capable people have something to protect."
-                ],
-                side: {
-                  label: "In the book",
-                  html: "<p>Rumelt recounts a meeting at Digital Equipment Corporation in the early 1990s where executives backed different directions and settled on a compromise that committed to none of them.</p>"
-                }
+                t: "Choosing is the hard part.",
+                d: "Every real strategy says no to something: a market, a product, a project with a powerful sponsor. Saying no disappoints people who can make life hard for you."
+              },
+              {
+                t: "Capable organizations avoid it too.",
+                d: "It is a failure of will, not of intelligence. The more capable people have something to protect, the stronger the pull toward a plan that keeps everyone's priorities."
+              },
+              {
+                t: "A group can circle instead of choosing.",
+                d: "Rumelt's account of a meeting at Digital Equipment Corporation: three executives, three directions, and every option beaten by another. The group settled on words that committed to none of them."
+              },
+              {
+                t: "Templates offer a way out.",
+                d: "Fill in a vision, a mission, values and goals, and you have something that looks finished without a single hard choice in it."
+              },
+              {
+                t: "So does relentless positive thinking.",
+                d: "The New Thought movement of around 1900 held that thinking about success brings it about. Where doubt counts as disloyalty, nobody names the problem."
+              },
+              {
+                t: "The result has nothing to work on.",
+                d: "Without a named challenge there's no <a href=\"@kernel\">diagnosis</a>, and without a choice there's no guiding policy."
               }
             ]
           },
           {
-            type: "template-strategy",
-            title: "The strategy template machine",
-            intro:
-              "Press the button for a strategy in the house style of a thousand annual reports. Every draft is complete, confident and well formatted. Then look for the choice.",
-            verdict:
-              "A complete-looking strategy with no diagnosis, no guiding policy and nothing ruled out. Rumelt calls this template-style strategy: the form of a strategy with none of the substance."
-          },
-          {
-            type: "prose",
-            sections: [
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Why the group couldn't choose",
+            intro: "DEC's three options, and which one a majority preferred in each pair, using the rankings in the table below.",
+            alt: "Three boxes in a triangle: Chips, Boxes and Solutions. Arrows run from Chips to Boxes, from Boxes to Solutions and from Solutions back to Chips, each marked 2 to 1, meaning a majority prefers the first to the second. Each option loses to another.",
+            svg: `<svg viewBox="0 0 420 285" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="gs-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <path class="sv-line" d="M245 72 L327 212" marker-end="url(#gs-arr)"/>
+              <path class="sv-line" d="M291 238 L131 238" marker-end="url(#gs-arr)"/>
+              <path class="sv-line" d="M93 214 L175 74" marker-end="url(#gs-arr)"/>
+              <rect class="sv-box-pen" x="155" y="28" width="110" height="40" rx="4"/>
+              <rect class="sv-box-pen" x="295" y="218" width="110" height="40" rx="4"/>
+              <rect class="sv-box-pen" x="15" y="218" width="110" height="40" rx="4"/>
+              <text class="sv-t sv-b" x="210" y="53" text-anchor="middle">Chips</text>
+              <text class="sv-t sv-b" x="350" y="243" text-anchor="middle">Boxes</text>
+              <text class="sv-t sv-b" x="70" y="243" text-anchor="middle">Solutions</text>
+              <text class="sv-k" x="300" y="140">2 TO 1</text>
+              <text class="sv-k" x="211" y="229" text-anchor="middle">2 TO 1</text>
+              <text class="sv-k" x="120" y="140" text-anchor="end">2 TO 1</text>
+              <text class="sv-t2" x="210" y="160" text-anchor="middle">Each option</text>
+              <text class="sv-t2" x="210" y="176" text-anchor="middle">loses to another</text>
+              <text class="sv-k" x="210" y="280" text-anchor="middle">AN ARROW POINTS FROM THE OPTION A MAJORITY PREFERS</text>
+            </svg>`,
+            notes: [
               {
-                n: "2",
-                title: "Template-style strategy",
-                paras: [
-                  "Templates are popular because they feel like progress. Fill in a vision, a mission, some values and a few goals, and you have a document that looks finished. What it can't contain is the hard part: what is going on, what makes it difficult, and what you will do differently because of it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Generate a few drafts. Notice that any of them could belong to a bank, a hospital or a bike maker. That interchangeability is the tell.</p>"
-                }
+                t: "Three executives, three directions.",
+                d: "In Rumelt's account, one wanted DEC to focus on making chips, one on complete computers (“boxes”), and one on integrated solutions for customers."
               },
               {
-                n: "3",
-                title: "New Thought",
-                paras: [
-                  "Rumelt traces a second habit to the New Thought movement of around 1900, which held that thinking about success brings it about. Its modern descendants tell leaders to picture the goal and let belief carry the organization.",
-                  "The trouble is what this does to bad news. If doubt counts as disloyalty, nobody names the problem, and a strategy without a named problem has nothing to work on."
-                ],
-                side: {
-                  label: "Why it matters",
-                  html: "<p>A culture that punishes doubt can't produce a <a href=\"@kernel\">diagnosis</a>.</p>"
-                }
+                t: "Every pair has a majority.",
+                d: "With rankings like those below, two of the three prefer chips to boxes, two prefer boxes to solutions, and two prefer solutions to chips."
+              },
+              {
+                t: "So a vote has no winner.",
+                d: "Whichever direction is picked, a majority prefers another. The group can circle indefinitely, or settle on a statement broad enough to include everything."
+              },
+              {
+                t: "Someone has to choose.",
+                d: "Consensus can't produce a strategy here. It takes a leader willing to decide and to disappoint the people who wanted something else. DEC was sold to Compaq in 1998."
               }
+            ],
+            caption: "Drawn by us from the rankings below."
+          },
+          {
+            type: "table",
+            eyebrow: "The rankings",
+            title: "Three executives, three rankings",
+            intro: "Illustrative rankings, ours, built to show the cycle Rumelt describes.",
+            columns: ["", "First choice", "Second", "Third"],
+            widths: ["12rem", null, null, null],
+            rows: [
+              ["The chips executive", "Chips", "Boxes", "Solutions"],
+              ["The boxes executive", "Boxes", "Solutions", "Chips"],
+              ["The solutions executive", "Solutions", "Chips", "Boxes"]
+            ],
+            foot: "Pair by pair: chips beat boxes with the chips and solutions executives; boxes beat solutions with the chips and boxes executives; solutions beat chips with the boxes and solutions executives."
+          },
+          {
+            type: "table",
+            eyebrow: "Two habits",
+            title: "Two ways to avoid choosing",
+            columns: ["", "Template-style strategy", "New Thought"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["What it is", "A fill-in-the-blanks format: a vision, a mission, values, then a list of goals called strategies", "The belief, from a movement around 1900 and its modern descendants, that picturing success brings it about"],
+              ["Why it appeals", "It produces a finished-looking document and offends nobody", "It feels like leadership: confident, motivating, upbeat"],
+              ["What it leaves out", "The challenge, and what will be done differently because of it", "Doubt and bad news, which is where a diagnosis starts"],
+              ["The tell", "Swap in another organization's name and nothing breaks", "Questions about the plan are treated as a lack of commitment"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "Ways to force a choice",
+            intro: "Our summary, drawing on the chapter and on <a href=\"@kernel\">the kernel</a>.",
+            columns: ["Move", "Why it helps"],
+            widths: ["14rem", null],
+            rows: [
+              ["Write the diagnosis first", "Agreeing on what's wrong narrows the options before anyone starts defending a favorite."],
+              ["Say what's ruled out", "A plan that puts nothing off-limits hasn't chosen anything. Listing the exclusions makes the choice visible, and so does the cost."],
+              ["Rank, don't list", "A ranked list forces the trade-offs an unranked list hides."],
+              ["Give one person the decision", "As at DEC, a vote among favorites can circle. Someone has to decide, and accept that others will be disappointed."]
             ]
           }
         ],
@@ -1091,121 +1284,115 @@
         }
       },
 
-      // The Wal-Mart and Andrew Marshall accounts follow the well-known histories Rumelt
-      // draws on. Details (Kmart's size, the cost-imposing logic) are unchecked against
-      // Chapter 2's wording.
+      // A reference page. Sources and checks:
+      // - Wal-Mart: stores in small towns the national discount chains passed over, clustered
+      //   around its own distribution centers, with Kmart the larger rival for years. Public
+      //   record, and Rumelt's account as I remember it; unchecked against Chapter 2's wording.
+      // - Andrew Marshall and the Pentagon's Office of Net Assessment: competing by playing US
+      //   strengths against Soviet weaknesses, favoring moves cheap to make and costly to
+      //   answer. As I remember Rumelt telling it; the details are unchecked.
+      // - The figure is a schematic of the logic. The two tables are our summary.
       "discovering-power": {
         title: "Discovering power",
         eyebrow: "Part I · Chapter 02",
+        layout: "dense",
         dek:
           "A good strategy finds a source of power and applies it where it counts. Rumelt names two: putting your strength against a rival's weakness, and the extra force that comes from actions that fit together.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Wal-Mart's small towns",
-                paras: [
-                  "Sam Walton's discount stores began in small towns in the American South and Midwest, places the big chains such as Kmart considered too small to be worth a store. Wal-Mart filled them, and it placed its stores in tight clusters around its own distribution centers, so trucks, managers and information could serve many stores cheaply.",
-                  "For years Kmart was the larger company. Wal-Mart's edge wasn't national size. It came from a system: dense local networks, its own logistics, and a store in towns where no rival wanted to compete. Each part supported the others, and together they were hard to copy."
-                ],
-                side: {
-                  label: "The lesson",
-                  html: "<p>Size is not the same as power. A smaller company can be stronger where it matters if its pieces work together.</p>"
-                }
+                t: "Strategy applies power where it counts.",
+                d: "A good strategy finds a source of strength and brings it to bear on the point that decides the outcome, instead of spreading effort evenly."
               },
               {
-                n: "2",
-                title: "Strength against weakness",
-                paras: [
-                  "Rumelt draws on the work of Andrew Marshall, who led the Pentagon's Office of Net Assessment. During the Cold War, Marshall and his colleagues argued that the United States shouldn't simply try to match the Soviet Union weapon for weapon. It should look for areas where American strengths met Soviet weaknesses, and favor moves that were cheap for the United States but expensive for the Soviets to answer.",
-                  "The idea carries well beyond defense. Every rival has weaknesses, and they often come from the same source as its strengths. A company built to win on volume finds personal service awkward. A company built around one product finds it hard to walk away from it."
-                ],
-                side: {
-                  label: "A useful question",
-                  html: "<p>What would it cost them to respond, compared with what it costs us to act? Good moves make that ratio lopsided.</p>"
-                }
+                t: "Put strength against weakness.",
+                d: "The most basic source of power is to use what you do well where a rival is weak. A strength aimed at a rival's strength is only a contest of resources, and the bigger side usually wins it."
+              },
+              {
+                t: "Weaknesses often come from strengths.",
+                d: "A rival built to win one way is awkward at another. The national discount chains needed big markets, so small towns were empty ground for anyone who could serve them cheaply."
+              },
+              {
+                t: "Compare costs, not just capabilities.",
+                d: "Andrew Marshall's question at the Pentagon: which moves are cheap for us to make and expensive for them to answer? A good move makes that ratio lopsided."
+              },
+              {
+                t: "Coherence is power too.",
+                d: "Actions designed to fit together reinforce one another, so the whole has more force than its parts. No single piece of Wal-Mart's system was hard to copy; the combination was."
+              },
+              {
+                t: "Finding it means studying the other side.",
+                d: "A list of your own strengths isn't enough. Finding where a strength meets a weakness means studying rivals as closely as yourself."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Strength against weakness?",
-            intro:
-              "Seven moves by invented companies. For each, decide whether it plays a strength against the rival's weakness or meets the rival where it's strongest. Moves that pick the wrong fight come with a better aimed version.",
-            options: [
-              { id: "weak", label: "Strength against weakness", hint: "Uses an edge where the rival is exposed" },
-              { id: "strong", label: "Strength against strength", hint: "Fights the rival where it's best" }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Wal-Mart's small towns",
+            intro: "Why a smaller company could be stronger where it competed. Two ways to lay out a discount chain, drawn as a schematic.",
+            alt: "Two panels. A national chain: four large stores in big cities, each linked by long dashed lines to a distant warehouse, with small towns scattered between them and no store in any of them. Wal-Mart: a distribution center in the middle of a dashed circle, with ten small-town stores around it, each linked by a short line.",
+            svg: `<svg viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg">
+              <g>${CHAIN_PANEL}</g>
+              <path class="sv-grid" d="M320 30 V270"/>
+              <g transform="translate(340 0)">${NETWORK_PANEL}</g>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+              <g>${CHAIN_PANEL}</g>
+              <path class="sv-grid" d="M10 302 H290"/>
+              <g transform="translate(0 310)">${NETWORK_PANEL}</g>
+            </svg>`,
+            notes: [
+              {
+                t: "Built for big markets.",
+                d: "The large discount chains put stores in places big enough to support them, and supplied them over long distances."
+              },
+              {
+                t: "Small towns left empty.",
+                d: "Towns below that size weren't worth a store to them, so a rival there met little competition."
+              },
+              {
+                t: "Stores around their own warehouses.",
+                d: "Wal-Mart filled those towns and clustered the stores within reach of its own distribution centers, so trucks, managers and information served many stores cheaply."
+              },
+              {
+                t: "Hard to copy as a whole.",
+                d: "A rival could open a store in one town. Matching the cost of the cluster meant building the whole network, and Kmart, for years the larger company, was built the other way."
+              }
             ],
-            rewriteLabel: "A better aimed move",
-            items: [
-              {
-                text: "A small regional airline cuts fares on the national carrier's busiest route, where the carrier has the most flights and the lowest costs.",
-                answer: "strong",
-                why: "It attacks the carrier where it's strongest. The carrier can match the fares more cheaply than the small airline can keep them up.",
-                rewrite: "Fly direct between two mid-sized cities that the national carrier only serves with a change of planes."
-              },
-              {
-                text: "A local hardware store offers same-day delivery and a repair desk, which the out-of-town superstore's warehouse model can't easily match.",
-                answer: "weak",
-                why: "The superstore wins on volume with few staff per customer. That same model makes personal service hard for it to offer."
-              },
-              {
-                text: "A startup launches a cheaper copy of the market leader's best-selling product, through the same retailers.",
-                answer: "strong",
-                why: "The leader owns those shelves and can cut its price for a while. The startup has chosen the ground where it's weakest.",
-                rewrite: "Sell a simpler version directly to the small customers the leader's retailers don't bother with."
-              },
-              {
-                text: "A planner favors investments that are cheap to make but force a rival to spend far more on countering them.",
-                answer: "weak",
-                why: "This is the cost-imposing logic Rumelt draws from Andrew Marshall. The advantage is in the ratio: a little spent here makes the rival spend a lot."
-              },
-              {
-                text: "A software firm with a clean security record targets banks just after a rival's widely reported data breaches.",
-                answer: "weak",
-                why: "Its strength, a trusted record, lands exactly where the rival is exposed and where buyers are paying attention."
-              },
-              {
-                text: "A new bike maker builds a race team to beat the world's leading racing brand at the sport's biggest event.",
-                answer: "strong",
-                why: "It's the racing brand's home ground, built over decades. Losing there is expensive and likely.",
-                rewrite: "Build cargo bikes for families, a market the racing brand has neither the products nor the interest to serve."
-              },
-              {
-                text: "A discount chain opens stores in towns the national chains think are too small, clustered close to its own warehouses.",
-                answer: "weak",
-                why: "The big chains' model needs big markets, so these towns are empty ground. Clustering adds a cost edge the rivals can't reach from far away."
-              }
+            caption: "A schematic of the logic, drawn by us. Not a map; the number of stores is illustrative."
+          },
+          {
+            type: "table",
+            eyebrow: "Strength against weakness",
+            title: "Where a rival's strength becomes its weakness",
+            intro: "Our summary of the pattern, with the chapter's two cases in the first rows.",
+            columns: ["A rival built for", "Finds it hard to", "So a challenger can"],
+            rows: [
+              ["Big markets and big stores", "Serve small, scattered places at a profit", "Fill the places it passes over, as Wal-Mart did"],
+              ["One fixed idea of what to defend", "Stop spending on that defense, whatever the cost", "Make moves that are cheap to make and expensive to answer, as Marshall urged against the Soviets"],
+              ["Volume, with few staff per customer", "Offer advice and personal service", "Compete on service, advice and speed"],
+              ["One dominant product", "Walk away from it", "Sell what would eat into that product's sales"],
+              ["A powerful retail channel", "Sell around it without upsetting its partners", "Sell direct"],
+              ["Central control", "Respond quickly to local conditions", "Win market by market, where local knowledge counts"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Power from coherence",
-                paras: [
-                  "The second source of power is less obvious. When a company's actions are designed to fit together, they reinforce one another, and the whole has more force than the parts. Wal-Mart's stores, warehouses and trucks are an example. No single piece was hard to copy; the combination was.",
-                  "Rumelt returns to this idea throughout the book, in the chapters on <a href=\"@chain-link\">chain-link systems</a>, design and <a href=\"@focus\">focus</a>."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The <a href=\"@kernel\">kernel</a>'s third part, coherent action, is this idea in practice: actions that support each other rather than sit side by side.</p>"
-                }
-              },
-              {
-                n: "4",
-                title: "Why it's often missed",
-                paras: [
-                  "Strategy documents tend to list strengths, as if having them were enough. The work is to find where a strength meets a weakness, which means studying the rival as closely as yourself. A strength aimed at a rival's strength is just a contest of resources, and the larger side usually wins it."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>For each move in the sorter, ask what the rival would have to spend to respond. The good moves make that number large.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Two sources",
+            title: "Strength against weakness, and coherence",
+            columns: ["", "Strength against weakness", "Coherence"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["What it is", "Using an edge where a rival is exposed", "Actions designed to reinforce one another"],
+              ["In the chapter", "Andrew Marshall's net assessment of the Soviet Union", "Wal-Mart's stores, warehouses and trucks"],
+              ["The question to ask", "What would it cost them to respond, compared with what it costs us to act?", "Which of our actions make the others work better?"],
+              ["How it fails", "Aimed at a rival's strength, it becomes a contest of resources", "Actions that only sit side by side add nothing to each other"],
+              ["Later in the book", "<a href=\"@using-leverage\">Using leverage</a> and <a href=\"@using-advantage\">using advantage</a>", "<a href=\"@using-design\">Using design</a>, <a href=\"@chain-link\">chain-link systems</a> and <a href=\"@focus\">focus</a>"]
             ]
           }
         ],

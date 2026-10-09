@@ -11,7 +11,7 @@ test.after(() => env.close());
 // Select a phrase inside a chapter paragraph, as a reader would with the mouse.
 function select(page, needle) {
   return page.evaluate((needle) => {
-    for (const el of document.querySelectorAll(".prose p")) {
+    for (const el of document.querySelectorAll(".prose p, .brief-d, .dt-table td")) {
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
       const nodes = [];
       let text = "";
@@ -40,12 +40,12 @@ function select(page, needle) {
 test("highlights and notes survive a reload and reach the notebook", async () => {
   const page = await env.page();
   await page.open("gsbs-kernel");
-  assert.ok(await select(page, "Treat it as a hypothesis, stated plainly"));
+  assert.ok(await select(page, "treat it as a hypothesis, stated plainly"));
   await page.waitForSelector(".hl-toolbar", { state: "visible" });
   await page.click('.hl-toolbar [data-act="hl"]');
-  assert.equal(await page.evaluate(() => [...document.querySelectorAll("mark.user-hl")].map((m) => m.textContent).join("")), "Treat it as a hypothesis, stated plainly");
+  assert.equal(await page.evaluate(() => [...document.querySelectorAll("mark.user-hl")].map((m) => m.textContent).join("")), "treat it as a hypothesis, stated plainly");
 
-  assert.ok(await select(page, "It is not a goal or a vision."));
+  assert.ok(await select(page, "It works like a guardrail."));
   await page.waitForSelector(".hl-toolbar", { state: "visible" });
   await page.click('.hl-toolbar [data-act="note"]');
   await page.waitForSelector(".note-pop", { state: "visible" });

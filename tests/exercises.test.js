@@ -24,16 +24,24 @@ async function sort(answers) {
   return page.text(".sorter-score");
 }
 
-test("GSBS: spot the bad strategy scores a highlighted sentence", async () => {
+const tableRows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+
+test("GSBS: bad strategy tables the four hallmarks and keeps the spotting exercise", async () => {
   await page.open("gsbs-bad-strategy");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  assert.deepEqual(await tableRows(), [4, 4]);
+  // Each hallmark carries its highlighter color, shared with the exercise below.
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table th .hl"), (h) => h.className)), ["hl hl-fluff", "hl hl-face", "hl hl-goals", "hl hl-objectives"]);
   await page.click('[data-pen="goals"]');
   await page.click('[data-seg="0-0"]');
   await page.click('[data-action="check"]');
   assert.match(await page.text(".spot-count"), /\d+ of \d+/);
 });
 
-test("GSBS: the kernel figure switches between examples", async () => {
+test("GSBS: the kernel figure switches between examples, with the parts tabled", async () => {
   await page.open("gsbs-kernel");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  assert.deepEqual(await tableRows(), [5, 4, 5]);
   const before = await page.evaluate(() => document.querySelector(".kernel-panels").textContent);
   await page.click('[data-view="apple"]');
   assert.equal(await page.getAttribute('[data-view="apple"]', "aria-selected"), "true");
@@ -41,19 +49,33 @@ test("GSBS: the kernel figure switches between examples", async () => {
   await page.waitForFunction((b) => document.querySelector(".kernel-panels").textContent !== b, before);
 });
 
-test("GSBS: the template machine never finds a choice", async () => {
+test("GSBS: why so much bad strategy draws the voting cycle and checks its arithmetic", async () => {
   await page.open("gsbs-why-bad-strategy");
-  const counts = await page.text(".tpl-counts");
-  assert.match(counts, /Challenges named \| 0 \| Things ruled out \| 0 \| Actions anyone could start on Monday \| 0/);
-  const first = await page.text(".tpl-vision");
-  await page.click('[data-ref="again"]');
-  assert.notEqual(await page.text(".tpl-vision"), first);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input, button.tpl-again").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 4);
+  assert.deepEqual(await tableRows(), [3, 4, 4]);
+  // The rankings in the table really do cycle: each option loses to another, 2 to 1.
+  const ranks = await page.evaluate(() =>
+    Array.from(document.querySelector(".dt-table").tBodies[0].rows, (r) => Array.from(r.cells).slice(1).map((c) => c.textContent))
+  );
+  const beats = (a, b) => ranks.filter((r) => r.indexOf(a) < r.indexOf(b)).length;
+  assert.deepEqual([beats("Chips", "Boxes"), beats("Boxes", "Solutions"), beats("Solutions", "Chips")], [2, 2, 2]);
 });
 
-test("GSBS: strength-against-weakness sorter", async () => {
+test("GSBS: discovering power draws Wal-Mart's network and tables strength against weakness", async () => {
   await page.open("gsbs-discovering-power");
-  assert.equal(await sort(["strong", "weak", "strong", "weak", "weak", "strong", "strong"]), "6 of 7 right");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-call").length), 4);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 4);
+  assert.deepEqual(await tableRows(), [6, 5]);
   assert.match(await page.text(".pager"), /Next → \| Bad strategy \|/i);
+  // On a phone the figure switches to its stacked layout and fits the screen.
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.ok(await page.evaluate(() => {
+    const svg = document.querySelector(".fg-narrow svg");
+    return svg && svg.getBoundingClientRect().width > 0 && svg.getBoundingClientRect().width <= 390;
+  }));
+  await page.setViewportSize({ width: 1280, height: 900 });
 });
 
 test("GSBS: proximate objectives sorter keeps score", async () => {
