@@ -20,19 +20,23 @@
     citation:
       "Summaries on this page are written in our own words from Joan Magretta, <cite>Understanding Michael Porter: The Essential Guide to Competition and Strategy</cite> (Harvard Business Review Press, 2012), and the ideas of Michael Porter it explains. Example companies are invented unless the book uses them. Read the book for the full argument.",
     hero: { lines: ["Understanding", "Michael Porter"], art: "forces" },
-    entries: [{ kicker: "Start here", title: "The five forces", desc: "Set the forces for an industry and see how much of its value it keeps.", page: "five-forces" }],
+    entries: [
+      { kicker: "Start here", title: "Best or unique", desc: "Why chasing the best way to compete drives profits down for everyone.", page: "mindset" },
+      { kicker: "Toy model", title: "The five forces", desc: "Set the forces for an industry and see how much of its value it keeps.", page: "five-forces" },
+      { kicker: "Builder", title: "Design an airline", desc: "Choose six activities and watch them reinforce or clash.", page: "trade-offs" }
+    ],
     mapTitle: "Two parts, seven chapters",
     contentsDesc: "From industry structure to the five tests of a good strategy.",
     mapNote: "Pages open as they're written. Chapter titles are paraphrased.",
     casesTitle: "The companies the book uses",
-    nav: ["five-forces", "advantage", "trade-offs"],
+    nav: ["mindset", "five-forces", "advantage", "trade-offs"],
 
     parts: [
       {
         n: "I",
         title: "Competition",
         chapters: [
-          { n: 1, title: "Competition: the right mindset", blurb: "Compete to be unique, not to be the best." },
+          { n: 1, title: "Competition: the right mindset", blurb: "Compete to be unique, not to be the best.", page: "mindset" },
           { n: 2, title: "The five forces: competing for profits", blurb: "Industry structure decides how much of the value an industry creates it gets to keep.", page: "five-forces" },
           { n: 3, title: "Competitive advantage: the value chain and your P&L", blurb: "Advantage shows up as a higher relative price, a lower relative cost, or both.", page: "advantage" }
         ]
@@ -58,6 +62,124 @@
     ],
 
     pages: {
+      // "Compete to be unique, not the best", competitive convergence, zero-sum versus
+      // positive-sum competition and operational effectiveness versus strategy follow Porter's
+      // published work as I remember Magretta presenting it, unchecked against her wording.
+      // The toy market and the sorter items are ours.
+      "mindset": {
+        navLabel: "Mindset",
+        title: "Competition: the right mindset",
+        eyebrow: "Part I · Chapter 01",
+        dek:
+          "Most managers think competition means being the best. Porter argues that's the wrong goal. In most industries there is no single best way to compete, and when everyone chases the same one, everyone loses.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Best or unique",
+                paras: [
+                  "Competing to be the best treats business like a sport with one winner. Find the best product and the best practices, and beat rivals at them. When every company pursues the same idea of the best, they end up serving the same customers in the same way, and the only thing left to compete on is price. Porter calls the result competitive convergence. It's zero-sum at best, and it drives profits down for everyone.",
+                  "Competing to be unique starts from a different premise: customers differ, and there are many ways to create value for them. A company that chooses a distinct way of competing can serve its chosen customers better than anyone else, while rivals do well serving others. Competition becomes positive-sum."
+                ],
+                side: {
+                  label: "Not a sport",
+                  html: "<p>In sport there's one winner. In business, several companies can do well in the same industry at the same time, as long as they compete in different ways.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "positions",
+            title: "Four firms, one line of needs",
+            intro:
+              "A thousand customers are spread along a line, from those who want the lowest price to those who want the best performance. Each buys from the firm that suits them best. Move the four firms and see who earns what.",
+            customers: 1000,
+            margin: 40,
+            floor: 0.1,
+            room: 25,
+            firms: ["Firm A", "Firm B", "Firm C", "Firm D"],
+            lowLabel: "Lowest price",
+            highLabel: "Best performance",
+            hint: "Each firm's position on the line, from 0 (cheapest) to 100 (best performing).",
+            spreadPreset: "unique",
+            presets: [
+              { id: "best", label: "Everyone chases the best", positions: [50, 50, 50, 50] },
+              { id: "unique", label: "Each finds its own spot", positions: [10, 35, 65, 90] },
+              { id: "breakaway", label: "One breaks away", positions: [50, 50, 50, 90] }
+            ],
+            foot:
+              "A toy model, not from the book. A firm keeps up to $40 a customer when its nearest rival is at least 25 points away, less as rivals get closer, and $4 when it shares a spot and competes on price alone."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "Operational effectiveness isn't strategy",
+                paras: [
+                  "Porter separates two things that are often confused. <strong>Operational effectiveness</strong> means performing similar activities better than rivals do: less waste, better quality, faster processes. It matters, and the gaps between companies can be large. But best practices spread quickly, so improving them rarely gives a lasting advantage, and as everyone adopts the same ones, companies grow more alike.",
+                  "<strong>Strategy</strong> means performing different activities from rivals, or similar activities in different ways. That's what the rest of the book is about: how a company chooses a distinct position, and why the choice holds."
+                ],
+                side: {
+                  label: "Benchmarking",
+                  html: "<p>The more companies benchmark against each other and copy the same best practices, the more alike they become. Porter sees that as one of the engines of convergence.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Best or unique?",
+            intro: "Six moves by invented companies. Is each one competing to be the best, or competing to be unique?",
+            options: [
+              { id: "best", label: "Competing to be the best", hint: "The same race as rivals, run harder." },
+              { id: "unique", label: "Competing to be unique", hint: "A different race, chosen on purpose." }
+            ],
+            items: [
+              {
+                text: "A bank studies its biggest rival's branches and copies the features customers praise most.",
+                answer: "best",
+                why: "Matching a rival's best features makes the two banks more alike. Whatever gain it brings is easy for the rival to match in turn."
+              },
+              {
+                text: "A carmaker builds only small cars for city drivers and makes no attempt to sell to families.",
+                answer: "unique",
+                why: "It chooses which customers to serve and gives up the rest, so it can serve its chosen ones better than a generalist."
+              },
+              {
+                text: "After one phone maker's launch does well, every rival adds the same three features the next year.",
+                answer: "best",
+                why: "Everyone chasing the same features is convergence. Customers can no longer tell the phones apart, so they choose on price."
+              },
+              {
+                text: "An accounting firm serves only restaurants and builds its software and advice around how they work.",
+                answer: "unique",
+                why: "A distinct set of customers with distinct needs, served by activities tailored to them."
+              },
+              {
+                text: "A retailer's stated goal is to be number one in its market by sales.",
+                answer: "best",
+                why: "Size is a scoreboard, not a strategy. It says nothing about which customers to serve or how, and invites a race for share that can wreck profits."
+              },
+              {
+                text: "A hotel chain gives up restaurants and conference rooms to offer the cheapest clean rooms near airports.",
+                answer: "unique",
+                why: "It serves one kind of traveler in one kind of place, and gives up what those travelers don't need."
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The five forces", where: "Chapter 2", page: "five-forces" },
+            { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
+          ],
+          cta: { page: "five-forces", kicker: "Next", text: "What sets an industry's average profit" }
+        }
+      },
       // The framing (forces divide the value an industry creates; growth, technology,
       // government and complements are factors rather than forces; return on invested capital
       // as the measure) follows Porter's published work as I remember Magretta presenting it,
@@ -200,7 +322,7 @@
         ],
         end: {
           related: [
-            { title: "Competition: the right mindset", where: "Chapter 1" },
+            { title: "Competition: the right mindset", where: "Chapter 1", page: "mindset" },
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
             { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
           ],
@@ -334,7 +456,7 @@
         end: {
           related: [
             { title: "The five forces", where: "Chapter 2", page: "five-forces" },
-            { title: "Competition: the right mindset", where: "Chapter 1" },
+            { title: "Competition: the right mindset", where: "Chapter 1", page: "mindset" },
             { title: "Creating value", where: "Chapter 4" },
             { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
           ],

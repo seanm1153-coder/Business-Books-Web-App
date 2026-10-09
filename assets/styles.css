@@ -794,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1820,6 +1820,26 @@ mark.m-fluff { background: var(--mark-fluff); }
 .as-links .is-fit .as-mark { color: var(--pen); }
 .as-links .is-clash .as-mark { color: var(--bad); }
 .as-links strong { font-weight: 600; }
+
+/* ---------- Positions (a toy market on one line of needs) ---------- */
+
+.ps-market { position: relative; height: 3.4rem; border-bottom: 1px solid var(--ink); overflow: hidden; }
+.ps-zone { position: absolute; top: 0; bottom: 0; background: var(--pen-soft); }
+.ps-zone.is-alt { background: var(--paper-2); }
+.ps-firm {
+  position: absolute; transform: translateX(-50%);
+  display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--pen); color: var(--paper);
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+  transition: left 0.3s var(--ease);
+}
+.ps-firm.is-crowded { background: var(--bad); }
+.ps-ends { display: flex; justify-content: space-between; gap: 1rem; margin-top: -0.75rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
+.ps-table tfoot th, .ps-table tfoot td { border-top: 1px solid var(--ink); border-bottom: 0; font-weight: 600; }
+.ps-table tfoot th { font-family: var(--body); }
+@media (prefers-reduced-motion: reduce) {
+  .ps-firm { transition: none; }
+}
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

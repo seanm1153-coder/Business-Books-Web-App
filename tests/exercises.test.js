@@ -499,6 +499,27 @@ test("TiS: rank interventions by leverage", async () => {
   assert.match(await page.text(".rk-score"), /^5 of 5 in the right place/);
 });
 
+test("Porter: firms that chase the same best spot compete away their profits", async () => {
+  await page.open("ump-mindset");
+  const total = () => page.text('.ps [data-ref="total"]');
+  const note = () => page.text('.ps [data-ref="note"]');
+  assert.equal(await total(), "$4,000");
+  assert.match(await note(), /^All four firms chase the same idea of the best.* against \$40,000 for the same firms spread out\./);
+  await page.click('.ps [data-preset="unique"]');
+  assert.equal(await total(), "$40,000");
+  await page.click('.ps [data-preset="breakaway"]');
+  assert.equal(await total(), "$14,800");
+  assert.match(await note(), /^Firms A, B and C crowd together at 50; .* Firm D, standing apart, keeps \$40 a customer and earns \$12,000\./);
+  // Two pairs on two spots: both crowded, so the industry is back to $4,000.
+  await slide(page, '.ps [data-firm="0"]', 40);
+  await slide(page, '.ps [data-firm="1"]', 40);
+  await slide(page, '.ps [data-firm="2"]', 70);
+  await slide(page, '.ps [data-firm="3"]', 70);
+  assert.equal(await total(), "$4,000");
+  assert.match(await note(), /^Firms A and B crowd together at 40, and C and D at 70;/);
+  assert.equal(await sort(["best", "unique", "best", "unique", "best", "unique"]), "6 of 6 right");
+});
+
 test("Porter: the five forces divide an industry's value", async () => {
   await page.open("ump-five-forces");
   const tiles = () => page.text('.ff [data-ref="tiles"]');

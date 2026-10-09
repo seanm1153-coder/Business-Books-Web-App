@@ -71,6 +71,7 @@ npm test
 | Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
 | Living in a world of systems | `#tis-living` | Meadows's fifteen closing habits as cards, and a workbench for sketching the system behind a recurring problem (behavior, stock, flows, loop, delay, leverage point) with live checks, a stock-and-flow preview, the notebook and the optional Claude critique. |
 | Understanding Michael Porter home | `#ump` | Thesis, a map of the book's two parts and seven chapters, and the companies the book uses. |
+| Competition: the right mindset | `#ump-mindset` | Compete to be unique, not the best: a toy market of four firms on one line of customer needs, where firms crowding the same spot earn $4,000 between them and the same firms spread out earn $40,000; operational effectiveness versus strategy; and a best-or-unique sort. |
 | The five forces | `#ump-five-forces` | Porter's five forces and what they divide, a toy model of how much of $100 of value an industry keeps as each force strengthens, and an eight-item sort of developments by the force they change. |
 | Competitive advantage | `#ump-advantage` | Advantage as relative price and relative cost: a calculator comparing your price, cost and margin with a rival's at $100 and $90, the value chain as the source of every difference, and a price-or-cost sort. |
 | Trade-offs | `#ump-trade-offs` | Why choosing what not to do protects a position, and an airline builder: six activities, each run the full-service or the low-cost way, drawn as a map of choices that reinforce or clash. Consistent full service earns $10 a passenger and consistent low cost $14; every mix earns less. |
@@ -108,7 +109,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               loop-sim, inventory, ladder, ranker, trap-cards,
                               commons, limits, queue,
                               buffer, system-sketch, forces,
-                              advantage, activity-system)
+                              advantage, activity-system, positions)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior, forces)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
