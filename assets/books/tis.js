@@ -46,7 +46,7 @@
         n: "II",
         title: "Systems and us",
         chapters: [
-          { n: 3, title: "Why systems work so well", blurb: "Resilience, self-organization and hierarchy." },
+          { n: 3, title: "Why systems work so well", blurb: "Resilience, self-organization and hierarchy.", page: "resilience" },
           { n: 4, title: "Why systems surprise us", blurb: "Events hide behavior; nonlinearities, boundaries, limits, delays and bounded rationality.", page: "surprises" },
           { n: 5, title: "System traps and opportunities", blurb: "Structures that produce the same problems again and again, and the way out of each.", page: "traps" }
         ]
@@ -593,6 +593,158 @@
             { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
+          ],
+          cta: { page: "resilience", kicker: "Next", text: "What keeps a system going, and how efficiency wears it away" }
+        }
+      },
+      // The three properties follow Chapter 3. That Meadows uses just-in-time supply as an
+      // example of resilience traded for efficiency, that hierarchies arise from the bottom up
+      // to serve the lower levels, and her use of "suboptimization" are from my reading of the
+      // chapter, unchecked against its wording. The factory and the sorter items are invented.
+      "resilience": {
+        navLabel: "Resilience",
+        title: "Why systems work so well",
+        eyebrow: "Part II · Chapter 03",
+        dek:
+          "Systems that last share three properties: resilience, self-organization and hierarchy. Each is easy to wear away without noticing, often in the name of efficiency.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Resilience",
+                paras: [
+                  "Resilience is a system's ability to survive and recover in a changing environment. It comes from structure: several balancing loops that can each restore the system when another fails, working through different mechanisms and on different time scales. A body has many ways to keep its temperature steady; a city's food arrives from many farms by many routes.",
+                  "Resilience isn't the same as stability. A system can be steady for years and still brittle, holding its course only because nothing large has hit it yet. And because resilience is usually invisible until it's needed, it's easy to trade away for something that shows: more output, higher efficiency, a lower cost this year."
+                ],
+                side: {
+                  label: "Just in time",
+                  html: "<p>Meadows points to just-in-time supply. Holding almost no inventory cuts costs and smooths production, and leaves a factory exposed to any break in its chain of deliveries.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "buffer",
+            title: "What a buffer costs, and what it buys",
+            intro:
+              "An invented factory gets its parts from one supplier. In any year there's a 30% chance the supplier stops, usually for a week or two, though one stoppage in ten lasts eight weeks. Each week without parts costs $100,000 in lost production; each week of parts kept in reserve costs $5,000 a year to hold.",
+            weeksLabel: "Parts in reserve",
+            weeksHint: "Weeks of production the factory can run without a delivery.",
+            maxWeeks: 8,
+            start: 0,
+            hold: 5000,
+            short: 100000,
+            chance: 0.3,
+            stoppages: [
+              { weeks: 1, p: 0.5 },
+              { weeks: 2, p: 0.25 },
+              { weeks: 4, p: 0.15 },
+              { weeks: 8, p: 0.1 }
+            ],
+            years: 10,
+            decades: 2000,
+            seed: 7,
+            presets: [
+              { label: "Lean: none", weeks: 0 },
+              { label: "Two weeks", weeks: 2 },
+              { label: "Four weeks", weeks: 4 },
+              { label: "Eight weeks", weeks: 8 }
+            ],
+            caption:
+              "Cost a year by weeks of parts in reserve: in a calm year, on average, and in the decade that 1 in 20 is worse than, across 2,000 simulated decades."
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "What the buffer shows",
+                paras: [
+                  "The budget sees only the calm-year line, and it says the reserve is pure cost: $5,000 a year for every week of parts held. Remove it and the savings show at once. The losses come later, irregularly, and often in someone else's budget.",
+                  "On average, four weeks of parts is the cheapest choice here, at less than half the average cost of running lean. In a bad decade the gap is wider still. That's resilience in miniature: a cost you can see every year, for protection you see only when it's needed."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Start at “Lean: none” and add one week at a time. The calm-year cost climbs in a straight line, while the bad-decade cost falls steeply at first.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "Self-organization",
+                paras: [
+                  "Self-organization is a system's capacity to make its own structure more complex: to learn, diversify and evolve. A seed becomes a tree; a few founders become a company with habits nobody designed. Meadows notes that it often grows from a few simple rules, like the ones that give a snowflake its shape.",
+                  "It produces variety and surprise, which is why organizations that prize control tend to suppress it. Rigid procedures and narrow targets make a system easier to manage today and less able to adapt tomorrow."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The power to self-organize is fourth on Meadows's list of <a href=\"@leverage-points\">leverage points</a>, above rules and information.</p>"
+                }
+              },
+              {
+                n: "4",
+                title: "Hierarchy",
+                paras: [
+                  "Hierarchy here means systems nested inside systems: cells in organs in bodies, teams in divisions in companies. It lets each level handle most of its own business, which cuts the information every part needs and makes the whole more stable.",
+                  "Meadows notes that hierarchies grow from the bottom up, and that the upper levels exist to serve the lower ones. They go wrong in two ways. When a part's goals win out over the goals of the whole, she calls it suboptimization. When the center tries to control too much, the parts lose the freedom that made them work."
+                ],
+                side: {
+                  label: "Suboptimization",
+                  html: "<p>A sales team that hits its target by poaching deals from another team is doing well by its own measure and nothing for the company.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Which property?",
+            intro: "Six examples. Which of the three properties is each one about?",
+            options: [
+              { id: "resilience", label: "Resilience", hint: "Survives shocks and recovers." },
+              { id: "self", label: "Self-organization", hint: "Builds new structure on its own." },
+              { id: "hierarchy", label: "Hierarchy", hint: "Systems nested inside systems." }
+            ],
+            items: [
+              {
+                text: "A city's food comes from hundreds of farms and dozens of distributors, so losing any one of them barely shows.",
+                answer: "resilience",
+                why: "Many sources and routes are redundant ways of restoring supply when one fails."
+              },
+              {
+                text: "A startup's habits, jargon and rituals grew up without anyone designing them.",
+                answer: "self",
+                why: "The organization added structure of its own: nobody wrote the culture down before it existed."
+              },
+              {
+                text: "A company is split into divisions, each made of teams that run most of their own work without asking head office.",
+                answer: "hierarchy",
+                why: "Nested subsystems, each handling its own business, so the top needs far less information."
+              },
+              {
+                text: "A hospital keeps spare ventilators that sit unused most years.",
+                answer: "resilience",
+                why: "A buffer that looks wasteful in a calm year, and keeps the hospital working in a bad one."
+              },
+              {
+                text: "A flock of starlings wheels in complex patterns, each bird following a few simple rules about its nearest neighbors.",
+                answer: "self",
+                why: "Simple rules, followed by many individuals, generate complex structure that no one designed."
+              },
+              {
+                text: "A regional office hits its own cost target by pushing work onto another office, and the company's costs don't fall.",
+                answer: "hierarchy",
+                why: "Hierarchy gone wrong: a subsystem pursuing its own goal at the expense of the whole, which Meadows calls suboptimization."
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "Growth meets a limit", where: "Chapter 2", page: "limits" },
+            { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" },
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "surprises", kicker: "Next", text: "Why systems keep surprising the people who run them" }
         }

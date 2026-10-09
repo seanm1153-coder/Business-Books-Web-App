@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1653,8 +1653,19 @@ mark.m-fluff { background: var(--mark-fluff); }
 /* ---------- Queue ---------- */
 
 .qu-guess { fill: var(--paper); stroke: var(--ink-2); stroke-width: 2; }
-.qu .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1.5rem; }
-.qu .tile-sub { margin-top: 0.15rem; font-size: 0.75rem; }
+.qu .tiles-3, .bf .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1.5rem; }
+.qu .tile-sub, .bf .tile-sub { margin-top: 0.15rem; font-size: 0.75rem; }
+
+/* ---------- Buffer ---------- */
+
+.bf-bad, .bf-avg, .bf-calm { fill: none; stroke-width: 2; stroke-linejoin: round; }
+.bf-bad { stroke: var(--series-cash); }
+.bf-avg { stroke: var(--series-profit); }
+.bf-calm { stroke: var(--ink-2); stroke-dasharray: 4 4; }
+.bf-bad-dot, .bf-avg-dot, .bf-calm-dot { stroke: var(--paper); stroke-width: 2; }
+.bf-bad-dot { fill: var(--series-cash); }
+.bf-avg-dot { fill: var(--series-profit); }
+.bf-calm-dot { fill: var(--ink-2); }
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the

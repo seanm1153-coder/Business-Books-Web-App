@@ -399,6 +399,23 @@ test("TiS: a bigger oil field peaks later, not longer; better gear sinks the fis
   assert.equal(await sort(["stock", "flow", "stock", "flow", "stock", "flow"]), "6 of 6 right");
 });
 
+test("TiS: a parts buffer costs in calm years and pays in bad ones", async () => {
+  await page.open("tis-resilience");
+  const tiles = () => page.text(".bf .tiles");
+  const note = () => page.text('.bf [data-ref="note"]');
+  // Lean: free in a calm year, dearest on average and in a bad decade.
+  assert.match(await tiles(), /\$0 .* \$72,000 .* \$160,000 /i);
+  assert.match(await note(), /The cheapest on average is 4 weeks, at \$32,000/);
+  await page.click('.bf [data-preset="4"]');
+  assert.match(await tiles(), /\$20,000 .* \$32,000 .* \$60,000 /i);
+  assert.match(await note(), /This is the cheapest buffer on average/);
+  await page.click('.bf [data-preset="8"]');
+  assert.match(await note(), /even the longest stoppage is covered/);
+  await slide(page, '.bf [data-ref="input"]', 2);
+  assert.match(await note(), /^Holding 2 weeks of parts costs \$10,000 .* \$37,000 a year on average.* \$90,000/);
+  assert.equal(await sort(["resilience", "self", "hierarchy", "resilience", "self", "hierarchy"]), "6 of 6 right");
+});
+
 test("TiS: waiting time outruns a straight line as the desk fills up", async () => {
   await page.open("tis-surprises");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 6);

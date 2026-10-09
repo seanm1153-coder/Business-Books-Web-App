@@ -65,6 +65,7 @@ npm test
 | Feedback loops | `#tis-feedback` | Balancing and reinforcing loops in three simulators on tabs: a cooling coffee, money earning interest, and a population whose birth rate can fall until the dominant loop shifts. |
 | Delays and oscillation | `#tis-delays` | Meadows's car dealer rebuilt as a simulator: three delays, one 10% rise in demand, and experiments showing that reacting faster makes the swings worse while reacting more slowly calms them. |
 | Growth meets a limit | `#tis-limits` | Meadows's oil and fishing economies as a two-tab simulator: a bigger oil field moves the peak later without lengthening the boom, and better fishing gear turns a steady fishery into boom and bust, then collapse. Ends with a stock-limited or flow-limited sorter. |
+| Why systems work so well | `#tis-resilience` | Resilience, self-organization and hierarchy. A just-in-time simulator shows what a parts buffer costs in a calm year, on average and in a bad decade (2,000 seeded decades), and a sorter asks which property each example shows. |
 | Why systems surprise us | `#tis-surprises` | Meadows's six sources of surprise as cards, an event, behavior or structure sorter, and a help-desk queue (our illustration, not the book's) where the wait outruns a straight-line forecast as the desk nears capacity. |
 | System traps | `#tis-traps` | Meadows's eight system traps as cards, each with its way out; a shared-pasture simulator in which the open commons collapses while fencing and a cap restore the missing feedback; and a sorter for naming four of the traps. |
 | Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
@@ -100,7 +101,8 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               profit-layers, cash-bridge, phase-map,
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
-                              commons, limits, queue)
+                              commons, limits, queue,
+                              buffer)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/
