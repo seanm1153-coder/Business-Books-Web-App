@@ -557,6 +557,23 @@ test("Porter: advantage is a higher relative price, a lower relative cost, or bo
   assert.equal(await sort(["price", "cost", "price", "cost", "cost", "price"]), "6 of 6 right");
 });
 
+test("Porter: a value proposition's three answers must fit together", async () => {
+  await page.open("ump-value");
+  const out = () => page.text('.vp [data-ref="out"]');
+  assert.match(await out(), /^Not yet a value proposition \| The answers don't quite hang together/i);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".vp-flags .is-weak").length), 2);
+  // A contradiction: business travelers want nothing delivered to a home address.
+  await page.check('.vp [data-q="needs"][value="home"]');
+  assert.match(await out(), /The answers contradict each other/);
+  await page.check('.vp [data-q="customers"][value="repair"]');
+  assert.match(await out(), /^A coherent position \| The replacement-car position .* Ties with insurers and repair shops/i);
+  await page.check('.vp [data-q="customers"][value="tourists"]');
+  await page.check('.vp [data-q="needs"][value="cheap"]');
+  await page.check('.vp [data-q="price"][value="lowest"]');
+  assert.match(await out(), /The budget leisure position/);
+  assert.equal(await sort(["customers", "needs", "price", "customers", "needs", "price"]), "6 of 6 right");
+});
+
 test("Porter: consistent airlines earn more than any straddle", async () => {
   await page.open("ump-trade-offs");
   const tiles = () => page.text('.as [data-ref="tiles"]');

@@ -148,7 +148,7 @@
         n: "II",
         title: "Strategy",
         chapters: [
-          { n: 4, title: "Creating value: the core", blurb: "A distinctive value proposition and a value chain tailored to deliver it." },
+          { n: 4, title: "Creating value: the core", blurb: "A distinctive value proposition and a value chain tailored to deliver it.", page: "value" },
           { n: 5, title: "Trade-offs: the linchpin", blurb: "Choosing what not to do is what makes a position hard to copy.", page: "trade-offs" },
           { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation.", page: "fit" },
           { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build." },
@@ -160,7 +160,7 @@
     cases: [
       { era: "Strategy", title: "Southwest Airlines", blurb: "Short, cheap, frequent flights, delivered by activities that reinforce one another.", tag: "Fit", page: "trade-offs" },
       { era: "Strategy", title: "IKEA", blurb: "Self-service, flat-pack furniture for young families on a budget, with trade-offs at every step.", tag: "Trade-offs" },
-      { era: "Strategy", title: "Enterprise Rent-A-Car", blurb: "Built for people whose own car is in the shop, not for business travelers at airports.", tag: "Value proposition" },
+      { era: "Strategy", title: "Enterprise Rent-A-Car", blurb: "Built for people whose own car is in the shop, not for business travelers at airports.", tag: "Value proposition", page: "value" },
       { era: "Strategy", title: "Aravind Eye Hospital", blurb: "High-volume, low-cost eye surgery in India, made possible by a value chain designed for it.", tag: "Value chain" }
     ],
 
@@ -560,8 +560,161 @@
           related: [
             { title: "The five forces", where: "Chapter 2", page: "five-forces" },
             { title: "Competition: the right mindset", where: "Chapter 1", page: "mindset" },
-            { title: "Creating value", where: "Chapter 4" },
+            { title: "Creating value", where: "Chapter 4", page: "value" },
             { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" }
+          ],
+          cta: { page: "value", kicker: "Next", text: "The value a strategy sets out to create" }
+        }
+      },
+      // The three questions of a value proposition, the tailored value chain as the second
+      // test of a strategy, and Enterprise Rent-A-Car as an example follow my reading of
+      // Magretta's chapter 4, unchecked against her wording and her account of Enterprise.
+      // The rental company, its options and the rules are invented.
+      "value": {
+        navLabel: "Value",
+        title: "Creating value",
+        eyebrow: "Part II · Chapter 04",
+        dek:
+          "Strategy starts with the value a company sets out to create: for which customers, meeting which needs, at what relative price. Porter calls the answer the value proposition, and it becomes a strategy only when the value chain is tailored to deliver it.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Three questions",
+                paras: [
+                  "A value proposition answers three questions. Which customers will the company serve? Which of their needs will it meet? And at what price, relative to the alternatives? A distinctive proposition answers them differently from rivals: it serves customers others neglect, meets needs others meet poorly, or charges a price that others can't profitably match.",
+                  "The answers have to fit together. A company can't serve price-conscious customers with an expensive feature they don't value, or charge a premium to customers whose budgets are set by someone else. The three questions are one choice, not three."
+                ],
+                side: {
+                  label: "Outward and inward",
+                  html: "<p>The value proposition looks outward, at customers. The value chain looks inward, at the company's own activities. A strategy needs both, and they need to match.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "value-prop",
+            title: "Answer the three questions",
+            intro:
+              "An invented car rental company is deciding what to stand for. Choose an answer to each question and see whether they make a coherent value proposition, and what it would take to deliver one.",
+            chainLabel: "A value chain tailored to it",
+            badTitle: "The answers contradict each other",
+            weakTitle: "The answers don't quite hang together",
+            hint: "Change one answer at a time. There are three coherent positions to find.",
+            start: { customers: "biz", needs: "speed", price: "below" },
+            questions: [
+              {
+                id: "customers",
+                label: "Which customers?",
+                options: [
+                  { id: "biz", label: "Business travelers flying in" },
+                  { id: "repair", label: "Local drivers whose own car is in the shop" },
+                  { id: "tourists", label: "Holidaymakers on a budget" }
+                ]
+              },
+              {
+                id: "needs",
+                label: "Which needs?",
+                options: [
+                  { id: "speed", label: "Speed at the airport and a new car" },
+                  { id: "home", label: "A car near home, delivered and collected" },
+                  { id: "cheap", label: "The lowest rate, no frills" }
+                ]
+              },
+              {
+                id: "price",
+                label: "What relative price?",
+                options: [
+                  { id: "premium", label: "Above the market" },
+                  { id: "below", label: "Below airport rates" },
+                  { id: "lowest", label: "The lowest in the market" }
+                ]
+              }
+            ],
+            rules: [
+              { a: "biz", b: "home", fit: "bad", text: "Travelers who have just flown in aren't near home. Delivery to a home address is no use to them." },
+              { a: "biz", b: "cheap", fit: "weak", text: "Business travelers' employers care more about their time than the daily rate." },
+              { a: "repair", b: "speed", fit: "bad", text: "They aren't at an airport. A fast counter there doesn't help someone whose car is in a local garage." },
+              { a: "repair", b: "cheap", fit: "weak", text: "Price matters, but an insurer often pays. Getting a car without a trip across town matters more." },
+              { a: "tourists", b: "speed", fit: "weak", text: "Holidaymakers will wait a few minutes at the counter to save money." },
+              { a: "tourists", b: "home", fit: "bad", text: "Tourists aren't at home. They need a car where they arrive." },
+              { a: "speed", b: "below", fit: "weak", text: "Fast airport service and new cars are costly to provide, and a below-market price leaves little to pay for them." },
+              { a: "speed", b: "lowest", fit: "bad", text: "The fastest service and the newest cars can't be delivered at the lowest price in the market." },
+              { a: "home", b: "premium", fit: "weak", text: "Delivery is valued, but the customers who need it, or their insurers, cap what they'll pay." },
+              { a: "home", b: "lowest", fit: "bad", text: "Delivering and collecting cars costs money that a rock-bottom rate can't cover." },
+              { a: "cheap", b: "premium", fit: "bad", text: "A no-frills car at a premium price is a contradiction." },
+              { a: "cheap", b: "below", fit: "weak", text: "Below airport rates isn't low enough to win customers who choose on price alone." },
+              { a: "biz", b: "below", fit: "weak", text: "Business travelers won't switch for a lower rate if the service is slower, so the discount gives money away." },
+              { a: "biz", b: "lowest", fit: "bad", text: "The lowest price attracts the customers who care least about what business travelers value." },
+              { a: "repair", b: "premium", fit: "bad", text: "Insurers set daily limits for replacement cars, so a premium price is out of reach." },
+              { a: "repair", b: "lowest", fit: "weak", text: "Insurers will pay a fair rate. Pricing at the bottom of the market leaves money on the table." },
+              { a: "tourists", b: "premium", fit: "bad", text: "Budget holidaymakers won't pay above the market." },
+              { a: "tourists", b: "below", fit: "weak", text: "Budget travelers compare prices online, and below airport rates may still not be the cheapest." }
+            ],
+            positions: [
+              {
+                picks: { customers: "biz", needs: "speed", price: "premium" },
+                title: "The airport position",
+                text: "Fast service and new cars for travelers whose companies pay. It's a sound position, and it's also where most big rental companies already compete, so it's crowded.",
+                activities: ["Counters inside the terminal", "A young fleet, replaced often", "Corporate accounts and loyalty programs", "Express pickup with no paperwork"]
+              },
+              {
+                picks: { customers: "repair", needs: "home", price: "below" },
+                title: "The replacement-car position",
+                text: "Cars for people whose own car is off the road, delivered near home, at rates their insurers will pay. Airport-based rivals aren't set up to serve them.",
+                activities: ["Small offices in neighborhoods, where rents are low", "Staff who pick customers up and drop them off", "Ties with insurers and repair shops, who send the business", "Slightly older cars, kept longer"]
+              },
+              {
+                picks: { customers: "tourists", needs: "cheap", price: "lowest" },
+                title: "The budget leisure position",
+                text: "The lowest rate for holidaymakers who'll trade convenience for price.",
+                activities: ["Lots outside the airport, reached by shuttle bus", "Older, basic cars", "Booking online only", "Extras such as insurance sold separately"]
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "A tailored value chain",
+                paras: [
+                  "A distinctive value proposition isn't enough on its own. If a company delivers it with the same activities as everyone else, rivals can offer the same thing and the advantage disappears. The second test of a strategy is a value chain tailored to the proposition: activities done differently, or different activities altogether.",
+                  "In the builder, each coherent position comes with its own chain. The replacement-car position can't be run from airport counters, and the airport position can't be run from neighborhood offices. That's the start of the trade-offs the next chapter is about."
+                ],
+                side: {
+                  label: "Enterprise Rent-A-Car",
+                  html: "<p>The book's example of a distinctive value proposition: Enterprise built its business on drivers who need a car while their own is being repaired, served from neighborhood offices rather than airport counters.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Which question does it answer?",
+            intro: "Six pieces of invented value propositions. Is each one about which customers, which needs, or what relative price?",
+            options: [
+              { id: "customers", label: "Which customers", hint: "Who the company serves." },
+              { id: "needs", label: "Which needs", hint: "What it does for them." },
+              { id: "price", label: "What relative price", hint: "How it charges, against the alternatives." }
+            ],
+            items: [
+              { text: "Dental practices with one to three chairs.", answer: "customers", why: "A choice of customer: small practices, not hospital groups or large chains." },
+              { text: "Accounting software that works without an IT department.", answer: "needs", why: "A need the customer has: running the software with no technical staff." },
+              { text: "A third less than the market leader charges.", answer: "price", why: "A position on price, relative to the main alternative." },
+              { text: "Retired couples who travel outside school holidays.", answer: "customers", why: "A group of customers defined by when and how they travel." },
+              { text: "A haircut in ten minutes, no appointment needed.", answer: "needs", why: "The need is speed and convenience, not styling." },
+              { text: "Free for patients who can't pay, full price for those who can.", answer: "price", why: "A pricing choice. It works only if the value chain keeps costs low enough to carry the free patients." }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
+            { title: "Fit", where: "Chapter 6", page: "fit" }
           ],
           cta: { page: "trade-offs", kicker: "Next", text: "Why choosing what not to do protects a strategy" }
         }
@@ -638,7 +791,7 @@
         end: {
           related: [
             { title: "Competitive advantage", where: "Chapter 3", page: "advantage" },
-            { title: "Creating value", where: "Chapter 4" },
+            { title: "Creating value", where: "Chapter 4", page: "value" },
             { title: "Fit", where: "Chapter 6", page: "fit" },
             { title: "Continuity", where: "Chapter 7" }
           ],

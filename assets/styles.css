@@ -794,7 +794,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps, .co, .cv { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk, .ff, .adv, .as, .ps, .co, .cv, .vp { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1852,6 +1852,26 @@ mark.m-fluff { background: var(--mark-fluff); }
 .cv-best { fill: var(--pen); }
 .cv-worst { fill: var(--bad); }
 .cv .levers .happened { margin-top: 0.5rem; }
+
+/* ---------- Value proposition (uses the commons block's radio cards) ---------- */
+
+.vp-qs { display: flex; flex-direction: column; gap: 1.5rem; }
+.vp-out { padding: clamp(1.25rem, 3vw, 1.75rem); background: var(--field); border: 1px solid var(--rule); border-radius: 4px; }
+.vp-out p { margin: 0; }
+.vp-out .eyebrow { margin-bottom: 0.4rem; }
+.vp-title { font-family: var(--display); font-size: 1.5rem; line-height: 1.2; }
+.vp-text { margin-top: 0.75rem !important; }
+.vp-out .cm-when { margin-top: 1.25rem; }
+.vp-chain { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.vp-flags { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.9375rem; }
+.vp-flags li { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr); gap: 0.4rem; }
+.vp-mark { font-family: var(--mono); font-weight: 600; }
+.vp-flags .is-bad .vp-mark { color: var(--bad); }
+.vp-flags .is-weak .vp-mark { color: var(--warn); }
+/* The verdict stays in view beside the questions when there's room for both. */
+@media (min-width: 901px) {
+  .vp-out { position: sticky; top: 1.5rem; }
+}
 
 /* ---------- Motion ---------- */
 /* Entrances only: each plays once when a view opens, never loops, and none play when the
