@@ -78,32 +78,43 @@ test("GSBS: discovering power draws Wal-Mart's network and tables strength again
   await page.setViewportSize({ width: 1280, height: 900 });
 });
 
-test("GSBS: proximate objectives sorter keeps score", async () => {
-  await page.open("gsbs-proximate-objectives");
-  assert.equal(await sort(["far", "far", "near", "near", "near", "far", "far"]), "5 of 7 right");
+// A dense page's shape: no quiz or toy model, the brief, the figure's callouts and notes, and table sizes.
+async function dense(route, { points, calls, rows }) {
+  await page.open(route);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), points);
+  if (calls !== undefined) {
+    assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-call").length), calls);
+    assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), calls);
+  }
+  assert.deepEqual(await tableRows(), rows);
+}
+
+test("GSBS: using leverage draws the threshold and tables the three sources", async () => {
+  await dense("gsbs-using-leverage", { points: 6, calls: 3, rows: [3, 4] });
+  assert.match(await page.text(".dt-table"), /Anticipation\s[\s\S]*Pivot points\s[\s\S]*Concentration\s/);
+});
+
+test("GSBS: proximate objectives draws the Surveyor ladder and rewrites blue-sky objectives", async () => {
+  await dense("gsbs-proximate-objectives", { points: 6, calls: 3, rows: [4, 4] });
+  assert.match(await page.evaluate(() => document.querySelector(".fg-art").getAttribute("aria-label")), /firm ground with scattered rocks/);
   assert.match(await page.text(".pager"), /Using leverage .* Chain-link systems/);
 });
 
-test("GSBS: concentrating effort beats spreading it", async () => {
-  await page.open("gsbs-using-leverage");
-  assert.match(await page.text(".conc .tiles"), /IMPACT \| 0$/i);
-  await page.click('[data-preset="focus"]');
-  assert.match(await page.text(".conc .tiles"), /IMPACT \| 70$/i);
-});
-
-test("GSBS: a chain is only as strong as its weakest link", async () => {
-  await page.open("gsbs-chain-link");
-  await page.click('[data-improve="0"]');
-  assert.match(await page.text('[data-ref="note"]'), /wasted/);
-  await page.click('[data-improve="2"]');
-  await page.click('[data-improve="2"]');
-  await page.click('[data-improve="3"]');
-  assert.equal(await page.text('[data-ref="chain-v"]'), "6/10");
-  assert.match(await page.text('[data-ref="wasted"]'), /^1 of 4 points/);
+test("GSBS: chain-link systems draw the weakest link against the average", async () => {
+  await dense("gsbs-chain-link", { points: 6, calls: 3, rows: [5, 5] });
+  // The figure's labels agree with its bars: average 6, weakest link 4.
+  const labels = await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-k"), (t) => t.textContent));
+  const bars = labels.filter((t) => /^\d+$/.test(t)).map(Number);
+  assert.deepEqual(bars, [8, 7, 4, 5, 6]);
+  assert.ok(labels.includes(`AVERAGE ${bars.reduce((a, b) => a + b) / bars.length}`));
+  assert.ok(labels.includes(`WEAKEST LINK ${Math.min(...bars)}`));
 });
 
 test("GSBS: the Cannae map steps through four phases", async () => {
   await page.open("gsbs-using-design");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
   assert.equal(await page.text('.pm [data-ref="step"]'), "PHASE 1 OF 4");
   assert.equal(await page.getAttribute('.pm [data-ref="prev"]', "disabled"), "");
   for (let i = 0; i < 3; i++) await page.click('.pm [data-ref="next"]');

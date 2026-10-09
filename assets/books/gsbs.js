@@ -694,72 +694,108 @@
         }
       },
 
+      // A reference page. Anticipation, pivot points and concentration (with threshold
+      // effects) follow Chapter 6 as I remember it, unchecked against his wording. The
+      // threshold curve is our drawing of the idea; the tables are our summary.
       "using-leverage": {
         title: "Using leverage",
         eyebrow: "Part II · Chapter 06",
+        layout: "dense",
         dek:
           "Leverage is getting a large result from a focused effort. Rumelt finds it in three places: anticipating what others will do, finding the pivot points where a small push has a large effect, and concentrating effort instead of spreading it.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Anticipation",
-                paras: [
-                  "Much of the leverage in strategy comes from seeing what others will do, or what will happen anyway, before it happens. A strategist who correctly anticipates a rival's response, a shift in demand or a change in the rules can put resources where they will be needed, instead of reacting late."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>A good <a href=\"@kernel\">guiding policy</a> often works by anticipating how others will respond.</p>"
-                }
+                t: "Leverage is a large result from a focused effort.",
+                d: "No organization has enough resources to push everywhere. Strategy is about finding the few places where pushing pays off most."
               },
               {
-                n: "2",
-                title: "Pivot points",
-                paras: [
-                  "A pivot point is a place where a small, well-aimed push produces a large effect: a bottleneck, a customer whose choice others follow, an idea that changes how people see the situation. Finding one depends on the diagnosis. You can only aim at a pivot point once you understand which parts of the situation really matter."
-                ],
-                side: {
-                  label: "On the map",
-                  html: "<p>The contour map on <a href=\"@\">this book's home page</a> marks a pivot point for this reason.</p>"
-                }
-              }
-            ]
-          },
-          {
-            type: "concentration",
-            title: "Spread or concentrate",
-            intro:
-              "An invented company has ten units of effort (people, money, management attention) to put behind five initiatives. Each one pays off only once it gets enough effort to cross its threshold, and effort past the threshold adds a little more. Spread the effort, or concentrate it.",
-            impactLabel: "Impact",
-            budget: 10,
-            emptyNote: "No effort placed yet. Use + to add effort to an initiative, or try a preset.",
-            start: [2, 2, 2, 2, 2],
-            focus: [5, 5, 0, 0, 0],
-            fronts: [
-              { name: "Launch a new product line", threshold: 4, value: 30 },
-              { name: "Enter a new region", threshold: 5, value: 35 },
-              { name: "Win back lost customers", threshold: 3, value: 18 },
-              { name: "Cut delivery times", threshold: 3, value: 20 },
-              { name: "Rebuild the website", threshold: 3, value: 8 }
-            ]
-          },
-          {
-            type: "prose",
-            sections: [
+                t: "Anticipate.",
+                d: "Much of the leverage comes from seeing what others will do, or what will happen anyway, before it happens, and putting resources where they'll be needed instead of reacting late."
+              },
               {
-                n: "3",
-                title: "Concentration and thresholds",
-                paras: [
-                  "Many results only appear once effort passes a threshold: a product that is nearly good enough doesn't sell, and a campaign that nearly reaches people isn't noticed. Effort spread across many targets can leave every one of them below its threshold, so nothing changes.",
-                  "Concentrating on a few targets gets them past it. That is why a strategy that tries to do everything usually changes nothing, and why choosing what not to do is part of the work."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Press “Spread evenly”: every initiative gets two units and none crosses its threshold. Then press “Concentrate”.</p>"
-                }
+                t: "Find the pivot point.",
+                d: "A bottleneck, a customer whose choice others follow, an idea that changes how people see the situation: places where a small, well-aimed push has a large effect."
+              },
+              {
+                t: "The diagnosis finds it.",
+                d: "You can only aim at a pivot point once you understand which parts of the situation matter. That's what <a href=\"@kernel\">the diagnosis</a> is for."
+              },
+              {
+                t: "Concentrate past the threshold.",
+                d: "Many results appear only once effort passes a threshold. Spread across many targets, effort can leave every one of them just short, so nothing changes."
+              },
+              {
+                t: "So choosing what not to do is part of the work.",
+                d: "A strategy that tries to do everything usually changes nothing. Concentration means some good ideas get no resources at all."
               }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Why concentration beats spreading",
+            intro: "How the result of one initiative often grows with the effort put behind it.",
+            alt: "A chart with effort on one target along the bottom and the result up the side. An S-shaped curve stays flat near zero until a dashed threshold line, rises steeply just past it, then levels off. A point marked Spread sits on the flat part below the threshold; a point marked Concentrated sits high on the curve past it.",
+            svg: `<svg viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-axis" d="M60 20 V250 H425"/>
+              <text class="sv-t2" transform="translate(30 140) rotate(-90)" text-anchor="middle">Result</text>
+              <text class="sv-t2" x="242" y="282" text-anchor="middle">Effort on one target</text>
+              <path class="sv-line sv-dash" d="M190 30 V250"/>
+              <text class="sv-k" x="196" y="38">THRESHOLD</text>
+              <path class="sv-curve" d="M62 247 C130 247 160 244 185 225 C215 200 225 110 265 85 C300 64 360 58 420 56"/>
+              <circle class="sv-dot" cx="120" cy="246" r="5.5"/>
+              <text class="sv-k" x="120" y="232" text-anchor="middle">SPREAD</text>
+              <circle class="sv-dot-pen" cx="300" cy="66" r="6"/>
+              <text class="sv-k" x="300" y="50" text-anchor="middle">CONCENTRATED</text>
+              <g class="sv-call"><circle cx="128" cy="205" r="9"/><text x="128" y="208.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="248" cy="160" r="9"/><text x="248" y="163.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="380" cy="84" r="9"/><text x="380" y="87.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            notes: [
+              {
+                t: "Below the threshold, little happens.",
+                d: "A product that's nearly good enough doesn't sell, and a campaign that nearly reaches people isn't noticed. Effort spread thin lands here, on every target at once."
+              },
+              {
+                t: "Just past it, results climb fast.",
+                d: "This is where concentrated effort lands. The same total effort, put behind fewer targets, gets some of them across."
+              },
+              {
+                t: "Then the gains level off.",
+                d: "Past a point, more effort adds little. Concentration means enough, not everything, on each chosen target."
+              }
+            ],
+            caption: "Our drawing of the idea. The shape varies from case to case; the threshold is what matters."
+          },
+          {
+            type: "table",
+            eyebrow: "Reference",
+            title: "Three sources of leverage",
+            columns: ["", "What it is", "Where to look", "How it goes wrong"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["Anticipation", "Seeing what others will do, or what will happen anyway, before it happens", "Rivals' habits and constraints; shifts in demand, costs or rules already under way", "Assuming rivals will stand still, or that a trend will run forever"],
+              ["Pivot points", "A place where a small, well-aimed push has a large effect", "Bottlenecks, customers whose choices others follow, ideas that reframe the situation", "Pushing on what's visible rather than what's pivotal"],
+              ["Concentration", "Putting enough effort on a few targets to carry them past their thresholds", "Results that appear only once effort passes a level", "Spreading effort so that every target stays just short"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The temptation",
+            title: "Why spreading feels safer than it is",
+            intro: "Our summary.",
+            columns: ["", "Spreading effort", "Concentrating it"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Who's happy", "Every sponsor gets a share", "Some sponsors get nothing"],
+              ["How it feels", "Prudent: no single bet can fail badly", "Exposed: a failed bet is plain to see"],
+              ["What usually happens", "Every target stays short of its threshold, so little changes", "A few targets cross their thresholds and results appear"],
+              ["What it needs", "A budget split", "A diagnosis that says which targets matter, and the will to say no to the rest"]
             ]
           }
         ],
@@ -774,107 +810,115 @@
         }
       },
 
+      // A reference page. Proximate objectives, the Surveyor story (Rumelt at JPL; a lander
+      // specified for an assumed surface, firm with scattered rocks, like the desert
+      // Southwest) and the idea that one level's proximate objective is the next level's
+      // strategic problem follow Chapter 7 as I remember it, unchecked against his wording.
+      // Kennedy's 1961 goal and Surveyor 1's soft landing in 1966 are public record; the
+      // three-level ladder is our drawing. The objectives in the rewrite table are invented.
       "proximate-objectives": {
         title: "Proximate objectives",
         eyebrow: "Part II · Chapter 07",
+        layout: "dense",
         dek:
           "A good strategy turns an overwhelming aspiration into objectives close enough to reach. A proximate objective is one the organization can reasonably be expected to hit, and hitting it makes the next step clearer.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
               {
-                n: "1",
-                title: "Close enough to act on",
-                paras: [
-                  "Leaders are often told to set ambitious goals. Rumelt's point is different. Strategy has to produce objectives close enough that people can actually get to work on them. An objective that is as hard as the original problem doesn't help; it only restates it.",
-                  "A proximate objective resolves enough ambiguity to act. It names a target the organization can reasonably be expected to hit with what it knows and has, and reaching it changes the situation so that the next step becomes clearer."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>Objectives no easier than the original problem are one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a> in Chapter 3.</p>"
-                }
+                t: "Objectives should be close enough to act on.",
+                d: "Leaders are told to set ambitious goals. Rumelt's point is that strategy has to produce objectives people can actually get to work on."
               },
               {
-                n: "2",
-                title: "The Surveyor problem",
-                paras: [
-                  "Rumelt, who started his career as an engineer at NASA's Jet Propulsion Laboratory, tells how engineers there had to design an unmanned lunar lander before anyone knew what the Moon's surface was like. Was it hard rock, or dust deep enough to swallow a spacecraft? Without an answer, nobody could design the landing legs.",
-                  "The way forward was a specification that simply assumed a surface: firm ground with scattered rocks, much like the deserts of the American Southwest. It might have been wrong. But it gave the engineers a problem they could solve, which is what a proximate objective is for."
-                ],
-                side: {
-                  label: "Why it worked",
-                  html: "<p>The assumption turned an unknown into a stated design condition. If it proved wrong, the team would at least know which assumption to revisit.</p>"
-                }
+                t: "A proximate objective resolves ambiguity.",
+                d: "It turns a fuzzy situation into a problem a team can solve, with a clear sign of being done, using what the organization knows and has."
+              },
+              {
+                t: "Blue-sky objectives only restate the problem.",
+                d: "An objective as hard as the original problem doesn't help. It's one of the <a href=\"@bad-strategy\">hallmarks of bad strategy</a>."
+              },
+              {
+                t: "Surveyor: assume, then design.",
+                d: "Engineers had to design a lunar lander before anyone knew what the Moon's surface was like. A specification that simply assumed a surface gave them a problem they could solve."
+              },
+              {
+                t: "Objectives cascade.",
+                d: "One level's proximate objective becomes the strategic problem for the level below, which needs its own diagnosis and policy."
+              },
+              {
+                t: "The more uncertain, the closer in.",
+                d: "When the ground is shifting, objectives need to be nearer, and the right one may be to learn something rather than to hit a number."
               }
             ]
           },
           {
-            type: "sorter",
-            title: "Proximate or blue-sky?",
-            intro:
-              "Seven objectives. For each, decide whether a team could start on it tomorrow and know when it's done, or whether it only restates the hope. Blue-sky ones come with a proximate rewrite. The organizations are invented.",
-            options: [
-              { id: "near", label: "Proximate", hint: "Close enough to act on" },
-              { id: "far", label: "Blue-sky", hint: "As hard as the original problem" }
+            type: "figure",
+            eyebrow: "Figure",
+            title: "From aspiration to something engineers can design",
+            intro: "The Surveyor story as a ladder of objectives. Each rung is a proximate objective for the level above and a hard problem for the level below.",
+            alt: "Three stacked boxes joined by downward arrows. Top: the national goal, land people on the Moon and return them safely. Middle: NASA's step, soft-land robot spacecraft first and learn what the surface is like. Bottom: the lander specification, design for firm ground with scattered rocks. Each arrow is labelled: becomes the problem for.",
+            svg: `<svg viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="gs-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+              <rect class="sv-box" x="20" y="16" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="38">THE GOAL · 1961</text>
+              <text class="sv-t" x="36" y="62">Land people on the Moon and return them safely</text>
+              <path class="sv-line" d="M230 78 L230 132" marker-end="url(#gs-arr2)"/>
+              <text class="sv-k" x="240" y="110">BECOMES THE PROBLEM FOR</text>
+              <rect class="sv-box" x="20" y="134" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="156">A STEP · SURVEYOR</text>
+              <text class="sv-t" x="36" y="180">Soft-land a robot first and see the surface</text>
+              <path class="sv-line" d="M230 196 L230 250" marker-end="url(#gs-arr2)"/>
+              <text class="sv-k" x="240" y="228">BECOMES THE PROBLEM FOR</text>
+              <rect class="sv-box-pen" x="20" y="252" width="420" height="62" rx="4"/>
+              <text class="sv-k" x="36" y="274">THE SPECIFICATION</text>
+              <text class="sv-t sv-b" x="36" y="298">Design for firm ground with scattered rocks</text>
+              <g class="sv-call"><circle cx="420" cy="34" r="9"/><text x="420" y="37.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="420" cy="152" r="9"/><text x="420" y="155.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="420" cy="270" r="9"/><text x="420" y="273.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            notes: [
+              {
+                t: "Too far away to design for.",
+                d: "A national goal is a fine aspiration, but nobody can draw landing legs from it."
+              },
+              {
+                t: "Closer, but still open.",
+                d: "Landing a robot first is a sensible step, yet it leaves the hardest question unanswered: is the surface hard rock, or dust deep enough to swallow a spacecraft?"
+              },
+              {
+                t: "An assumption makes it solvable.",
+                d: "The specification simply assumed firm ground with scattered rocks, like the deserts of the American Southwest. It might have been wrong, but it gave engineers a problem they could solve, and said which assumption to revisit if it was."
+              }
             ],
-            rewriteLabel: "A proximate version",
-            items: [
-              {
-                text: "Become the most innovative company in our industry.",
-                answer: "far",
-                why: "It names a hope, not a problem anyone can work on. Nobody can tell what to do on Monday, or when it's done.",
-                rewrite: "Put the redesigned checkout in front of 10% of customers by March and measure how many finish their order."
-              },
-              {
-                text: "Cut the time to quote a custom order from five days to two by the end of the quarter.",
-                answer: "near",
-                why: "It's specific, within the team's control, and clearly done or not done. Reaching it also shows where quotes really get stuck."
-              },
-              {
-                text: "Design the landing legs for firm ground with scattered rocks, like the desert Southwest.",
-                answer: "near",
-                why: "This is the Surveyor move: an assumption that turns an unknown into something engineers can design for."
-              },
-              {
-                text: "Win in Asia.",
-                answer: "far",
-                why: "A destination, not a step. It leaves every hard question open: which country, which customers, which product.",
-                rewrite: "Sign two distributors in Singapore this year and learn which of our three products sells there."
-              },
-              {
-                text: "Train every service technician on the new model before it launches.",
-                answer: "near",
-                why: "Clear, feasible and checkable, and it removes a known obstacle to the launch."
-              },
-              {
-                text: "Delight customers at every touchpoint.",
-                answer: "far",
-                why: "Pleasant, but it doesn't choose. Every touchpoint at once means no touchpoint in particular.",
-                rewrite: "Answer every support email within four hours for the next quarter, then compare repeat purchases."
-              },
-              {
-                text: "Transform our culture to be more agile.",
-                answer: "far",
-                why: "As hard as the original problem, and nobody knows what done looks like.",
-                rewrite: "Cut the approval steps for small product changes from five to two, and track how long changes take."
-              }
+            caption: "Our drawing of the story Rumelt tells from his years at NASA's Jet Propulsion Laboratory. Surveyor 1 landed softly in 1966."
+          },
+          {
+            type: "table",
+            eyebrow: "Telling them apart",
+            title: "Proximate or blue-sky",
+            columns: ["", "Proximate objective", "Blue-sky objective"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["Can a team start on Monday?", "Yes. The first step is obvious", "No. The first step is the open question"],
+              ["Will you know when it's done?", "Yes", "No, or only as a matter of opinion"],
+              ["What it does to ambiguity", "Resolves enough of it to act", "Leaves all of it in place"],
+              ["When things get less certain", "Moves closer in, or becomes something to learn", "Stays the same size"]
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "3",
-                title: "Proximate isn't the same as easy",
-                paras: [
-                  "Proximate objectives can be hard. The test is whether the organization can reasonably be expected to reach them, given what it knows and has. The more uncertain the situation, the closer in the objectives need to be. When the ground is shifting, the right objective may be to learn something rather than to hit a number."
-                ],
-                side: {
-                  label: "A quick test",
-                  html: "<p>If you can't say what the team will do first, the objective isn't proximate yet.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Rewrites",
+            title: "Bringing blue-sky objectives within reach",
+            intro: "Invented examples.",
+            columns: ["Blue-sky", "Why it doesn't help", "A proximate version"],
+            rows: [
+              ["Become the most innovative company in our industry", "It names a hope, not a problem anyone can work on. Nobody can tell what to do first, or when it's done.", "Put the redesigned checkout in front of 10% of customers by March and measure how many finish their order."],
+              ["Win in Asia", "A destination, not a step. Every hard question stays open: which country, which customers, which product.", "Sign two distributors in Singapore this year and learn which of our three products sells there."],
+              ["Delight customers at every touchpoint", "Pleasant, but it doesn't choose. Every touchpoint at once means none in particular.", "Answer every support email within four hours for the next quarter, then compare repeat purchases."],
+              ["Transform our culture to be more agile", "As hard as the original problem, and nobody knows what done looks like.", "Cut the approval steps for small product changes from five to two, and track how long changes take."]
             ]
           }
         ],
@@ -889,66 +933,150 @@
         }
       },
 
+      // A reference page. Chain-link logic, "stuck" systems and why chain-link excellence is
+      // hard to copy follow Chapter 8 as I remember it, unchecked against his wording. That
+      // Rumelt uses General Motors' long effort to learn Toyota's methods (the NUMMI joint
+      // venture, from 1984, is public record) is remembered and unchecked. The figure's
+      // numbers are illustrative; the tables are our summary.
       "chain-link": {
         title: "Chain-link systems",
         eyebrow: "Part II · Chapter 08",
+        layout: "dense",
         dek:
           "When a system's performance depends on its weakest part, improving any other part does nothing. That makes chain-link systems easy to get stuck in, and hard for rivals to copy once they work well.",
         blocks: [
           {
-            type: "chain-link",
-            title: "Find the weakest link",
-            intro:
-              "An invented neighborhood restaurant. Diners judge the evening by its worst part, so the evening is only as good as the weakest of the five below. You have six improvement points. Spend them one at a time and watch what moves.",
-            outputLabel: "Evening",
-            outputNoun: "evening",
-            points: 6,
-            startNote: "Each point raises one part by 1. Try improving something other than the weakest link first.",
-            links: [
-              { name: "Ingredients", level: 8, desc: "Sourcing and freshness." },
-              { name: "Kitchen", level: 7, desc: "Cooking and plating." },
-              { name: "Service", level: 4, desc: "Timing and attention at the table." },
-              { name: "Bookings", level: 5, desc: "Getting a table when you want one." },
-              { name: "Dining room", level: 6, desc: "Noise, light and comfort." }
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in six points",
+            points: [
+              {
+                t: "In some systems the weakest part sets the result.",
+                d: "In most systems the parts add up, so a better part makes the whole a little better. In a chain-link system, performance is set by the weakest link."
+              },
+              {
+                t: "Improving anything else is wasted.",
+                d: "Until the weakest link improves, effort spent on stronger ones doesn't show up in the result at all."
+              },
+              {
+                t: "Chain-link systems get stuck.",
+                d: "When several links are equally weak, no single improvement moves the result, so each one looks pointless and none gets made."
+              },
+              {
+                t: "Getting unstuck takes coordination.",
+                d: "Someone who sees the whole system, and has authority over it, has to improve several links at once."
+              },
+              {
+                t: "Copying the parts isn't enough.",
+                d: "Methods that work only together are hard to transplant one at a time. Rumelt points to General Motors' long struggle to bring Toyota's production methods into its own plants."
+              },
+              {
+                t: "Excellence that works is hard to copy.",
+                d: "A rival has to match every link to match the result. That makes a chain-link system that already works one of the more durable advantages a company can have."
+              }
             ]
           },
           {
-            type: "prose",
-            sections: [
+            type: "figure",
+            eyebrow: "Figure",
+            title: "The weakest link sets the result",
+            intro: "Five parts of one system, scored out of ten. If the parts add up, the result is their average. If it's a chain, the result is the weakest part.",
+            alt: "Five bars, parts A to E, at 8, 7, 4, 5 and 6. A dotted line marks the average, 6. A dashed line in pen marks the weakest link, 4, at the top of part C. A dashed outline above part A shows it raised to 10: the average would rise to 6.4, while the weakest link stays at 4.",
+            svg: `<svg viewBox="0 0 500 275" xmlns="http://www.w3.org/2000/svg">
+              <path class="sv-axis" d="M70 240 H380"/>
+              <rect class="sv-line sv-dash" x="82" y="40" width="36" height="40"/>
+              <rect class="sv-box" x="82" y="80" width="36" height="160"/>
+              <rect class="sv-box" x="142" y="100" width="36" height="140"/>
+              <rect class="sv-box-pen" x="202" y="160" width="36" height="80"/>
+              <rect class="sv-box" x="262" y="140" width="36" height="100"/>
+              <rect class="sv-box" x="322" y="120" width="36" height="120"/>
+              <path class="sv-line sv-dash" d="M70 120 H380"/>
+              <path class="sv-line-pen sv-dash" d="M70 160 H380"/>
+              <text class="sv-k" x="388" y="124">AVERAGE 6</text>
+              <text class="sv-k" x="388" y="164">WEAKEST LINK 4</text>
+              <text class="sv-k" x="100" y="96" text-anchor="middle">8</text>
+              <text class="sv-k" x="160" y="116" text-anchor="middle">7</text>
+              <text class="sv-k" x="220" y="176" text-anchor="middle">4</text>
+              <text class="sv-k" x="280" y="156" text-anchor="middle">5</text>
+              <text class="sv-k" x="340" y="136" text-anchor="middle">6</text>
+              <text class="sv-k" x="100" y="258" text-anchor="middle">PART A</text>
+              <text class="sv-k" x="160" y="258" text-anchor="middle">PART B</text>
+              <text class="sv-k" x="220" y="258" text-anchor="middle">PART C</text>
+              <text class="sv-k" x="280" y="258" text-anchor="middle">PART D</text>
+              <text class="sv-k" x="340" y="258" text-anchor="middle">PART E</text>
+              <g class="sv-call"><circle cx="250" cy="205" r="9"/><text x="250" y="208.5" text-anchor="middle">1</text></g>
+              <g class="sv-call"><circle cx="400" cy="184" r="9"/><text x="400" y="187.5" text-anchor="middle">2</text></g>
+              <g class="sv-call"><circle cx="60" cy="58" r="9"/><text x="60" y="61.5" text-anchor="middle">3</text></g>
+            </svg>`,
+            svgNarrow: `<svg viewBox="0 0 345 285" xmlns="http://www.w3.org/2000/svg">
+                <path class="sv-axis" d="M10 240 H262"/>
+                <rect class="sv-line sv-dash" x="20" y="40" width="36" height="40"/>
+                <rect class="sv-box" x="20" y="80" width="36" height="160"/>
+                <rect class="sv-box" x="70" y="100" width="36" height="140"/>
+                <rect class="sv-box-pen" x="120" y="160" width="36" height="80"/>
+                <rect class="sv-box" x="170" y="140" width="36" height="100"/>
+                <rect class="sv-box" x="220" y="120" width="36" height="120"/>
+                <path class="sv-line sv-dash" d="M10 120 H262"/>
+                <path class="sv-line-pen sv-dash" d="M10 160 H262"/>
+                <text class="sv-k" x="268" y="124">AVERAGE 6</text>
+                <text class="sv-k" x="268" y="164">WEAKEST 4</text>
+                <text class="sv-k" x="38" y="96" text-anchor="middle">8</text>
+                <text class="sv-k" x="88" y="116" text-anchor="middle">7</text>
+                <text class="sv-k" x="138" y="176" text-anchor="middle">4</text>
+                <text class="sv-k" x="188" y="156" text-anchor="middle">5</text>
+                <text class="sv-k" x="238" y="136" text-anchor="middle">6</text>
+                <text class="sv-k" x="38" y="258" text-anchor="middle">A</text>
+                <text class="sv-k" x="88" y="258" text-anchor="middle">B</text>
+                <text class="sv-k" x="138" y="258" text-anchor="middle">C</text>
+                <text class="sv-k" x="188" y="258" text-anchor="middle">D</text>
+                <text class="sv-k" x="238" y="258" text-anchor="middle">E</text>
+                <g class="sv-call"><circle cx="164" cy="205" r="9"/><text x="164" y="208.5" text-anchor="middle">1</text></g>
+                <g class="sv-call"><circle cx="280" cy="184" r="9"/><text x="280" y="187.5" text-anchor="middle">2</text></g>
+                <g class="sv-call"><circle cx="72" cy="40" r="9"/><text x="72" y="43.5" text-anchor="middle">3</text></g>
+              </svg>`,
+            notes: [
               {
-                n: "1",
-                title: "Only as strong as the weakest link",
-                paras: [
-                  "In many systems the parts add up: a better part makes the whole a little better. In a chain-link system they don't. Performance is set by the weakest part, so effort spent anywhere else is wasted until that part improves.",
-                  "Plenty of real operations work this way. A product launch is only as good as the slowest team that has to deliver for it, and a fast kitchen doesn't help if the servers can't keep up."
-                ],
-                side: {
-                  label: "Try this",
-                  html: "<p>Improve Service once. Bookings is now just as weak, and raising either one alone changes nothing. You have to move both.</p>"
-                }
+                t: "Part C is the weakest link.",
+                d: "In a chain-link system, it alone sets the result."
               },
               {
-                n: "2",
-                title: "Getting stuck",
-                paras: [
-                  "Rumelt's word for this is stuck. When several links are equally weak, no single improvement shows up in the result, so each one looks pointless and none gets made. Getting unstuck takes someone who can see the whole system and coordinate several changes at once."
-                ],
-                side: {
-                  label: "Why it matters",
-                  html: "<p>Coordinated change usually has to come from someone with authority over the whole system, not from each part improving on its own.</p>"
-                }
+                t: "The result is 4, not 6.",
+                d: "Averaging the parts would say 6. The system delivers what its weakest part can."
               },
               {
-                n: "3",
-                title: "Why excellence is hard to copy",
-                paras: [
-                  "The same logic protects a chain-link system that works well. A rival who copies three of the five parts gets almost nothing; to match the result, they have to match every link. Excellence built across many linked parts is one of the more durable advantages a company can have."
-                ],
-                side: {
-                  label: "Later in the book",
-                  html: "<p>The chapters on design and on using advantage build on the same idea of tightly fitted parts.</p>"
-                }
+                t: "Raise the strongest part to 10, and nothing changes.",
+                d: "The average would rise to 6.4; the chain stays at 4. Only raising C moves it, and then only as far as D, the next weakest."
               }
+            ],
+            caption: "Illustrative numbers, drawn by us."
+          },
+          {
+            type: "table",
+            eyebrow: "Two kinds of system",
+            title: "Additive and chain-link systems",
+            columns: ["", "Additive", "Chain-link"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["The result is set by", "The sum, or the average, of the parts", "The weakest part"],
+              ["Improving a strong part", "Raises the result a little", "Changes nothing"],
+              ["How it gets stuck", "Rarely: every gain shows", "Several equally weak links, so no single gain shows"],
+              ["How to improve it", "Anywhere, a bit at a time", "The weakest link first, often several at once, by someone who sees the whole"],
+              ["Copying it", "Piece by piece works", "A rival has to match every link"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "Where chain-link logic shows up",
+            intro: "Our examples.",
+            columns: ["", "The weakest link", "What it means"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["A product launch", "The slowest team that has to deliver for it", "Speeding up the fast teams changes the launch date not at all."],
+              ["A customer's experience", "The worst moment in it", "A great meal is remembered for the forty-minute wait for the bill."],
+              ["Manufacturing quality", "The least reliable step", "One sloppy step produces defects no other step can catch up on."],
+              ["A software release", "The last component to pass its tests", "The release ships when everything is ready, not on average."],
+              ["Transplanting a system", "Whichever practice the copy leaves out", "Methods that work together, as Toyota's did, lose most of their value when taken one at a time."]
             ]
           }
         ],
@@ -1407,28 +1535,41 @@
         }
       },
 
-      // Cannae follows the standard modern accounts (Polybius and Livy as retold by
-      // historians). That Rumelt opens Chapter 9 with it, and the framing of design as
-      // a substitute for resources, are unchecked against the chapter's wording.
+      // A reference page around the Cannae map. Cannae follows the standard modern accounts
+      // (Polybius and Livy as retold by historians). That Rumelt opens Chapter 9 with it, and
+      // the framing of design as a substitute for resources and of tight fit as fragile, are
+      // unchecked against the chapter's wording. The tables are our summary.
       "using-design": {
         title: "Using design",
         eyebrow: "Part II · Chapter 09",
+        layout: "dense",
         dek:
           "Some strategies win by the arrangement of their parts rather than their size. Each action is placed and timed so that it sets up the next, and the whole works only because the pieces fit.",
         blocks: [
           {
-            type: "prose",
-            sections: [
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
               {
-                n: "1",
-                title: "Hannibal at Cannae",
-                paras: [
-                  "In 216 BC, near the village of Cannae in southern Italy, the Carthaginian general Hannibal faced a Roman army far larger than his own. By the end of the day the Roman army had been surrounded and almost destroyed. Rumelt uses the battle to show what a strategy built as a design looks like."
-                ],
-                side: {
-                  label: "Why this battle",
-                  html: "<p>Cannae is the classic case of a smaller force winning by how it was arranged, not by weight of numbers. Commanders have studied it for two thousand years.</p>"
-                }
+                t: "Some strategies are designs.",
+                d: "Instead of one clever move, they're an arrangement: each action placed and timed so that what it does makes the next one possible."
+              },
+              {
+                t: "Cannae is the classic case.",
+                d: "In 216 BC Hannibal surrounded and almost destroyed a Roman army far larger than his own, by how he arranged his forces rather than by weight of numbers."
+              },
+              {
+                t: "Design substitutes for resources.",
+                d: "A much larger force can often win by weight alone. A smaller one has to make its parts work together, and that takes a deliberate plan for how they fit."
+              },
+              {
+                t: "A design rests on a premise.",
+                d: "Hannibal's plan assumed the Romans would press hard through the center, as they usually did. Anticipating that was as much a part of the design as placing the troops."
+              },
+              {
+                t: "Tight fit is powerful and fragile.",
+                d: "The tighter the parts fit, the more the design depends on the situation being what its designer expected. More power under the planned conditions means less room when they change."
               }
             ]
           },
@@ -1564,32 +1705,32 @@
             ]
           },
           {
-            type: "prose",
-            sections: [
-              {
-                n: "2",
-                title: "Strategy as design",
-                paras: [
-                  "Hannibal's plan wasn't one clever move. It was an arrangement: each unit placed and timed so that what it did made the next action possible. Rumelt treats this kind of strategy as a design problem, much like engineering, where the work is fitting parts together so the whole performs.",
-                  "Design matters most when resources are short. A much larger army can often win by weight alone. A smaller one has to make its parts work together, and that takes a deliberate plan for how they fit."
-                ],
-                side: {
-                  label: "See also",
-                  html: "<p>The same logic runs through <a href=\"@chain-link\">chain-link systems</a> and <a href=\"@focus\">focus</a>: power from parts that reinforce each other.</p>"
-                }
-              },
-              {
-                n: "3",
-                title: "The price of a tight fit",
-                paras: [
-                  "Tightly fitted designs are powerful, and fragile. Hannibal's plan assumed the Romans would press into the center. Had they held back, or had the Gauls and Spaniards broken too soon, the pocket would never have closed.",
-                  "The tighter the fit, the more a design depends on the situation being what its designer expected. That is the trade a strategist makes: more power under the conditions planned for, less room when they change."
-                ],
-                side: {
-                  label: "In business",
-                  html: "<p>A company built tightly around one way of serving one kind of customer can be very hard to beat, and very hard to change.</p>"
-                }
-              }
+            type: "table",
+            eyebrow: "Anatomy of a design",
+            title: "What made the trap work",
+            columns: ["", "At Cannae", "In a business"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Anticipation", "The Romans would mass in the center and push straight through", "How rivals and customers will respond, built into the plan"],
+              ["Placement", "The least reliable infantry in the center, the best set back on either side, cavalry on the wings", "Each resource put where its strength decides the result, not where it looks best"],
+              ["Timing", "The Libyans turned inward only once the Romans were committed to the pocket", "Moves sequenced so each lands when the one before has prepared the ground"],
+              ["Coordination", "The cavalry, done with its own fight, came around to close the rear", "Units that finish one job are ready for the next one in the plan"],
+              ["The whole", "No unit could have won alone", "The advantage lies in the arrangement, so copying one part gets a rival little"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The trade",
+            title: "The price of a tight fit",
+            intro: "Our summary of the trade-off the chapter describes.",
+            columns: ["", "Tightly designed", "Loosely coupled"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Under the expected conditions", "Very powerful: each part multiplies the others", "Adequate: the parts work, but don't amplify each other"],
+              ["If the premise is wrong", "Can fail all at once, as Cannae would have if the Romans had held back", "Degrades piece by piece"],
+              ["For a rival to copy", "Hard: the whole arrangement has to be matched", "Easier: parts can be copied one at a time"],
+              ["To change later", "Hard: changing one part disturbs the rest", "Easier"],
+              ["Best when", "Resources are short and the situation is well understood", "The situation is uncertain or changing fast"]
             ]
           }
         ],
