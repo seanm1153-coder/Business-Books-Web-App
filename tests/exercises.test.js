@@ -376,6 +376,29 @@ test("TiS: delays make the car lot swing; slowing the response calms it", async 
   assert.match(await note(), /settles near its new target.* calmer than/);
 });
 
+test("TiS: a bigger oil field peaks later, not longer; better gear sinks the fishery", async () => {
+  await page.open("tis-limits");
+  const tiles = () => page.text('.lim [data-ref="tiles"]');
+  const note = () => page.text('.lim [data-ref="note"]');
+  assert.match(await tiles(), /^Peak year \| 40 \| of 100 \| Peak output \| 29 .* Boom years \| 29 /i);
+  assert.match(await note(), /output grows for 40 years, to 29 million barrels a year.* by year 68/);
+  // Each doubling of the field buys about the same 13 years, and the boom doesn't lengthen.
+  await page.click('.lim [data-preset="2"]');
+  assert.match(await note(), /the peak comes 13 years later than in the original field, and output stays above half its peak for 30 years, against 29/);
+  await page.click('.lim [data-preset="4"]');
+  assert.match(await note(), /the peak comes 26 years later/);
+  await page.click('.lim [data-sys="fish"]');
+  assert.match(await tiles(), /^Fish \| 45% .* Boats \| 138 \| Catch \| 124 /i);
+  assert.match(await note(), /overshoots to 169 boats.* close to the most the fish can yield for good/);
+  await page.click('.lim [data-preset="40"]');
+  assert.match(await note(), /swing between 13% and 21% .* averages 71 thousand tonnes a year, below the 125/);
+  await page.click('.lim [data-preset="20"]');
+  assert.match(await note(), /the fish are all but gone.* Only once the fleet has shrunk to 17 boats/);
+  await slide(page, '.lim [data-ref="input"]', 10);
+  assert.match(await note(), /haven't come back by year 80/);
+  assert.equal(await sort(["stock", "flow", "stock", "flow", "stock", "flow"]), "6 of 6 right");
+});
+
 test("TiS: the open pasture collapses; fencing and a cap restore the feedback", async () => {
   await page.open("tis-traps");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".tc-card").length), 8);

@@ -64,6 +64,7 @@ npm test
 | Stocks and flows | `#tis-stocks-flows` | A bathtub simulator: run the clock, move the faucet and drain, and watch the level trace a behavior-over-time graph, including a tub that keeps filling while the faucet closes. |
 | Feedback loops | `#tis-feedback` | Balancing and reinforcing loops in three simulators on tabs: a cooling coffee, money earning interest, and a population whose birth rate can fall until the dominant loop shifts. |
 | Delays and oscillation | `#tis-delays` | Meadows's car dealer rebuilt as a simulator: three delays, one 10% rise in demand, and experiments showing that reacting faster makes the swings worse while reacting more slowly calms them. |
+| Growth meets a limit | `#tis-limits` | Meadows's oil and fishing economies as a two-tab simulator: a bigger oil field moves the peak later without lengthening the boom, and better fishing gear turns a steady fishery into boom and bust, then collapse. Ends with a stock-limited or flow-limited sorter. |
 | System traps | `#tis-traps` | Meadows's eight system traps as cards, each with its way out; a shared-pasture simulator in which the open commons collapses while fencing and a cap restore the missing feedback; and a sorter for naming four of the traps. |
 | Leverage points | `#tis-leverage-points` | Meadows's twelve places to intervene in a system as a ladder, the meter-in-the-hall story, and a ranking exercise: put five ideas for a city's traffic in order of leverage. |
 | Northline | `#northline` | A year running an invented bike maker: four quarterly decisions, each read through a different book, flowing through one quarterly model of profit, cash and borrowing. |
@@ -98,7 +99,7 @@ assets/js/blocks/*.js         reusable page blocks (prose, kernel-figure, hallma
                               profit-layers, cash-bridge, phase-map,
                               double-entry, now-or-later, bathtub,
                               loop-sim, inventory, ladder, ranker, trap-cards,
-                              commons)
+                              commons, limits)
 assets/js/art/*.js            book-home hero art (contours, ledger, categories, behavior)
 assets/js/app.js              router, shelf, book home and page shell (loads last)
 tools/bundle.py               builds a single self-contained HTML file in dist/

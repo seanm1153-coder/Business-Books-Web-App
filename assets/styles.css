@@ -771,7 +771,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .chain, .jc, .wc, .vs, .conc, .ratios, .sp, .tpl, .roi, .tri, .pf, .deals, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -1620,6 +1620,7 @@ mark.m-fluff { background: var(--mark-fluff); }
 .tc-k { margin: 0.8rem 0 0.15rem; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
 
 /* ---------- Commons ---------- */
+/* The two-panel chart, its key and the year kicker are shared with the limits simulator. */
 
 .cm-modes { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
 .cm-modes legend { padding: 0; margin-bottom: 0.6rem; }
@@ -1631,7 +1632,8 @@ mark.m-fluff { background: var(--mark-fluff); }
 .cm-mode-t { font-weight: 600; }
 .cm-mode-d { grid-column: 2; font-size: 0.8125rem; color: var(--ink-2); }
 /* Three short numbers stay on one row, even on a phone. */
-.cm .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.cm .tiles-3, .lim .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.lim .tile-sub { margin-top: 0.15rem; font-size: 0.75rem; }
 .cm-when { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
 .cm-chart { width: 100%; min-height: 270px; }
 .cm-chart svg { display: block; }

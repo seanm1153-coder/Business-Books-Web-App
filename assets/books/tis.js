@@ -38,7 +38,8 @@
           { n: 1, title: "The basics", blurb: "Elements, interconnections and purpose; stocks, and the flows that fill and drain them.", page: "stocks-flows" },
           { title: "Feedback loops", blurb: "Balancing loops pull a stock toward a goal; reinforcing loops make it grow or collapse.", page: "feedback" },
           { n: 2, title: "A brief visit to the systems zoo", blurb: "Small models of common systems: a thermostat, a population, a car dealer's lot, an oil field, a fishery." },
-          { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand.", page: "delays" }
+          { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand.", page: "delays" },
+          { title: "Growth meets a limit", blurb: "An oil field and a fishery: growing capital drawing on a stock that runs out, or one that regrows.", page: "limits" }
         ]
       },
       {
@@ -66,7 +67,8 @@
       { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo" },
       { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays", page: "delays" },
-      { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested for ever, or fished to collapse.", tag: "Systems zoo" },
+      { era: "Chapter 2", title: "An oil field", blurb: "Profits buy rigs until the emptying field pushes back: a rise, a peak and a fall.", tag: "Systems zoo", page: "limits" },
+      { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested forever, or fished to collapse.", tag: "Systems zoo", page: "limits" },
       { era: "Chapter 5", title: "A shared pasture", blurb: "Herders who each gain from one more animal, and together graze the pasture bare.", tag: "System traps", page: "traps" }
     ],
 
@@ -386,6 +388,211 @@
             { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
             { title: "Why systems surprise us", where: "Chapter 4" },
             { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
+          ],
+          cta: { page: "limits", kicker: "Next", text: "Grow an industry until its resource pushes back" }
+        }
+      },
+      // The oil and fishing economies are from Chapter 2's systems zoo, rebuilt with our own
+      // numbers. The terms stock-limited and flow-limited, the fishery's three outcomes (settle,
+      // oscillate, collapse as boats get better at finding scarce fish) and the point that limits
+      // are either self-imposed or imposed by the system are from my reading of the book,
+      // unchecked against its wording. The Grand Banks note and the sorter items are ours.
+      "limits": {
+        navLabel: "Limits",
+        title: "Growth meets a limit",
+        eyebrow: "Part I · Chapter 02",
+        dek:
+          "Anything physical that grows will eventually run into a constraint. The last two systems in Meadows's zoo show the two kinds of limit a resource sets: one that runs out, and one that regrows.",
+        blocks: [
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "1",
+                title: "Every growing system meets a limit",
+                paras: [
+                  "A reinforcing loop can't run forever in a finite world. Sooner or later a balancing loop takes over, and the question is what form it takes. For an industry that lives on a resource, the limit is usually the resource itself.",
+                  "Meadows distinguishes two kinds. A nonrenewable resource, such as oil or a copper deposit, is <strong>stock-limited</strong>: all of it is there to be used, but once it's gone it's gone, and the faster it's used, the sooner that happens. A renewable resource, such as a fishery or a forest, is <strong>flow-limited</strong>: it can be used forever, but only as fast as it regenerates. Take more than that and the stock shrinks, and a small enough stock may barely regenerate at all."
+                ],
+                side: {
+                  label: "Two stocks",
+                  html: "<p>Both models below have two stocks: the resource, and the capital that harvests it, rigs or boats. Profits from the first build the second.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "limits",
+            title: "Run an oil field and a fishery",
+            intro:
+              "Each tab runs an invented industry that reinvests its profits in more rigs or boats until the resource pushes back. Try the experiments, or move the slider.",
+            systems: [
+              {
+                id: "oil",
+                label: "An oil field",
+                model: "oil",
+                kind: "A reinforcing loop: profits buy rigs, and more rigs make more profit. A balancing loop: as the field empties, each rig gets less oil.",
+                years: 100,
+                size: 1000,
+                startStock: 1,
+                capital: 20,
+                perUnit: 0.2,
+                regrow: 0,
+                fullUntil: 0.5,
+                growth: 0.1,
+                costShare: 0.3,
+                payback: 2,
+                life: 20,
+                slider: {
+                  key: "size",
+                  label: "Size of the field",
+                  min: 1,
+                  max: 8,
+                  step: 1,
+                  value: 1,
+                  format: "{v} billion barrels",
+                  hint: "The field starts at a billion barrels. Try doubling it, then doubling it again."
+                },
+                presets: [
+                  { label: "The original field", value: 1 },
+                  { label: "Twice the oil", value: 2 },
+                  { label: "Four times", value: 4 }
+                ],
+                stockLabel: "Oil left in the field",
+                flowLabel: "Output, million barrels a year",
+                flowNoun: "output",
+                caption: "Oil left, as a share of the field, and output in million barrels a year, over 100 years."
+              },
+              {
+                id: "fish",
+                label: "A fishery",
+                model: "fish",
+                kind: "The same reinforcing loop of profits and boats, but the fish regrow, fastest when the sea holds about half as many as it could.",
+                years: 80,
+                size: 1000,
+                startStock: 0.95,
+                capital: 20,
+                perUnit: 2,
+                regrow: 0.5,
+                growth: 0.15,
+                costShare: 0.4,
+                payback: 1,
+                life: 20,
+                slider: {
+                  key: "fullUntil",
+                  label: "Boats keep full catches until fish fall to",
+                  min: 10,
+                  max: 100,
+                  step: 10,
+                  value: 100,
+                  format: "{v}%",
+                  hint: "Of what the sea can hold. At 100%, every fall in the fish shows up in the catch; sonar, bigger nets and faster boats keep catches up as fish get scarce."
+                },
+                presets: [
+                  { label: "Catches fall as fish thin", value: 100 },
+                  { label: "Better gear", value: 40 },
+                  { label: "Sonar and factory ships", value: 20 }
+                ],
+                stockLabel: "Fish in the sea",
+                flowLabel: "Catch",
+                flowNoun: "catch",
+                caption: "Fish, as a share of what the sea can hold, and the catch in thousand tonnes a year, over 80 years."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "2",
+                title: "What the oil field shows",
+                paras: [
+                  "Output rises, peaks and falls, and the shape of the curve barely depends on how much oil there is. Twice the oil moves the peak about 13 years later and makes it nearly twice as high; four times the oil moves it about 26 years. Each doubling buys roughly the same few years, because the rigs grow exponentially, and an exponentially growing industry works through each doubling of its resource in about the same time.",
+                  "The boom lasts about 30 years whatever the size of the field. A bigger discovery means a later, higher peak and a steeper fall, not a longer plateau."
+                ],
+                side: {
+                  label: "Try this",
+                  html: "<p>Press “Twice the oil”, then “Four times”, and watch the peak year in the first tile.</p>"
+                }
+              },
+              {
+                n: "3",
+                title: "What the fishery shows",
+                paras: [
+                  "When each boat's catch falls as soon as the fish thin, falling catches cut profits, and the fleet stops growing before the fish are lost. Fish and fleet settle close to the largest catch the sea can sustain.",
+                  "Better gear weakens that signal. Boats keep catching well while the fish decline, so the fleet keeps growing, and by the time catches fall the fish are far below the level at which they regrow fastest. The result is a cycle of boom and bust. With gear good enough to keep catches full until the fish are nearly gone, there's no warning at all, and fish and fleet collapse together. In this model, the more efficient the boats, the worse the outcome for the people who own them."
+                ],
+                side: {
+                  label: "A real collapse",
+                  html: "<p>The cod fishery on the Grand Banks off Newfoundland, once among the richest in the world, collapsed in the early 1990s and was closed in 1992. Decades later the cod had still not fully recovered.</p>"
+                }
+              }
+            ]
+          },
+          {
+            type: "sorter",
+            title: "Stock-limited or flow-limited?",
+            intro: "Six resources. Is each one a fixed stock that runs out, or a flow that can be used forever at the rate it renews?",
+            options: [
+              { id: "stock", label: "Stock-limited", hint: "A fixed amount: the faster it's used, the sooner it's gone." },
+              { id: "flow", label: "Flow-limited", hint: "It renews: usable forever, but only as fast as it renews." }
+            ],
+            items: [
+              {
+                text: "A copper deposit in a mountain.",
+                answer: "stock",
+                why: "There's a fixed amount of ore, and no more forms on any time scale that matters. Mining it faster only brings the end sooner."
+              },
+              {
+                text: "A forest managed for timber.",
+                answer: "flow",
+                why: "Trees regrow. Cut no faster than they grow and the forest yields timber forever; cut faster and the stock shrinks."
+              },
+              {
+                text: "Water in an aquifer that filled during the last ice age and gets almost no rain today.",
+                answer: "stock",
+                why: "It's water, but it doesn't renew on any useful time scale, so it behaves like oil: every well draws down a fixed stock."
+              },
+              {
+                text: "A river's capacity to break down the waste a town puts into it.",
+                answer: "flow",
+                why: "The river cleans up a certain amount each day. Below that rate the waste disappears; above it, pollution builds up as a stock."
+              },
+              {
+                text: "Households in a town that have never owned a dishwasher.",
+                answer: "stock",
+                why: "Each household buys its first dishwasher once. A company selling to first-time buyers is drawing down a stock, and its sales will rise, peak and fall like the oil field's output."
+              },
+              {
+                text: "Households replacing a dishwasher that has worn out.",
+                answer: "flow",
+                why: "Replacement demand renews as machines wear out. It can be served forever, but only at the rate machines fail."
+              }
+            ]
+          },
+          {
+            type: "prose",
+            sections: [
+              {
+                n: "4",
+                title: "Choosing the limit",
+                paras: [
+                  "Every growing system will meet some limit. What the people inside it can choose is which one: a limit they set themselves, such as a fishing quota or a slower rate of expansion, or one the resource eventually imposes on them. Meadows's point is that the second kind tends to arrive late, and hard."
+                ],
+                side: {
+                  label: "See also",
+                  html: "<p>The <a href=\"@traps\">tragedy of the commons</a> is the fishery's problem with many owners: each boat gains from fishing harder, while the cost of an empty sea is shared.</p>"
+                }
+              }
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
+            { title: "System traps and opportunities", where: "Chapter 5", page: "traps" },
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "Why systems surprise us", where: "Chapter 4" }
           ],
           cta: { page: "traps", kicker: "Next", text: "See the traps that structures set" }
         }
