@@ -68,7 +68,7 @@ Links inside content HTML use `href="@slug"` for a page in the same book. `resol
 5. Add a test in `tests/exercises.test.js` if the page has an interactive block.
 
 **Add a block type**
-1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `sorter.js` or `triangle.js`.
+1. Create `assets/js/blocks/<type>.js`, copying the pattern of an existing block such as `table.js` (render only) or `bar-chart.js` (render and mount).
 2. Add its `<script>` tag to `index.html` with the other blocks (before `app.js`).
 3. Add its styles to `styles.css` under a comment header.
 4. Before reaching for a new block, check whether an existing one fits. `sorter` handles two or more options; `prose` handles text with sidenotes.

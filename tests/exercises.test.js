@@ -629,33 +629,42 @@ test("Porter: the five tests workbench flags a generic plan and saves a draft", 
   assert.match(await page.text("#view"), /Your strategy \| Customers and needs \| Families renting a second car/i);
 });
 
-test("PB: the category king takes most of the value", async () => {
-  await page.open("pb-category-kings");
-  assert.match(await page.text(".vs .tiles"), /76% .*6% .*13×/);
-  await page.click('[data-mode="even"]');
-  assert.match(await page.text(".vs .tiles"), /20% .*20% .*1×/);
-  await page.click('[data-mode="king"]');
-  assert.equal(await sort(["small", "big", "small", "big", "small", "small", "big"]), "7 of 7 right");
+test("PB: category kings charts the 76% and rewrites playing smaller", async () => {
+  await dense("pb-category-kings", { points: 6, rows: [4, 4] });
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".bc-row"), (r) => r.getAttribute("aria-label"))), [
+    "The category king: 76%",
+    "Every other company in the category: 24%"
+  ]);
 });
 
-test("PB: the magic triangle names the weak side", async () => {
-  await page.open("pb-magic-triangle");
-  assert.match(await page.text(".tri-status"), /^Out of balance\. Category is holding/);
-  await page.click('[data-preset="2"]');
-  assert.match(await page.text(".tri-status"), /^Spinning\./);
+test("PB: naming sets category names against product names", async () => {
+  await dense("pb-naming", { points: 5, rows: [5, 8] });
+  // Every name that doesn't work comes with one that would.
+  const rows = await page.evaluate(() => Array.from(document.querySelectorAll(".dt-table")[1].tBodies[0].rows, (r) => Array.from(r.cells, (c) => c.textContent)));
+  assert.ok(rows.filter((r) => r[1] === "No").every((r) => r[3] && r[3] !== "Already one"));
 });
 
-test("PB: point-of-view checks", async () => {
+test("PB: the magic triangle draws three designs and what passes between them", async () => {
+  await dense("pb-magic-triangle", { points: 5, calls: 3, rows: [3, 4] });
+});
+
+test("PB: point of view tables its parts and keeps the workbench", async () => {
   await page.open("pb-point-of-view");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 5);
+  assert.deepEqual(await tableRows(), [5, 5]);
   assert.equal(await page.text(".score"), "6 of 6 checks pass");
   await page.click('[data-example="pitch"]');
   assert.equal(await page.text(".verdict"), "Reads like a product pitch");
 });
 
-test("PB: lightning strike beats a drip", async () => {
-  await page.open("pb-lightning-strike");
-  await page.click('[data-preset="drip"]');
-  assert.match(await page.text(".sp .tiles"), /0 of 12/);
-  await page.click('[data-preset="hijacks"]');
-  assert.match(await page.text(".sp .tiles"), /5 of 12/);
+test("PB: lightning strike charts drip, strike and hijacks from the same six moves", async () => {
+  await dense("pb-lightning-strike", { points: 5, rows: [6, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-line").length), 3);
+  // The weeks each chart says are noticed match the model behind it.
+  const noticed = await page.evaluate(() => {
+    const block = window.Marginalia.books.find((b) => b.id === "pb").pages["lightning-strike"].blocks.find((b) => b.type === "behavior");
+    return block.charts.map((c) => [c.series[0].points.filter(([, a]) => a >= 3).length, c.d]);
+  });
+  assert.deepEqual(noticed.map(([n]) => n), [0, 4, 5]);
+  for (const [n, d] of noticed) assert.match(d, new RegExp(`noticed in ${n} of 12 weeks`));
 });

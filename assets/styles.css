@@ -792,7 +792,7 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 
 /* ---------- Shared exercise frame ---------- */
 
-.sorter, .jc, .wc, .vs, .ratios, .sp, .roi, .tri, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+.sorter, .jc, .wc, .ratios, .roi, .pl, .cb, .pm, .de, .tv, .bt, .ls, .inv, .ladder, .rk, .cm, .tc, .lim, .qu, .bf, .sk { margin-bottom: clamp(3.5rem, 8vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
 
 /* ---------- Sorter ---------- */
 
@@ -888,21 +888,6 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 .wc-rule { margin: 0; font-size: 0.9375rem; }
 .wc-rule strong { font-family: var(--mono); font-size: 0.875rem; }
 
-/* ---------- Value split ---------- */
-
-.vs-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 2rem; }
-.vs-controls .lever { flex: 1 1 18rem; max-width: 26rem; }
-.vs-bar { display: flex; gap: 2px; height: 48px; margin: 1.5rem 0; }
-.vs-seg {
-  display: flex; align-items: center; min-width: 3px; overflow: hidden;
-  flex-grow: 0; flex-shrink: 1;
-  border-radius: 3px; background: var(--paper-2); box-shadow: inset 0 0 0 1px var(--rule);
-  transition: flex-basis 0.4s var(--ease);
-}
-.vs-seg span { padding: 0 0.6rem; white-space: nowrap; font-family: var(--mono); font-size: 0.6875rem; color: var(--ink-2); }
-.vs-seg.vs-king { background: var(--pen); box-shadow: none; }
-.vs-seg.vs-king span { color: var(--paper); font-weight: 600; }
-
 /* ---------- Point of view ---------- */
 
 .pov-card { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--night-line); }
@@ -952,29 +937,6 @@ a.rel-row:hover .rel-t { color: var(--pen); }
 .ratio-detail .rd-tells { margin-top: 1rem; font-size: 0.9375rem; }
 .ratio-detail .rd-note { margin-top: 0.85rem; padding-left: 0.85rem; border-left: 2px solid var(--pen-bright); font-size: 0.875rem; color: var(--night-dim); }
 .rd-note span { display: block; font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pen-bright); }
-
-/* ---------- Strike planner ---------- */
-
-.sp-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
-.sp-weeks, .sp-cells { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
-.sp-weeks { margin-bottom: 0.4rem; font-family: var(--mono); font-size: 0.625rem; color: var(--ink-2); text-align: center; }
-.sp-row { padding: 0.55rem 0; border-top: 1px solid var(--rule); }
-.sp-move-t { display: block; margin-bottom: 0.35rem; font-size: 0.875rem; font-weight: 600; }
-.sp-cell { height: 26px; padding: 0; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); cursor: pointer; }
-.sp-cell:hover { border-color: var(--ink); }
-.sp-cell.is-on { background: var(--pen); border-color: var(--pen); }
-.sp-hint { margin: 0.75rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
-.sp-out { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
-.sp-chart { display: block; }
-.sp-base { stroke: var(--ink-2); }
-.sp-bar { fill: var(--rule); }
-.sp-bar.is-on { fill: var(--pen); }
-.sp-move { fill: var(--ink-2); }
-.sp-tick { fill: var(--ink-2); font-family: var(--mono); font-size: 10px; }
-.sp-threshold { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 4 3; }
-.sp-threshold-t { fill: var(--ink); font-family: var(--mono); font-size: 10px; }
-.sp-note { margin: 0; }
-.sp .fin-foot { margin-top: 0; }
 
 /* ---------- Claude critique (inside the dark check card) ---------- */
 
@@ -1157,19 +1119,6 @@ mark.user-hl.is-flash { box-shadow: 0 0 0 3px var(--pen); }
 .roi-sw-nom { border: 1px dashed var(--ink-2); }
 .roi-sw-pv { background: var(--pen); }
 .roi-sw-line { height: 2px; background: var(--ink); }
-
-/* ---------- Magic triangle ---------- */
-
-.tri-out { display: flex; flex-direction: column; align-items: center; gap: 1rem; min-width: 0; }
-.tri-wrap { width: 100%; display: flex; justify-content: center; }
-.tri-svg { display: block; max-width: 100%; height: auto; }
-.tri-ring { fill: none; stroke: var(--rule); stroke-width: 1; }
-.tri-axis { stroke: var(--rule); stroke-width: 1; }
-.tri-shape { fill: var(--pen-soft); stroke: var(--pen); stroke-width: 2; stroke-linejoin: round; transition: all 0.3s var(--ease); }
-.tri-dot { fill: var(--pen); stroke: var(--paper); stroke-width: 2; }
-.tri-label { fill: var(--ink); font-family: var(--mono); font-size: 11px; }
-.tri-status, .tri-note { margin: 0; max-width: 32rem; text-align: center; }
-.tri-note { font-size: 0.9375rem; color: var(--ink-2); }
 
 /* ---------- Profit layers ---------- */
 
@@ -2022,7 +1971,7 @@ body.ac-open .ac-launch { display: none; }
   .bench-check { position: static; }
   .spot-grid { grid-template-columns: minmax(0, 1fr); }
   .fin-top { grid-template-columns: minmax(0, 1fr); }
-  .jc-grid, .wc-grid, .ratios-grid, .sp-grid, .nb-cols, .nl-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid, .ls-grid, .tc-list { grid-template-columns: minmax(0, 1fr); }
+  .jc-grid, .wc-grid, .ratios-grid, .nb-cols, .nl-grid, .pl-grid, .cb-grid, .pm-grid, .de-grid, .bt-grid, .ls-grid, .tc-list { grid-template-columns: minmax(0, 1fr); }
   .nl-ledger { position: static; }
   .ratio-detail { position: static; }
   .jc-out { position: static; }

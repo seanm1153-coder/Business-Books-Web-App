@@ -55,11 +55,11 @@ npm test
 | Figuring ROI | `#fi-roi` | Payback, net present value and internal rate of return for a welding robot, with sliders and a discounted cash chart. |
 | Working capital levers | `#fi-working-capital` | Sliders for days sales outstanding, days in inventory and days payable, with the cash conversion cycle and the cash it ties up. |
 | Play Bigger home | `#pb` | Thesis, entry points and a map of the book's ideas. |
-| Category kings | `#pb-category-kings` | How a category's value splits (the authors' 76% figure) and a "playing bigger or smaller?" sorting game. |
-| The magic triangle | `#pb-magic-triangle` | Company, product and category design on a triangle, with presets for the common imbalances. |
-| Naming the category | `#pb-naming` | What makes a category name, with a "would it work as a category name?" sort. |
-| Point of view | `#pb-point-of-view` | Write a category's story (problem, from, to, why now, name) with a live preview and checks for product-pitch habits. Drafts are saved for the reader. |
-| The lightning strike | `#pb-lightning-strike` | Schedule six launch moves over twelve weeks and see, in a labeled toy model, whether a drip, a strike or a strike with hijacks gets noticed. |
+| Category kings | `#pb-category-kings` | The argument in six points, the authors' estimate that a category king takes about 76% of its category's market value as a chart, four lines that play smaller rewritten to play bigger, and signs of who owns a category. |
+| The magic triangle | `#pb-magic-triangle` | Company, product and category design developed together: the argument in five points, the triangle drawn with what passes along each side, the three designs and signs each is lagging, and the shapes an imbalance takes. |
+| Naming the category | `#pb-naming` | The argument in five points, category names set against product names, and eight names, real and invented, judged as category names, with a better one for each that doesn't work. |
+| Point of view | `#pb-point-of-view` | The argument in five points, the parts of a point of view (problem, from, to, why now, name) and what to watch for in each, a workbench that checks a draft as you type, and the workbench's two examples set side by side. |
+| The lightning strike | `#pb-lightning-strike` | The argument in five points, three charts of a toy attention model (the same six launch moves as a drip, one strike, and a strike followed by hijacks: noticed in 0, 4 and 5 of 12 weeks), what a strike lines up, and drip against strike. |
 | Thinking in Systems home | `#tis` | Thesis, a map of the book's three parts and seven chapters, and the small systems Meadows uses as examples. |
 | Stocks and flows | `#tis-stocks-flows` | Elements, interconnections and purpose; stocks and flows in Meadows's notation (a diagram that turns vertical on phones); four behavior-over-time charts of the bathtub, including the tub that keeps filling while the faucet closes; stocks and flows in other systems; and the chapter's principles. |
 | Feedback loops | `#tis-feedback` | Causal loop diagrams of the coffee cup, the bank account and the population; charts of goal-seeking, exponential growth, shifting dominance and a leaky thermostat that settles short of its setting; doubling times by the rule of 70 and exactly; balancing and reinforcing loops compared. |
