@@ -130,11 +130,7 @@
     view.innerHTML = `
       <section class="night shelf-page">
         <div class="wrap">
-          <div class="shelf-intro">
-            <p class="eyebrow">The library</p>
-            <h1 class="display shelf-title">Business books, read slowly.</h1>
-            <p class="lede">Each book on the shelf becomes a set of pages to explore: its ideas mapped and explained, its examples taken apart, and tools for trying its frameworks on problems of your own.</p>
-          </div>
+          <h1 class="visually-hidden">Library</h1>
           <ul class="shelf" role="list">${M.books.map(shelfBookHTML).join("")}</ul>
           ${M.books.length - open ? `<p class="shelf-note">${open} open · ${M.books.length - open} forthcoming</p>` : ""}
           <a class="shelf-feature" href="#northline">

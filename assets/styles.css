@@ -271,12 +271,10 @@ body[data-page="night"] .site-footer { border-color: var(--night-line); color: v
 
 /* ---------- Library shelf ---------- */
 
-.shelf-page { padding-block: clamp(3rem, 8vw, 6rem) clamp(3rem, 7vw, 5rem); }
-.shelf-intro { max-width: 42rem; }
-.shelf-title { font-size: clamp(2.5rem, 6.5vw, 4.5rem); }
+.shelf-page { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); }
 .shelf {
   list-style: none;
-  margin: clamp(3rem, 7vw, 5rem) 0 0;
+  margin: 0;
   padding: 0 0 2.5rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -1973,15 +1971,15 @@ body.ac-open .ac-launch { display: none; }
 
 @media (prefers-reduced-motion: no-preference) {
   #view.is-entering { animation: view-in 0.3s var(--ease) backwards; }
-  .shelf-intro > *, .hero-inner > * { animation: rise 0.8s var(--ease) backwards; }
-  .shelf-intro > :nth-child(2), .hero-inner > :nth-child(2) { animation-delay: 0.06s; }
-  .shelf-intro > :nth-child(3), .hero-inner > :nth-child(3) { animation-delay: 0.12s; }
+  .hero-inner > * { animation: rise 0.8s var(--ease) backwards; }
+  .hero-inner > :nth-child(2) { animation-delay: 0.06s; }
+  .hero-inner > :nth-child(3) { animation-delay: 0.12s; }
   .hero-inner > :nth-child(4) { animation-delay: 0.18s; }
   .hero-inner > :nth-child(5) { animation-delay: 0.26s; }
   /* Books rise onto the shelf one after another and swing round to their resting angle. */
-  .shelf .book { animation: rise 0.9s var(--ease) backwards; animation-delay: calc(0.22s + var(--i, 0) * 0.1s); }
-  .shelf .book-3d { animation: swing 1.2s var(--ease) backwards; animation-delay: calc(0.22s + var(--i, 0) * 0.1s); }
-  .shelf-feature { animation: rise 0.8s var(--ease) backwards; animation-delay: 0.55s; }
+  .shelf .book { animation: rise 0.9s var(--ease) backwards; animation-delay: calc(0.05s + var(--i, 0) * 0.1s); }
+  .shelf .book-3d { animation: swing 1.2s var(--ease) backwards; animation-delay: calc(0.05s + var(--i, 0) * 0.1s); }
+  .shelf-feature { animation: rise 0.8s var(--ease) backwards; animation-delay: 0.4s; }
   .hero-art { animation: fade-in 1.6s ease-out backwards; }
 }
 
