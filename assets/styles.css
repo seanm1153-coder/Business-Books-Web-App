@@ -248,6 +248,13 @@ body[data-header="night"] .crumbs { color: var(--night-dim); }
 .book-nav:not([hidden]) + .site-nav { margin-left: 0; padding-left: 1.25rem; border-left: 1px solid currentColor; }
 .site-nav a { display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; padding-block: 0.25rem; border-bottom: 1px solid transparent; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { border-color: currentColor; }
+/* Between tablet and desktop widths, tighten the spacing so the book and site navs stay on one line. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .header-inner { column-gap: 1.25rem; }
+  .crumbs { flex-basis: 6rem; }
+  .book-nav, .site-nav { column-gap: 0.9rem; letter-spacing: 0.03em; }
+  .book-nav:not([hidden]) + .site-nav { padding-left: 0.9rem; }
+}
 .note-count { display: inline-grid; place-items: center; min-width: 1.25rem; height: 1.25rem; padding: 0 0.3rem; border-radius: 99px; background: var(--pen); color: var(--paper); font-size: 0.625rem; letter-spacing: 0; }
 body[data-header="night"] .note-count { background: var(--pen-bright); color: var(--night); }
 

@@ -67,6 +67,15 @@ test("the header stays on one line on every route", async () => {
   }
   const books = await page.evaluate(() => window.Marginalia.books.filter((b) => b.status === "open").map((b) => ({ id: b.id, nav: b.nav || [] })));
   for (const b of books) assert.ok(b.nav.length <= 4, `${b.id} lists ${b.nav.length} pages in its nav; the header fits four`);
+  // A narrower desktop, where the longest book navs used to wrap.
+  const narrow = await env.page({ width: 1024 });
+  for (const b of books) {
+    for (const r of [b.id, ...b.nav.map((slug) => `${b.id}-${slug}`)]) {
+      await narrow.open(r);
+      const h = await narrow.evaluate(() => document.querySelector(".site-header").getBoundingClientRect().height);
+      assert.ok(h < 80, `header is ${h}px tall on #${r} at 1024px`);
+    }
+  }
 });
 
 test("the single-file bundle renders every route", async () => {
