@@ -59,6 +59,20 @@
     return stackPairs(snaps, { max: 1434, heads: ["Owns", "Owes, and owners"], narrow });
   };
 
+  // Northline's whole balance sheet at both year-ends of the ratio pages, for "Understanding
+  // balance sheet basics": what it owns beside who has a claim on it.
+  const yearStacks = (narrow) => {
+    const sides = (cash, ar, inv, ppe, ap, st, lt, eq) => [
+      [["Equipment", ppe, 0.2], ["Inventory", inv, 0.32], ["Receivables", ar, 0.44], ["Cash", cash, 0.6]],
+      [["Owners' equity", eq, 0.14], ["Long-term debt", lt, 0.28], ["Short-term debt", st, 0.4], ["Payables", ap, 0.52]]
+    ];
+    const snaps = [
+      ["LAST YEAR-END", sides(900, 1370, 1150, 1580, 575, 325, 1100, 3000)],
+      ["THIS YEAR-END", sides(350, 2137, 1705, 2408, 602, 898, 1350, 3750)]
+    ];
+    return stackPairs(snaps, { max: 6600, heads: ["Owns", "Owes, and owners"], narrow });
+  };
+
   // Northline's two years on the ratio pages (Part V), in thousands of dollars: the same
   // figures as the ratio reader on "Reading the ratios". Current assets beside current
   // liabilities, for the liquidity page.
@@ -157,11 +171,11 @@
         n: "III",
         title: "The balance sheet reveals the most",
         chapters: [
-          { n: 10, title: "Understanding balance sheet basics", blurb: "What a company owns, what it owes, and what's left for the owners." },
-          { n: 11, title: "Assets: more estimates and assumptions", blurb: "Every asset but cash involves a judgment about value." },
-          { n: 12, title: "On the other side: liabilities and equity", blurb: "Who has a claim on the assets, and in what order." },
+          { n: 10, title: "Understanding balance sheet basics", blurb: "What a company owns, what it owes, and what's left for the owners.", page: "balance-basics" },
+          { n: 11, title: "Assets: more estimates and assumptions", blurb: "Every asset but cash involves a judgment about value.", page: "assets" },
+          { n: 12, title: "On the other side: liabilities and equity", blurb: "Who has a claim on the assets, and in what order.", page: "liabilities-equity" },
           { n: 13, title: "Why the balance sheet balances", blurb: "Assets always equal liabilities plus equity, by construction.", page: "balance-sheet" },
-          { n: 14, title: "The income statement affects the balance sheet", blurb: "Profit flows into equity; sales and costs move assets and liabilities." }
+          { n: 14, title: "The income statement affects the balance sheet", blurb: "Profit flows into equity; sales and costs move assets and liabilities.", page: "statements-link" }
         ]
       },
       {
@@ -397,7 +411,7 @@
           related: [
             { title: "The rules accountants follow", where: "Chapter 4" },
             { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
-            { title: "Assets: more estimates and assumptions", where: "Chapter 11" },
+            { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
           ],
           cta: { page: "profit-cash", kicker: "Next", text: "Watch profit and cash part ways" }
@@ -730,6 +744,369 @@
         }
       },
 
+      // A reference page. The balance sheet as a snapshot, assets listed by how quickly they
+      // turn into cash, current against long-term, and reading two balance sheets side by
+      // side follow the book's chapter 10 as I remember it, unchecked against its wording.
+      // Northline's two year-ends are the ratio reader's figures (thousands of dollars); the
+      // split of equity (owners' capital $1,500k, the rest retained profit, no dividends) is
+      // ours. The comparison table is ours.
+      "balance-basics": {
+        navLabel: "Balance sheet basics",
+        title: "Understanding balance sheet basics",
+        eyebrow: "Part III · Chapter 10",
+        layout: "dense",
+        dek:
+          "The income statement covers a period; the balance sheet is a snapshot of a single day. It lists what a company owns, what it owes, and what's left for the owners, and comparing two snapshots shows where the year's money went.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "A snapshot, not a movie.", d: "The balance sheet shows what the company owns and owes at the close of one day, usually the last day of a quarter or a year." },
+              { t: "Assets on one side, claims on the other.", d: "What the company owns, and who has a claim on it: lenders and suppliers first, the owners with whatever is left. The two always total the same." },
+              { t: "Listed by how fast they turn into cash.", d: "Assets run from cash down to buildings and equipment; liabilities from bills due soon to long-term loans. Current means within a year." },
+              { t: "Read two of them together.", d: "One balance sheet says little. The change between two shows where money went: Northline's assets grew $1.6 million in a year, mostly receivables, stock and new equipment." },
+              { t: "Book values are not market values.", d: "Most assets are recorded at what they cost, less wear. What the company would fetch if sold is a different number." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Two snapshots, a year apart",
+            intro: "Northline's balance sheet at two year-ends, in thousands of dollars: what it owns beside who has a claim on it.",
+            alt: "Two pairs of stacked columns. Last year-end: assets of $5,000k (equipment $1,580k, inventory $1,150k, receivables $1,370k, cash $900k) beside claims of $5,000k (owners' equity $3,000k, long-term debt $1,100k, short-term debt $325k, payables $575k). This year-end: assets of $6,600k (equipment $2,408k, inventory $1,705k, receivables $2,137k, cash $350k) beside claims of $6,600k (owners' equity $3,750k, long-term debt $1,350k, short-term debt $898k, payables $602k).",
+            svg: yearStacks(false),
+            svgNarrow: yearStacks(true),
+            notes: [
+              { t: "Both sides grew $1,600k,", d: "as they must. The question is what each side is made of now." },
+              { t: "Cash shrank while everything else grew.", d: "Receivables, inventory and equipment took the money, and more." },
+              { t: "Lenders paid for much of it:", d: "debt rose $823k, more than the $750k of profit kept in the business." }
+            ],
+            caption: "Invented figures: the same company as on <a href=\"@ratios\">Reading the ratios</a>."
+          },
+          {
+            type: "table",
+            eyebrow: "The statement",
+            title: "Northline's balance sheet",
+            intro: "In thousands of dollars, in the usual order.",
+            columns: ["Line", "Last year-end", "This year-end", "Change"],
+            widths: [null, "8rem", "8rem", "7rem"],
+            rows: [
+              ["Cash", "<span class=\"tnum\">900</span>", "<span class=\"tnum\">350</span>", "<span class=\"tnum\">−550</span>"],
+              ["Receivables", "<span class=\"tnum\">1,370</span>", "<span class=\"tnum\">2,137</span>", "<span class=\"tnum\">+767</span>"],
+              ["Inventory", "<span class=\"tnum\">1,150</span>", "<span class=\"tnum\">1,705</span>", "<span class=\"tnum\">+555</span>"],
+              ["Equipment, net", "<span class=\"tnum\">1,580</span>", "<span class=\"tnum\">2,408</span>", "<span class=\"tnum\">+828</span>"],
+              ["<strong>Total assets</strong>", "<strong class=\"tnum\">5,000</strong>", "<strong class=\"tnum\">6,600</strong>", "<span class=\"tnum\">+1,600</span>"],
+              ["Payables", "<span class=\"tnum\">575</span>", "<span class=\"tnum\">602</span>", "<span class=\"tnum\">+27</span>"],
+              ["Short-term debt", "<span class=\"tnum\">325</span>", "<span class=\"tnum\">898</span>", "<span class=\"tnum\">+573</span>"],
+              ["Long-term debt", "<span class=\"tnum\">1,100</span>", "<span class=\"tnum\">1,350</span>", "<span class=\"tnum\">+250</span>"],
+              ["Owners' equity", "<span class=\"tnum\">3,000</span>", "<span class=\"tnum\">3,750</span>", "<span class=\"tnum\">+750</span>"],
+              ["<strong>Total liabilities and equity</strong>", "<strong class=\"tnum\">5,000</strong>", "<strong class=\"tnum\">6,600</strong>", "<span class=\"tnum\">+1,600</span>"]
+            ],
+            foot: "Owners' equity grew by the year's net profit of $750k; Northline paid no dividends."
+          },
+          {
+            type: "table",
+            eyebrow: "Two statements",
+            title: "The balance sheet beside the income statement",
+            columns: ["", "Income statement", "Balance sheet"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Covers", "A period: a month, a quarter, a year", "One day: the last day of the period"],
+              ["Shows", "Revenue, costs and profit", "What is owned, what is owed, and the owners' stake"],
+              ["Like", "A film of the business at work", "A photograph of where things stand"],
+              ["Connected by", "Net profit, which ends the statement…", "…and is added to owners' equity"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" },
+            { title: "On the other side: liabilities and equity", where: "Chapter 12", page: "liabilities-equity" },
+            { title: "Why the balance sheet balances", where: "Chapter 13", page: "balance-sheet" },
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" }
+          ],
+          cta: { page: "assets", kicker: "Next", text: "The judgment behind every asset" }
+        }
+      },
+
+      // A reference page. Every asset but cash resting on an estimate (collectible
+      // receivables, inventory valuation, useful lives, goodwill) follows the book's chapter 11
+      // as I remember it, unchecked against its wording. Northline's gross receivables
+      // ($2,200k, a $63k allowance), equipment at cost ($3,600k less $1,192k of accumulated
+      // depreciation) and the cautious alternatives are invented; the arithmetic is exact. The
+      // cautious version ignores any tax effect.
+      assets: {
+        navLabel: "Assets",
+        title: "Assets: more estimates and assumptions",
+        eyebrow: "Part III · Chapter 11",
+        layout: "dense",
+        dek:
+          "Apart from cash, every number on the asset side is someone's judgment: how much customers will really pay, what the stock is worth, how long the machines will last. Change the judgments and the balance sheet changes, with nothing else different.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Cash is the only asset that needs no estimate.", d: "Everything else is recorded at a value someone chose, inside rules that allow a range." },
+              { t: "Receivables are what customers owe, less what won't be paid.", d: "The allowance for bad debts is a guess about which customers will default." },
+              { t: "Inventory is valued at cost, unless it's worth less.", d: "Which costs count, and whether old stock should be written down, are judgment calls." },
+              { t: "Equipment is cost less depreciation.", d: "The depreciation depends on an estimate of how long the equipment will last; it says little about what the equipment would sell for." },
+              { t: "The same estimates move profit.", d: "Each write-down or extra depreciation is also an expense. The balance sheet and the income statement change together, as on <a href=\"@profit-estimate\">profit is an estimate</a>." }
+            ]
+          },
+          {
+            type: "waterfall",
+            eyebrow: "Figure",
+            title: "The same assets, valued more cautiously",
+            intro: "Northline's assets this year-end as reported, then with three more cautious estimates. Nothing about the business changes.",
+            k: true,
+            charts: [
+              {
+                steps: [
+                  { label: "Total assets, as reported", v: 6600000 },
+                  { label: "Bigger bad-debt allowance", v: -69000 },
+                  { label: "Write down old models", v: -50000 },
+                  { label: "Shorter equipment lives", v: -240000 },
+                  { label: "Total assets, cautious", total: true }
+                ]
+              }
+            ],
+            caption: "Invented figures, before any tax effect. Owners' equity falls by the same $359k."
+          },
+          {
+            type: "table",
+            eyebrow: "Line by line",
+            title: "Northline's assets, two sets of estimates",
+            intro: "Thousands of dollars, this year-end.",
+            columns: ["Asset", "As reported", "Cautious", "The estimate that differs"],
+            widths: [null, "7rem", "7rem", null],
+            rows: [
+              ["Cash", "<span class=\"tnum\">350</span>", "<span class=\"tnum\">350</span>", "None: cash is counted, not estimated"],
+              ["Receivables", "<span class=\"tnum\">2,137</span>", "<span class=\"tnum\">2,068</span>", "Allowance for bad debts on $2,200k owed: about 3%, or 6% if two slow-paying shops are counted as doubtful"],
+              ["Inventory", "<span class=\"tnum\">1,705</span>", "<span class=\"tnum\">1,655</span>", "$150k of last year's models: carried at cost, or written down by a third"],
+              ["Equipment, net", "<span class=\"tnum\">2,408</span>", "<span class=\"tnum\">2,168</span>", "$3,600k at cost: $1,192k of depreciation so far, or $1,432k on shorter lives"],
+              ["<strong>Total assets</strong>", "<strong class=\"tnum\">6,600</strong>", "<strong class=\"tnum\">6,241</strong>", "Three judgments, $359k apart"],
+              ["Owners' equity", "<span class=\"tnum\">3,750</span>", "<span class=\"tnum\">3,391</span>", "Lower by the same amount: every write-down is also an expense"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "On any balance sheet",
+            title: "Where the judgment is in each asset",
+            columns: ["Asset", "How it's valued", "The estimate behind it", "Watch for"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["Cash", "Counted", "None", "Cash that's restricted or held abroad"],
+              ["Receivables", "Amounts owed, less an allowance for bad debts", "How many customers won't pay", "An allowance shrinking while receivables grow"],
+              ["Inventory", "Cost, or less if it's worth less", "Which costs to include; how much stock is obsolete", "Inventory growing faster than sales"],
+              ["Equipment and buildings", "Cost, less accumulated depreciation", "Useful life and value at the end", "Longer lives adopted to lift profit"],
+              ["Goodwill and intangibles", "The premium paid for acquisitions, patents and brands", "Whether that premium is still worth what was paid", "Large write-offs years after a purchase"],
+              ["Prepaid expenses", "Paid in advance, used up over time", "How the cost is spread", "Usually small"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Understanding balance sheet basics", where: "Chapter 10", page: "balance-basics" },
+            { title: "On the other side: liabilities and equity", where: "Chapter 12", page: "liabilities-equity" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" }
+          ],
+          cta: { page: "liabilities-equity", kicker: "Next", text: "Who has a claim on the assets" }
+        }
+      },
+
+      // A reference page. Current and long-term liabilities, accrued expenses and deferred
+      // revenue, equity as paid-in capital plus retained earnings, and equity as a residual
+      // claim follow the book's chapter 12 as I remember it, unchecked against its wording.
+      // Northline's figures are the ratio reader's; the split of equity (owners' capital
+      // $1,500k, profits kept $1,500k by last year-end, $750k this year) is ours. The order of
+      // claims and the misconceptions table are general accounting knowledge, ours.
+      "liabilities-equity": {
+        navLabel: "Liabilities and equity",
+        title: "On the other side: liabilities and equity",
+        eyebrow: "Part III · Chapter 12",
+        layout: "dense",
+        dek:
+          "The right-hand side of the balance sheet says who has a claim on the company's assets. Lenders and suppliers come first, with fixed amounts; the owners own whatever is left.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Liabilities are what the company owes.", d: "To suppliers, lenders, employees, tax authorities, and customers who paid in advance. Each is a fixed amount, due by a date." },
+              { t: "Current means due within a year.", d: "Payables, accrued wages, short-term loans and the part of long-term debt due this year. The rest is long-term." },
+              { t: "Equity is what's left.", d: "Assets minus liabilities. It isn't a pile of money; it's the owners' claim on whatever remains after everyone else is paid." },
+              { t: "Equity has two sources.", d: "Money the owners put in, and profits the company has earned and kept over the years, called retained earnings." },
+              { t: "Order matters when things go wrong.", d: "If a company fails, lenders and other creditors are paid before the owners, who get only what's left, often nothing." }
+            ]
+          },
+          {
+            type: "waterfall",
+            eyebrow: "Figure",
+            title: "Owners' equity, two ways",
+            intro: "Northline this year-end. On the left, equity as what remains after every claim is paid; on the right, how the owners' stake was built.",
+            k: true,
+            charts: [
+              {
+                t: "What's left for the owners",
+                steps: [
+                  { label: "Total assets", v: 6600000 },
+                  { label: "Payables", v: -602000 },
+                  { label: "Short-term debt", v: -898000 },
+                  { label: "Long-term debt", v: -1350000 },
+                  { label: "Owners' equity", total: true }
+                ]
+              },
+              {
+                t: "How it was built",
+                steps: [
+                  { label: "Money the owners put in", v: 1500000 },
+                  { label: "Profits kept, earlier years", v: 1500000 },
+                  { label: "Profit kept, this year", v: 750000 },
+                  { label: "Owners' equity", total: true }
+                ]
+              }
+            ],
+            keys: ["Adds", "Claims ahead of the owners", "Equity"],
+            caption: "Invented figures: the same company as on <a href=\"@ratios\">Reading the ratios</a>."
+          },
+          {
+            type: "table",
+            eyebrow: "The lines",
+            title: "The right-hand side, line by line",
+            columns: ["Line", "What it is", "When due", "Northline, $k"],
+            widths: ["10rem", null, "7rem", "7rem"],
+            rows: [
+              ["Accounts payable", "Bills from suppliers not yet paid", "Within a year", "<span class=\"tnum\">602</span>"],
+              ["Accrued expenses", "Costs incurred but not yet billed or paid: wages, interest, taxes", "Within a year", "—"],
+              ["Deferred revenue", "Cash received for goods or services not yet delivered", "Within a year, usually", "—"],
+              ["Short-term debt", "Loans and credit lines due within the year", "Within a year", "<span class=\"tnum\">898</span>"],
+              ["Long-term debt", "Loans and bonds due after a year", "After a year", "<span class=\"tnum\">1,350</span>"],
+              ["Paid-in capital", "Money the owners put into the company", "Never: it's equity", "<span class=\"tnum\">1,500</span>"],
+              ["Retained earnings", "Profits earned and kept, not paid out as dividends", "Never: it's equity", "<span class=\"tnum\">2,250</span>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Common confusions",
+            title: "What equity isn't",
+            intro: "Our list.",
+            columns: ["The assumption", "Why it's wrong"],
+            widths: ["16rem", null],
+            rows: [
+              ["Retained earnings is money in the bank", "Kept profit has been spent on receivables, stock and equipment. Northline's retained earnings are $2,250k; its cash is $350k."],
+              ["Equity is what the company is worth", "It's book value: assets at cost, less what's owed. Buyers pay for future profits, which can be worth far more or far less."],
+              ["All liabilities are a burden", "Payables and deferred revenue are often free financing: suppliers and customers lending money at no interest."],
+              ["A company with positive equity can pay its bills", "Not if the assets are stock and receivables and the bills are due now. See <a href=\"@liquidity\">liquidity</a>."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Understanding balance sheet basics", where: "Chapter 10", page: "balance-basics" },
+            { title: "Why the balance sheet balances", where: "Chapter 13", page: "balance-sheet" },
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" },
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" }
+          ],
+          cta: { page: "balance-sheet", kicker: "Next", text: "Why the two sides always match" }
+        }
+      },
+
+      // A reference page. Every income statement line touching the balance sheet, and net
+      // profit landing in retained earnings, follow the book's chapter 14 as I remember it,
+      // unchecked against its wording. The year is the one on "The many forms of profit" and
+      // "How cash connects" (thousands of dollars); how each line splits between cash and
+      // the balance sheet is our invention, built so that cash from operations is $97.5k and
+      // both balance sheets match that page exactly.
+      "statements-link": {
+        navLabel: "Statements linked",
+        title: "The income statement affects the balance sheet",
+        eyebrow: "Part III · Chapter 14",
+        layout: "dense",
+        dek:
+          "Every line of the income statement lands somewhere on the balance sheet. Follow a year's revenue and costs through, and the change in each balance sheet line has an explanation.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Every line lands somewhere.", d: "A sale raises cash or receivables. A cost lowers cash, or inventory, or the value of equipment, or raises what's owed." },
+              { t: "Net profit becomes retained earnings.", d: "The bottom line of the income statement is added to owners' equity, less any dividends. That's the link the book stresses most." },
+              { t: "Timing creates the other lines.", d: "Revenue not yet collected sits in receivables; costs not yet paid sit in payables and accrued expenses." },
+              { t: "Some costs use no cash this year.", d: "Depreciation lowers equipment and profit, with no payment at all; the cash left when the equipment was bought." },
+              { t: "So the statements explain each other.", d: "Northline earned $142.5k this year. Following each line shows why its cash rose only $17.5k, the bridge drawn on <a href=\"@cash-connects\">how cash connects</a>." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Line by line",
+            title: "Where each line of Northline's income statement landed",
+            intro: "Thousands of dollars, for the year on <a href=\"@forms-of-profit\">the many forms of profit</a>.",
+            columns: ["Income statement line", "Amount", "Where it landed on the balance sheet", "Cash this year"],
+            widths: [null, "6rem", null, "7rem"],
+            rows: [
+              ["Revenue", "<span class=\"tnum\">2,400</span>", "Cash for most of it; receivables up 90 for the rest", "<span class=\"tnum\">+2,310</span>"],
+              ["Cost of goods sold", "<span class=\"tnum\">−1,440</span>", "Taken out of inventory. Purchases of 1,500 more than replaced it: inventory up 60, and 25 still owed to suppliers", "<span class=\"tnum\">−1,475</span>"],
+              ["Operating expenses", "<span class=\"tnum\">−640</span>", "Paid in cash, except 10 still owed as accrued expenses", "<span class=\"tnum\">−630</span>"],
+              ["Depreciation", "<span class=\"tnum\">−70</span>", "Lowered equipment; no cash", "<span class=\"tnum\">0</span>"],
+              ["Interest", "<span class=\"tnum\">−60</span>", "Paid in cash", "<span class=\"tnum\">−60</span>"],
+              ["Tax", "<span class=\"tnum\">−47.5</span>", "Paid in cash", "<span class=\"tnum\">−47.5</span>"],
+              ["<strong>Net profit</strong>", "<strong class=\"tnum\">142.5</strong>", "Added to retained earnings, in owners' equity", "<strong class=\"tnum\">+97.5</strong>"]
+            ],
+            foot: "The cash column totals $97.5k: cash from operations, as on the bridge."
+          },
+          {
+            type: "table",
+            eyebrow: "The two balance sheets",
+            title: "From the start of the year to the end",
+            intro: "Each line's change, split between the income statement and everything else (buying equipment, borrowing).",
+            columns: ["Line", "Start", "Through the income statement", "Everything else", "End"],
+            widths: [null, "6rem", "9rem", "9rem", "6rem"],
+            rows: [
+              ["Cash", "<span class=\"tnum\">120</span>", "<span class=\"tnum\">+97.5</span>", "<span class=\"tnum\">−80</span>", "<span class=\"tnum\">137.5</span>"],
+              ["Receivables", "<span class=\"tnum\">300</span>", "<span class=\"tnum\">+90</span>", "—", "<span class=\"tnum\">390</span>"],
+              ["Inventory", "<span class=\"tnum\">340</span>", "<span class=\"tnum\">+60</span>", "—", "<span class=\"tnum\">400</span>"],
+              ["Equipment, net", "<span class=\"tnum\">600</span>", "<span class=\"tnum\">−70</span>", "<span class=\"tnum\">+120</span>", "<span class=\"tnum\">650</span>"],
+              ["Payables", "<span class=\"tnum\">180</span>", "<span class=\"tnum\">+25</span>", "—", "<span class=\"tnum\">205</span>"],
+              ["Accrued expenses", "<span class=\"tnum\">60</span>", "<span class=\"tnum\">+10</span>", "—", "<span class=\"tnum\">70</span>"],
+              ["Loan", "<span class=\"tnum\">400</span>", "—", "<span class=\"tnum\">+40</span>", "<span class=\"tnum\">440</span>"],
+              ["Owners' equity", "<span class=\"tnum\">720</span>", "<span class=\"tnum\">+142.5</span>", "—", "<span class=\"tnum\">862.5</span>"]
+            ],
+            foot: "Assets: 1,360 at the start, 1,577.5 at the end. Liabilities and equity: the same. Everything else is $120k of new equipment, paid in cash, and $40k of new borrowing."
+          },
+          {
+            type: "table",
+            eyebrow: "The rule",
+            title: "How each kind of income statement line moves the balance sheet",
+            columns: ["When the company…", "Profit", "Balance sheet"],
+            widths: [null, "7rem", null],
+            rows: [
+              ["Sells on credit", "Up", "Receivables up; equity up"],
+              ["Sells for cash", "Up", "Cash up; equity up"],
+              ["Ships goods from stock", "Down (cost of goods sold)", "Inventory down; equity down"],
+              ["Incurs a cost it hasn't paid", "Down", "Payables or accrued expenses up; equity down"],
+              ["Records depreciation", "Down", "Equipment down; equity down"],
+              ["Pays a dividend", "No change", "Cash down; equity down"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Why the balance sheet balances", where: "Chapter 13", page: "balance-sheet" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "How cash connects", where: "Chapter 18", page: "cash-connects" },
+            { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" }
+          ],
+          cta: { page: "profit-cash", kicker: "Next", text: "Watch profit and cash part ways" }
+        }
+      },
+
       // A reference page. The accounting equation, double entry and profit landing in equity
       // follow the book's chapter 13 as I remember it, unchecked against its wording. The
       // month at Northline is invented; the balances are exact.
@@ -880,8 +1257,8 @@
         ],
         end: {
           related: [
-            { title: "Understanding balance sheet basics", where: "Chapter 10" },
-            { title: "The income statement affects the balance sheet", where: "Chapter 14" },
+            { title: "Understanding balance sheet basics", where: "Chapter 10", page: "balance-basics" },
+            { title: "The income statement affects the balance sheet", where: "Chapter 14", page: "statements-link" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
             { title: "How cash connects with everything else", where: "Chapter 18", page: "cash-connects" }
           ],
@@ -2006,7 +2383,7 @@
         end: {
           related: [
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
-            { title: "The income statement affects the balance sheet", where: "Chapter 14" },
+            { title: "The income statement affects the balance sheet", where: "Chapter 14", page: "statements-link" },
             { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
             { title: "Working capital levers", where: "Part VII", page: "working-capital" }
           ],

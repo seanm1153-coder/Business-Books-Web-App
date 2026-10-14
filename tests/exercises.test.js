@@ -287,6 +287,55 @@ test("FI: revenue recognition tables a month of events, revenue apart from cash"
   assert.deepEqual([rows.at(-1)[1], rows.at(-1)[2]], ["$59,000", "$46,000"]);
 });
 
+// A table cell as a number: "1,577.5", "−80" or "+142.5"; a dash is zero.
+const num = (t) => (/^[—–-]$/.test(t.trim()) ? 0 : (t.trim().startsWith("−") ? -1 : 1) * Number(t.replace(/[^\d.]/g, "")));
+
+test("FI: balance sheet basics set two year-ends side by side", async () => {
+  await dense("fi-balance-basics", { points: 5, rows: [10, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
+  const rows = await tableCells(0);
+  for (const col of [1, 2]) {
+    assert.equal(rows.slice(0, 4).reduce((a, r) => a + num(r[col]), 0), num(rows[4][col]), "assets");
+    assert.equal(rows.slice(5, 9).reduce((a, r) => a + num(r[col]), 0), num(rows[9][col]), "claims");
+    assert.equal(num(rows[4][col]), num(rows[9][col]), "both sides");
+  }
+  rows.forEach((r) => assert.equal(num(r[2]) - num(r[1]), num(r[3]), r[0]));
+});
+
+test("FI: assets rest on estimates, and cautious ones lower assets and equity alike", async () => {
+  await dense("fi-assets", { points: 5, rows: [6, 6] });
+  const [steps] = await waterfalls();
+  assertAddsUp(steps);
+  const rows = await tableCells(0);
+  for (const col of [1, 2]) assert.equal(rows.slice(0, 4).reduce((a, r) => a + num(r[col]), 0), num(rows[4][col]));
+  assert.equal(steps.at(-1).v, num(rows[4][2]) * 1000);
+  // Equity falls by exactly what the assets lose.
+  assert.equal(num(rows[4][1]) - num(rows[4][2]), num(rows[5][1]) - num(rows[5][2]));
+});
+
+test("FI: liabilities and equity show equity as what's left, and how it was built", async () => {
+  await dense("fi-liabilities-equity", { points: 5, rows: [7, 4] });
+  const charts = await waterfalls();
+  charts.forEach(assertAddsUp);
+  assert.deepEqual(charts.map((c) => c.at(-1).v), [3750000, 3750000]);
+  const lines = await tableCells(0);
+  assert.equal(num(lines[5][3]) + num(lines[6][3]), 3750);
+});
+
+test("FI: the income statement lands line by line on the balance sheet", async () => {
+  await dense("fi-statements-link", { points: 5, rows: [7, 8, 6] });
+  const lines = await tableCells(0);
+  // The lines add to net profit, and their cash to cash from operations.
+  assert.equal(lines.slice(0, 6).reduce((a, r) => a + num(r[1]), 0), num(lines[6][1]));
+  assert.equal(lines.slice(0, 6).reduce((a, r) => a + num(r[3]), 0), num(lines[6][3]));
+  // Each balance sheet line: start, plus both kinds of change, is the end; and both sides balance.
+  const sheet = await tableCells(1);
+  sheet.forEach((r) => assert.equal(num(r[1]) + num(r[2]) + num(r[3]), num(r[4]), r[0]));
+  const side = (rows, col) => rows.reduce((a, r) => a + num(r[col]), 0);
+  for (const col of [1, 4]) assert.equal(side(sheet.slice(0, 4), col), side(sheet.slice(4), col));
+  assert.equal(num(sheet[7][2]), num(lines[6][1]));
+});
+
 test("FI: the balance sheet balances before and after a month of entries", async () => {
   await page.open("fi-balance-sheet");
   // The page's tool sits beside its worked figures.
