@@ -12,20 +12,13 @@
       return [x, f(x)];
     });
 
-  // Northline's balance sheet at the start and end of an invented month, as stacked
-  // columns: what it owns beside who has a claim on it. Side by side on wide screens; on
-  // phones each month gets a row of its own. Figures in thousands of dollars.
-  const balanceStacks = (narrow) => {
-    const sides = (d) => [
-      [["Equipment", d[0], 0.2], ["Inventory", d[1], 0.32], ["Receivables", d[2], 0.44], ["Cash", d[3], 0.6]],
-      [["Owners' equity", d[4], 0.14], ["Bank loan", d[5], 0.28], ["Wages owed", d[6], 0.4], ["Payables", d[7], 0.52]]
-    ];
-    const snaps = [
-      ["START OF MONTH", sides([600, 340, 300, 120, 720, 400, 60, 180])],
-      ["END OF MONTH", sides([615, 334, 360, 125, 722, 450, 72, 190])]
-    ];
+  // Pairs of stacked columns, one pair per snapshot: what a company holds beside the claims
+  // on it. Side by side on wide screens; on phones each snapshot gets a row of its own.
+  // A snapshot is [title, [left segments, right segments]], a segment [name, value, opacity];
+  // `max` is the tallest column's value, `heads` names the two columns. Values in thousands.
+  const stackPairs = (snaps, { max, heads, narrow }) => {
     const W = narrow ? 150 : 130;
-    const k = 230 / 1434;
+    const k = 230 / max;
     const stack = (segs, x, base, tone) => {
       let y = base;
       const total = segs.reduce((t, s) => t + s[1], 0);
@@ -36,21 +29,81 @@
             y -= h;
             const label =
               h >= 36
-                ? `<text class="sv-t" x="${x + 8}" y="${(y + h / 2 - 2).toFixed(1)}">${name}</text><text class="sv-t2" x="${x + 8}" y="${(y + h / 2 + 13).toFixed(1)}">$${v}k</text>`
-                : `<text class="sv-t2" x="${x + 8}" y="${(y + h / 2 + 4).toFixed(1)}" style="font-size: 10.5px">${name} $${v}k</text>`;
+                ? `<text class="sv-t" x="${x + 8}" y="${(y + h / 2 - 2).toFixed(1)}">${name}</text><text class="sv-t2" x="${x + 8}" y="${(y + h / 2 + 13).toFixed(1)}">$${v.toLocaleString("en-US")}k</text>`
+                : `<text class="sv-t2" x="${x + 8}" y="${(y + h / 2 + 4).toFixed(1)}" style="font-size: 10.5px">${name} $${v.toLocaleString("en-US")}k</text>`;
             return `<rect x="${x}" y="${y.toFixed(1)}" width="${W}" height="${(h - 1.5).toFixed(1)}" style="fill: var(--${tone}); fill-opacity: ${op}"/>${label}`;
           })
           .join("") + `<text class="sv-k" x="${x + W / 2}" y="${(y - 8).toFixed(1)}" text-anchor="middle">$${total.toLocaleString("en-US")}k</text>`
       );
     };
-    const pair = ([t, [own, claim]], x, top) => `<text class="sv-k" x="${x + W + 5}" y="${top + 12}" text-anchor="middle">${t}</text>
-      ${stack(own, x, top + 280, "series-profit")}${stack(claim, x + W + 10, top + 280, "series-cash")}
+    const pair = ([t, [left, right]], x, top) => `<text class="sv-k" x="${x + W + 5}" y="${top + 12}" text-anchor="middle">${t}</text>
+      ${stack(left, x, top + 280, "series-profit")}${stack(right, x + W + 10, top + 280, "series-cash")}
       <path class="sv-axis" d="M${x - 6} ${top + 280} H${x + 2 * W + 16}"/>
-      <text class="sv-t2" x="${x + W / 2}" y="${top + 300}" text-anchor="middle">Owns</text>
-      <text class="sv-t2" x="${x + 1.5 * W + 10}" y="${top + 300}" text-anchor="middle">Owes, and owners</text>`;
+      <text class="sv-t2" x="${x + W / 2}" y="${top + 300}" text-anchor="middle">${heads[0]}</text>
+      <text class="sv-t2" x="${x + 1.5 * W + 10}" y="${top + 300}" text-anchor="middle">${heads[1]}</text>`;
     return narrow
       ? `<svg viewBox="0 0 330 640" xmlns="http://www.w3.org/2000/svg">${pair(snaps[0], 10, 0)}${pair(snaps[1], 10, 320)}</svg>`
       : `<svg viewBox="0 0 660 320" xmlns="http://www.w3.org/2000/svg">${pair(snaps[0], 40, 0)}${pair(snaps[1], 360, 0)}</svg>`;
+  };
+
+  // Northline's balance sheet at the start and end of an invented month.
+  const balanceStacks = (narrow) => {
+    const sides = (d) => [
+      [["Equipment", d[0], 0.2], ["Inventory", d[1], 0.32], ["Receivables", d[2], 0.44], ["Cash", d[3], 0.6]],
+      [["Owners' equity", d[4], 0.14], ["Bank loan", d[5], 0.28], ["Wages owed", d[6], 0.4], ["Payables", d[7], 0.52]]
+    ];
+    const snaps = [
+      ["START OF MONTH", sides([600, 340, 300, 120, 720, 400, 60, 180])],
+      ["END OF MONTH", sides([615, 334, 360, 125, 722, 450, 72, 190])]
+    ];
+    return stackPairs(snaps, { max: 1434, heads: ["Owns", "Owes, and owners"], narrow });
+  };
+
+  // Northline's two years on the ratio pages (Part V), in thousands of dollars: the same
+  // figures as the ratio reader on "Reading the ratios". Current assets beside current
+  // liabilities, for the liquidity page.
+  const currentStacks = (narrow) => {
+    const sides = (cash, ar, inv, ap, st) => [
+      [["Inventory", inv, 0.24], ["Receivables", ar, 0.4], ["Cash", cash, 0.6]],
+      [["Short-term debt", st, 0.3], ["Payables", ap, 0.5]]
+    ];
+    const snaps = [
+      ["LAST YEAR · CURRENT RATIO 3.80", sides(900, 1370, 1150, 575, 325)],
+      ["THIS YEAR · CURRENT RATIO 2.79", sides(350, 2137, 1705, 602, 898)]
+    ];
+    return stackPairs(snaps, { max: 4192, heads: ["Current assets", "Current liabilities"], narrow });
+  };
+
+  // One dollar's trip through Northline in each year: days in inventory, then days until the
+  // customer pays, against the days until suppliers are paid. The gap is the cash
+  // conversion cycle. Days rounded from the ratio reader's figures.
+  const cycleBars = (narrow) => {
+    const years = [
+      ["LAST YEAR", { dio: 70, dso: 50, dpo: 35 }],
+      ["THIS YEAR", { dio: 85, dso: 65, dpo: 30 }]
+    ];
+    const W = narrow ? 330 : 660;
+    const x0 = narrow ? 4 : 10;
+    const px = (W - x0 - 10) / 160;
+    const x = (d) => (x0 + d * px).toFixed(1);
+    const w = (d) => (d * px - 1.5).toFixed(1);
+    const name = (long, short, d) => (narrow ? `${short} ${d}d` : `${long} · ${d} days`);
+    const group = ([t, d], top) => {
+      const end = d.dio + d.dso;
+      return `<text class="sv-k" x="${x0}" y="${top + 10}">${t} · CYCLE ${end - d.dpo} DAYS</text>
+        <rect x="${x(0)}" y="${top + 20}" width="${w(d.dio)}" height="24" rx="2" style="fill: var(--series-profit); fill-opacity: 0.28"/>
+        <text class="sv-t2" x="${(x0 + 6).toFixed(1)}" y="${top + 36}">${name("Inventory", "Stock", d.dio)}</text>
+        <rect x="${x(d.dio)}" y="${top + 20}" width="${w(d.dso)}" height="24" rx="2" style="fill: var(--series-profit); fill-opacity: 0.5"/>
+        <text class="sv-t2" x="${(x0 + d.dio * px + 6).toFixed(1)}" y="${top + 36}">${name("Receivables", "Customers", d.dso)}</text>
+        <rect x="${x(0)}" y="${top + 50}" width="${w(d.dpo)}" height="24" rx="2" style="fill: var(--series-cash); fill-opacity: 0.45"/>
+        <text class="sv-t2" x="${(narrow ? x0 + d.dpo * px + 6 : x0 + 6).toFixed(1)}" y="${top + 66}">${name("Payables", "Suppliers", d.dpo)}</text>
+        <path class="sv-line-pen" d="M${x(d.dpo)} ${top + 84} V${top + 90} H${x(end)} V${top + 84}"/>
+        <text class="sv-t sv-b" x="${((x0 + ((d.dpo + end) / 2) * px)).toFixed(1)}" y="${top + 106}" text-anchor="middle">Cash tied up · ${end - d.dpo} days</text>`;
+    };
+    const ticks = [0, 30, 60, 90, 120, 150]
+      .map((t) => `<path class="sv-grid" d="M${x(t)} 14 V252"/><text class="sv-k" x="${x(t)}" y="268" text-anchor="${t ? "middle" : "start"}">${t ? t : "DAY 0"}</text>`)
+      .join("");
+    return `<svg viewBox="0 0 ${W} 276" xmlns="http://www.w3.org/2000/svg">${ticks}${group(years[0], 4)}${group(years[1], 130)}</svg>`;
   };
 
   window.Marginalia.addBook({
@@ -126,10 +179,10 @@
         title: "Ratios: what the numbers are really telling you",
         chapters: [
           { n: 19, title: "The power of ratios", blurb: "Comparing numbers to each other shows what totals hide.", page: "ratios" },
-          { n: 20, title: "Profitability ratios", blurb: "How much of each sales dollar the company keeps." },
-          { n: 21, title: "Leverage ratios", blurb: "How much the company relies on borrowed money." },
-          { n: 22, title: "Liquidity ratios", blurb: "Whether the company can pay its bills as they come due." },
-          { n: 23, title: "Efficiency ratios", blurb: "How well the company uses its assets, from inventory to receivables." },
+          { n: 20, title: "Profitability ratios", blurb: "How much of each sales dollar the company keeps.", page: "profitability" },
+          { n: 21, title: "Leverage ratios", blurb: "How much the company relies on borrowed money.", page: "leverage" },
+          { n: 22, title: "Liquidity ratios", blurb: "Whether the company can pay its bills as they come due.", page: "liquidity" },
+          { n: 23, title: "Efficiency ratios", blurb: "How well the company uses its assets, from inventory to receivables.", page: "efficiency" },
           { n: 24, title: "The investor's perspective", blurb: "The ratios outside investors and analysts watch." }
         ]
       },
@@ -986,7 +1039,7 @@
       ratios: {
         title: "Reading the ratios",
         navLabel: "Ratios",
-        eyebrow: "Part V · Chapters 19–23",
+        eyebrow: "Part V · Chapter 19",
         layout: "dense",
         dek:
           "A single number says little. Ratios compare one number with another, and comparing them across years shows what the totals hide. Here is a growing company whose profit looks fine and whose ratios tell a more worried story.",
@@ -997,7 +1050,7 @@
             title: "The argument in five points",
             points: [
               { t: "Totals are hard to judge alone.", d: "Is $750,000 of profit good? It depends on the sales, the assets and the money behind it. Ratios put two numbers side by side so different years, or different companies, can be compared." },
-              { t: "Four families, four questions.", d: "Profitability asks whether the company earns enough; leverage, how much of it is borrowed; liquidity, whether it can pay its bills; efficiency, how well it uses what it has." },
+              { t: "Four families, four questions.", d: "Profitability asks whether the company earns enough; leverage, how much of it is borrowed; liquidity, whether it can pay its bills; efficiency, how well it uses what it has. Each has a chapter of its own." },
               { t: "Read across the families.", d: "One ratio rarely tells the story. The useful reading comes from seeing how they move together." },
               { t: "Compare like with like.", d: "With the company's own past, or with similar companies. What's healthy differs by industry: a grocer's margins would ruin a software firm." },
               { t: "Growth can hide a squeeze.", d: "Northline's sales rose a fifth and profit rose, while customers paid slower, stock piled up and debt filled the gap. Cash fell from $900,000 to $350,000." }
@@ -1040,23 +1093,426 @@
             type: "table",
             eyebrow: "The four families",
             title: "What each family asks, and what to watch",
-            intro: "The ratios in the reader above, grouped as the book groups them. Our summary of what each tells a manager.",
+            intro: "The ratios in the reader above, grouped as the book groups them, each family with its own chapter. Our summary of what each tells a manager.",
             columns: ["Family", "The question", "Ratios", "Watch for"],
             widths: ["8.5rem", null, null, null],
             rows: [
-              ["Profitability", "Does the company earn enough on its sales, its assets and its owners' money?", "Gross, operating and net margin; return on assets; return on equity", "Margins falling while sales grow; return on equity propped up by debt"],
-              ["Leverage", "How much of the business is funded by borrowing, and can it carry the debt?", "Debt to equity; interest coverage", "Debt rising faster than equity; operating profit only a few times the interest bill"],
-              ["Liquidity", "Can it pay the bills coming due in the next year?", "Current ratio; quick ratio", "A quick ratio well below the current ratio: the cushion is stock that may not sell"],
-              ["Efficiency", "How well does it use its assets and working capital?", "Days sales outstanding; days in inventory; days payable; asset turnover", "Days creeping up year on year; sales growing slower than assets"]
+              ["<a href=\"@profitability\">Profitability</a>", "Does the company earn enough on its sales, its assets and its owners' money?", "Gross, operating and net margin; return on assets; return on equity", "Margins falling while sales grow; return on equity propped up by debt"],
+              ["<a href=\"@leverage\">Leverage</a>", "How much of the business is funded by borrowing, and can it carry the debt?", "Debt to equity; interest coverage", "Debt rising faster than equity; operating profit only a few times the interest bill"],
+              ["<a href=\"@liquidity\">Liquidity</a>", "Can it pay the bills coming due in the next year?", "Current ratio; quick ratio", "A quick ratio well below the current ratio: the cushion is stock that may not sell"],
+              ["<a href=\"@efficiency\">Efficiency</a>", "How well does it use its assets and working capital?", "Days sales outstanding; days in inventory; days payable; asset turnover", "Days creeping up year on year; sales growing slower than assets"]
             ]
           }
         ],
         end: {
           related: [
+            { title: "Profitability ratios", where: "Chapter 20", page: "profitability" },
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" },
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" }
+          ],
+          cta: { page: "profitability", kicker: "Next", text: "Where Northline's margins went" }
+        }
+      },
+
+      // A reference page. Margins and returns, and what moves each, follow the book's chapter
+      // 20 as I remember it, unchecked against its wording. Northline's two years are the
+      // invented figures of the ratio reader on "Reading the ratios" (thousands of dollars,
+      // tax a flat 25%); every ratio here is arithmetic on them. Splitting return on equity
+      // into margin, turnover and assets per dollar of equity is the standard DuPont
+      // breakdown, ours, not the book's.
+      profitability: {
+        navLabel: "Profitability",
+        title: "Profitability ratios",
+        eyebrow: "Part V · Chapter 20",
+        layout: "dense",
+        dek:
+          "Profitability ratios ask how much of each sales dollar a company keeps, and how much it earns on what it has. At Northline, profit rose by a ninth while every one of these ratios fell or held still.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Margins compare profit with sales.", d: "Gross, operating and net margin divide each profit on the income statement by revenue, showing what's left of a dollar of sales at each step." },
+              { t: "Returns compare profit with what it took to earn it.", d: "Return on assets divides net profit by everything the company owns; return on equity, by the owners' stake." },
+              { t: "A rising profit can hide falling ratios.", d: "Northline's net profit grew 11%, but its sales grew 20% and its assets 32%, so every ratio slipped or stood still." },
+              { t: "Each margin points to a different cause.", d: "Gross margin to prices and the cost of making the product, operating margin to overheads, net margin to interest and taxes. Northline's gross margin lost a point, overheads won it back, and the doubled interest bill took two thirds of a point." },
+              { t: "Return on equity rewards debt as well as performance.", d: "Borrowing shrinks the owners' stake behind the same profit. Read it with the <a href=\"@leverage\">leverage ratios</a>." }
+            ]
+          },
+          {
+            type: "waterfall",
+            eyebrow: "Figure",
+            title: "Two income statements on one scale",
+            intro: "Northline's last two years, from revenue to net profit.",
+            k: true,
+            charts: [
+              {
+                t: "Last year",
+                steps: [
+                  { label: "Revenue", v: 10000000 },
+                  { label: "Cost of goods sold", v: -6000000 },
+                  { label: "Gross profit", total: true },
+                  { label: "Operating expenses", v: -3000000 },
+                  { label: "Operating profit", total: true },
+                  { label: "Interest", v: -100000 },
+                  { label: "Tax at 25%", v: -225000 },
+                  { label: "Net profit", total: true }
+                ]
+              },
+              {
+                t: "This year",
+                steps: [
+                  { label: "Revenue", v: 12000000 },
+                  { label: "Cost of goods sold", v: -7320000 },
+                  { label: "Gross profit", total: true },
+                  { label: "Operating expenses", v: -3480000 },
+                  { label: "Operating profit", total: true },
+                  { label: "Interest", v: -200000 },
+                  { label: "Tax at 25%", v: -250000 },
+                  { label: "Net profit", total: true }
+                ]
+              }
+            ],
+            caption: "Invented figures: the same company as on <a href=\"@ratios\">Reading the ratios</a>."
+          },
+          {
+            type: "table",
+            eyebrow: "The five ratios",
+            title: "Margins and returns, two years",
+            columns: ["Ratio", "Formula", "Last year", "This year", "What moved it"],
+            widths: ["9.5rem", null, "6rem", "6rem", null],
+            rows: [
+              ["Gross margin", "Gross profit ÷ revenue", "<span class=\"tnum\">40.0%</span>", "<span class=\"tnum\">39.0%</span>", "The cost of making bikes grew a little faster than prices."],
+              ["Operating margin", "Operating profit ÷ revenue", "<span class=\"tnum\">10.0%</span>", "<span class=\"tnum\">10.0%</span>", "Overheads grew more slowly than sales, making up the lost point."],
+              ["Net margin", "Net profit ÷ revenue", "<span class=\"tnum\">6.8%</span>", "<span class=\"tnum\">6.3%</span>", "Interest doubled on the extra borrowing."],
+              ["Return on assets", "Net profit ÷ total assets", "<span class=\"tnum\">13.5%</span>", "<span class=\"tnum\">11.4%</span>", "Assets grew 32%, mostly receivables and stock; profit grew 11%."],
+              ["Return on equity", "Net profit ÷ owners' equity", "<span class=\"tnum\">22.5%</span>", "<span class=\"tnum\">20.0%</span>", "The owners' stake grew 25% with the profit kept in the business; profit grew 11%."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Per $100 of sales",
+            title: "Where the margin went",
+            intro: "Each line of the income statement as a share of revenue, the quickest way to see which costs grew faster than sales.",
+            columns: ["Line", "Last year", "This year", "Effect on profit"],
+            widths: [null, "7rem", "7rem", "8rem"],
+            rows: [
+              ["Revenue", "<span class=\"tnum\">$100.00</span>", "<span class=\"tnum\">$100.00</span>", "—"],
+              ["Cost of goods sold", "<span class=\"tnum\">$60.00</span>", "<span class=\"tnum\">$61.00</span>", "<span class=\"tnum\">−$1.00</span>"],
+              ["<strong>Gross profit</strong>", "<span class=\"tnum\">$40.00</span>", "<span class=\"tnum\">$39.00</span>", "<span class=\"tnum\">−$1.00</span>"],
+              ["Operating expenses", "<span class=\"tnum\">$30.00</span>", "<span class=\"tnum\">$29.00</span>", "<span class=\"tnum\">+$1.00</span>"],
+              ["<strong>Operating profit</strong>", "<span class=\"tnum\">$10.00</span>", "<span class=\"tnum\">$10.00</span>", "—"],
+              ["Interest", "<span class=\"tnum\">$1.00</span>", "<span class=\"tnum\">$1.67</span>", "<span class=\"tnum\">−$0.67</span>"],
+              ["Tax", "<span class=\"tnum\">$2.25</span>", "<span class=\"tnum\">$2.08</span>", "<span class=\"tnum\">+$0.17</span>"],
+              ["<strong>Net profit</strong>", "<span class=\"tnum\">$6.75</span>", "<span class=\"tnum\">$6.25</span>", "<span class=\"tnum\">−$0.50</span>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Return on equity in three parts",
+            title: "Margin, turnover and borrowing",
+            intro: "Return on equity is net margin, times revenue per dollar of assets, times assets per dollar of equity.",
+            columns: ["Part", "Formula", "Last year", "This year"],
+            widths: ["13rem", null, "6rem", "6rem"],
+            rows: [
+              ["Net margin", "Net profit ÷ revenue", "<span class=\"tnum\">6.75%</span>", "<span class=\"tnum\">6.25%</span>"],
+              ["Asset turnover", "Revenue ÷ total assets", "<span class=\"tnum\">2.00×</span>", "<span class=\"tnum\">1.82×</span>"],
+              ["Assets per dollar of equity", "Total assets ÷ owners' equity", "<span class=\"tnum\">1.67×</span>", "<span class=\"tnum\">1.76×</span>"],
+              ["<strong>Return on equity</strong>", "The three multiplied", "<span class=\"tnum\">22.5%</span>", "<span class=\"tnum\">20.0%</span>"]
+            ],
+            foot: "A standard breakdown, often called the DuPont formula; ours, not the book's. Margin and turnover both fell; only more borrowing per dollar of equity pushed the other way."
+          }
+        ],
+        end: {
+          related: [
+            { title: "The power of ratios", where: "Chapter 19", page: "ratios" },
+            { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" },
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" }
+          ],
+          cta: { page: "leverage", kicker: "Next", text: "How much of Northline is borrowed" }
+        }
+      },
+
+      // A reference page. Debt to equity, interest coverage and leverage magnifying returns
+      // follow the book's chapter 21 as I remember it, unchecked against its wording. The
+      // two-funding comparison is ours: Northline's capital this year ($2,248k of debt plus
+      // $3,750k of equity) against the same capital funded by owners alone, tax at 25% and
+      // interest at this year's $200k. Covenants as limits written into loans is general
+      // knowledge, ours. Interest rate paid is on year-end debt, an approximation.
+      leverage: {
+        navLabel: "Leverage",
+        title: "Leverage ratios",
+        eyebrow: "Part V · Chapter 21",
+        layout: "dense",
+        dek:
+          "Leverage ratios ask how much of a business is funded with borrowed money, and whether it can carry the debt. Debt magnifies the owners' return in good years and their losses in bad ones.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Leverage is borrowed money in the mix.", d: "Every dollar of assets is funded by lenders, suppliers or owners. The more of it borrowed, the higher the leverage." },
+              { t: "Debt to equity measures the mix.", d: "Total debt divided by owners' equity. Northline's rose from 0.48 to 0.60: its debt grew 58% while its equity grew 25%." },
+              { t: "Interest coverage measures the strain.", d: "Operating profit divided by interest. Northline's fell from 10 times to 6: operating profit rose a fifth while interest doubled." },
+              { t: "Debt cuts both ways.", d: "When the business earns more on its capital than the debt costs, borrowing raises the owners' return. When it earns less, borrowing lowers it, and interest is due either way." },
+              { t: "How much is too much depends on the business.", d: "Steady, predictable cash can carry more debt than a cyclical or fast-growing business. Lenders watch these ratios, and often write limits on them into the loan." }
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "Figure",
+            title: "The same capital, funded two ways",
+            intro: "Northline's $5,998k of capital this year, $2,248k borrowed and $3,750k from owners, against an imagined Northline funded by owners alone. Return on equity at each level of operating profit, with tax at 25%.",
+            cols: 1,
+            h: 240,
+            charts: [
+              {
+                t: "Return on equity against operating profit",
+                d: "The lines cross at about $534k of operating profit, where the business earns 8.9% on its capital, the same as its debt costs. Above that, debt raises the owners' return; below it, debt lowers it. This year's $1,200k gives 20.0% with the debt and 15.0% without.",
+                x: [0, 2000],
+                y: [-6, 36],
+                xLabel: "Operating profit, $k",
+                yLabel: "Return on equity, %",
+                yTicks: [0, 10, 20, 30],
+                unit: "%",
+                hover: true,
+                series: [
+                  { name: "With Northline's debt", points: curve((x) => ((x - 200) * 0.75 * 100) / 3750, 0, 2000, 40) },
+                  { name: "Owners' money only", tone: "ink", dash: true, points: curve((x) => (x * 0.75 * 100) / 5998, 0, 2000, 40) }
+                ]
+              }
+            ],
+            caption: "Invented figures. Our comparison, not the book's."
+          },
+          {
+            type: "table",
+            eyebrow: "The ratios",
+            title: "Northline's leverage, two years",
+            columns: ["Ratio", "Formula", "Last year", "This year", "What it says"],
+            widths: ["9.5rem", null, "6rem", "6rem", null],
+            rows: [
+              ["Debt to equity", "Short- and long-term debt ÷ owners' equity", "<span class=\"tnum\">0.48</span>", "<span class=\"tnum\">0.60</span>", "More of the growth was paid for by lenders."],
+              ["Liabilities to equity", "Everything owed, payables included ÷ owners' equity", "<span class=\"tnum\">0.67</span>", "<span class=\"tnum\">0.76</span>", "The same, counting what suppliers are owed."],
+              ["Assets to equity", "Total assets ÷ owners' equity", "<span class=\"tnum\">1.67×</span>", "<span class=\"tnum\">1.76×</span>", "Dollars of assets carried per dollar of the owners' money."],
+              ["Interest coverage", "Operating profit ÷ interest", "<span class=\"tnum\">10.0×</span>", "<span class=\"tnum\">6.0×</span>", "Still comfortable, but the cushion is shrinking."],
+              ["Interest rate paid", "Interest ÷ debt at year end", "<span class=\"tnum\">7.0%</span>", "<span class=\"tnum\">8.9%</span>", "A rough price of the debt; the new borrowing cost more."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Both ways",
+            title: "What debt does in a bad year and a good one",
+            intro: "Points from the chart above.",
+            columns: ["Operating profit", "Interest coverage", "Return on equity, with the debt", "Return on equity, owners only"],
+            widths: [null, null, null, null],
+            rows: [
+              ["<span class=\"tnum\">$400k</span>", "<span class=\"tnum\">2.0×</span>", "<span class=\"tnum\">4.0%</span>", "<span class=\"tnum\">5.0%</span>"],
+              ["<span class=\"tnum\">$800k</span>", "<span class=\"tnum\">4.0×</span>", "<span class=\"tnum\">12.0%</span>", "<span class=\"tnum\">10.0%</span>"],
+              ["<span class=\"tnum\">$1,200k</span>, this year", "<span class=\"tnum\">6.0×</span>", "<span class=\"tnum\">20.0%</span>", "<span class=\"tnum\">15.0%</span>"],
+              ["<span class=\"tnum\">$1,800k</span>", "<span class=\"tnum\">9.0×</span>", "<span class=\"tnum\">32.0%</span>", "<span class=\"tnum\">22.5%</span>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Behind the ratios",
+            title: "What changed at Northline",
+            columns: ["Line", "Last year", "This year", "Change"],
+            widths: [null, "7rem", "7rem", "6rem"],
+            rows: [
+              ["Short-term debt", "<span class=\"tnum\">$325k</span>", "<span class=\"tnum\">$898k</span>", "<span class=\"tnum\">+176%</span>"],
+              ["Long-term debt", "<span class=\"tnum\">$1,100k</span>", "<span class=\"tnum\">$1,350k</span>", "<span class=\"tnum\">+23%</span>"],
+              ["Owners' equity", "<span class=\"tnum\">$3,000k</span>", "<span class=\"tnum\">$3,750k</span>", "<span class=\"tnum\">+25%</span>"],
+              ["Operating profit", "<span class=\"tnum\">$1,000k</span>", "<span class=\"tnum\">$1,200k</span>", "<span class=\"tnum\">+20%</span>"],
+              ["Interest", "<span class=\"tnum\">$100k</span>", "<span class=\"tnum\">$200k</span>", "<span class=\"tnum\">+100%</span>"]
+            ],
+            foot: "Most of the new debt is short-term: bills due within a year, paying for stock and receivables. See <a href=\"@liquidity\">liquidity</a>."
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profitability ratios", where: "Chapter 20", page: "profitability" },
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" },
+            { title: "The building blocks of ROI", where: "Part VI", page: "roi-basics" },
+            { title: "The power of ratios", where: "Chapter 19", page: "ratios" }
+          ],
+          cta: { page: "liquidity", kicker: "Next", text: "Can Northline pay this year's bills?" }
+        }
+      },
+
+      // A reference page. Current and quick ratios and what each leaves out follow the book's
+      // chapter 22 as I remember it, unchecked against its wording. The cash ratio and days
+      // of cash are common measures; unchecked whether the book uses them. Northline's two
+      // years are the ratio reader's figures; every number here is arithmetic on them.
+      liquidity: {
+        navLabel: "Liquidity",
+        title: "Liquidity ratios",
+        eyebrow: "Part V · Chapter 22",
+        layout: "dense",
+        dek:
+          "Liquidity ratios ask whether a company can pay the bills coming due in the next year. Northline still looks comfortable on the usual measure, but what its current assets are made of has changed.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Current assets against current liabilities.", d: "Current assets should turn into cash within a year: cash, receivables, inventory. Current liabilities fall due within a year: payables, short-term debt, wages owed." },
+              { t: "The current ratio divides one by the other.", d: "Northline's fell from 3.80 to 2.79. Above 1, the year's bills are covered, on paper." },
+              { t: "The quick ratio leaves out inventory.", d: "Stock has to be sold before it becomes cash, and it may not sell at full value. Northline's quick ratio fell from 2.52 to 1.66." },
+              { t: "Look at what the current assets are made of.", d: "Northline's working capital rose $172k, yet cash fell from a quarter of its current assets to a twelfth. The cushion is now mostly money customers owe and bikes not yet sold." },
+              { t: "Liquidity is about timing.", d: "A profitable company can still miss a payroll if its cash arrives after its bills. Northline's cash covers under two weeks of costs, down from five." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Current assets beside current liabilities",
+            intro: "Northline's two year-ends, in thousands of dollars. The bills grew faster than the assets meant to pay them, and the cash layer nearly disappeared.",
+            alt: "Two pairs of stacked columns. Last year, current assets of $3,420k (inventory $1,150k, receivables $1,370k, cash $900k) beside current liabilities of $900k (short-term debt $325k, payables $575k): a current ratio of 3.80. This year, current assets of $4,192k (inventory $1,705k, receivables $2,137k, cash $350k) beside current liabilities of $1,500k (short-term debt $898k, payables $602k): a current ratio of 2.79.",
+            svg: currentStacks(false),
+            svgNarrow: currentStacks(true),
+            notes: [
+              { t: "The current ratio is one column over the other:", d: "$3,420k against $900k, then $4,192k against $1,500k." },
+              { t: "Cash fell from $900k to $350k,", d: "while receivables grew by $767k and inventory by $555k." },
+              { t: "Short-term debt nearly tripled,", d: "from $325k to $898k. The bank is funding the stock and the receivables." }
+            ],
+            caption: "Invented figures: the same company as on <a href=\"@ratios\">Reading the ratios</a>."
+          },
+          {
+            type: "table",
+            eyebrow: "The ratios",
+            title: "Northline's liquidity, two years",
+            columns: ["Measure", "Formula", "Last year", "This year", "What it says"],
+            widths: ["9rem", null, "6.5rem", "6.5rem", null],
+            rows: [
+              ["Current ratio", "Current assets ÷ current liabilities", "<span class=\"tnum\">3.80</span>", "<span class=\"tnum\">2.79</span>", "The year's bills are still covered almost three times, on paper."],
+              ["Quick ratio", "(Cash + receivables) ÷ current liabilities", "<span class=\"tnum\">2.52</span>", "<span class=\"tnum\">1.66</span>", "Without the stock, the cover is much thinner."],
+              ["Cash ratio", "Cash ÷ current liabilities", "<span class=\"tnum\">1.00</span>", "<span class=\"tnum\">0.23</span>", "Cash alone now covers less than a quarter of the year's bills."],
+              ["Working capital", "Current assets − current liabilities", "<span class=\"tnum\">$2,520k</span>", "<span class=\"tnum\">$2,692k</span>", "Up, but made of receivables and stock rather than cash."],
+              ["Days of cash", "Cash ÷ a day's costs (cost of goods sold plus operating expenses)", "<span class=\"tnum\">36.5 days</span>", "<span class=\"tnum\">11.8 days</span>", "How long the bank balance would last with nothing coming in."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "What the cushion is made of",
+            title: "Northline's current assets",
+            columns: ["Line", "Last year", "Share", "This year", "Share"],
+            widths: [null, "7rem", "5rem", "7rem", "5rem"],
+            rows: [
+              ["Cash", "<span class=\"tnum\">$900k</span>", "<span class=\"tnum\">26%</span>", "<span class=\"tnum\">$350k</span>", "<span class=\"tnum\">8%</span>"],
+              ["Receivables", "<span class=\"tnum\">$1,370k</span>", "<span class=\"tnum\">40%</span>", "<span class=\"tnum\">$2,137k</span>", "<span class=\"tnum\">51%</span>"],
+              ["Inventory", "<span class=\"tnum\">$1,150k</span>", "<span class=\"tnum\">34%</span>", "<span class=\"tnum\">$1,705k</span>", "<span class=\"tnum\">41%</span>"],
+              ["<strong>Current assets</strong>", "<span class=\"tnum\">$3,420k</span>", "<span class=\"tnum\">100%</span>", "<span class=\"tnum\">$4,192k</span>", "<span class=\"tnum\">100%</span>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Reading someone else's numbers",
+            title: "Signs that liquidity is weaker than it looks",
+            intro: "Our list.",
+            columns: ["Sign", "Why it matters"],
+            widths: ["19rem", null],
+            rows: [
+              ["The quick ratio falls faster than the current ratio", "Stock is building up, and stock is the least certain way to pay a bill."],
+              ["Working capital rises while cash falls", "Money is moving into receivables and inventory, and will come back only as fast as customers pay and stock sells."],
+              ["Short-term debt pays for growth", "Bills due within the year are funding assets that turn into cash slowly."],
+              ["A very high current ratio", "Not always safety: it can mean idle cash or stock that isn't moving."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "Working capital levers", where: "Part VII", page: "working-capital" }
+          ],
+          cta: { page: "efficiency", kicker: "Next", text: "Where Northline's cash went: the days" }
+        }
+      },
+
+      // A reference page. Days in inventory, days sales outstanding, days payable, inventory
+      // turns and asset turnover follow the book's chapter 23 as I remember it, unchecked
+      // against its wording; that it uses fixed-asset turnover is unchecked. Northline's two
+      // years are the ratio reader's figures, days rounded; the cash each slower day ties up
+      // is arithmetic at this year's sales ($12 million) and cost of goods sold ($7.32 million).
+      efficiency: {
+        navLabel: "Efficiency",
+        title: "Efficiency ratios",
+        eyebrow: "Part V · Chapter 23",
+        layout: "dense",
+        dek:
+          "Efficiency ratios ask how hard a company's assets work: how fast stock sells, how fast customers pay, how much revenue each dollar of assets brings in. Northline grew by a fifth and got slower on almost every one.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Days turn balance sheet lines into time.", d: "Days in inventory, days sales outstanding and days payable divide a balance sheet amount by a day's worth of costs or sales." },
+              { t: "Turnover asks what each dollar produces.", d: "Asset turnover is revenue per dollar of assets; inventory turns, cost of goods sold over inventory: how many times a year the stock is sold and replaced." },
+              { t: "The days add up to the cash conversion cycle.", d: "Days in inventory plus days sales outstanding, minus days payable: how long a dollar is tied up. Northline's grew from 85 days to 120." },
+              { t: "Slower days cost cash, not profit.", d: "At this year's size, Northline's 35 extra days tie up about $894k. That goes a long way to explaining why its cash fell $550k while its short-term debt rose $573k." },
+              { t: "Managers move these numbers.", d: "Sales sets payment terms, operations sets stock levels, purchasing negotiates with suppliers. See the <a href=\"@working-capital\">working capital levers</a>." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "One dollar's trip through Northline, two years",
+            intro: "Days a dollar spends as stock, then as money a customer owes, set against the days before suppliers are paid. The bracket is the cash conversion cycle: the stretch Northline funds itself.",
+            alt: "Two timelines in days. Last year: inventory for 70 days, then receivables for 50 days; suppliers paid on day 35; cash tied up for 85 days. This year: inventory for 85 days, then receivables for 65 days; suppliers paid on day 30; cash tied up for 120 days.",
+            svg: cycleBars(false),
+            svgNarrow: cycleBars(true),
+            notes: [
+              { t: "Stock sits 15 days longer:", d: "70 days became 85." },
+              { t: "Customers take 15 days longer to pay:", d: "50 days became 65." },
+              { t: "Suppliers are paid 5 days sooner:", d: "35 days became 30. All three lengthen the stretch Northline has to fund." }
+            ],
+            caption: "Invented figures, days rounded: the same company as on <a href=\"@ratios\">Reading the ratios</a>."
+          },
+          {
+            type: "table",
+            eyebrow: "The ratios",
+            title: "Northline's efficiency, two years",
+            columns: ["Ratio", "Formula", "Last year", "This year", "What it says"],
+            widths: ["10rem", null, "6.5rem", "6.5rem", null],
+            rows: [
+              ["Days in inventory", "Inventory ÷ (cost of goods sold ÷ 365)", "<span class=\"tnum\">70 days</span>", "<span class=\"tnum\">85 days</span>", "Stock sits two weeks longer."],
+              ["Days sales outstanding", "Receivables ÷ (revenue ÷ 365)", "<span class=\"tnum\">50 days</span>", "<span class=\"tnum\">65 days</span>", "Customers take two weeks longer to pay."],
+              ["Days payable outstanding", "Payables ÷ (cost of goods sold ÷ 365)", "<span class=\"tnum\">35 days</span>", "<span class=\"tnum\">30 days</span>", "Suppliers are paid sooner, which uses cash."],
+              ["Cash conversion cycle", "Days in inventory + days sales outstanding − days payable", "<span class=\"tnum\">85 days</span>", "<span class=\"tnum\">120 days</span>", "A dollar is tied up five weeks longer."],
+              ["Inventory turns", "Cost of goods sold ÷ inventory", "<span class=\"tnum\">5.2×</span>", "<span class=\"tnum\">4.3×</span>", "Stock is sold and replaced less often."],
+              ["Asset turnover", "Revenue ÷ total assets", "<span class=\"tnum\">2.00×</span>", "<span class=\"tnum\">1.82×</span>", "Less revenue from each dollar of assets."],
+              ["Fixed-asset turnover", "Revenue ÷ equipment and buildings, net", "<span class=\"tnum\">6.33×</span>", "<span class=\"tnum\">4.98×</span>", "New equipment isn't earning its keep yet."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The cost of slower days",
+            title: "What each change ties up in cash",
+            intro: "At this year's sales and costs. Profit is the same either way.",
+            columns: ["Change", "Days", "One day is worth", "Cash tied up"],
+            widths: [null, "6rem", "9rem", "8rem"],
+            rows: [
+              ["Customers pay later", "<span class=\"tnum\">+15</span>", "<span class=\"tnum\">$32,877</span>", "<span class=\"tnum\">$493k</span>"],
+              ["Stock sits longer", "<span class=\"tnum\">+15</span>", "<span class=\"tnum\">$20,055</span>", "<span class=\"tnum\">$301k</span>"],
+              ["Suppliers are paid sooner", "<span class=\"tnum\">−5</span>", "<span class=\"tnum\">$20,055</span>", "<span class=\"tnum\">$100k</span>"],
+              ["<strong>A cycle 35 days longer</strong>", "<span class=\"tnum\">+35</span>", "—", "<strong class=\"tnum\">$894k</strong>"]
+            ],
+            foot: "A day of receivables is a day's sales, $12 million ÷ 365; a day of inventory or payables is a day's cost of goods sold, $7.32 million ÷ 365."
+          }
+        ],
+        end: {
+          related: [
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" },
             { title: "Working capital levers", where: "Part VII", page: "working-capital" },
-            { title: "The investor's perspective", where: "Chapter 24" },
-            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" }
+            { title: "Profitability ratios", where: "Chapter 20", page: "profitability" },
+            { title: "How cash connects", where: "Chapter 18", page: "cash-connects" }
           ],
           cta: { page: "working-capital", kicker: "Next", text: "Pull the working capital levers" }
         }

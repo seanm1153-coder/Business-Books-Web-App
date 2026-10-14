@@ -339,6 +339,74 @@ test("FI: ratios compare two years", async () => {
   assert.match(await page.text(".ratio-detail"), /10\.0×.*6\.0×/);
 });
 
+test("FI: the ratio chapters branch from the ratio reader", async () => {
+  await page.open("fi-ratios");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dt-table tbody th a").length), 4);
+  assert.match(await page.text(".pager"), /NEXT → \| Profitability ratios/);
+});
+
+test("FI: profitability ratios follow Northline's two income statements", async () => {
+  await dense("fi-profitability", { points: 5, rows: [5, 8, 4] });
+  const years = await waterfalls();
+  years.forEach(assertAddsUp);
+  const totals = years.map((rows) => rows.filter((r) => r.total).map((r) => r.v));
+  assert.deepEqual(totals, [[4000000, 1000000, 675000], [4680000, 1200000, 750000]]);
+  // The margins in the ratio table are the waterfall's profits over revenue.
+  const ratios = await tableCells(0);
+  years.forEach((rows, y) => {
+    const revenue = rows[0].v;
+    totals[y].forEach((v, i) => assert.equal(ratios[i][2 + y], `${((v / revenue) * 100).toFixed(1)}%`, `${ratios[i][0]}, year ${y + 1}`));
+  });
+  // Per $100 of sales, the lines still add up to the net profit.
+  const per100 = (await tableCells(1)).map((r) => r.slice(1, 3).map((c) => Number(c.replace(/[^\d.]/g, ""))));
+  for (const y of [0, 1]) {
+    const [rev, cogs, , opex, , interest, tax, net] = per100.map((r) => r[y]);
+    assert.ok(Math.abs(rev - cogs - opex - interest - tax - net) < 0.015, `year ${y + 1}`);
+  }
+});
+
+test("FI: leverage ratios show debt cutting both ways", async () => {
+  await dense("fi-leverage", { points: 5, rows: [5, 4, 5] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart .bh-line").length), 2);
+  // Each row: coverage, and return on equity with $200k of interest on $3,750k of equity or none on $5,998k.
+  for (const r of await tableCells(1)) {
+    const op = Number(r[0].match(/\$([\d,]+)k/)[1].replace(/,/g, ""));
+    assert.equal(r[1], `${(op / 200).toFixed(1)}×`, r[0]);
+    assert.equal(r[2], `${(((op - 200) * 0.75 * 100) / 3750).toFixed(1)}%`, r[0]);
+    assert.equal(r[3], `${((op * 0.75 * 100) / 5998).toFixed(1)}%`, r[0]);
+  }
+});
+
+test("FI: liquidity ratios set current assets beside current liabilities", async () => {
+  await dense("fi-liquidity", { points: 5, rows: [5, 4, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
+  // The current assets add up, their shares add to 100%, and the current ratio uses the same totals.
+  const parts = await tableCells(1);
+  const ratios = await tableCells(0);
+  [[1, 2, 900], [3, 4, 1500]].forEach(([col, share, liabilities], y) => {
+    const lines = parts.slice(0, 3);
+    const total = dollars(parts[3][col]);
+    assert.equal(lines.reduce((a, r) => a + dollars(r[col]), 0), total);
+    assert.equal(lines.reduce((a, r) => a + parseInt(r[share], 10), 0), 100);
+    assert.equal(ratios[0][2 + y], (total / 1000 / liabilities).toFixed(2));
+  });
+});
+
+test("FI: efficiency ratios cost out the slower days", async () => {
+  await dense("fi-efficiency", { points: 5, rows: [7, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
+  const ratios = await tableCells(0);
+  // The cycle is days in inventory plus days sales outstanding minus days payable, both years.
+  for (const y of [2, 3]) {
+    const [dio, dso, dpo, ccc] = ratios.slice(0, 4).map((r) => parseInt(r[y], 10));
+    assert.equal(dio + dso - dpo, ccc);
+  }
+  // Each change ties up its days times a day's worth, and the three add to the total.
+  const cost = await tableCells(1);
+  cost.slice(0, 3).forEach((r) => assert.equal(Math.round((Math.abs(parseInt(r[1].replace("−", "-"), 10)) * dollars(r[2])) / 1000), dollars(r[3]) / 1000, r[0]));
+  assert.equal(cost.slice(0, 3).reduce((a, r) => a + dollars(r[3]), 0), dollars(cost[3][3]));
+});
+
 test("FI: the building blocks of ROI chart present value at three rates", async () => {
   await page.open("fi-roi-basics");
   // The page's tool sits beside its worked figures.
