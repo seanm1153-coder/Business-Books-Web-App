@@ -914,6 +914,32 @@ test("Porter: the five tests workbench flags a generic plan and saves a draft", 
   assert.match(await page.text("#view"), /Your strategy \| Customers and needs \| Families renting a second car/i);
 });
 
+test("PB: the category makes the company draws the king's flywheel", async () => {
+  await dense("pb-category-makes-company", { points: 5, rows: [5, 4] });
+  // Six steps, each linked to the next with a plus: one reinforcing loop.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-sign").length), 6);
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-call text"), (t) => t.textContent)), ["R"]);
+});
+
+test("PB: own the problem rewrites product claims as problems", async () => {
+  await dense("pb-own-the-problem", { points: 5, rows: [4, 4] });
+});
+
+test("PB: discovery asks the questions and tests the size of the problem", async () => {
+  await dense("pb-discovery", { points: 5, rows: [6, 5] });
+});
+
+test("PB: marchitecture draws the category for the market", async () => {
+  await dense("pb-marchitecture", { points: 5, rows: [4, 5] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-node").length), 5);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-narrow .dg-node").length), 5);
+});
+
+test("PB: hijacks follow the lightning strike", async () => {
+  await dense("pb-hijacks", { points: 5, rows: [5, 5, 4] });
+  assert.match(await page.text(".pager"), /PREVIOUS \| The lightning strike/);
+});
+
 test("PB: category kings charts the 76% and rewrites playing smaller", async () => {
   await dense("pb-category-kings", { points: 6, rows: [4, 4] });
   assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".bc-row"), (r) => r.getAttribute("aria-label"))), [
