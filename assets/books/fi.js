@@ -227,6 +227,73 @@
             caption: "Invented figures. The change in cash is +$3,100 in both versions."
           },
           {
+            type: "judgment-calls",
+            company: "Northline Bikes",
+            period: "September",
+            title: "Five judgment calls",
+            intro:
+              "Northline's September is fixed: the same bikes shipped, the same bills paid. Only the accounting choices change. Every option below is defensible. Flip them and watch the reported profit move.",
+            base: { revenue: 210000, cogs: 126000, opex: 58000 },
+            cashChange: 3100,
+            calls: [
+              {
+                id: "rev",
+                title: "A big order shipped on September 29",
+                question: "A $40,000 order for custom bikes left the warehouse two days before month-end, but the fitting service the shop paid for happens in October. When does the revenue count?",
+                lines: ["Revenue", "Cost of goods sold", "Gross profit"],
+                start: "now",
+                options: [
+                  { id: "now", label: "Count it in September", tag: "aggressive", fx: { revenue: 40000, cogs: 24000 }, note: "The bikes have shipped, so September gets the $40,000 sale and its $24,000 cost. Defensible if the fitting is a minor part of the deal." },
+                  { id: "later", label: "Count it in October, after fitting", tag: "conservative", fx: {}, note: "If the fitting is an essential part of what was sold, the sale isn't complete until it's done, and September's revenue is $40,000 lower." }
+                ]
+              },
+              {
+                id: "dep",
+                title: "The new paint line",
+                question: "Northline installed $120,000 of painting equipment. How many years will it last?",
+                lines: ["Depreciation and amortization"],
+                start: "ten",
+                options: [
+                  { id: "ten", label: "Ten years", tag: "aggressive", fx: { da: 1000 }, note: "$120,000 spread over 120 months is $1,000 a month." },
+                  { id: "five", label: "Five years", tag: "conservative", fx: { da: 2000 }, note: "Over 60 months it's $2,000 a month. Same machine, same cash spent, twice the expense." }
+                ]
+              },
+              {
+                id: "debt",
+                title: "Unpaid invoices",
+                question: "Shops owe Northline $90,000. How much of it will never be collected?",
+                lines: ["Bad-debt reserve"],
+                start: "one",
+                options: [
+                  { id: "one", label: "About 1%", tag: "aggressive", fx: { reserve: 900 }, note: "A $900 reserve. Reasonable if customers have always paid." },
+                  { id: "five", label: "About 5%", tag: "conservative", fx: { reserve: 4500 }, note: "A $4,500 reserve. Reasonable if two shops are already paying late." }
+                ]
+              },
+              {
+                id: "sw",
+                title: "The new ordering system",
+                question: "Northline paid $15,000 to set up new ordering software. Is that an asset or an expense?",
+                lines: ["Depreciation and amortization", "Software project, expensed"],
+                start: "asset",
+                options: [
+                  { id: "asset", label: "An asset, amortized over three years", tag: "aggressive", fx: { da: 417 }, note: "Only $417 a month reaches the income statement. The cash still left the bank this month; the cash flow statement shows it under investing instead of operations." },
+                  { id: "expense", label: "An expense this month", tag: "conservative", fx: { project: 15000 }, note: "The whole $15,000 hits September. The cash spent is identical either way." }
+                ]
+              },
+              {
+                id: "inv",
+                title: "Last year's frames",
+                question: "$30,000 of frames in last year's colors are still in the warehouse. Are they worth what they cost?",
+                lines: ["Inventory write-down"],
+                start: "keep",
+                options: [
+                  { id: "keep", label: "Keep them at cost", tag: "aggressive", fx: {}, note: "No write-down, on the view that they'll sell at a normal price." },
+                  { id: "write", label: "Write them down by a quarter", tag: "conservative", fx: { writedown: 7500 }, note: "A $7,500 write-down, on the view that they'll only sell at a discount." }
+                ]
+              }
+            ]
+          },
+          {
             type: "table",
             eyebrow: "The five calls",
             title: "Each judgment, and what it's worth to the month's profit",
@@ -345,6 +412,63 @@
             ]
           },
           {
+            type: "profit-layers",
+            company: "Northline Bikes",
+            period: "Last year",
+            title: "Which profit moves?",
+            intro:
+              "A year at Northline, the invented bike maker. Each move below changes one or two lines of the income statement. Switch moves on and off, alone or together, and watch which margins change and which stay put.",
+            base: { revenue: 2400000, cogs: 1440000, sm: 300000, ga: 260000, rd: 80000, dep: 70000, interest: 60000, other: 0 },
+            taxRate: 0.25,
+            otherLabel: "One-time gain",
+            startNote: "Northline's year as reported. Pick a move to apply it.",
+            foot: "Invented figures. Tax is a flat 25% of profit before tax.",
+            moves: [
+              {
+                id: "price",
+                label: "Raise prices 5%",
+                amount: "+$120,000 revenue",
+                fx: { revenue: 120000 },
+                note: "The bikes cost the same to make, so all of the extra revenue reaches gross profit, and every line below it. This assumes no customers walk away over the higher price."
+              },
+              {
+                id: "suppliers",
+                label: "Frame suppliers raise their prices",
+                amount: "+$72,000 cost of goods",
+                fx: { cogs: 72000 },
+                note: "Every bike now costs more to make. Gross margin falls first, and every profit line below it falls too."
+              },
+              {
+                id: "marketing",
+                label: "Cut the marketing budget by a third",
+                amount: "−$100,000 marketing",
+                fx: { sm: -100000 },
+                note: "Each bike still earns the same, so gross profit doesn't move. Operating profit rises, at least until the missing marketing shows up in next year's sales."
+              },
+              {
+                id: "office",
+                label: "Move to a cheaper office",
+                amount: "−$40,000 admin",
+                fx: { ga: -40000 },
+                note: "An overhead cut. It lifts operating profit without touching the product."
+              },
+              {
+                id: "loan",
+                label: "Pay off half the loan",
+                amount: "−$30,000 interest",
+                fx: { interest: -30000 },
+                note: "A financing decision. The business runs exactly as before, so gross and operating profit stay put. Only interest, and the lines below it, change."
+              },
+              {
+                id: "warehouse",
+                label: "Sell the old warehouse at a gain",
+                amount: "+$80,000 one-time gain",
+                fx: { other: 80000 },
+                note: "A one-off. Net profit jumps, but nothing about making or selling bikes got better. That's why operating profit is usually the better guide to how the business itself is doing."
+              }
+            ]
+          },
+          {
             type: "table",
             eyebrow: "Worked example",
             title: "Six moves, and which profits they reach",
@@ -396,6 +520,92 @@
               { t: "Assets up, cash down.", d: "When an asset other than cash rises, it has used cash: money is tied up in what customers owe, in stock or in machines. Decreases work the other way." },
               { t: "Liabilities up, cash up.", d: "When a liability rises, it has provided cash: someone else is waiting to be paid, or has lent you money." },
               { t: "In a growing company, working capital eats the profit.", d: "Northline made $142,500 but its cash rose only $17,500. Receivables and inventory absorbed $150,000, more than the year's profit." }
+            ]
+          },
+          {
+            type: "cash-bridge",
+            company: "Northline Bikes",
+            period: "Last year",
+            title: "Build the bridge from profit to cash",
+            intro:
+              "Northline, the invented bike maker, made $142,500 of net profit last year, but its cash rose by only $17,500. Use the two balance sheets to find out where the rest went. For each change, decide whether it adds cash or uses it.",
+            sheetNote: "Start and end of last year · in dollars",
+            sheetFoot:
+              "Equipment rose $50,000: $120,000 of new machines less $70,000 of depreciation. Equity rose by the year's net profit; no dividends were paid.",
+            sheet: [
+              { group: "Assets" },
+              { label: "Cash", start: 120000, end: 137500, key: true },
+              { label: "Receivables", start: 300000, end: 390000 },
+              { label: "Inventory", start: 340000, end: 400000 },
+              { label: "Equipment, net", start: 600000, end: 650000 },
+              { group: "Liabilities and equity" },
+              { label: "Payables", start: 180000, end: 205000 },
+              { label: "Accrued expenses", start: 60000, end: 70000 },
+              { label: "Loan", start: 400000, end: 440000 },
+              { label: "Owners' equity", start: 720000, end: 862500 }
+            ],
+            start: { label: "Net profit", amount: 142500, detail: "From the income statement: the same year as on The many forms of profit." },
+            startNote: "Decide each row. The bridge starts at net profit and has to end at the change in the cash account.",
+            actualNote: "the cash account went from $120,000 to $137,500, a rise of $17,500.",
+            rows: [
+              {
+                id: "dep",
+                label: "Depreciation",
+                detail: "A $70,000 expense on the income statement. No cash was paid out for it this year.",
+                amount: 70000,
+                sign: 1,
+                why: "depreciation lowered profit without using any cash, so it's added back."
+              },
+              {
+                id: "ar",
+                label: "Receivables",
+                detail: "Customers owe $90,000 more than they did a year ago.",
+                amount: 90000,
+                sign: -1,
+                why: "those sales are counted in profit, but the cash hasn't arrived yet."
+              },
+              {
+                id: "inv",
+                label: "Inventory",
+                detail: "$60,000 more stock is sitting in the warehouse.",
+                amount: 60000,
+                sign: -1,
+                why: "cash went out to make or buy stock that hasn't been sold, so it isn't in profit yet."
+              },
+              {
+                id: "ap",
+                label: "Payables",
+                detail: "Northline owes its suppliers $25,000 more than a year ago.",
+                amount: 25000,
+                sign: 1,
+                why: "those costs count against profit, but they haven't been paid. The cash is still in the bank for now."
+              },
+              {
+                id: "accr",
+                label: "Accrued expenses",
+                detail: "Wages and bills recorded but not yet paid rose by $10,000.",
+                amount: 10000,
+                sign: 1,
+                why: "the same logic as payables: the expense is in profit, the cash hasn't left."
+              },
+              { total: "Cash from operations" },
+              {
+                id: "capex",
+                label: "New equipment",
+                detail: "Investing: Northline bought $120,000 of machines.",
+                amount: 120000,
+                sign: -1,
+                why: "buying equipment uses cash. It reaches the income statement only slowly, as depreciation."
+              },
+              {
+                id: "loan",
+                label: "Loan",
+                detail: "Financing: Northline borrowed another $40,000.",
+                amount: 40000,
+                sign: 1,
+                why: "borrowing brings cash in. It isn't income, so it never touches profit."
+              },
+              { total: "Change in cash" }
             ]
           },
           {
@@ -501,6 +711,84 @@
               ["Examples", "Cash, receivables, inventory, equipment", "Payables, wages owed, loans, deferred revenue", "Money the owners put in, plus profits kept"],
               ["Rises when", "The company buys, makes or is owed something", "It borrows, or takes goods or work it hasn't paid for", "It earns a profit, or owners put in more"],
               ["Falls when", "It spends, sells or uses something up", "It pays what it owes", "It makes a loss, or pays owners a dividend"]
+            ]
+          },
+          {
+            type: "double-entry",
+            company: "Northline Bikes",
+            period: "One month",
+            title: "Post the entries",
+            intro:
+              "Eight things happen at Northline, the invented bike maker. For each, choose the two accounts that change and whether each goes up or down, then post it. The scale shows whether the books still balance.",
+            sheetNote: "In dollars · start of the month, then after each entry",
+            accounts: [
+              { id: "cash", label: "Cash", side: "asset" },
+              { id: "ar", label: "Receivables", side: "asset" },
+              { id: "inv", label: "Inventory", side: "asset" },
+              { id: "equip", label: "Equipment", side: "asset" },
+              { id: "ap", label: "Payables", side: "claim" },
+              { id: "accr", label: "Wages owed", side: "claim" },
+              { id: "loan", label: "Bank loan", side: "claim" },
+              { id: "equity", label: "Owners' equity", side: "claim" }
+            ],
+            start: { cash: 120000, ar: 300000, inv: 340000, equip: 600000, ap: 180000, accr: 60000, loan: 400000, equity: 720000 },
+            moves: [
+              {
+                text: "Northline borrows $50,000 from its bank.",
+                amount: 50000,
+                entries: [["cash", 1], ["loan", 1]],
+                why: "Cash comes in, and the bank now has a $50,000 claim on the company. Both sides grow by the same amount.",
+                hint: "Borrowing isn't income, so equity doesn't change. Something Northline owns went up, and so did something it owes."
+              },
+              {
+                text: "Northline buys $30,000 of frames from a supplier, to pay next month.",
+                amount: 30000,
+                entries: [["inv", 1], ["ap", 1]],
+                why: "Stock goes up, and so does what Northline owes its supplier. No cash has moved yet.",
+                hint: "No cash has changed hands yet. What did Northline get, and who is now owed?"
+              },
+              {
+                text: "Northline pays a supplier $20,000 it already owed.",
+                amount: 20000,
+                entries: [["cash", -1], ["ap", -1]],
+                why: "Cash goes down and so does the debt. Both sides shrink; profit isn't touched, because the cost was recorded when the goods arrived.",
+                hint: "Paying a bill that's already on the books isn't a new expense."
+              },
+              {
+                text: "Northline buys a $25,000 welding machine and pays cash.",
+                amount: 25000,
+                entries: [["equip", 1], ["cash", -1]],
+                why: "Cash turns into equipment. One asset swaps for another, so the totals don't change. The cost reaches profit slowly, as depreciation.",
+                hint: "Buying equipment isn't an expense on the day you buy it."
+              },
+              {
+                text: "Northline ships $60,000 of bikes to a shop, on 30-day terms.",
+                amount: 60000,
+                entries: [["ar", 1], ["equity", 1]],
+                why: "The shop now owes $60,000, and the sale is revenue. Revenue raises profit, and profit belongs to the owners, so equity goes up.",
+                hint: "This is a sale on credit. Where does revenue end up on the balance sheet?"
+              },
+              {
+                text: "Those bikes cost $36,000 to build, and they've left the warehouse.",
+                amount: 36000,
+                entries: [["inv", -1], ["equity", -1]],
+                why: "Inventory falls, and the cost of the bikes sold is an expense, which lowers equity. With the sale, equity rose $24,000 overall: the gross profit.",
+                hint: "The bikes are gone, and their cost is now an expense."
+              },
+              {
+                text: "Northline records $10,000 of depreciation on its machines.",
+                amount: 10000,
+                entries: [["equip", -1], ["equity", -1]],
+                why: "The machines are worth $10,000 less on the books, and depreciation is an expense, so equity falls too. No cash moves.",
+                hint: "Depreciation is an expense, but nobody gets paid."
+              },
+              {
+                text: "Staff earn $12,000 of wages this month, to be paid next week.",
+                amount: 12000,
+                entries: [["accr", 1], ["equity", -1]],
+                why: "The wages are an expense, so equity falls, and Northline now owes its staff, so a liability rises. Both changes sit on the same side, so the totals don't move at all.",
+                hint: "The expense is real this month even though the cash goes out next week."
+              }
             ]
           },
           {
@@ -903,6 +1191,29 @@
                 ]
               }
             ]
+          },
+          {
+            type: "now-or-later",
+            title: "Now or later?",
+            intro:
+              "Five offers, each a bigger sum paid later instead of $10,000 today. Move the rate, which stands for the return you could earn on the money in the meantime, and watch which offers stay worth waiting for.",
+            rateLabel: "Rate",
+            rateHint: "The return the money could earn elsewhere: a savings account, paying down a loan, or the company's hurdle rate.",
+            rate: { start: 0.05, min: 0, max: 0.2, step: 0.005 },
+            presets: [
+              { label: "No return (0%)", rate: 0 },
+              { label: "A savings account (3%)", rate: 0.03 },
+              { label: "Northline's hurdle rate (12%)", rate: 0.12 }
+            ],
+            now: 10000,
+            offers: [
+              { amount: 10300, years: 1 },
+              { amount: 11236, years: 2 },
+              { amount: 13225, years: 2 },
+              { amount: 15386, years: 5 },
+              { amount: 31058, years: 10 }
+            ],
+            foot: "Each offer is built to break even at a different rate: 3%, 6%, 15%, 9% and 12% in the order shown. Below its rate the later money wins; above it, the money now does."
           },
           {
             type: "table",
