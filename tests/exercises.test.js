@@ -741,6 +741,13 @@ test("Porter: continuity lists what it builds, when to change, and the five test
   assert.deepEqual(tests, ["A distinctive value proposition", "A tailored value chain", "Trade-offs different from rivals'", "Fit across the value chain", "Continuity over time"]);
 });
 
+test("UMP: ten practical implications map the book and table each implication", async () => {
+  await dense("ump-implications", { points: 4, calls: 4, rows: [10] });
+  // Every implication links back to the chapter it comes from.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dt-table tbody tr td:last-child a").length), 10);
+  assert.match(await page.text(".pager"), /PREVIOUS \| Test your strategy/);
+});
+
 test("Porter: the five tests workbench flags a generic plan and saves a draft", async () => {
   await page.open("ump-five-tests");
   const statuses = () => page.evaluate(() => [...document.querySelectorAll(".st .check")].map((c) => c.classList[1]).join(" "));
