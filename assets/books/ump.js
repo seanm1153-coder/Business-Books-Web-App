@@ -50,7 +50,7 @@
           { n: 6, title: "Fit: the amplifier", blurb: "Activities that reinforce each other raise value and the barrier to imitation.", page: "fit" },
           { n: 7, title: "Continuity: the enabler", blurb: "A strategy takes years, not quarters, to build.", page: "continuity" },
           { title: "The five tests", blurb: "Workbench: check a strategy of your own against all five.", page: "five-tests" },
-          { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief." }
+          { title: "Ten practical implications", blurb: "What Porter's ideas mean for managers, in brief.", page: "implications" }
         ]
       }
     ],
@@ -1343,6 +1343,104 @@
             { title: "Creating value", where: "Chapter 4", page: "value" }
           ],
           cta: { page: "five-tests", kicker: "Workbench", text: "Test a strategy against all five tests" }
+        }
+      },
+      // A reference page. That the book closes with ten practical implications is from my
+      // reading of it; the ten here, their order and their wording are our summary of the ideas
+      // the book covers, unchecked against Magretta's own list, which may group them
+      // differently. The diagram of how the parts fit together is ours.
+      "implications": {
+        navLabel: "Implications",
+        title: "Ten practical implications",
+        eyebrow: "In practice · Ten implications",
+        layout: "dense",
+        dek:
+          "The book ends by turning Porter's ideas into advice a manager can act on. Most of it is about what not to do: the habits that feel like strategy and lead a company toward its rivals.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in four points",
+            cols: 2,
+            points: [
+              { t: "Two questions explain a company's profits.", d: "How attractive its industry is, which the five forces decide, and how well it is positioned within that industry, which its strategy decides." },
+              { t: "The implications follow the book.", d: "The first four come from Part I, on competition: how to keep score and where advantage shows. The other six come from Part II, on strategy: the five tests, and growth." },
+              { t: "Most are warnings.", d: "Chasing the best, measuring share, copying best practice, serving everyone, changing course often, growing by straddling. Each feels sensible, and each pulls a company toward its rivals." },
+              { t: "Use them as questions.", d: "None is a formula. Each is a question to put to a plan, as the <a href=\"@five-tests\">workbench</a> does with the five tests." }
+            ]
+          },
+          {
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "How the book's two halves fit together",
+            intro: "Industry structure sets the average an industry earns. Strategy sets a company's position within it, and position decides how far above or below the average the company lands.",
+            alt: "A diagram. Industry structure, the five forces, leads to the industry's average profitability. Strategy, the five tests, leads to relative position, a higher price or a lower cost. Average profitability and relative position together lead to the company's profitability.",
+            w: 900,
+            h: 300,
+            nw: 320,
+            nh: 330,
+            nodes: [
+              { id: "forces", label: "Industry structure\n(the five forces)", x: 130, y: 60, nx: 85, ny: 40 },
+              { id: "avg", label: "Industry average\nprofitability", x: 430, y: 60, nx: 85, ny: 160 },
+              { id: "strat", label: "Strategy\n(the five tests)", x: 130, y: 240, nx: 235, ny: 40 },
+              { id: "pos", label: "Relative position\n(price or cost)", x: 430, y: 240, nx: 235, ny: 160 },
+              { id: "prof", kind: "theme", label: "The company's\nprofitability", x: 760, y: 150, nx: 160, ny: 285 }
+            ],
+            links: [
+              { from: "forces", to: "avg", arrow: true },
+              { from: "strat", to: "pos", arrow: true },
+              { from: "avg", to: "prof", arrow: true },
+              { from: "pos", to: "prof", arrow: true }
+            ],
+            marks: [
+              { x: 280, y: 38, t: "1" },
+              { x: 280, y: 218, t: "2" },
+              { x: 610, y: 82, t: "3" },
+              { x: 610, y: 218, t: "4" }
+            ],
+            nmarks: [
+              { x: 22, y: 100, t: "1" },
+              { x: 298, y: 100, t: "2" },
+              { x: 88, y: 228, t: "3" },
+              { x: 232, y: 228, t: "4" }
+            ],
+            full: true,
+            notes: [
+              { t: "Structure sets the average.", d: "Buyers, suppliers, substitutes, entrants and rivals decide how much of the value an industry creates its companies keep. See <a href=\"@five-forces\">the five forces</a>." },
+              { t: "Strategy creates the position.", d: "A distinctive value proposition, a tailored value chain, trade-offs, fit and continuity. See <a href=\"@continuity\">the five tests</a>." },
+              { t: "The average is the baseline,", d: "not a ceiling. Within one industry, returns spread widely around it." },
+              { t: "Position decides the gap.", d: "Advantage shows up as a higher relative price, a lower relative cost, or both. See <a href=\"@advantage\">competitive advantage</a>." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The ten",
+            title: "Each implication, the habit it corrects, and the question to ask",
+            intro: "Our summary of the book's closing advice.",
+            columns: ["Implication", "The habit it corrects", "The question to ask", "Chapter"],
+            widths: ["14rem", null, null, "8rem"],
+            rows: [
+              ["Compete to be unique, not the best", "Benchmarking against rivals and copying whoever leads", "Which customers do we serve better than anyone, and how are we different from the alternatives?", "<a href=\"@mindset\">Mindset</a>"],
+              ["Keep score with return on capital", "Measuring success by market share, sales growth or size", "What return do we earn on the capital tied up in this business, over several years?", "<a href=\"@mindset\">Mindset</a>"],
+              ["Know the industry's structure before choosing a position", "Treating growth, technology or a hot market as reasons an industry is attractive", "Which of the five forces is strongest here, and where are the forces weakest?", "<a href=\"@five-forces\">Five forces</a>"],
+              ["Trace every advantage to price or cost", "Calling any strength an advantage: a brand, talented people, a culture", "Does it let us charge more, or spend less, than rivals? Which activities make that so?", "<a href=\"@advantage\">Advantage</a>"],
+              ["Start from the value proposition", "Starting from the product, or from what rivals are doing", "Which customers, which needs, and what price relative to the alternatives?", "<a href=\"@value\">Value</a>"],
+              ["Tailor the value chain", "Adopting best practices across the board, until everyone works the same way", "Which of our activities are done differently because of whom we serve?", "<a href=\"@value\">Value</a>"],
+              ["Choose what not to do", "Saying yes to every customer, feature and channel", "What have we decided not to do, and would a rival have to give something up to copy us?", "<a href=\"@trade-offs\">Trade-offs</a>"],
+              ["Make the activities fit", "Improving each function on its own terms", "How does each activity make another cheaper or more valuable?", "<a href=\"@fit\">Fit</a>"],
+              ["Hold the core for years", "Revising the strategy each year, or with each new leader", "Has the core held long enough for skills, reputation and fit to build?", "<a href=\"@continuity\">Continuity</a>"],
+              ["Grow by deepening the position", "Chasing growth by adding customers and products the strategy doesn't suit", "Does this growth extend what we're distinctive at, or blur it?", "<a href=\"@trade-offs\">Trade-offs</a>"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Competition: the right mindset", where: "Chapter 1", page: "mindset" },
+            { title: "The five forces", where: "Chapter 2", page: "five-forces" },
+            { title: "Trade-offs", where: "Chapter 5", page: "trade-offs" },
+            { title: "Continuity", where: "Chapter 7", page: "continuity" }
+          ],
+          cta: { page: "five-tests", kicker: "Workbench", text: "Put a strategy to the five tests" }
         }
       },
       // The five tests are Porter's, as Magretta sets them out in part II. The checks are
