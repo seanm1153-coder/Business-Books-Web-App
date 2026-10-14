@@ -127,6 +127,48 @@
     <text class="sv-k" x="90" y="230">LOWER PRICE</text>
     <text class="sv-k" x="245" y="230" text-anchor="end">HIGHER</text>`;
 
+  // Nvidia's first fifteen years as a timeline, for "Putting it together". Dates are the
+  // public record, not checked against Rumelt's telling. Wide: a horizontal line with labels
+  // above and below; phones: a vertical list.
+  const NVIDIA = [
+    [1993, ["Founded"], -1, 1],
+    [1995, ["NV1, a costly", "misstep"], 1, 1],
+    [1997, ["RIVA 128, its", "first hit"], -1, 1],
+    [1999, ["GeForce 256;", "shares listed"], 1, 1],
+    [2000, ["Xbox contract; buys", "3dfx's graphics assets"], -1, 2],
+    [2001, ["GeForce 3, with", "programmable shading"], 1, 2],
+    [2006, ["CUDA: graphics chips", "for general computing"], -1, 1]
+  ];
+  const nvidiaTimeline = (narrow) => {
+    if (narrow) {
+      const y = (yr) => 22 + (yr - 1993) * 30;
+      return `<svg viewBox="0 0 330 470" xmlns="http://www.w3.org/2000/svg">
+        <rect class="sv-wash" x="40" y="${y(1998)}" width="6" height="${y(2008) - y(1998)}"/>
+        <path class="sv-axis" d="M43 ${y(1993)} V${y(2008)}"/>
+        ${NVIDIA.map(([yr, l]) => `<circle class="sv-dot-pen" cx="43" cy="${y(yr)}" r="5"/>
+          <text class="sv-k" x="32" y="${y(yr) + 4}" text-anchor="end">${yr}</text>
+          <text class="sv-t2" x="58" y="${y(yr) + 4}">${l.join(" ")}</text>`).join("")}
+        <text class="sv-k" x="58" y="${y(2003) + 4}">NEW CHIPS ABOUT EVERY SIX MONTHS</text>
+      </svg>`;
+    }
+    const x = (yr) => 40 + (yr - 1993) * 50;
+    const axis = 120;
+    const halves = Array.from({ length: 20 }, (_, i) => 1998 + i / 2).map((t) => `<path class="sv-axis" d="M${x(t)} ${axis - 4} V${axis + 4}"/>`).join("");
+    return `<svg viewBox="0 0 840 240" xmlns="http://www.w3.org/2000/svg">
+      <rect class="sv-wash" x="${x(1998)}" y="${axis - 7}" width="${x(2008) - x(1998)}" height="14"/>
+      <path class="sv-axis" d="M${x(1993)} ${axis} H${x(2008)}"/>${halves}
+      ${[1993, 1998, 2003, 2008].map((yr) => `<text class="sv-k" x="${x(yr)}" y="${axis + 22}" text-anchor="middle">${yr}</text>`).join("")}
+      ${NVIDIA.map(([yr, l, side, depth]) => {
+        const stem = side * (22 + (depth - 1) * 34);
+        const top = side < 0 ? axis + stem - 8 - (l.length - 1) * 14 : axis + stem + 16;
+        const anchor = yr === 1993 ? "start" : "middle";
+        return `<path class="sv-line" d="M${x(yr)} ${axis} V${axis + stem}"/><circle class="sv-dot-pen" cx="${x(yr)}" cy="${axis}" r="5"/>
+          ${l.map((s, i) => `<text class="sv-t2" x="${x(yr) - (anchor === "start" ? 4 : 0)}" y="${top + i * 14}" text-anchor="${anchor}">${s}</text>`).join("")}`;
+      }).join("")}
+      <text class="sv-k" x="${x(2008)}" y="${axis + 34}" text-anchor="end">EACH TICK: ABOUT SIX MONTHS</text>
+    </svg>`;
+  };
+
   window.Marginalia.addBook({
     id: "gsbs",
     title: "Good Strategy Bad Strategy",
@@ -155,7 +197,7 @@
         n: "I",
         title: "Good and bad strategy",
         chapters: [
-          { n: 1, title: "Good strategy is unexpected", blurb: "Few organizations have a real strategy, so one that does catches rivals off guard." },
+          { n: 1, title: "Good strategy is unexpected", blurb: "Few organizations have a real strategy, so one that does catches rivals off guard.", page: "unexpected" },
           { n: 2, title: "Discovering power", blurb: "Good strategy puts strength against weakness, and finds power in coherence itself.", page: "discovering-power" },
           { n: 3, title: "Bad strategy", blurb: "Fluff, failure to face the challenge, mistaking goals for strategy, and bad strategic objectives.", page: "bad-strategy" },
           { n: 4, title: "Why so much bad strategy?", blurb: "Choosing is hard. Templates and positive thinking offer ways to avoid it.", page: "why-bad-strategy" },
@@ -175,7 +217,7 @@
           { n: 12, title: "Using advantage", blurb: "What an advantage really is, and how to deepen and widen one.", page: "using-advantage" },
           { n: 13, title: "Using dynamics", blurb: "Spotting waves of change early and riding them.", page: "using-dynamics" },
           { n: 14, title: "Inertia and entropy", blurb: "Organizations resist change and drift into disorder. Both create openings.", page: "inertia-entropy" },
-          { n: 15, title: "Putting it together", blurb: "Nvidia's rise, worked through as one long example." }
+          { n: 15, title: "Putting it together", blurb: "Nvidia's rise, worked through as one long example.", page: "putting-it-together" }
         ]
       },
       {
@@ -183,8 +225,8 @@
         title: "Thinking like a strategist",
         chapters: [
           { n: 16, title: "The science of strategy", blurb: "A strategy is a hypothesis. Your edge is what you know that others don't.", page: "science-of-strategy" },
-          { n: 17, title: "Using your head", blurb: "Habits for thinking past the first idea that comes to mind." },
-          { n: 18, title: "Keeping your head", blurb: "Holding on to your own judgment when everyone around you agrees." }
+          { n: 17, title: "Using your head", blurb: "Habits for thinking past the first idea that comes to mind.", page: "using-your-head" },
+          { n: 18, title: "Keeping your head", blurb: "Holding on to your own judgment when everyone around you agrees.", page: "keeping-your-head" }
         ]
       }
     ],
@@ -197,7 +239,7 @@
       { era: "1970s", title: "Competing with the Soviets", blurb: "Pentagon strategists look for ways to play American strengths against Soviet weaknesses instead of matching weapon for weapon.", tag: "Discovering power", page: "discovering-power" },
       { era: "1991", title: "Desert Storm", blurb: "The coalition avoids Iraq's prepared defenses with a wide swing through the western desert.", tag: "The kernel", page: "kernel" },
       { era: "1997", title: "Apple's turnaround", blurb: "Steve Jobs returns and cuts a sprawling product line down to four.", tag: "The kernel", page: "kernel" },
-      { era: "1993–2010", title: "Nvidia", blurb: "A graphics-chip maker rides a wave of change in computing, step by step.", tag: "Putting it together" }
+      { era: "1993–2010", title: "Nvidia", blurb: "A graphics-chip maker rides a wave of change in computing, step by step.", tag: "Putting it together", page: "putting-it-together" }
     ],
 
     pages: {
@@ -628,7 +670,7 @@
             { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
-            { title: "Keeping your head", where: "Chapter 18" }
+            { title: "Keeping your head", where: "Chapter 18", page: "keeping-your-head" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write one that makes a choice" }
         }
@@ -704,8 +746,8 @@
           related: [
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" },
-            { title: "Using your head", where: "Chapter 17" },
-            { title: "Keeping your head", where: "Chapter 18" }
+            { title: "Using your head", where: "Chapter 17", page: "using-your-head" },
+            { title: "Keeping your head", where: "Chapter 18", page: "keeping-your-head" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Write your strategy as a hypothesis" }
         }
@@ -1448,7 +1490,7 @@
         ],
         end: {
           related: [
-            { title: "Good strategy is unexpected", where: "Chapter 1" },
+            { title: "Good strategy is unexpected", where: "Chapter 1", page: "unexpected" },
             { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
             { title: "Using leverage", where: "Chapter 6", page: "using-leverage" },
             { title: "Focus", where: "Chapter 10", page: "focus" }
@@ -1846,7 +1888,7 @@
             { title: "Using dynamics", where: "Chapter 13", page: "using-dynamics" },
             { title: "Chain-link systems", where: "Chapter 8", page: "chain-link" },
             { title: "Growth", where: "Chapter 11", page: "growth" },
-            { title: "Putting it together", where: "Chapter 15" }
+            { title: "Putting it together", where: "Chapter 15", page: "putting-it-together" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Diagnose what's holding a company back" }
         }
@@ -1984,9 +2026,330 @@
             { title: "Inertia and entropy", where: "Chapter 14", page: "inertia-entropy" },
             { title: "Using advantage", where: "Chapter 12", page: "using-advantage" },
             { title: "Discovering power", where: "Chapter 2", page: "discovering-power" },
-            { title: "Putting it together", where: "Chapter 15" }
+            { title: "Putting it together", where: "Chapter 15", page: "putting-it-together" }
           ],
           cta: { page: "builder", kicker: "Workbench", text: "Diagnose a shifting industry" }
+        }
+      },
+
+      // A reference page. Good strategy as rare and therefore surprising, its looking simple
+      // once explained, Rumelt's questions to Steve Jobs after the 1997 turnaround and Jobs's
+      // reply about waiting for "the next big thing", Desert Storm's left hook as textbook
+      // doctrine that surprised commentators, and the two natural advantages (rivals without
+      // a strategy; hidden power found by a shift in viewpoint) follow Chapter 1 as I
+      // remember it, unchecked against his wording. The kernel page tells both cases in full;
+      // the tables here are our summary.
+      unexpected: {
+        title: "Good strategy is unexpected",
+        navLabel: "Unexpected",
+        eyebrow: "Part I · Chapter 01",
+        layout: "dense",
+        dek:
+          "Rumelt opens with a puzzle: why does a good strategy so often surprise people? His answer is that real strategy is rare. Most organizations don't have one, and don't expect anyone else to.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Real strategy is rare.", d: "Most organizations have goals, budgets and lists of initiatives, and call the result strategy. So when one acts on a real strategy, it catches people off guard." },
+              { t: "Good strategy looks simple afterward.", d: "It finds the few factors that matter in a situation and focuses action on them. Once explained it can seem obvious, and it rarely needs a thick deck of slides." },
+              { t: "Apple, 1997: cut, then wait.", d: "Jobs saved Apple by cutting it down to a few products. Asked by Rumelt about the longer term, he said he was going to “wait for the next big thing.” Concentrating and waiting can be the strategy." },
+              { t: "Desert Storm: the plan was in the textbook.", d: "The coalition's swing around the Iraqi defenses followed standard doctrine. Commentators were surprised because they expected a head-on push, not a strategy." },
+              { t: "Two natural advantages.", d: "Rivals often have no strategy and don't expect you to have one; and a fresh way of seeing a situation can reveal power that others have missed. That second idea is <a href=\"@discovering-power\">the next chapter</a>." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Two cases",
+            title: "What onlookers expected, and what happened",
+            intro: "Both are told in full on <a href=\"@kernel\">the kernel</a> page.",
+            columns: ["", "What most expected", "What was done", "Why it worked"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["Apple, 1997", "Broad plans to win back market share, or a sale of the company", "Fifteen desktop models cut to one, the portable line to one, and most other activities stopped", "It matched Apple's resources to the one thing it could still do well, and bought time"],
+              ["Desert Storm, 1991", "A frontal assault into the defenses along the Kuwaiti border", "Air attacks first, a feint from the coast, then the main force sent wide around the defenses", "It put strength where the defenders were weakest, and they had prepared for something else"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The source of the surprise",
+            title: "Two natural advantages of good strategy",
+            columns: ["Advantage", "What it means", "Where the book takes it"],
+            widths: ["13rem", null, "11rem"],
+            rows: [
+              ["Rivals don't have a strategy", "Most organizations run on goals and habits, so a competitor that concentrates its effort meets little coordinated resistance. They don't expect a strategy, so they don't prepare for one.", "<a href=\"@bad-strategy\">Bad strategy</a>, <a href=\"@why-bad-strategy\">why so much bad strategy</a>"],
+              ["Hidden power in the situation", "A shift in how a situation is seen can show a strength or a weakness nobody had noticed, and a way to use it.", "<a href=\"@discovering-power\">Discovering power</a>"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "A quick test",
+            title: "What a good strategy does, and what to ask of your own",
+            intro: "Our summary of the qualities the chapter points to.",
+            columns: ["Quality", "What it looks like", "Ask of your plan"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["It names what matters", "A few critical factors picked out of a complicated situation", "Could someone disagree with our account of what's going on?"],
+              ["It concentrates", "Resources aimed at one or a few objectives, not spread across many", "What have we taken resources away from to do this?"],
+              ["It coordinates", "Actions that support each other, in the right order", "Which of our actions would make another one fail?"],
+              ["It rules things out", "Clear about what won't be done", "What reasonable option have we turned down?"],
+              ["It reads as obvious once explained", "A short argument a newcomer can follow", "Can we explain it in a few plain sentences?"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Discovering power", where: "Chapter 2", page: "discovering-power" },
+            { title: "Bad strategy", where: "Chapter 3", page: "bad-strategy" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Putting it together", where: "Chapter 15", page: "putting-it-together" }
+          ],
+          cta: { page: "discovering-power", kicker: "Next", text: "Where good strategy finds its power" }
+        }
+      },
+
+      // A reference page. That Chapter 15 works through Nvidia's rise as one long example is
+      // from my reading of the book; the details here are the public record, not checked
+      // against Rumelt's telling, and which of them he stresses is unchecked. The fast,
+      // overlapping product cycle (a new generation about every six months from the late
+      // 1990s), selling chips to board makers rather than making boards, following
+      // Microsoft's DirectX standard, 3dfx's purchase of the board maker STB (1998) and the
+      // sale of its graphics assets to Nvidia (2000), the Xbox contract (2000) and CUDA (2006)
+      // are widely reported. The mapping to the book's ideas is ours.
+      "putting-it-together": {
+        title: "Putting it together",
+        navLabel: "Nvidia",
+        eyebrow: "Part II · Chapter 15",
+        layout: "dense",
+        dek:
+          "Rumelt ends Part II with one long case, Nvidia's rise in graphics chips, to show the sources of power working together: a wave of change read early, a focused position, and actions designed to reinforce one another.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The case in six points",
+            points: [
+              { t: "The wave.", d: "In the 1990s, the steady fall in the cost of chips brought 3D graphics, once the preserve of expensive workstations, within reach of ordinary PCs. Games drove demand, and the field filled with dozens of graphics-chip makers." },
+              { t: "The diagnosis.", d: "In a market moving that fast, the company with the newest chip wins the next round of designs; being a little late is close to being absent." },
+              { t: "The guiding policy.", d: "Be first with each generation: release a new family of chips about every six months, when rivals took a year or more." },
+              { t: "Coherent actions.", d: "Overlapping design teams so one generation started before the last shipped; heavy simulation to get chips right the first time; selling chips to board makers rather than competing with them; following Microsoft's DirectX standard rather than a private one." },
+              { t: "The result.", d: "Rivals fell behind one by one. 3dfx, the early leader, bought a board maker, competed with its own customers, missed product cycles, and sold its graphics assets to Nvidia in 2000." },
+              { t: "The lesson.", d: "No single move explains it. Reading the wave, focusing on one product, and a design in which each action supported the others did it together: the ideas of Part II working as one strategy." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Nvidia's first fifteen years",
+            intro: "Milestones from the public record. The shaded stretch marks the fast product cycle.",
+            alt: "A timeline from 1993 to 2008. Nvidia is founded in 1993; its first chip, NV1, is a costly misstep in 1995; RIVA 128 is its first hit in 1997; GeForce 256 ships and shares are listed in 1999; it wins the Xbox contract and buys 3dfx's graphics assets in 2000; GeForce 3 brings programmable shading in 2001; CUDA opens its chips to general computing in 2006. From 1998 the line is shaded and ticked every six months for the product cycle.",
+            svg: nvidiaTimeline(false),
+            svgNarrow: nvidiaTimeline(true),
+            caption: "Dates from the public record, not from the book."
+          },
+          {
+            type: "table",
+            eyebrow: "The book's ideas",
+            title: "Part II, applied to one company",
+            intro: "Our mapping of the case onto the chapters before it.",
+            columns: ["Idea", "At Nvidia"],
+            widths: ["13rem", null],
+            rows: [
+              ["<a href=\"@using-dynamics\">Using dynamics</a>", "Falling chip costs were moving 3D graphics from workstations to PCs. The company was built around where that wave was heading."],
+              ["<a href=\"@kernel\">The kernel</a>", "Diagnosis: speed decides each round. Policy: be first with every generation. Actions: the cycle, the teams, the simulation."],
+              ["<a href=\"@focus\">Focus</a>", "Graphics chips and nothing else: no boards, no factories of its own, no rival standard."],
+              ["<a href=\"@using-design\">Using design</a>", "Overlapping teams, simulation and partner board makers fitted together so the six-month cycle could actually be kept."],
+              ["<a href=\"@proximate-objectives\">Proximate objectives</a>", "The next chip, six months out: a target close enough to plan for in detail."],
+              ["<a href=\"@using-advantage\">Using advantage</a>", "Deepened with each generation, then widened: game consoles, workstations, laptops, and later general computing."],
+              ["<a href=\"@inertia-entropy\">Inertia</a>, in rivals", "Competitors on slower cycles, or tied to their own boards and standards, couldn't change pace quickly enough."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The other side",
+            title: "Why the rivals fell behind",
+            intro: "From the public record.",
+            columns: ["Rival", "Position", "What went wrong"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["3dfx", "Early leader in PC 3D graphics with its Voodoo chips", "Its private Glide standard lost value as games moved to DirectX; buying the board maker STB in 1998 turned its customers into competitors; it fell behind on product cycles"],
+              ["Silicon Graphics", "Maker of expensive graphics workstations", "Chips for PCs improving every six months undercut the high end it was built around"],
+              ["S3, Matrox and others", "Makers of 2D graphics chips for PCs", "Slow to move to 3D at the new pace; most left the market or shrank to niches"],
+              ["ATI", "A large maker of graphics chips", "Kept pace and remained the main rival, later bought by AMD in 2006"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Using dynamics", where: "Chapter 13", page: "using-dynamics" },
+            { title: "Using design", where: "Chapter 9", page: "using-design" },
+            { title: "Focus", where: "Chapter 10", page: "focus" },
+            { title: "The science of strategy", where: "Chapter 16", page: "science-of-strategy" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Write a kernel for a company riding a wave" }
+        }
+      },
+
+      // A reference page. Strategy as judgment, quick closure on the first plausible idea,
+      // and the four techniques (the kernel, problem-solution, create-destroy and a panel of
+      // experts), with writing judgments down to learn from them, follow Chapter 17 as I
+      // remember it, unchecked against his wording. The bakery example and the habits table
+      // are ours.
+      "using-your-head": {
+        title: "Using your head",
+        navLabel: "Using your head",
+        eyebrow: "Part III · Chapter 17",
+        layout: "dense",
+        dek:
+          "The first idea that seems good enough is rarely the best one. Rumelt describes how good strategists push past it, and offers four simple techniques for doing so on purpose.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Strategy is a design problem.", d: "There's no formula to compute it. A strategist has to invent an answer, and the quality of the answer depends on how hard the thinking was." },
+              { t: "We stop thinking too soon.", d: "Once a plausible idea appears, the mind relaxes and starts defending it. Rumelt calls this quick closure; it's the main enemy of good strategy." },
+              { t: "Push past the first idea on purpose.", d: "Keep the problem open long enough to see more of it, and to generate more than one answer." },
+              { t: "Four techniques help.", d: "Use the kernel as a checklist; ask what problem a proposal actually solves; try to destroy your own idea, then build a better one; imagine how a panel of people you respect would judge it." },
+              { t: "Write your judgments down.", d: "A judgment kept only in your head can't be checked later. Writing it down lets you see, afterwards, where your thinking was good and where it wasn't." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The techniques",
+            title: "Four ways to think past the first idea",
+            columns: ["Technique", "What you do", "The question it asks", "What it guards against"],
+            widths: ["9rem", null, null, null],
+            rows: [
+              ["The kernel", "Check the idea for a diagnosis, a guiding policy and coherent actions", "Which of the three is missing or weak?", "A goal or a list of actions passed off as a strategy"],
+              ["Problem and solution", "Work back from a proposed action to the problem it would solve", "What problem is this the answer to, and is that the real problem?", "Actions chosen because they're familiar, not because they fit"],
+              ["Create and destroy", "Attack your own idea as a critic would, then use what survives to build a better one", "Where does this break?", "Falling in love with the first answer"],
+              ["A panel of experts", "Imagine people whose judgment you respect looking at the idea", "What would they say is wrong with it?", "The blind spots of one point of view"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Worked example",
+            title: "One plan through the four techniques",
+            intro: "An invented case: a bakery chain with twelve shops plans to open six more in a new city.",
+            columns: ["Technique", "What it turns up"],
+            widths: ["11rem", null],
+            rows: [
+              ["The first idea", "Copy the existing shops into the new city as fast as possible."],
+              ["The kernel", "There's no diagnosis. Why would the new city's customers choose these shops? What's hard about it?"],
+              ["Problem and solution", "Six shops at once answers the problem of growing quickly. The real problem may be that the bakeries' fresh-bread model depends on a central kitchen within an hour's drive."],
+              ["Create and destroy", "Attacked, the plan fails on the kitchen: bread trucked from the old city would arrive stale. What survives is the brand and the recipes. A better plan: build a second kitchen first, and open shops around it."],
+              ["A panel of experts", "A logistics manager would ask about delivery windows; a landlord about lease terms in the new city; a rival baker about who already owns the morning trade."]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Habits",
+            title: "What cuts thinking short, and what helps",
+            intro: "Our summary.",
+            columns: ["Habit", "What happens", "Countermeasure"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Quick closure", "The first plausible answer becomes the answer", "Generate at least two more before choosing"],
+              ["Anchoring", "Every later idea is a variation on the first", "Start again from the problem, not from the idea"],
+              ["Defending instead of testing", "Criticism is answered rather than used", "Argue against your own idea before anyone else does"],
+              ["Thinking alone", "One point of view, with its blind spots", "Imagine the panel, then ask real people"],
+              ["Not writing it down", "No record to learn from", "Write the judgment and the reasons, and revisit them later"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "The science of strategy", where: "Chapter 16", page: "science-of-strategy" },
+            { title: "Keeping your head", where: "Chapter 18", page: "keeping-your-head" },
+            { title: "The kernel of good strategy", where: "Chapter 5", page: "kernel" },
+            { title: "Proximate objectives", where: "Chapter 7", page: "proximate-objectives" }
+          ],
+          cta: { page: "builder", kicker: "Workbench", text: "Put your own plan through the kernel" }
+        }
+      },
+
+      // A reference page. Independent judgment when everyone agrees, the inside view (the
+      // term is Daniel Kahneman's), the telecom bubble with the claim that internet traffic
+      // doubled every 100 days, and the 2008 financial crisis follow Chapter 18 as I remember
+      // it, unchecked against his wording; which companies he names is unchecked. The
+      // arithmetic of the 100-day claim is ours; that measured traffic roughly doubled each
+      // year around 2000 is from Andrew Odlyzko and Kerry Coffman's estimates, public record.
+      // The habits table is ours.
+      "keeping-your-head": {
+        title: "Keeping your head",
+        navLabel: "Keeping your head",
+        eyebrow: "Part III · Chapter 18",
+        layout: "dense",
+        dek:
+          "The hardest judgments are the ones everyone around you has already made. Rumelt's closing chapter is about holding on to your own view when a whole industry, or a whole market, believes otherwise.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Independent judgment is hard.", d: "When respected people and whole markets agree, disagreeing feels like arrogance. But a strategy built on the shared view has no edge, and if the shared view is wrong, everyone is wrong together." },
+              { t: "Beware the inside view.", d: "Reasoning from the details of your own case while ignoring how similar cases usually turn out. The term is Daniel Kahneman's; Rumelt uses it to explain how smart people talk themselves into bubbles." },
+              { t: "The telecom bubble ran on a number.", d: "The claim that internet traffic doubled every 100 days justified laying vast amounts of fiber. Measured traffic was growing much more slowly, and most of the fiber went unused." },
+              { t: "The 2008 crisis ran on an assumption.", d: "That house prices across the United States would not fall all at once. Loans, securities and bank balance sheets were built on it." },
+              { t: "Keep your own counsel, and check it.", d: "Look for the outside view, ask what would have to be true, and notice when a belief is held mainly because everyone holds it." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Two ways of seeing",
+            title: "The inside view and the outside view",
+            columns: ["", "Inside view", "Outside view"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Starts from", "The specifics of this case: our plan, our market, our people", "The class of similar cases and how they usually turned out"],
+              ["Asks", "How will this unfold?", "How often do things like this work, and how long do they take?"],
+              ["Typical error", "Optimism: costs, timing and demand all assumed to go well", "Missing what is genuinely new about this case"],
+              ["In the telecom bubble", "Traffic is exploding, so every new fiber network will fill", "Past booms in railroads and canals ended in overcapacity"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The arithmetic",
+            title: "What “doubling every 100 days” implied",
+            intro: "Traffic growth at the claimed rate against doubling once a year, roughly what researchers measured at the time.",
+            columns: ["After", "Doubling every 100 days", "Doubling every year"],
+            widths: [null, null, null],
+            rows: [
+              ["1 year", "<span class=\"tnum\">12.6 ×</span>", "<span class=\"tnum\">2 ×</span>"],
+              ["2 years", "<span class=\"tnum\">158 ×</span>", "<span class=\"tnum\">4 ×</span>"],
+              ["3 years", "<span class=\"tnum\">2,000 ×</span>", "<span class=\"tnum\">8 ×</span>"],
+              ["4 years", "<span class=\"tnum\">25,000 ×</span>", "<span class=\"tnum\">16 ×</span>"]
+            ],
+            foot: "2 to the power of 365 ÷ 100 is 12.6 a year. Our arithmetic; the measured rate is from Andrew Odlyzko and Kerry Coffman's estimates of US internet traffic around 2000."
+          },
+          {
+            type: "table",
+            eyebrow: "Habits",
+            title: "Keeping your head when others are losing theirs",
+            intro: "Our summary of the chapter's advice.",
+            columns: ["Habit", "In practice"],
+            widths: ["14rem", null],
+            rows: [
+              ["Take the outside view", "Before trusting a forecast, find how similar forecasts turned out."],
+              ["Ask what would have to be true", "Spell out the assumptions behind the shared belief, and check the one everything rests on."],
+              ["Separate the claim from who makes it", "A number repeated by respected people is still just a number until someone measures it."],
+              ["Notice social proof", "If the main reason to believe something is that everyone does, look harder."],
+              ["Write down your judgment", "A recorded view can be checked later; a remembered one drifts toward what turned out to be true."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Using your head", where: "Chapter 17", page: "using-your-head" },
+            { title: "The science of strategy", where: "Chapter 16", page: "science-of-strategy" },
+            { title: "Using dynamics", where: "Chapter 13", page: "using-dynamics" },
+            { title: "Good strategy is unexpected", where: "Chapter 1", page: "unexpected" }
+          ],
+          cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }
       },
 

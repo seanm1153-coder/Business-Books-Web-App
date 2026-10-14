@@ -108,6 +108,38 @@ async function dense(route, { points, calls, rows }) {
   assert.deepEqual(await tableRows(), rows);
 }
 
+test("GSBS: good strategy is unexpected tables two cases and two natural advantages", async () => {
+  await dense("gsbs-unexpected", { points: 5, rows: [2, 2, 5] });
+  assert.match(await page.text(".pager"), /NEXT → \| Discovering power/);
+});
+
+test("GSBS: putting it together draws Nvidia's timeline and maps Part II onto it", async () => {
+  await dense("gsbs-putting-it-together", { points: 6, rows: [7, 4] });
+  // Seven milestones on the timeline, each in both layouts.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .sv-dot-pen").length), 7);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-narrow .sv-dot-pen").length), 7);
+  // Every row of the mapping links to the chapter it applies.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".dt-table")[0].querySelectorAll("tbody th a").length), 7);
+  assert.match(await page.text(".pager"), /Inertia and entropy .* Strategy as hypothesis/);
+});
+
+test("GSBS: using your head runs one plan through the four techniques", async () => {
+  await dense("gsbs-using-your-head", { points: 5, rows: [4, 5, 5] });
+  const techniques = (await tableCells(0)).map((r) => r[0]);
+  assert.deepEqual((await tableCells(1)).slice(1).map((r) => r[0]), techniques);
+});
+
+test("GSBS: keeping your head works out what doubling every 100 days implied", async () => {
+  await dense("gsbs-keeping-your-head", { points: 5, rows: [4, 4, 5] });
+  for (const [after, claimed, yearly] of await tableCells(1)) {
+    const years = parseInt(after, 10);
+    const shown = Number(claimed.replace(/[^\d.]/g, ""));
+    const exact = Math.pow(2, (365 / 100) * years);
+    assert.ok(Math.abs(shown - exact) / exact < 0.03, `${after}: ${shown} against ${exact}`);
+    assert.equal(Number(yearly.replace(/[^\d.]/g, "")), Math.pow(2, years));
+  }
+});
+
 test("GSBS: using leverage draws the threshold and tables the three sources", async () => {
   await dense("gsbs-using-leverage", { points: 6, calls: 3, rows: [3, 4] });
   assert.match(await page.text(".dt-table"), /Anticipation\s[\s\S]*Pivot points\s[\s\S]*Concentration\s/);
