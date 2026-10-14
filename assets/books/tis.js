@@ -65,6 +65,26 @@
     return pts;
   };
 
+  // Meadows's thermostat, re-run: the furnace adds heat in proportion to how far the room
+  // is below the setting (it can't cool), and heat leaks out in proportion to how much
+  // warmer the room is than outside. Rates are per hour. `outside` takes the hour of the
+  // day; `warm` runs that many hours first, so a daily cycle has settled before the chart
+  // starts. Our reconstruction from her description, not her model's equations.
+  const room = ({ setting = 18, outside = () => 10, start = 18, furnace = 0.3, leak = 0.1, hours = 24, warm = 0 } = {}) => {
+    const dt = 0.01;
+    const pts = [];
+    let temp = start;
+    for (let i = 0; i <= Math.round((warm + hours) / dt); i++) {
+      const t = i * dt - warm;
+      if (t > -1e-9 && Math.abs(t * 4 - Math.round(t * 4)) < 1e-6) pts.push([Math.round(t * 4) / 4, temp]);
+      const out = outside((((t % 24) + 24) % 24));
+      temp += (Math.max(0, furnace * (setting - temp)) - leak * (temp - out)) * dt;
+    }
+    return pts;
+  };
+  // A clear night: 10° at 4 p.m., −6° at 4 a.m.
+  const night = (h) => 2 + 8 * Math.cos((2 * Math.PI * (h - 16)) / 24);
+
   window.Marginalia.addBook({
     id: "tis",
     title: "Thinking in Systems",
@@ -97,7 +117,7 @@
         chapters: [
           { n: 1, title: "The basics", blurb: "Elements, interconnections and purpose; stocks, and the flows that fill and drain them.", page: "stocks-flows" },
           { title: "Feedback loops", blurb: "Balancing loops pull a stock toward a goal; reinforcing loops make it grow or collapse.", page: "feedback" },
-          { n: 2, title: "A brief visit to the systems zoo", blurb: "Small models of common systems: a thermostat, a population, a car dealer's lot, an oil field, a fishery." },
+          { n: 2, title: "A brief visit to the systems zoo", blurb: "Small models of common systems: a thermostat, a population, a car dealer's lot, an oil field, a fishery.", page: "zoo" },
           { title: "Delays and oscillation", blurb: "Why a car dealer's inventory swings for months after one rise in demand.", page: "delays" },
           { title: "Growth meets a limit", blurb: "An oil field and a fishery: growing capital drawing on a stock that runs out, or one that regrows.", page: "limits" }
         ]
@@ -125,7 +145,7 @@
       { era: "Chapter 1", title: "A bathtub", blurb: "One stock, one inflow, one outflow: the simplest system there is.", tag: "Stocks and flows", page: "stocks-flows" },
       { era: "Chapter 1", title: "A cooling cup of coffee", blurb: "A balancing loop: the hotter the coffee, the faster it cools toward room temperature.", tag: "Feedback loops", page: "feedback" },
       { era: "Chapter 1", title: "Money in the bank", blurb: "A reinforcing loop: the more money in the account, the more interest it earns.", tag: "Feedback loops", page: "feedback" },
-      { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo" },
+      { era: "Chapter 2", title: "A thermostat", blurb: "Two balancing loops pulling one stock, the heat in a room, in opposite directions.", tag: "Systems zoo", page: "zoo" },
       { era: "Chapter 2", title: "A car dealer's lot", blurb: "Three delays turn one rise in demand into months of swings in inventory.", tag: "Delays", page: "delays" },
       { era: "Chapter 2", title: "An oil field", blurb: "Profits buy rigs until the emptying field pushes back: a rise, a peak and a fall.", tag: "Systems zoo", page: "limits" },
       { era: "Chapter 2", title: "A fishing fleet", blurb: "A renewable resource that can be harvested forever, or fished to collapse.", tag: "Systems zoo", page: "limits" },
@@ -511,9 +531,274 @@
         end: {
           related: [
             { title: "Stocks and flows", where: "Chapter 1", page: "stocks-flows" },
-            { title: "A brief visit to the systems zoo", where: "Chapter 2" },
+            { title: "A brief visit to the systems zoo", where: "Chapter 2", page: "zoo" },
             { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
             { title: "Why systems surprise us", where: "Chapter 4", page: "surprises" }
+          ],
+          cta: { page: "zoo", kicker: "Next", text: "Visit the systems zoo: a thermostat and a growing economy" }
+        }
+      },
+      // A reference page. The zoo as a tour of small systems, the thermostat's two competing
+      // balancing loops (the room settles short of its setting, so the goal has to allow for
+      // the leak), feedback acting only on the future, population and capital sharing one
+      // structure, and the chapter's lessons follow Meadows's chapter 2 as I remember it,
+      // unchecked against her wording; the lessons table paraphrases her boxed summaries. The
+      // thermostat charts are our re-run (see `room` above), not her figures; the settings
+      // table is the re-run's arithmetic (the room settles three quarters of the way from the
+      // outside temperature to the setting). The capital charts are ours: a 20% reinvestment
+      // rate and a capital-output ratio of 3, so capital grows by 6.7% a year less one over
+      // its lifetime. Unchecked whether Meadows uses these lifetimes.
+      "zoo": {
+        navLabel: "Systems zoo",
+        title: "A brief visit to the systems zoo",
+        eyebrow: "Part I · Chapter 02",
+        layout: "dense",
+        dek:
+          "Meadows's second chapter is a tour of small systems, each built from one or two stocks and a few loops. The same handful of structures turns up everywhere, so learning these few goes a long way. This page covers the first animals, a thermostat and a growing economy, and maps the rest.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The chapter in six points",
+            points: [
+              {
+                t: "Small models, general lessons.",
+                d: "Each animal in the zoo is simple enough to follow by hand. Real systems are bigger, but they are built from the same parts, and they often behave like the small ones."
+              },
+              {
+                t: "Two balancing loops can pull one stock in opposite directions.",
+                d: "In a heated room the furnace pulls the temperature up toward the thermostat's setting, while the leak to the outside pulls it down. The room settles where the two flows balance."
+              },
+              {
+                t: "A goal has to allow for the drain.",
+                d: "Heat leaks out even while the furnace runs, so a room set to 18° settles below 18°. To hold 18°, set the thermostat higher, or cut the leak."
+              },
+              {
+                t: "Feedback can only change what happens next.",
+                d: "The thermostat responds to the room as it is now. Heat already lost stays lost, so there is always some lag between a change and the correction."
+              },
+              {
+                t: "The same structure gives the same behavior.",
+                d: "A population and an economy's stock of factories share one structure: the stock drives its own inflow (births, investment) and its own outflow (deaths, wear). Each grows, shrinks or holds depending on which loop is stronger."
+              },
+              {
+                t: "The rest of the zoo is delays and limits.",
+                d: "A car dealer's lot shows what delays do to a balancing loop; an oil field and a fishery show growth meeting a limit. Both have pages of their own: <a href=\"@delays\">delays</a> and <a href=\"@limits\">limits</a>."
+              }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The zoo at a glance",
+            title: "Six systems, their structure and what they do",
+            columns: ["System", "Structure", "Behavior", "Where"],
+            widths: ["10rem", null, null, "9rem"],
+            rows: [
+              ["A thermostat", "One stock, the heat in a room, with two balancing loops pulling opposite ways", "Settles between the setting and the outside temperature; follows the weather with a lag", "Below"],
+              ["A population", "One stock with a reinforcing loop (births) and a balancing loop (deaths)", "Grows, shrinks or holds, depending on which loop dominates, and can shift from one to another", "Below, and <a href=\"@feedback\">Feedback loops</a>"],
+              ["An economy's capital", "The same structure as a population: investment in, wear and obsolescence out", "The same three shapes, set by reinvestment and how long capital lasts", "Below"],
+              ["A car dealer's lot", "One stock with a balancing loop that has three delays in it", "Oscillates after a single change in demand", "<a href=\"@delays\">Delays</a>"],
+              ["An oil field", "Two stocks: capital, and a resource that doesn't regrow", "Rises, peaks and falls; a bigger field peaks later and higher", "<a href=\"@limits\">Limits</a>"],
+              ["A fishery", "Two stocks: capital, and a resource that regrows", "Settles, swings or collapses, depending on how well boats find scarce fish", "<a href=\"@limits\">Limits</a>"]
+            ]
+          },
+          {
+            type: "diagram",
+            eyebrow: "Figure",
+            title: "The thermostat: one stock, two balancing loops",
+            intro: "The heat in a room, filled by the furnace and drained by the leak to the outside. Each flow is set by its own gap, and each gap closes as the flow runs.",
+            alt: "A stock-and-flow diagram. The furnace flows into the stock of heat in the room, and a heat leak flows out of it to the outside. The thermostat setting minus the room temperature sets the furnace: a balancing loop. The room temperature minus the outside temperature sets the leak: a second balancing loop.",
+            w: 860,
+            h: 300,
+            nw: 320,
+            nh: 460,
+            nodes: [
+              { id: "src", kind: "cloud", x: 40, y: 150, nx: 215, ny: 25 },
+              { id: "heat", kind: "stock", label: "Heat in\nthe room", x: 430, y: 150, w: 130, nx: 215, ny: 230 },
+              { id: "sink", kind: "cloud", x: 820, y: 150, nx: 215, ny: 440 },
+              { id: "fv", kind: "point", x: 210, y: 150, nx: 215, ny: 119 },
+              { id: "lv", kind: "point", x: 641, y: 150, nx: 215, ny: 334 },
+              { id: "set", kind: "var", label: "Thermostat\nsetting", x: 110, y: 40, nx: 75, ny: 30 },
+              { id: "gap1", kind: "var", label: "Setting minus\nroom temperature", x: 330, y: 45, nx: 75, ny: 120 },
+              { id: "gap2", kind: "var", label: "Room minus\noutside temperature", x: 560, y: 255, nx: 75, ny: 320 },
+              { id: "out", kind: "var", label: "Outside\ntemperature", x: 780, y: 255, nx: 75, ny: 420 }
+            ],
+            links: [
+              { from: "src", to: "heat", flow: true, label: "Furnace", labelSide: "below" },
+              { from: "heat", to: "sink", flow: true, label: "Heat leak" },
+              { from: "set", to: "gap1", sign: "+" },
+              { from: "heat", to: "gap1", sign: "-", bend: 25 },
+              { from: "gap1", to: "fv", sign: "+" },
+              { from: "heat", to: "gap2", sign: "+", bend: 25 },
+              { from: "out", to: "gap2", sign: "-" },
+              { from: "gap2", to: "lv", sign: "+" }
+            ],
+            marks: [
+              { x: 320, y: 112, t: "B" },
+              { x: 545, y: 192, t: "B" }
+            ],
+            nmarks: [
+              { x: 192, y: 168, t: "B" },
+              { x: 168, y: 290, t: "B" }
+            ],
+            full: true,
+            notes: [
+              { t: "The furnace loop:", d: "the colder the room, the bigger the gap below the setting and the more heat the furnace adds. It only heats; it can't cool a room that's too warm." },
+              { t: "The leak loop:", d: "the warmer the room against the outside, the faster heat escapes. It runs all the time, including while the furnace is working." },
+              { t: "Where they balance:", d: "in our re-run, the furnace responds three times as strongly as the room leaks, so the room settles three quarters of the way from the outside temperature to the setting." }
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "Behavior over time",
+            title: "Four runs of the thermostat",
+            intro: "The setting is 18° unless a chart says otherwise.",
+            cols: 2,
+            charts: [
+              {
+                t: "Furnace off",
+                d: "With only the leak running, an 18° room on a 10° day (dashed) falls to 13.6° in 8 hours and 10.7° in a day: fast at first, then slower as the gap closes.",
+                x: [0, 24],
+                y: [0, 22],
+                xLabel: "Hours",
+                yLabel: "Degrees",
+                yTicks: [0, 10, 20],
+                unit: "°",
+                hover: true,
+                refs: [{ y: 10 }],
+                series: [{ name: "Room", points: room({ furnace: 0 }) }]
+              },
+              {
+                t: "Setting it higher to make up for the leak",
+                d: "From a cold start on a 10° day, a setting of 18° holds the room at 16°. Set it at about 20.7° and the room settles at the 18° you wanted.",
+                x: [0, 24],
+                y: [0, 22],
+                xLabel: "Hours",
+                yLabel: "Degrees",
+                yTicks: [0, 10, 20],
+                unit: "°",
+                hover: true,
+                refs: [{ y: 18, label: "Wanted" }],
+                series: [
+                  { name: "Set at 20.7°", points: room({ start: 10, setting: 62 / 3 }) },
+                  { name: "Set at 18°", tone: "ink", dash: true, points: room({ start: 10 }) }
+                ]
+              },
+              {
+                t: "A cold night",
+                d: "Outside falls from 10° at 4 p.m. to −6° at 4 a.m. The room never reaches 18°; it bottoms at 12.3° around 6 a.m., two hours after the coldest point outside.",
+                x: [0, 24],
+                y: [-8, 22],
+                xLabel: "Hour of the day",
+                yLabel: "Degrees",
+                yTicks: [-5, 0, 10, 20],
+                unit: "°",
+                hover: true,
+                series: [
+                  { name: "Room", points: room({ outside: night, warm: 72, start: 16 }) },
+                  { name: "Outside", tone: "cash", points: curve(night, 0, 24, 96) }
+                ]
+              },
+              {
+                t: "Insulate instead",
+                d: "Halve the leak and the same night costs far less: the room's low rises from 12.3° to 14.8°, with no change to the furnace or the setting.",
+                x: [0, 24],
+                y: [-8, 22],
+                xLabel: "Hour of the day",
+                yLabel: "Degrees",
+                yTicks: [-5, 0, 10, 20],
+                unit: "°",
+                hover: true,
+                series: [
+                  { name: "Insulated", points: room({ outside: night, leak: 0.05, warm: 72, start: 16 }) },
+                  { name: "As before", tone: "ink", dash: true, points: room({ outside: night, warm: 72, start: 16 }) }
+                ]
+              }
+            ],
+            caption: "Our re-run of a model built from Meadows's description, not her figures."
+          },
+          {
+            type: "table",
+            eyebrow: "The arithmetic",
+            title: "Where the room settles, and the setting it takes to hold 18°",
+            intro: "From the re-run above, with the furnace three times as responsive as the leak. Halving the leak changes the balance to six to one.",
+            columns: ["Outside", "Room, set at 18°", "Setting needed for 18°", "Room, set at 18°, insulated"],
+            widths: [null, null, null, null],
+            rows: [
+              ["10°", "<span class=\"tnum\">16.0°</span>", "<span class=\"tnum\">20.7°</span>", "<span class=\"tnum\">16.9°</span>"],
+              ["5°", "<span class=\"tnum\">14.8°</span>", "<span class=\"tnum\">22.3°</span>", "<span class=\"tnum\">16.1°</span>"],
+              ["0°", "<span class=\"tnum\">13.5°</span>", "<span class=\"tnum\">24.0°</span>", "<span class=\"tnum\">15.4°</span>"],
+              ["−5°", "<span class=\"tnum\">12.3°</span>", "<span class=\"tnum\">25.7°</span>", "<span class=\"tnum\">14.7°</span>"],
+              ["−10°", "<span class=\"tnum\">11.0°</span>", "<span class=\"tnum\">27.3°</span>", "<span class=\"tnum\">14.0°</span>"]
+            ],
+            foot: "Room = ¾ × setting + ¼ × outside. Insulated: 6⁄7 × setting + 1⁄7 × outside."
+          },
+          {
+            type: "behavior",
+            eyebrow: "One structure, two systems",
+            title: "An economy's capital behaves like a population",
+            intro: "A factory stock where a fifth of each year's output is reinvested, and every $3 of capital produces $1 of output a year. How long the capital lasts decides whether the stock grows, holds or shrinks, just as life expectancy does for a population.",
+            cols: 1,
+            h: 230,
+            charts: [
+              {
+                t: "Capital, starting at 100",
+                d: "Reinvestment adds 6.7% a year. Lasting 15 years, capital wears out at the same rate and holds at 100. Lasting 20 years, it grows to 230 in fifty years; lasting 10, it falls to 19.",
+                x: [0, 50],
+                y: [0, 250],
+                xLabel: "Years",
+                yLabel: "Capital",
+                yTicks: [0, 100, 200],
+                hover: true,
+                series: [
+                  { name: "Lasts 20 years", points: curve((t) => 100 * Math.exp((0.2 / 3 - 1 / 20) * t), 0, 50, 50) },
+                  { name: "Lasts 15 years", tone: "ink", dash: true, points: curve(() => 100, 0, 50, 50) },
+                  { name: "Lasts 10 years", tone: "cash", points: curve((t) => 100 * Math.exp((0.2 / 3 - 1 / 10) * t), 0, 50, 50) }
+                ]
+              }
+            ],
+            caption: "Our arithmetic, not the book's figures: growth rate = reinvested share ÷ capital-output ratio − 1 ÷ lifetime."
+          },
+          {
+            type: "table",
+            eyebrow: "Side by side",
+            title: "Population and capital, part by part",
+            columns: ["", "Population", "Capital"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["The stock", "People", "Factories, machines, roads"],
+              ["Inflow", "Births", "Investment"],
+              ["Inflow driven by", "The population itself, times fertility: a reinforcing loop", "Output, which comes from the capital itself, times the share reinvested: a reinforcing loop"],
+              ["Outflow", "Deaths", "Depreciation: wear and obsolescence"],
+              ["Outflow set by", "Life expectancy: a balancing loop", "How long capital lasts: a balancing loop"],
+              ["Grows when", "Births outnumber deaths", "Investment outruns depreciation"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "What the zoo teaches",
+            title: "The chapter's lessons, and where they show",
+            intro: "Meadows ends each visit with a short summary of what it teaches. Paraphrased here.",
+            columns: ["Lesson", "Shown by", "In practice"],
+            widths: ["18rem", "9rem", null],
+            rows: [
+              ["A balancing loop's goal has to allow for whatever drains the stock.", "The thermostat", "A target set at the level you want will settle short of it while a drain is running."],
+              ["Feedback can only change what happens next.", "The thermostat, the car dealer", "Information about a stock always arrives a little late to affect the flow that already happened."],
+              ["Complex behavior often comes from loops shifting in strength.", "The population", "A long trend can turn without any push from outside."],
+              ["Systems with the same structure behave the same way.", "Population and capital", "Learn a structure once and you can read it in very different settings."],
+              ["A delay in a balancing loop makes the stock likely to oscillate.", "The car dealer", "Expect overshoot whenever the correction takes time to arrive."],
+              ["Changing a delay can change behavior a great deal.", "The car dealer", "Reacting faster isn't always better; it can make the swings bigger."],
+              ["Physical growth needs a reinforcing loop driving it, and meets a balancing loop limiting it.", "The oil field, the fishery", "Ask what will eventually constrain the growth, not whether."],
+              ["A nonrenewable resource is limited by its stock, a renewable one by its flow.", "The oil field, the fishery", "Use the first faster and it ends sooner; use the second faster than it regrows and it shrinks."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Feedback loops", where: "Chapter 1", page: "feedback" },
+            { title: "Delays and oscillation", where: "Chapter 2", page: "delays" },
+            { title: "Growth meets a limit", where: "Chapter 2", page: "limits" },
+            { title: "Leverage points", where: "Chapter 6", page: "leverage-points" }
           ],
           cta: { page: "delays", kicker: "Next", text: "Add delays and watch a stock swing" }
         }
