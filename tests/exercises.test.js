@@ -500,6 +500,22 @@ test("TiS: feedback draws three loops and their behavior, with doubling times", 
   assert.match(await page.text(".dt-table"), /10% a year\t7 years\t7\.3 years/);
 });
 
+test("TiS: the systems zoo draws the thermostat's two loops and maps the rest of the zoo", async () => {
+  await page.open("tis-zoo");
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".brief-p").length), 6);
+  // One stock, two flows with valves, and two balancing loops.
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-node.is-stock").length), 1);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-wide .dg-valve").length), 2);
+  assert.deepEqual(await page.evaluate(() => Array.from(document.querySelectorAll(".fg-wide .sv-call text"), (t) => t.textContent)), ["B", "B"]);
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart").length), 5);
+  // The settings table follows the re-run: the room settles three quarters of the way to the setting.
+  assert.match(await page.evaluate(() => document.querySelectorAll(".dt-table")[1].innerText), /0°\t13\.5°\t24\.0°\t15\.4°/);
+  const rows = () => page.evaluate(() => Array.from(document.querySelectorAll(".dt-table"), (t) => t.tBodies[0].rows.length));
+  assert.deepEqual(await rows(), [6, 5, 6, 8]);
+  assert.match(await page.text(".pager"), /Feedback loops .* Delays and oscillation/);
+});
+
 test("TiS: delays draw the dealer's loop and re-run it four ways", async () => {
   await page.open("tis-delays");
   assert.equal(await page.evaluate(() => document.querySelectorAll(".sorter, input").length), 0);
