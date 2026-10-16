@@ -355,6 +355,35 @@ test("FI: the investor's perspective runs from net profit to free cash flow", as
   });
 });
 
+test("FI: the magic of the balance sheet frees cash five days at a time", async () => {
+  await dense("fi-magic-balance-sheet", { points: 5, rows: [4, 4] });
+  const [steps] = await waterfalls();
+  assertAddsUp(steps);
+  // Each move's cash, at a 6.25% net margin, needs sales of cash ÷ 0.0625.
+  const rows = await tableCells(0);
+  rows.forEach((r) => assert.ok(Math.abs(dollars(r[2].replace("M", "")) * 1e6 - (dollars(r[1]) / 0.0625)) < 30000, r[0]));
+});
+
+test("FI: homing in on cash conversion draws three models and prices Northline's cycle", async () => {
+  await dense("fi-cash-conversion", { points: 5, rows: [3, 5] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
+  const rows = await tableCells(0);
+  const today = num(rows[0][5]);
+  for (const r of rows) {
+    const [dso, dio, dpo, cycle] = r.slice(1, 5).map(num);
+    assert.equal(dio + dso - dpo, cycle, r[0]);
+    assert.equal(num(r[5]), Math.round((dso * 12000) / 365 + ((dio - dpo) * 7320) / 365), r[0]);
+    if (r[6] !== "—") assert.equal(num(r[6]), today - num(r[5]), r[0]);
+  }
+});
+
+test("FI: Part VIII tables the case for literacy, the strategies and openness", async () => {
+  await dense("fi-literacy-performance", { points: 5, rows: [5, 4] });
+  await dense("fi-literacy-strategies", { points: 5, rows: [6, 3] });
+  await dense("fi-transparency", { points: 5, rows: [4, 5] });
+  assert.match(await page.text(".pager"), /PREVIOUS \| Financial literacy strategies/);
+});
+
 test("FI: balance sheet basics set two year-ends side by side", async () => {
   await dense("fi-balance-basics", { points: 5, rows: [10, 4] });
   assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
