@@ -59,6 +59,41 @@
     return stackPairs(snaps, { max: 1434, heads: ["Owns", "Owes, and owners"], narrow });
   };
 
+  // Lines on the financial statements placed from counted to estimated, for "You can't
+  // always trust the numbers". The placing is ours, a rough ordering, not the book's.
+  const SOFTNESS = [
+    [0.03, "Cash"],
+    [0.15, "Payables"],
+    [0.28, "Sales on credit"],
+    [0.42, "Inventory"],
+    [0.55, "Depreciation"],
+    [0.68, "Bad-debt reserve"],
+    [0.81, "Warranty reserve"],
+    [0.95, "Goodwill"]
+  ];
+  const softnessScale = (narrow) => {
+    if (narrow) {
+      const y = (p) => 30 + p * 360;
+      return `<svg viewBox="0 0 330 430" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="sv-arr-soft-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <text class="sv-k" x="40" y="14">COUNTED</text>
+        <path class="sv-axis" d="M40 ${y(0)} V${y(1) + 14}" marker-end="url(#sv-arr-soft-n)"/>
+        <text class="sv-k" x="40" y="${y(1) + 34}">ESTIMATED</text>
+        ${SOFTNESS.map(([p, l]) => `<circle class="sv-dot-pen" cx="40" cy="${y(p)}" r="5"/><text class="sv-t" x="56" y="${y(p) + 4.5}">${l}</text>`).join("")}
+      </svg>`;
+    }
+    const x = (p) => 40 + p * 760;
+    return `<svg viewBox="0 0 840 150" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="sv-arr-soft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="sv-head" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+      <path class="sv-axis" d="M${x(0)} 75 H${x(1) + 14}" marker-end="url(#sv-arr-soft)"/>
+      <text class="sv-k" x="${x(0)}" y="138">COUNTED</text>
+      <text class="sv-k" x="${x(1) + 14}" y="138" text-anchor="end">ESTIMATED</text>
+      ${SOFTNESS.map(([p, l], i) => `<circle class="sv-dot-pen" cx="${x(p)}" cy="75" r="5"/>
+        <path class="sv-line" d="M${x(p)} 75 V${i % 2 ? 97 : 53}"/>
+        <text class="sv-t" x="${x(p)}" y="${i % 2 ? 114 : 44}" text-anchor="middle">${l}</text>`).join("")}
+    </svg>`;
+  };
+
   // Northline's whole balance sheet at both year-ends of the ratio pages, for "Understanding
   // balance sheet basics": what it owns beside who has a claim on it.
   const yearStacks = (narrow) => {
@@ -150,10 +185,10 @@
         n: "I",
         title: "The art of finance (and why it matters)",
         chapters: [
-          { n: 1, title: "You can't always trust the numbers", blurb: "Financial reports mix data with estimates and judgment." },
-          { n: 2, title: "Spotting assumptions, estimates and biases", blurb: "Where the judgment calls hide, and how they shape results." },
-          { n: 3, title: "Why increase your financial intelligence?", blurb: "Managers who read the numbers make better decisions and ask better questions." },
-          { n: 4, title: "The rules accountants follow", blurb: "Accounting principles, and why managers don't always have to think the same way." }
+          { n: 1, title: "You can't always trust the numbers", blurb: "Financial reports mix data with estimates and judgment.", page: "trust-numbers" },
+          { n: 2, title: "Spotting assumptions, estimates and biases", blurb: "Where the judgment calls hide, and how they shape results.", page: "assumptions" },
+          { n: 3, title: "Why increase your financial intelligence?", blurb: "Managers who read the numbers make better decisions and ask better questions.", page: "why-fi" },
+          { n: 4, title: "The rules accountants follow", blurb: "Accounting principles, and why managers don't always have to think the same way.", page: "rules" }
         ]
       },
       {
@@ -229,6 +264,303 @@
     ],
 
     pages: {
+      // A reference page. Financial statements as part art and part science, and the four
+      // skills of financial intelligence (understanding the foundation, the art, analysis and
+      // the big picture) follow the book's chapter 1 and introduction as I remember them,
+      // unchecked against its wording. The cases are the public record; unchecked whether
+      // the book uses each of them. The counted-to-estimated scale is ours.
+      "trust-numbers": {
+        navLabel: "Trust the numbers?",
+        title: "You can't always trust the numbers",
+        eyebrow: "Part I · Chapter 01",
+        layout: "dense",
+        dek:
+          "Financial statements look like hard fact, accurate to the dollar. Berman and Knight's opening point is that they're partly science and partly art: many of the numbers rest on assumptions and estimates, and a manager needs to know which.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "The numbers look exact, and aren't.", d: "A profit of $1,284,617 suggests precision. Behind it are judgments about when sales count, how long equipment lasts and how many customers won't pay." },
+              { t: "Accounting is part art.", d: "The rules allow a range of reasonable answers. The authors call the judgment involved the art of finance." },
+              { t: "Most of the time the art is honest.", d: "Reasonable people choose differently. But the same room for judgment is where, now and then, numbers get bent." },
+              { t: "So learn where the numbers come from.", d: "Not to distrust every report, but to know which figures are counted, which are estimated, and what question to ask about each." },
+              { t: "Financial intelligence has four parts.", d: "Understanding the foundation, understanding the art, understanding analysis, and seeing the big picture." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "From counted to estimated",
+            intro: "A rough ordering of familiar lines by how much judgment they hold. The further toward estimated, the more two careful accountants could disagree.",
+            alt: "A scale from counted to estimated. In order: cash, payables, sales on credit, inventory, depreciation, bad-debt reserve, warranty reserve, goodwill.",
+            svg: softnessScale(false),
+            svgNarrow: softnessScale(true),
+            caption: "Our ordering, not the book's."
+          },
+          {
+            type: "table",
+            eyebrow: "The four skills",
+            title: "What financial intelligence is made of",
+            columns: ["Skill", "What it means", "Where to start here"],
+            widths: ["11rem", null, "12rem"],
+            rows: [
+              ["Understanding the foundation", "Knowing what the income statement, balance sheet and cash flow statement each show, and how they differ", "<a href=\"@balance-basics\">Balance sheet basics</a>, <a href=\"@profit-cash\">profit isn't cash</a>"],
+              ["Understanding the art", "Knowing where the numbers rest on judgment, and how a different choice would change them", "<a href=\"@profit-estimate\">Profit is an estimate</a>, <a href=\"@assets\">assets</a>"],
+              ["Understanding analysis", "Using the numbers: ratios, return on investment, working capital", "<a href=\"@ratios\">Reading the ratios</a>, <a href=\"@roi\">figuring ROI</a>"],
+              ["Seeing the big picture", "Reading the numbers in context: the industry, the economy, the competition", "<a href=\"@ratios\">Reading the ratios</a>, across two years"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "When the art is abused",
+            title: "Three well-known cases",
+            intro: "From the public record. Each turned on a judgment the rules leave to managers.",
+            columns: ["Company", "The judgment", "What happened"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Waste Management", "How long garbage trucks and other equipment would last, and what they'd be worth at the end", "Longer lives and higher salvage values flattered profit for years; in 1998 the company restated about $1.7 billion of earnings"],
+              ["Enron", "Whether debts and losses belonged on its own books or in separate partnerships it created", "Kept off the balance sheet, they hid how much the company owed; it collapsed in 2001"],
+              ["WorldCom", "Whether network costs were an expense or an investment", "Billions of everyday costs were recorded as assets, turning losses into profits; it went bankrupt in 2002"]
+            ],
+            foot: "The public record; unchecked which of these the book discusses."
+          }
+        ],
+        end: {
+          related: [
+            { title: "Spotting assumptions, estimates and biases", where: "Chapter 2", page: "assumptions" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" },
+            { title: "Cash is a reality check", where: "Chapter 15" }
+          ],
+          cta: { page: "assumptions", kicker: "Next", text: "Where the assumptions hide" }
+        }
+      },
+
+      // A reference page. Assumptions, estimates and biases as the three things to look for
+      // behind a number follow the book's chapter 2 as I remember it, unchecked against its
+      // wording. Northline's figures are invented; the incentives table is ours.
+      assumptions: {
+        navLabel: "Assumptions",
+        title: "Spotting assumptions, estimates and biases",
+        eyebrow: "Part I · Chapter 02",
+        layout: "dense",
+        dek:
+          "Behind most numbers in a financial report sit three things: assumptions about how the future will go, estimates of things nobody can count, and the biases of the people making the calls. Learning to see them is the first practical skill of financial intelligence.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Assumptions are beliefs about the future.", d: "That customers will pay, that sales will grow, that equipment will keep working. Every forecast and many reported numbers depend on them." },
+              { t: "Estimates fill in what can't be counted.", d: "How many products will come back under warranty, what old stock will sell for, what share of receivables will never arrive." },
+              { t: "Biases tilt the choices.", d: "People choose within the rules in ways that suit them: a bonus tied to this quarter's profit, a budget to defend, a loan agreement to stay within." },
+              { t: "Ask what's behind the number.", d: "What has to be true for this figure to be right? Who chose it, and what do they gain if it looks good?" },
+              { t: "The aim is good questions, not suspicion.", d: "Most estimates are made in good faith. Knowing where they sit lets a manager judge how much weight a number can bear." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Three things to look for",
+            title: "Assumptions, estimates and biases",
+            columns: ["", "What it is", "Example", "The question to ask"],
+            widths: ["8rem", null, null, null],
+            rows: [
+              ["Assumption", "A belief about how things will go", "Sales will grow 10% next year, so the new warehouse will be full", "What happens to this number if the belief is wrong?"],
+              ["Estimate", "A best guess at something that can't be counted", "About 2% of what shops owe will never be paid", "What is the estimate based on, and has the basis changed?"],
+              ["Bias", "A reason to prefer one reasonable answer over another", "A manager paid on this year's profit prefers longer equipment lives", "Who chose this, and what do they gain from it?"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Worked example",
+            title: "Five numbers in Northline's year, and what's behind them",
+            intro: "An invented company and invented figures.",
+            columns: ["Number", "What's behind it", "A possible bias", "Ask"],
+            widths: ["10rem", null, null, null],
+            rows: [
+              ["Revenue of $2.4 million", "An assumption that bikes shipped at year-end won't come back", "Sales targets reward shipping before the year closes", "How much was shipped in the last week, and on what terms?"],
+              ["A $45k bad-debt reserve", "An estimate that 1.5% of receivables won't be collected", "A lower reserve lifts profit", "How did last year's estimate compare with what was actually lost?"],
+              ["A $30k warranty reserve", "An estimate of frames that will crack in the first two years", "New products have no history to estimate from", "What happened with the last new frame?"],
+              ["$70k of depreciation", "An assumption that equipment lasts ten years", "Longer lives mean lower costs today", "Have the lives been lengthened recently?"],
+              ["Inventory of $400k", "An assumption that every bike in stock will sell at full price", "Write-downs hurt this year's results", "How much of the stock is last year's models?"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Where bias comes from",
+            title: "Incentives that tilt the numbers",
+            intro: "Our list. None requires anyone to break a rule.",
+            columns: ["Incentive", "The tilt", "What to watch"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["A bonus on this year's profit", "Optimistic estimates: smaller reserves, longer lives, revenue counted early", "Estimates that change just before the year ends"],
+              ["A budget to defend", "Cautious forecasts that are easy to beat", "Results that land just above the forecast, year after year"],
+              ["A loan agreement with limits on ratios", "Choices that keep the ratios inside the limits", "Results that sit just inside the covenant"],
+              ["A share price to support", "Smooth, steadily rising profit", "Profit far smoother than the business beneath it"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "You can't always trust the numbers", where: "Chapter 1", page: "trust-numbers" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
+            { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" }
+          ],
+          cta: { page: "why-fi", kicker: "Next", text: "What financial intelligence lets a manager do" }
+        }
+      },
+
+      // A reference page. The case for managers learning finance (critiquing reports, using
+      // numbers in decisions, asking better questions, working with finance as an equal)
+      // follows the book's chapter 3 as I remember it, unchecked against its wording. The
+      // tables are our summary; the questions are ours.
+      "why-fi": {
+        navLabel: "Why it matters",
+        title: "Why increase your financial intelligence?",
+        eyebrow: "Part I · Chapter 03",
+        layout: "dense",
+        dek:
+          "Most managers leave the numbers to the finance department. The authors argue that's a mistake: managers who can read the statements make better decisions, argue their case better, and see trouble sooner.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Decisions are made in numbers.", d: "Budgets, projects, prices and hiring are all argued in financial terms. A manager who can't follow the numbers can't follow the argument." },
+              { t: "You can question what you understand.", d: "A manager who knows where the estimates sit can ask whether a forecast is realistic, or why a result looks the way it does." },
+              { t: "It changes the conversation with finance.", d: "Instead of accepting or resisting the numbers, a manager can work with them: propose a different assumption, test a different case." },
+              { t: "It shows trouble early.", d: "Receivables creeping up or cash falling while profit rises show in the statements months before they show anywhere else." },
+              { t: "It's learnable.", d: "No accounting degree is needed: a handful of concepts, three statements and the habit of asking where a number came from." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "The same tasks, with and without financial intelligence",
+            intro: "Our examples.",
+            columns: ["Task", "Without it", "With it"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Asking for budget", "“We need two more people.”", "“Two more people cost $140k and should cut overtime by $90k and returns by $70k.”"],
+              ["Judging a project", "Approve it if it feels right", "Check the payback, the net present value, and which estimates it depends on"],
+              ["Explaining a bad quarter", "Blame the market", "Show which line moved, by how much, and why"],
+              ["Hearing “we can't afford it”", "Drop the idea", "Ask whether the constraint is profit or cash, and when it eases"],
+              ["Reading a supplier's accounts", "Trust the brochure", "Check their liquidity before depending on them"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "A starter list",
+            title: "Questions a financially intelligent manager asks",
+            intro: "Ours, grouped by statement.",
+            columns: ["Statement", "Questions"],
+            widths: ["10rem", null],
+            rows: [
+              ["Income statement", "Which revenue is recognized early or late? Which costs are estimates? Is profit growing faster or slower than sales?"],
+              ["Balance sheet", "Are receivables and inventory growing faster than sales? How much debt is due this year? What are the reserves based on?"],
+              ["Cash flow statement", "Does operating cash keep up with profit? What paid for this year's investment: operations, borrowing or new shares?"],
+              ["All three", "What would a skeptic say about these numbers, and what would change their mind?"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "You can't always trust the numbers", where: "Chapter 1", page: "trust-numbers" },
+            { title: "The rules accountants follow", where: "Chapter 4", page: "rules" },
+            { title: "Reading the ratios", where: "Part V", page: "ratios" },
+            { title: "Figuring ROI", where: "Part VI", page: "roi" }
+          ],
+          cta: { page: "rules", kicker: "Next", text: "The rules behind the numbers" }
+        }
+      },
+
+      // A reference page. GAAP and the bodies that set it, the main principles, and the
+      // point that managers needn't use the reporting rules for every internal decision
+      // follow the book's chapter 4 as I remember it, unchecked against its wording. The
+      // standard setters and the Sarbanes-Oxley Act (2002) are the public record. The
+      // principles and the reporting-against-decisions table are general accounting
+      // knowledge, ours.
+      rules: {
+        navLabel: "The rules",
+        title: "The rules accountants follow",
+        eyebrow: "Part I · Chapter 04",
+        layout: "dense",
+        dek:
+          "Accountants work within a large body of rules so that reports can be compared and trusted. Knowing the main principles explains many of the numbers' quirks, and the authors point out that managers don't have to use those rules for every decision.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Reports follow agreed rules.", d: "In the United States, generally accepted accounting principles (GAAP), set by the Financial Accounting Standards Board; much of the world uses International Financial Reporting Standards (IFRS)." },
+              { t: "A few principles explain most quirks.", d: "Revenue and costs counted when earned and incurred, costs matched to the revenue they helped earn, assets at what they cost, and caution when in doubt." },
+              { t: "The rules leave room for judgment.", d: "They set the framework; they don't pick every number. That's where the art of finance comes in." },
+              { t: "Public companies' leaders sign for their reports.", d: "Since the Sarbanes-Oxley Act of 2002, chief executives and finance chiefs personally certify their companies' financial statements." },
+              { t: "Inside the company, use what helps.", d: "Reporting rules serve outside readers. For internal decisions a manager can look at cash, at costs that would actually change, or at replacement values, whatever answers the question." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The principles",
+            title: "Seven principles behind the numbers",
+            columns: ["Principle", "What it says", "Why a manager notices it"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Accrual", "Record revenue when earned and costs when incurred, not when cash moves", "Profit and cash part ways"],
+              ["Matching", "Put costs in the same period as the revenue they helped earn", "Equipment is depreciated over years, not expensed when bought"],
+              ["Historical cost", "Record assets at what they cost", "A building bought decades ago sits on the books at a fraction of its value"],
+              ["Conservatism", "When in doubt, recognize losses early and gains late", "Write-downs appear at once; gains wait until a sale"],
+              ["Consistency", "Use the same methods from year to year, or say so", "A change of method is flagged in the notes, and worth reading"],
+              ["Materiality", "Small items needn't be treated precisely", "A $200 printer is expensed, not depreciated"],
+              ["Going concern", "Assume the business will keep operating", "Assets are valued for use, not for a fire sale"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Two purposes",
+            title: "Rules for the reports, choices for the decisions",
+            intro: "Our examples of where a manager might look at the numbers differently from the published statements.",
+            columns: ["Question", "The reporting view", "A decision view"],
+            widths: ["12rem", null, null],
+            rows: [
+              ["Should we take a one-off order at a low price?", "Every bike carries its share of overheads", "Count only the costs the order would actually add"],
+              ["Should we replace the paint line?", "Depreciation and accounting profit", "Cash in and out over the line's life, discounted (see <a href=\"@roi\">figuring ROI</a>)"],
+              ["What is the warehouse worth to us?", "What it cost, less depreciation", "What it would cost to replace, or sell for"],
+              ["How did the month go?", "Profit under accrual accounting", "Profit and the change in cash, side by side"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Who sets the rules",
+            title: "The bodies behind the numbers",
+            intro: "The public record.",
+            columns: ["Body", "Role"],
+            widths: ["16rem", null],
+            rows: [
+              ["Financial Accounting Standards Board (FASB)", "Writes US GAAP"],
+              ["Securities and Exchange Commission (SEC)", "Requires public US companies to report under GAAP, and enforces it"],
+              ["International Accounting Standards Board (IASB)", "Writes IFRS, used in much of the world"],
+              ["External auditors", "Check that a company's statements follow the rules and fairly present its position"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Why increase your financial intelligence?", where: "Chapter 3", page: "why-fi" },
+            { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
+            { title: "Figuring ROI", where: "Part VI", page: "roi" }
+          ],
+          cta: { page: "profit-estimate", kicker: "Next", text: "See the art at work on one month's profit" }
+        }
+      },
+
       // A reference page. Profit as an estimate, the "art of finance" and cash as a reality
       // check follow the book's Parts I and II as I remember them, unchecked against its
       // wording. Northline's September and the five choices are invented; the arithmetic is
@@ -409,7 +741,7 @@
         ],
         end: {
           related: [
-            { title: "The rules accountants follow", where: "Chapter 4" },
+            { title: "The rules accountants follow", where: "Chapter 4", page: "rules" },
             { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
             { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }

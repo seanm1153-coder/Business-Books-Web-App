@@ -242,6 +242,25 @@ test("GSBS: the kernel builder flags a corporate draft", async () => {
   assert.equal(await page.evaluate(() => document.querySelectorAll(".action-row").length), rows + 1);
 });
 
+test("FI: you can't always trust the numbers places lines from counted to estimated", async () => {
+  await dense("fi-trust-numbers", { points: 5, rows: [4, 3] });
+  for (const layout of [".fg-wide", ".fg-narrow"]) assert.equal(await page.evaluate((l) => document.querySelectorAll(`${l} .sv-dot-pen`).length, layout), 8);
+  assert.match(await page.text(".pager"), /NEXT → \| Spotting assumptions, estimates and biases/);
+});
+
+test("FI: spotting assumptions works through five of Northline's numbers", async () => {
+  await dense("fi-assumptions", { points: 5, rows: [3, 5, 4] });
+});
+
+test("FI: why financial intelligence matters, task by task", async () => {
+  await dense("fi-why-fi", { points: 5, rows: [5, 4] });
+});
+
+test("FI: the rules accountants follow table seven principles", async () => {
+  await dense("fi-rules", { points: 5, rows: [7, 4, 4] });
+  assert.match(await page.text(".pager"), /NEXT → \| Profit is an estimate/);
+});
+
 test("FI: profit is an estimate walks two versions of one month down to profit", async () => {
   await page.open("fi-profit-estimate");
   // The page's tool sits beside its worked figures.
