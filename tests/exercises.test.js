@@ -309,6 +309,52 @@ test("FI: revenue recognition tables a month of events, revenue apart from cash"
 // A table cell as a number: "1,577.5", "−80" or "+142.5"; a dash is zero.
 const num = (t) => (/^[—–-]$/.test(t.trim()) ? 0 : (t.trim().startsWith("−") ? -1 : 1) * Number(t.replace(/[^\d.]/g, "")));
 
+test("FI: the income statement reads top down and ties to its plan", async () => {
+  await dense("fi-income-statement", { points: 5, rows: [12, 5, 6] });
+  const rows = await tableCells(0);
+  const col = (c) => rows.map((r) => num(r[c]));
+  for (const c of [1, 3]) {
+    const [rev, cogs, gross, sm, ga, rd, dep, op, int, pbt, tax, net] = col(c);
+    assert.equal(rev - cogs, gross);
+    assert.equal(gross - sm - ga - rd - dep, op);
+    assert.equal(op - int, pbt);
+    assert.equal(pbt - tax, net);
+  }
+  // Variance is the effect on profit: actual minus plan for revenue and profits, plan minus actual for costs.
+  const costs = new Set([1, 3, 4, 5, 6, 8, 10]);
+  rows.forEach((r, i) => assert.equal(num(r[4]), costs.has(i) ? num(r[3]) - num(r[1]) : num(r[1]) - num(r[3]), r[0]));
+  rows.forEach((r) => assert.equal(r[2], `${((num(r[1]) / 2400) * 100).toFixed(1)}%`, r[0]));
+});
+
+test("FI: costs and expenses chart fixed and variable costs", async () => {
+  await dense("fi-costs", { points: 5, rows: [8, 5] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart .bh-line").length), 2);
+});
+
+test("FI: cash is a reality check for three companies", async () => {
+  await dense("fi-cash-reality", { points: 5, rows: [5, 4] });
+  assert.equal(await page.evaluate(() => document.querySelectorAll(".bh-chart").length), 3);
+  // The five judgment calls add to the $42,683 on "Profit is an estimate".
+  const moved = (await tableCells(0)).reduce((a, r) => a + dollars(r[1].replace("Moves by ", "")), 0);
+  assert.equal(moved, 42683);
+});
+
+test("FI: the investor's perspective runs from net profit to free cash flow", async () => {
+  await dense("fi-investors", { points: 5, rows: [7, 5] });
+  const [steps] = await waterfalls();
+  assertAddsUp(steps);
+  assert.equal(steps.at(-1).v, -1373000);
+  const m = (await tableCells(0)).map((r) => r.slice(2));
+  const shares = 500000;
+  [[675000, 3000000], [750000, 3750000]].forEach(([profit, equity], y) => {
+    const eps = profit / shares;
+    const price = Number(m[1][y].replace(/[^\d.]/g, ""));
+    assert.equal(m[0][y], `$${eps.toFixed(2)}`);
+    assert.equal(m[2][y], (price / eps).toFixed(1));
+    assert.equal(m[4][y], ((price * shares) / equity).toFixed(2));
+  });
+});
+
 test("FI: balance sheet basics set two year-ends side by side", async () => {
   await dense("fi-balance-basics", { points: 5, rows: [10, 4] });
   assert.equal(await page.evaluate(() => document.querySelectorAll(".fg-note").length), 3);
