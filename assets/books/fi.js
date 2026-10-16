@@ -196,9 +196,9 @@
         title: "The (many) peculiarities of the income statement",
         chapters: [
           { n: 5, title: "Profit is an estimate", blurb: "Profit depends on when revenue and costs are counted, not just on what happened.", page: "profit-estimate" },
-          { n: 6, title: "Cracking the code of the income statement", blurb: "How to read one, line by line." },
+          { n: 6, title: "Cracking the code of the income statement", blurb: "How to read one, line by line.", page: "income-statement" },
           { n: 7, title: "Revenue: the issue is recognition", blurb: "A sale counts when it's earned, which may be long before it's paid.", page: "revenue" },
-          { n: 8, title: "Costs and expenses", blurb: "Few hard-and-fast rules, and plenty of room for judgment." },
+          { n: 8, title: "Costs and expenses", blurb: "Few hard-and-fast rules, and plenty of room for judgment.", page: "costs" },
           { n: 9, title: "The many forms of profit", blurb: "Gross, operating and net profit, and what each tells you.", page: "forms-of-profit" }
         ]
       },
@@ -217,7 +217,7 @@
         n: "IV",
         title: "Cash is king",
         chapters: [
-          { n: 15, title: "Cash is a reality check", blurb: "Cash involves fewer estimates than profit, so it's harder to fudge." },
+          { n: 15, title: "Cash is a reality check", blurb: "Cash involves fewer estimates than profit, so it's harder to fudge.", page: "cash-reality" },
           { n: 16, title: "Profit ≠ cash (and you need both)", blurb: "Why a profitable company can run short of cash.", page: "profit-cash" },
           { n: 17, title: "The language of cash flow", blurb: "Operating, investing and financing: the three sources and uses of cash.", page: "cash-flow-language" },
           { n: 18, title: "How cash connects with everything else", blurb: "Tying the cash flow statement back to the other two.", page: "cash-connects" }
@@ -232,7 +232,7 @@
           { n: 21, title: "Leverage ratios", blurb: "How much the company relies on borrowed money.", page: "leverage" },
           { n: 22, title: "Liquidity ratios", blurb: "Whether the company can pay its bills as they come due.", page: "liquidity" },
           { n: 23, title: "Efficiency ratios", blurb: "How well the company uses its assets, from inventory to receivables.", page: "efficiency" },
-          { n: 24, title: "The investor's perspective", blurb: "The ratios outside investors and analysts watch." }
+          { n: 24, title: "The investor's perspective", blurb: "The ratios outside investors and analysts watch.", page: "investors" }
         ]
       },
       {
@@ -332,7 +332,7 @@
             { title: "Spotting assumptions, estimates and biases", where: "Chapter 2", page: "assumptions" },
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
             { title: "Assets: more estimates and assumptions", where: "Chapter 11", page: "assets" },
-            { title: "Cash is a reality check", where: "Chapter 15" }
+            { title: "Cash is a reality check", where: "Chapter 15", page: "cash-reality" }
           ],
           cta: { page: "assumptions", kicker: "Next", text: "Where the assumptions hide" }
         }
@@ -558,6 +558,399 @@
             { title: "Figuring ROI", where: "Part VI", page: "roi" }
           ],
           cta: { page: "profit-estimate", kicker: "Next", text: "See the art at work on one month's profit" }
+        }
+      },
+
+      // A reference page. Reading an income statement from the top down, checking the period
+      // and whether figures are actual or forecast, comparing with plan and last year, and
+      // the many names for the same line follow the book's chapter 6 as I remember it,
+      // unchecked against its wording. Northline's year is the one on "The many forms of
+      // profit"; its plan is invented.
+      "income-statement": {
+        navLabel: "Income statement",
+        title: "Cracking the code of the income statement",
+        eyebrow: "Part II · Chapter 06",
+        layout: "dense",
+        dek:
+          "An income statement reads from the top down: revenue, then the costs taken from it, then what's left at each step. Knowing the order, the vocabulary and what to compare it with is most of the skill.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Check what you're looking at.", d: "Which period, which part of the business, actual results or a forecast, and whether figures are in thousands or millions." },
+              { t: "Read from the top down.", d: "Revenue first, then cost of goods sold, gross profit, operating expenses, operating profit, interest and tax, and net profit at the bottom." },
+              { t: "Every company names things its own way.", d: "Sales, revenue and the top line are the same thing; so are net profit, net income, earnings and the bottom line." },
+              { t: "A number means more beside another.", d: "Compare each line with the plan, with last year, and with revenue. The differences, called variances, are where the questions are." },
+              { t: "Read the adjusted figures carefully.", d: "“Adjusted” or “pro forma” profit leaves out costs management calls unusual. Find out which ones, and whether they really are." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The statement",
+            title: "Northline's year, against plan",
+            intro: "Thousands of dollars. The variance is the effect on profit: positive helps, negative hurts.",
+            columns: ["Line", "Actual", "% of revenue", "Plan", "Variance"],
+            widths: [null, "6rem", "7rem", "6rem", "6.5rem"],
+            rows: [
+              ["Revenue", "<span class=\"tnum\">2,400</span>", "<span class=\"tnum\">100.0%</span>", "<span class=\"tnum\">2,500</span>", "<span class=\"tnum\">−100</span>"],
+              ["Cost of goods sold", "<span class=\"tnum\">1,440</span>", "<span class=\"tnum\">60.0%</span>", "<span class=\"tnum\">1,500</span>", "<span class=\"tnum\">+60</span>"],
+              ["<strong>Gross profit</strong>", "<strong class=\"tnum\">960</strong>", "<span class=\"tnum\">40.0%</span>", "<span class=\"tnum\">1,000</span>", "<span class=\"tnum\">−40</span>"],
+              ["Sales and marketing", "<span class=\"tnum\">300</span>", "<span class=\"tnum\">12.5%</span>", "<span class=\"tnum\">280</span>", "<span class=\"tnum\">−20</span>"],
+              ["General and administrative", "<span class=\"tnum\">260</span>", "<span class=\"tnum\">10.8%</span>", "<span class=\"tnum\">250</span>", "<span class=\"tnum\">−10</span>"],
+              ["Research and development", "<span class=\"tnum\">80</span>", "<span class=\"tnum\">3.3%</span>", "<span class=\"tnum\">90</span>", "<span class=\"tnum\">+10</span>"],
+              ["Depreciation", "<span class=\"tnum\">70</span>", "<span class=\"tnum\">2.9%</span>", "<span class=\"tnum\">70</span>", "<span class=\"tnum\">0</span>"],
+              ["<strong>Operating profit</strong>", "<strong class=\"tnum\">250</strong>", "<span class=\"tnum\">10.4%</span>", "<span class=\"tnum\">310</span>", "<span class=\"tnum\">−60</span>"],
+              ["Interest", "<span class=\"tnum\">60</span>", "<span class=\"tnum\">2.5%</span>", "<span class=\"tnum\">55</span>", "<span class=\"tnum\">−5</span>"],
+              ["<strong>Profit before tax</strong>", "<strong class=\"tnum\">190</strong>", "<span class=\"tnum\">7.9%</span>", "<span class=\"tnum\">255</span>", "<span class=\"tnum\">−65</span>"],
+              ["Tax at 25%", "<span class=\"tnum\">47.5</span>", "<span class=\"tnum\">2.0%</span>", "<span class=\"tnum\">63.75</span>", "<span class=\"tnum\">+16.25</span>"],
+              ["<strong>Net profit</strong>", "<strong class=\"tnum\">142.5</strong>", "<span class=\"tnum\">5.9%</span>", "<span class=\"tnum\">191.25</span>", "<span class=\"tnum\">−48.75</span>"]
+            ],
+            foot: "Invented figures. Lower costs than plan show as positive variances; lower revenue as negative."
+          },
+          {
+            type: "table",
+            eyebrow: "Reading it",
+            title: "Five steps, applied to Northline",
+            columns: ["Step", "What to look at", "At Northline"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Check the frame", "The period, the units, actual or forecast", "A full year, in thousands, actual against plan"],
+              ["Read the top line", "Revenue and how it compares", "$100k short of plan: 4% fewer sales than hoped"],
+              ["Read each profit", "Gross, operating and net, and each as a share of revenue", "Gross margin held at 40%: the shortfall was volume, not price or cost per bike"],
+              ["Find the variances", "The biggest gaps against plan and last year", "Revenue short by $100k; sales and marketing $20k over"],
+              ["Read around it", "The notes, any one-off items, any “adjusted” profit", "No one-off items this year"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Vocabulary",
+            title: "One line, many names",
+            columns: ["Line", "Also called"],
+            widths: ["13rem", null],
+            rows: [
+              ["Revenue", "Sales, turnover, the top line"],
+              ["Cost of goods sold", "Cost of sales, cost of revenue, direct costs"],
+              ["Gross profit", "Gross margin (in dollars)"],
+              ["Operating expenses", "Overhead, SG&A (selling, general and administrative), plus research and development"],
+              ["Operating profit", "Operating income, EBIT (earnings before interest and taxes)"],
+              ["Net profit", "Net income, net earnings, the bottom line"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "Revenue: the issue is recognition", where: "Chapter 7", page: "revenue" },
+            { title: "Costs and expenses", where: "Chapter 8", page: "costs" },
+            { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" }
+          ],
+          cta: { page: "revenue", kicker: "Next", text: "When a sale counts" }
+        }
+      },
+
+      // A reference page. Cost of goods sold against operating expenses, the judgment in
+      // classifying and allocating costs, and one-time charges follow the book's chapter 8
+      // as I remember it, unchecked against its wording. The fixed-and-variable chart is ours
+      // (operating expenses and depreciation taken as fixed, cost of goods sold as 60% of
+      // revenue); unchecked whether the book draws a break-even. Northline's year is the one
+      // on "The many forms of profit".
+      costs: {
+        navLabel: "Costs",
+        title: "Costs and expenses",
+        eyebrow: "Part II · Chapter 08",
+        layout: "dense",
+        dek:
+          "Costs on an income statement fall into two broad groups: the cost of making what was sold, and the cost of running the business. Where a cost lands, and when, is often a judgment, and it changes how the results read.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Two kinds of cost.", d: "Cost of goods sold is what it took to make or buy what was sold. Operating expenses are everything else it takes to run the company." },
+              { t: "The line between them is a judgment.", d: "Factory overhead, freight, and the people who install or support a product can reasonably go either way. Moving them changes gross margin, not profit." },
+              { t: "Costs follow revenue.", d: "Under the matching principle, a product's cost is recorded when the product is sold, not when the materials were bought." },
+              { t: "Some costs stay put as sales move.", d: "Rent and salaries don't change with each sale; materials do. The mix decides how fast profit rises or falls with volume." },
+              { t: "Watch the one-time charges.", d: "Restructuring and other unusual costs are often set apart. If they come every year, they're part of the cost of doing business." }
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "Figure",
+            title: "Fixed and variable costs at Northline",
+            intro: "Revenue against total costs as sales change, if operating expenses and depreciation ($710k) stay fixed and cost of goods sold stays at 60% of revenue.",
+            cols: 1,
+            h: 240,
+            charts: [
+              {
+                t: "Revenue and total costs, $k",
+                d: "The lines cross at $1,775k of revenue: below it, Northline loses money; above it, each extra dollar of sales adds 40 cents of operating profit. At this year's $2,400k, operating profit is $250k.",
+                x: [0, 3000],
+                y: [0, 3000],
+                xLabel: "Revenue, $k",
+                yLabel: "$k",
+                yTicks: [0, 1000, 2000, 3000],
+                hover: true,
+                series: [
+                  { name: "Revenue", points: curve((x) => x, 0, 3000, 30) },
+                  { name: "Total costs", tone: "cash", points: curve((x) => 710 + 0.6 * x, 0, 3000, 30) }
+                ]
+              }
+            ],
+            caption: "Our simplification, not the book's: in practice few costs are perfectly fixed or perfectly variable."
+          },
+          {
+            type: "table",
+            eyebrow: "Where costs go",
+            title: "Cost of goods sold or operating expense?",
+            intro: "Typical treatment at a manufacturer like Northline.",
+            columns: ["Cost", "Usually", "Why"],
+            widths: [null, "11rem", null],
+            rows: [
+              ["Frames, wheels and components", "Cost of goods sold", "Part of the product"],
+              ["Wages of the people building bikes", "Cost of goods sold", "Direct labor"],
+              ["Freight to bring parts in", "Cost of goods sold", "Part of what the product cost to get"],
+              ["Factory rent and power", "Cost of goods sold, spread over the bikes made", "Overhead of making the product"],
+              ["Sales commissions", "Operating expense", "A cost of selling, not making"],
+              ["Office rent and the finance team", "Operating expense", "Running the company"],
+              ["Engineers designing next year's frame", "Operating expense (research and development)", "Not part of this year's product"],
+              ["Delivery to shops", "Either, by company policy", "A judgment: it changes gross margin, not profit"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Judgment calls",
+            title: "Where costs leave room for choice",
+            intro: "Our list.",
+            columns: ["Area", "The choice", "Effect"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Allocating overhead", "How factory and shared costs are spread over products and divisions", "Changes which products look profitable"],
+              ["Capitalizing or expensing", "Whether spending is an asset used up over years or a cost now", "Moves profit between years (see <a href=\"@profit-estimate\">profit is an estimate</a>)"],
+              ["Classification", "Whether a cost sits in cost of goods sold or operating expenses", "Changes gross margin, not operating profit"],
+              ["Reserves", "How much to set aside for warranties, returns and bad debts", "Moves profit between years"],
+              ["One-time charges", "What to label unusual and set apart", "Changes how “underlying” profit looks"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Cracking the code of the income statement", where: "Chapter 6", page: "income-statement" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" },
+            { title: "Profitability ratios", where: "Chapter 20", page: "profitability" }
+          ],
+          cta: { page: "forms-of-profit", kicker: "Next", text: "The profits left after each kind of cost" }
+        }
+      },
+
+      // A reference page. Cash as the number hardest to shape with estimates, and as a check
+      // on profit, follows the book's chapter 15 as I remember it, unchecked against its
+      // wording. The three companies in the chart are invented; the table of judgments draws
+      // on the month on "Profit is an estimate".
+      "cash-reality": {
+        navLabel: "Reality check",
+        title: "Cash is a reality check",
+        eyebrow: "Part IV · Chapter 15",
+        layout: "dense",
+        dek:
+          "Profit rests on estimates; cash mostly doesn't. Money is in the bank or it isn't. That makes cash the best check on whether the profit a company reports is turning into anything real.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Cash involves few estimates.", d: "Receipts and payments are counted, not judged. The judgment calls that move profit mostly leave cash untouched." },
+              { t: "So it's harder to dress up.", d: "A company can choose when revenue counts or how long equipment lasts; it can't choose how much money customers actually paid." },
+              { t: "Profit and cash should travel together over time.", d: "In any one quarter they part ways. Over several years, a healthy business turns most of its profit into cash." },
+              { t: "When they don't, ask why.", d: "Growth can explain cash lagging profit for a while. Profit rising year after year while cash falls is a reason to look harder." },
+              { t: "Read the cash flow statement next to the income statement.", d: "It shows whether operations produced cash, or whether borrowing and selling assets filled the gap. See <a href=\"@cash-flow-language\">the language of cash flow</a>." }
+            ]
+          },
+          {
+            type: "behavior",
+            eyebrow: "Figure",
+            title: "Three companies, profit against operating cash",
+            intro: "Eight quarters each, in thousands of dollars. Invented companies.",
+            cols: 3,
+            charts: [
+              {
+                t: "Healthy",
+                d: "Cash moves around profit from quarter to quarter but keeps pace with it.",
+                x: [1, 8],
+                y: [0, 300],
+                xLabel: "Quarter",
+                yTicks: [0, 100, 200, 300],
+                hover: true,
+                series: [
+                  { name: "Profit", points: [100, 105, 110, 112, 118, 120, 125, 130].map((v, i) => [i + 1, v]) },
+                  { name: "Operating cash", tone: "cash", points: [95, 110, 104, 118, 112, 125, 122, 133].map((v, i) => [i + 1, v]) }
+                ]
+              },
+              {
+                t: "Growing fast",
+                d: "Cash lags because growth ties money up in stock and receivables, but it rises too.",
+                x: [1, 8],
+                y: [0, 300],
+                xLabel: "Quarter",
+                yTicks: [0, 100, 200, 300],
+                hover: true,
+                series: [
+                  { name: "Profit", points: [100, 120, 140, 165, 190, 215, 240, 270].map((v, i) => [i + 1, v]) },
+                  { name: "Operating cash", tone: "cash", points: [80, 85, 90, 95, 105, 115, 130, 150].map((v, i) => [i + 1, v]) }
+                ]
+              },
+              {
+                t: "Too good to be true",
+                d: "Profit doubles while operating cash falls to nothing. Something in the estimates deserves a look.",
+                x: [1, 8],
+                y: [0, 300],
+                xLabel: "Quarter",
+                yTicks: [0, 100, 200, 300],
+                hover: true,
+                series: [
+                  { name: "Profit", points: [100, 110, 122, 135, 150, 166, 183, 200].map((v, i) => [i + 1, v]) },
+                  { name: "Operating cash", tone: "cash", points: [95, 90, 80, 70, 55, 40, 20, 0].map((v, i) => [i + 1, v]) }
+                ]
+              }
+            ],
+            caption: "Invented figures."
+          },
+          {
+            type: "table",
+            eyebrow: "What moves which",
+            title: "Judgment calls that move profit, and what they do to cash",
+            intro: "The five calls from <a href=\"@profit-estimate\">profit is an estimate</a>: together worth $42,683 of one month's operating profit, and nothing in cash.",
+            columns: ["Judgment", "Profit", "Cash"],
+            widths: [null, "9rem", "9rem"],
+            rows: [
+              ["When a sale counts", "Moves by $16,000", "No change: the customer pays when they pay"],
+              ["How long equipment lasts", "Moves by $1,000", "No change: the equipment was paid for when bought"],
+              ["How much of what's owed won't be paid", "Moves by $3,600", "No change until customers pay or don't"],
+              ["Whether software is an asset or an expense", "Moves by $14,583", "No change: the money was spent either way"],
+              ["Whether old stock is worth what it cost", "Moves by $7,500", "No change until the stock is sold"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Patterns",
+            title: "When profit and cash part ways",
+            intro: "Our list.",
+            columns: ["Pattern", "Often means", "Look at"],
+            widths: ["13rem", null, null],
+            rows: [
+              ["Profit up, cash up", "A business that is working", "Nothing in particular"],
+              ["Profit up, cash lagging but rising", "Growth tying up working capital", "Days receivable and days in inventory"],
+              ["Profit up, cash falling for several periods", "Revenue counted early, costs deferred, or stock and receivables piling up", "Receivables, inventory, reserves and changes in estimates"],
+              ["Profit down, cash up", "Non-cash charges, or working capital being released", "Depreciation, write-downs and falling inventory"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
+            { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
+            { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
+            { title: "You can't always trust the numbers", where: "Chapter 1", page: "trust-numbers" }
+          ],
+          cta: { page: "profit-cash", kicker: "Next", text: "Watch profit and cash part ways, event by event" }
+        }
+      },
+
+      // A reference page. Earnings per share, the price-to-earnings ratio, market value
+      // against book value, EBITDA and free cash flow as the measures investors watch follow
+      // the book's chapter 24 and its treatment of cash as I remember them, unchecked against
+      // its wording. Northline as a listed company is invented: 500,000 shares, priced at $22
+      // last year and $24 this year, and $480k of depreciation this year (its $2.4 million of
+      // equipment over five years, as in the Northline year model). Every figure is arithmetic
+      // on the ratio reader's two years.
+      investors: {
+        navLabel: "Investors",
+        title: "The investor's perspective",
+        eyebrow: "Part V · Chapter 24",
+        layout: "dense",
+        dek:
+          "Outside investors read the same statements as managers but ask a different question: what is the company worth, and is it worth the price? A handful of measures carry most of that conversation.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Investors price future profits.", d: "A share's price reflects what buyers expect the company to earn, and how sure they are of it." },
+              { t: "Earnings per share is the headline.", d: "Net profit divided by the number of shares. Northline's rose from $1.35 to $1.50." },
+              { t: "The price-to-earnings ratio is what the market pays.", d: "Share price over earnings per share: how many years of today's profit a buyer is paying for. Northline's is about 16." },
+              { t: "EBITDA strips out financing and estimates.", d: "Earnings before interest, taxes, depreciation and amortization: a rough measure of operating earnings that's easier to compare between companies." },
+              { t: "Free cash flow is the reality check.", d: "Cash from operations less spending on equipment. Northline's earnings per share rose 11% while its free cash flow was −$1.37 million." }
+            ]
+          },
+          {
+            type: "waterfall",
+            eyebrow: "Figure",
+            title: "From net profit to free cash flow",
+            intro: "Northline this year: the profit investors see in earnings per share, and the cash left after running and investing in the business.",
+            k: true,
+            charts: [
+              {
+                steps: [
+                  { label: "Net profit", v: 750000 },
+                  { label: "Depreciation added back", v: 480000 },
+                  { label: "Receivables up", v: -767000 },
+                  { label: "Inventory up", v: -555000 },
+                  { label: "Payables up", v: 27000 },
+                  { label: "Cash from operations", total: true },
+                  { label: "Spending on equipment", v: -1308000 },
+                  { label: "Free cash flow", total: true }
+                ]
+              }
+            ],
+            keys: ["Adds cash", "Uses cash", "Total"],
+            caption: "Invented figures. New borrowing of $823k covered most of the gap; cash fell $550k."
+          },
+          {
+            type: "table",
+            eyebrow: "The measures",
+            title: "What investors watch, for Northline",
+            columns: ["Measure", "Formula", "Last year", "This year"],
+            widths: ["11rem", null, "7rem", "7rem"],
+            rows: [
+              ["Earnings per share", "Net profit ÷ shares", "<span class=\"tnum\">$1.35</span>", "<span class=\"tnum\">$1.50</span>"],
+              ["Share price", "Set by the market", "<span class=\"tnum\">$22.00</span>", "<span class=\"tnum\">$24.00</span>"],
+              ["Price to earnings", "Share price ÷ earnings per share", "<span class=\"tnum\">16.3</span>", "<span class=\"tnum\">16.0</span>"],
+              ["Market value", "Share price × shares", "<span class=\"tnum\">$11.0M</span>", "<span class=\"tnum\">$12.0M</span>"],
+              ["Price to book", "Market value ÷ owners' equity", "<span class=\"tnum\">3.67</span>", "<span class=\"tnum\">3.20</span>"],
+              ["EBITDA", "Operating profit + depreciation and amortization", "—", "<span class=\"tnum\">$1,680k</span>"],
+              ["Free cash flow", "Cash from operations − spending on equipment", "—", "<span class=\"tnum\">−$1,373k</span>"]
+            ],
+            foot: "500,000 shares, both years; no dividends. Last year's depreciation isn't given, so its EBITDA and free cash flow are left out."
+          },
+          {
+            type: "table",
+            eyebrow: "Reading them",
+            title: "What each measure hides",
+            intro: "Our summary.",
+            columns: ["Measure", "Useful for", "Hides"],
+            widths: ["11rem", null, null],
+            rows: [
+              ["Earnings per share", "Tracking profit per owner over time", "Every estimate in profit; buybacks raise it with no change in the business"],
+              ["Price to earnings", "Comparing how the market values similar companies", "Whether earnings are about to rise or fall"],
+              ["Price to book", "Comparing market value with what's on the books", "Assets at old costs; brands and know-how that aren't on the books"],
+              ["EBITDA", "Comparing operating earnings across companies with different debts and equipment", "That equipment wears out and has to be replaced, with cash"],
+              ["Free cash flow", "Seeing what's left for owners and lenders", "Swings from one-off investments, like a new factory"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Profitability ratios", where: "Chapter 20", page: "profitability" },
+            { title: "Cash is a reality check", where: "Chapter 15", page: "cash-reality" },
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" },
+            { title: "The building blocks of ROI", where: "Part VI", page: "roi-basics" }
+          ],
+          cta: { page: "roi-basics", kicker: "Next", text: "What a dollar later is worth today" }
         }
       },
 
@@ -889,7 +1282,7 @@
         end: {
           related: [
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
-            { title: "Costs and expenses", where: "Chapter 8" },
+            { title: "Costs and expenses", where: "Chapter 8", page: "costs" },
             { title: "Profitability ratios", where: "Chapter 20", page: "ratios" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
           ],
@@ -1734,7 +2127,7 @@
         end: {
           related: [
             { title: "Profit is an estimate", where: "Chapter 5", page: "profit-estimate" },
-            { title: "Costs and expenses", where: "Chapter 8" },
+            { title: "Costs and expenses", where: "Chapter 8", page: "costs" },
             { title: "The many forms of profit", where: "Chapter 9", page: "forms-of-profit" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
           ],
@@ -2572,7 +2965,7 @@
         ],
         end: {
           related: [
-            { title: "Cash is a reality check", where: "Chapter 15" },
+            { title: "Cash is a reality check", where: "Chapter 15", page: "cash-reality" },
             { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" },
             { title: "The language of cash flow", where: "Chapter 17", page: "cash-flow-language" },
             { title: "Reading the ratios", where: "Part V", page: "ratios" }
