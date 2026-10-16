@@ -126,33 +126,49 @@
   // One dollar's trip through Northline in each year: days in inventory, then days until the
   // customer pays, against the days until suppliers are paid. The gap is the cash
   // conversion cycle. Days rounded from the ratio reader's figures.
-  const cycleBars = (narrow) => {
-    const years = [
-      ["LAST YEAR", { dio: 70, dso: 50, dpo: 35 }],
-      ["THIS YEAR", { dio: 85, dso: 65, dpo: 30 }]
-    ];
+  const CYCLE_YEARS = [
+    ["LAST YEAR", { dio: 70, dso: 50, dpo: 35 }],
+    ["THIS YEAR", { dio: 85, dso: 65, dpo: 30 }]
+  ];
+  // Three business models' cash conversion cycles, for "Homing in on cash conversion".
+  // Northline's days are this year's; the other two are invented to show the shapes.
+  const CYCLE_MODELS = [
+    ["A BIKE MAKER (NORTHLINE)", { dio: 85, dso: 65, dpo: 30 }],
+    ["A GROCERY CHAIN", { dio: 20, dso: 3, dpo: 30 }],
+    ["A BUILD-TO-ORDER PC MAKER", { dio: 5, dso: 30, dpo: 60 }]
+  ];
+
+  const cycleBars = (narrow, rows = CYCLE_YEARS) => {
     const W = narrow ? 330 : 660;
     const x0 = narrow ? 4 : 10;
     const px = (W - x0 - 10) / 160;
     const x = (d) => (x0 + d * px).toFixed(1);
     const w = (d) => (d * px - 1.5).toFixed(1);
     const name = (long, short, d) => (narrow ? `${short} ${d}d` : `${long} · ${d} days`);
+    // A negative cycle (suppliers paid after customers pay) is bracketed the other way round.
     const group = ([t, d], top) => {
       const end = d.dio + d.dso;
-      return `<text class="sv-k" x="${x0}" y="${top + 10}">${t} · CYCLE ${end - d.dpo} DAYS</text>
+      const ccc = end - d.dpo;
+      const [from, to] = ccc >= 0 ? [d.dpo, end] : [end, d.dpo];
+      const label = ccc >= 0 ? `Cash tied up · ${ccc} days` : `Paid before paying · ${-ccc} days`;
+      const mid = x0 + ((from + to) / 2) * px;
+      // Short bars can't hold their own labels: name them together, after the bar.
+      const tight = d.dio * px < 120 || d.dso * px < 60;
+      return `<text class="sv-k" x="${x0}" y="${top + 10}">${t} · CYCLE ${ccc < 0 ? "−" : ""}${Math.abs(ccc)} DAYS</text>
         <rect x="${x(0)}" y="${top + 20}" width="${w(d.dio)}" height="24" rx="2" style="fill: var(--series-profit); fill-opacity: 0.28"/>
-        <text class="sv-t2" x="${(x0 + 6).toFixed(1)}" y="${top + 36}">${name("Inventory", "Stock", d.dio)}</text>
+        <text class="sv-t2" x="${(tight ? x0 + end * px + 6 : x0 + 6).toFixed(1)}" y="${top + 36}">${tight ? name("Inventory and receivables", "Stock and customers", end) : name("Inventory", "Stock", d.dio)}</text>
         <rect x="${x(d.dio)}" y="${top + 20}" width="${w(d.dso)}" height="24" rx="2" style="fill: var(--series-profit); fill-opacity: 0.5"/>
-        <text class="sv-t2" x="${(x0 + d.dio * px + 6).toFixed(1)}" y="${top + 36}">${name("Receivables", "Customers", d.dso)}</text>
+        ${tight ? "" : `<text class="sv-t2" x="${(x0 + d.dio * px + 6).toFixed(1)}" y="${top + 36}">${name("Receivables", "Customers", d.dso)}</text>`}
         <rect x="${x(0)}" y="${top + 50}" width="${w(d.dpo)}" height="24" rx="2" style="fill: var(--series-cash); fill-opacity: 0.45"/>
         <text class="sv-t2" x="${(narrow ? x0 + d.dpo * px + 6 : x0 + 6).toFixed(1)}" y="${top + 66}">${name("Payables", "Suppliers", d.dpo)}</text>
-        <path class="sv-line-pen" d="M${x(d.dpo)} ${top + 84} V${top + 90} H${x(end)} V${top + 84}"/>
-        <text class="sv-t sv-b" x="${((x0 + ((d.dpo + end) / 2) * px)).toFixed(1)}" y="${top + 106}" text-anchor="middle">Cash tied up · ${end - d.dpo} days</text>`;
+        <path class="sv-line-pen" d="M${x(from)} ${top + 84} V${top + 90} H${x(to)} V${top + 84}"/>
+        <text class="sv-t sv-b" x="${(mid < 100 ? x0 : mid).toFixed(1)}" y="${top + 106}" text-anchor="${mid < 100 ? "start" : "middle"}">${label}</text>`;
     };
+    const H = rows.length * 126;
     const ticks = [0, 30, 60, 90, 120, 150]
-      .map((t) => `<path class="sv-grid" d="M${x(t)} 14 V252"/><text class="sv-k" x="${x(t)}" y="268" text-anchor="${t ? "middle" : "start"}">${t ? t : "DAY 0"}</text>`)
+      .map((t) => `<path class="sv-grid" d="M${x(t)} 14 V${H}"/><text class="sv-k" x="${x(t)}" y="${H + 16}" text-anchor="${t ? "middle" : "start"}">${t ? t : "DAY 0"}</text>`)
       .join("");
-    return `<svg viewBox="0 0 ${W} 276" xmlns="http://www.w3.org/2000/svg">${ticks}${group(years[0], 4)}${group(years[1], 130)}</svg>`;
+    return `<svg viewBox="0 0 ${W} ${H + 24}" xmlns="http://www.w3.org/2000/svg">${ticks}${rows.map((r, i) => group(r, 4 + i * 126)).join("")}</svg>`;
   };
 
   window.Marginalia.addBook({
@@ -177,7 +193,7 @@
     ],
     mapTitle: "Eight parts, from profit to cash to return on investment",
     contentsDesc: "Eight parts, from the income statement to ratios and working capital.",
-    mapNote: "Pages open as they're written. Chapter numbers in Parts VI to VIII are still being checked against the book.",
+    mapNote: "Every chapter is open. Chapter numbers in Parts VI to VIII are still being checked against the book, so those chapters are listed without numbers.",
     nav: ["profit-estimate", "profit-cash", "ratios", "roi"],
 
     parts: [
@@ -247,18 +263,18 @@
         n: "VII",
         title: "Applied financial intelligence: working capital",
         chapters: [
-          { title: "The magic of managing the balance sheet", blurb: "Small changes in receivables and inventory free up a lot of cash." },
+          { title: "The magic of managing the balance sheet", blurb: "Small changes in receivables and inventory free up a lot of cash.", page: "magic-balance-sheet" },
           { title: "Your balance sheet levers", blurb: "Days sales outstanding, days in inventory and days payable.", page: "working-capital" },
-          { title: "Homing in on cash conversion", blurb: "How long cash is tied up between paying suppliers and getting paid." }
+          { title: "Homing in on cash conversion", blurb: "How long cash is tied up between paying suppliers and getting paid.", page: "cash-conversion" }
         ]
       },
       {
         n: "VIII",
         title: "Creating a financially intelligent company",
         chapters: [
-          { title: "Financial literacy and corporate performance", blurb: "Why companies do better when employees understand the numbers." },
-          { title: "Financial literacy strategies", blurb: "Practical ways to teach the numbers inside a company." },
-          { title: "Financial transparency", blurb: "Opening the books as a goal, and what it takes." }
+          { title: "Financial literacy and corporate performance", blurb: "Why companies do better when employees understand the numbers.", page: "literacy-performance" },
+          { title: "Financial literacy strategies", blurb: "Practical ways to teach the numbers inside a company.", page: "literacy-strategies" },
+          { title: "Financial transparency", blurb: "Opening the books as a goal, and what it takes.", page: "transparency" }
         ]
       }
     ],
@@ -951,6 +967,368 @@
             { title: "The building blocks of ROI", where: "Part VI", page: "roi-basics" }
           ],
           cta: { page: "roi-basics", kicker: "Next", text: "What a dollar later is worth today" }
+        }
+      },
+
+      // A reference page. The balance sheet as a second source of cash, small changes in
+      // working capital freeing large sums, and the comparison with earning the same cash
+      // through more sales follow the book's Part VII as I remember it, unchecked against its
+      // wording. Northline's figures are this year's from the ratio reader ($12 million of
+      // sales, $7.32 million of cost of goods sold, a 6.25% net margin); the five-day moves
+      // and the other-assets table are ours.
+      "magic-balance-sheet": {
+        navLabel: "Balance sheet magic",
+        title: "The magic of managing the balance sheet",
+        eyebrow: "Part VII · Working capital",
+        layout: "dense",
+        dek:
+          "Managers mostly look for cash in the income statement: sell more, spend less. The balance sheet is a second source, and often a faster one. A few days off how long customers take to pay, or stock sits, can free as much cash as millions of dollars of extra sales.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "The balance sheet holds cash too.", d: "Money tied up in receivables and inventory, less what's owed to suppliers, is cash the business has earned or spent and can't yet use." },
+              { t: "At Northline it's $3.24 million.", d: "Receivables of $2,137k and inventory of $1,705k, less $602k of payables: more than a quarter of a year's sales." },
+              { t: "Small changes free large sums.", d: "Five days off how long customers take to pay, five off how long stock sits, and five more before suppliers are paid would free about $365k." },
+              { t: "The same cash from sales takes far more.", d: "At Northline's 6.25% net margin, earning $365k of profit takes about $5.8 million more sales: nearly half as much again." },
+              { t: "Most of it is in managers' hands.", d: "Payment terms, stock levels and supplier terms are set by sales, operations and purchasing, not finance. Pushed too far they cost customers or suppliers, so the aim is better, not extreme." }
+            ]
+          },
+          {
+            type: "waterfall",
+            eyebrow: "Figure",
+            title: "Three five-day moves",
+            intro: "Northline's cash tied up in working capital this year, and what each five-day move frees.",
+            k: 1,
+            charts: [
+              {
+                steps: [
+                  { label: "Tied up today", v: 3240000 },
+                  { label: "Customers pay 5 days sooner", v: -164400 },
+                  { label: "Stock sells 5 days sooner", v: -100300 },
+                  { label: "Suppliers paid 5 days later", v: -100300 },
+                  { label: "Tied up after", total: true }
+                ]
+              }
+            ],
+            keys: ["Tied up", "Freed", "Total"],
+            caption: "A day of receivables is a day's sales, $12 million ÷ 365; a day of inventory or payables is a day's cost of goods sold, $7.32 million ÷ 365."
+          },
+          {
+            type: "table",
+            eyebrow: "Two ways to the same cash",
+            title: "Freed from the balance sheet, or earned through sales",
+            intro: "The extra sales that would bring in the same amount as net profit, at Northline's 6.25% net margin.",
+            columns: ["Move", "Cash freed", "Extra sales for the same profit"],
+            widths: [null, "8rem", "11rem"],
+            rows: [
+              ["Customers pay 5 days sooner", "<span class=\"tnum\">$164k</span>", "<span class=\"tnum\">$2.63M</span>"],
+              ["Stock sells 5 days sooner", "<span class=\"tnum\">$100k</span>", "<span class=\"tnum\">$1.60M</span>"],
+              ["Suppliers paid 5 days later", "<span class=\"tnum\">$100k</span>", "<span class=\"tnum\">$1.60M</span>"],
+              ["<strong>All three</strong>", "<strong class=\"tnum\">$365k</strong>", "<strong class=\"tnum\">$5.84M</strong>"]
+            ],
+            foot: "Freed cash comes once and stays freed as long as the new days hold. Profit from extra sales would come every year, which is why the two are complements, not substitutes."
+          },
+          {
+            type: "table",
+            eyebrow: "Beyond working capital",
+            title: "Other ways to get more from the balance sheet",
+            intro: "Our list.",
+            columns: ["Asset", "The question", "What it can free"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Equipment", "Could the machines we have run more hours instead of buying more?", "The cash a new machine would cost"],
+              ["Buildings", "Do we need to own them, or could we lease?", "Cash tied up in property"],
+              ["Idle assets", "What do we own that we no longer use?", "Cash from a sale, and the cost of keeping it"],
+              ["Spare cash", "How much do we need on hand, and is the rest paying down expensive debt?", "Interest"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Your balance sheet levers", where: "Part VII", page: "working-capital" },
+            { title: "Homing in on cash conversion", where: "Part VII", page: "cash-conversion" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" },
+            { title: "Liquidity ratios", where: "Chapter 22", page: "liquidity" }
+          ],
+          cta: { page: "working-capital", kicker: "Next", text: "Pull the levers yourself" }
+        }
+      },
+
+      // A reference page. The cash conversion cycle, its parts, and working on each in turn
+      // follow the book's Part VII as I remember it, unchecked against its wording. The
+      // grocer and build-to-order models are invented; that Dell ran a negative cycle in the
+      // late 1990s and 2000s is the public record, unchecked whether the book uses it.
+      // Northline's figures are this year's; the target days are ours.
+      "cash-conversion": {
+        navLabel: "Cash conversion",
+        title: "Homing in on cash conversion",
+        eyebrow: "Part VII · Working capital",
+        layout: "dense",
+        dek:
+          "The cash conversion cycle measures how long a dollar is tied up between paying suppliers and collecting from customers. Shortening it is one of the most direct ways a manager can reduce the money a business needs to borrow.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "One number for the whole trip.", d: "Days in inventory plus days sales outstanding, minus days payable. Northline's is 120 days." },
+              { t: "Every day of it costs money.", d: "Each day a dollar is tied up has to be financed, by the company's own cash or by borrowing." },
+              { t: "Business models differ hugely.", d: "A grocer sells stock in days and is paid in cash, so suppliers fund it. A company that builds to order after customers pay can run a negative cycle, as Dell famously did." },
+              { t: "Home in on the parts.", d: "The total hides which part moved. Measure each, find the longest, and break it down by customer, product or supplier." },
+              { t: "Shorter cycles reduce borrowing.", d: "If Northline cut its cycle to 65 days, it would free more than enough cash to repay all its short-term debt." }
+            ]
+          },
+          {
+            type: "figure",
+            eyebrow: "Figure",
+            title: "Three business models, three cycles",
+            intro: "Days a dollar spends as stock and then as money owed, against the days before suppliers are paid.",
+            alt: "Three timelines in days. A bike maker, Northline: inventory 85 days and receivables 65, suppliers paid on day 30, cash tied up 120 days. A grocery chain: inventory 20 days and receivables 3, suppliers paid on day 30, so it is paid 7 days before paying. A build-to-order PC maker: inventory 5 days and receivables 30, suppliers paid on day 60, so it is paid 25 days before paying.",
+            svg: cycleBars(false, CYCLE_MODELS),
+            svgNarrow: cycleBars(true, CYCLE_MODELS),
+            notes: [
+              { t: "Northline funds 120 days.", d: "It pays for parts after 30 days, then waits 120 more before customers' money arrives." },
+              { t: "The grocer is paid first.", d: "Stock sells in about three weeks, mostly for cash, and suppliers are paid after a month: suppliers' money funds the shelves." },
+              { t: "The build-to-order maker barely holds stock.", d: "It builds after the order, collects within a month, and pays suppliers after two. Growth produces cash instead of consuming it." }
+            ],
+            caption: "Northline's days are this year's; the other two companies are invented."
+          },
+          {
+            type: "table",
+            eyebrow: "What a shorter cycle is worth",
+            title: "Northline's cycle and the cash it ties up",
+            intro: "Cash tied up is receivables plus inventory minus payables, at this year's sales and costs.",
+            columns: ["Case", "Customers", "Stock", "Suppliers", "Cycle", "Tied up", "Freed"],
+            widths: [null, "6rem", "5rem", "6rem", "5rem", "6rem", "6rem"],
+            rows: [
+              ["Today", "<span class=\"tnum\">65</span>", "<span class=\"tnum\">85</span>", "<span class=\"tnum\">30</span>", "<span class=\"tnum\">120</span>", "<span class=\"tnum\">$3,240k</span>", "—"],
+              ["Last year's days", "<span class=\"tnum\">50</span>", "<span class=\"tnum\">70</span>", "<span class=\"tnum\">35</span>", "<span class=\"tnum\">85</span>", "<span class=\"tnum\">$2,346k</span>", "<span class=\"tnum\">$894k</span>"],
+              ["A target", "<span class=\"tnum\">45</span>", "<span class=\"tnum\">60</span>", "<span class=\"tnum\">40</span>", "<span class=\"tnum\">65</span>", "<span class=\"tnum\">$1,881k</span>", "<span class=\"tnum\">$1,359k</span>"]
+            ],
+            foot: "Days in each column. Northline's short-term debt is $898k; the target would free enough to repay it."
+          },
+          {
+            type: "table",
+            eyebrow: "Homing in",
+            title: "Working on the cycle, step by step",
+            intro: "Our summary.",
+            columns: ["Step", "What it means", "At Northline"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Measure each part monthly", "Days in inventory, days sales outstanding and days payable, not just the total", "All three moved the wrong way this year"],
+              ["Break the longest down", "By customer, product line or supplier", "Inventory, 85 days: which models sit longest?"],
+              ["Set a target for each part", "Specific, and owned by the people who control it", "Stock to 60 days, owned by operations"],
+              ["Watch the side effects", "Stock-outs, lost customers, unhappy suppliers", "Shorter terms for slow-paying shops only"],
+              ["Review it with the results", "Alongside profit, every month", "In the same meeting as the income statement"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Your balance sheet levers", where: "Part VII", page: "working-capital" },
+            { title: "The magic of managing the balance sheet", where: "Part VII", page: "magic-balance-sheet" },
+            { title: "Efficiency ratios", where: "Chapter 23", page: "efficiency" },
+            { title: "Leverage ratios", where: "Chapter 21", page: "leverage" }
+          ],
+          cta: { page: "literacy-performance", kicker: "Next", text: "Why it matters that everyone can read the numbers" }
+        }
+      },
+
+      // A reference page. The argument that companies perform better when employees
+      // understand the numbers follows the book's Part VIII as I remember it, unchecked
+      // against its wording. The decisions table and the misunderstandings are ours; the
+      // misunderstandings use Northline's year on "The many forms of profit".
+      "literacy-performance": {
+        navLabel: "Literacy pays",
+        title: "Financial literacy and corporate performance",
+        eyebrow: "Part VIII · A financially intelligent company",
+        layout: "dense",
+        dek:
+          "The authors close the book by widening the lens: from financially intelligent managers to financially intelligent companies. Their argument is that a business does better when the people in it understand how it makes money.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Results come from many small decisions.", d: "A discount here, an order of extra stock there. Most are made far from the finance department, by people who rarely see the numbers." },
+              { t: "People decide better when they see the effect.", d: "A salesperson who knows what a discount does to profit, or a buyer who knows what stock costs to hold, makes different choices." },
+              { t: "Understanding builds trust.", d: "Employees who can read the statements are less likely to assume the company is hoarding money, and more likely to understand hard decisions." },
+              { t: "It has to connect to the job.", d: "General lessons fade. Literacy sticks when people learn the numbers they can affect." },
+              { t: "It's a company effort, not a course.", d: "The authors describe it as a change in how the company runs: the numbers shared, discussed and used, regularly." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "In practice",
+            title: "The same decisions, with and without the numbers",
+            intro: "Our examples at a bike maker.",
+            columns: ["Role", "Decision", "Without the numbers", "With them"],
+            widths: ["8rem", "10rem", null, null],
+            rows: [
+              ["Sales", "A 10% discount to close a deal", "A sale is a sale", "On a 40% gross margin, a 10% discount gives up a quarter of the profit on the deal"],
+              ["Purchasing", "A bulk order for a better price", "Cheaper per unit is better", "Weigh the saving against the cash tied up and the risk of unsold stock"],
+              ["Operations", "How many bikes to build ahead", "Never run out", "Each extra day of stock is about $20k of cash"],
+              ["Credit control", "Whether to chase a slow payer", "Don't upset the customer", "Each day sooner across all shops is worth about $33k of cash"],
+              ["Engineering", "Adding a feature to a frame", "Better product, better sales", "What it adds to cost per bike, against what buyers will pay"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Common misunderstandings",
+            title: "What people often believe about the numbers",
+            intro: "Our list, checked against Northline's year on <a href=\"@forms-of-profit\">the many forms of profit</a>.",
+            columns: ["The belief", "At Northline"],
+            widths: ["15rem", null],
+            rows: [
+              ["Revenue is profit", "Of $2.4 million of sales, $142.5k was net profit: about 6 cents in each dollar."],
+              ["Profit is cash in the bank", "Profit was $142.5k; cash rose $17.5k. The rest went into receivables, stock and equipment."],
+              ["The company could easily pay more", "A 5% rise in operating expenses would take a quarter of the year's net profit."],
+              ["Only cutting costs improves profit", "Collecting faster and holding less stock improve cash without touching profit; better prices raise both."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Financial literacy strategies", where: "Part VIII", page: "literacy-strategies" },
+            { title: "Financial transparency", where: "Part VIII", page: "transparency" },
+            { title: "Why increase your financial intelligence?", where: "Chapter 3", page: "why-fi" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
+          ],
+          cta: { page: "literacy-strategies", kicker: "Next", text: "How companies teach the numbers" }
+        }
+      },
+
+      // A reference page. Ways of teaching the numbers inside a company (training,
+      // simulations, scoreboards, regular reviews, incentives linked to the numbers) follow
+      // the book's Part VIII as I remember it, unchecked against its wording. The pitfalls
+      // and the ninety-day plan are ours.
+      "literacy-strategies": {
+        navLabel: "Literacy strategies",
+        title: "Financial literacy strategies",
+        eyebrow: "Part VIII · A financially intelligent company",
+        layout: "dense",
+        dek:
+          "Teaching a whole company the numbers takes more than a course. The approaches that work combine a little training with a lot of practice: the numbers made visible, discussed regularly, and tied to decisions people make every day.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Start with the basics.", d: "The three statements, what profit and cash are, and how the company makes money. Plain words, the company's own numbers." },
+              { t: "Practice beats lectures.", d: "Games and simulations let people make decisions and see the results, as the <a href=\"#northline\">Northline year</a> on this site does." },
+              { t: "Make a few numbers visible.", d: "A scoreboard of the handful of numbers that matter most, updated often, where everyone can see it." },
+              { t: "Talk about them regularly.", d: "Short, frequent reviews where teams look at their numbers, explain what moved and agree what to do." },
+              { t: "Connect the numbers to rewards.", d: "Bonuses tied to results people can affect turn understanding into action, as long as the measures are ones they can see and move." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "The strategies",
+            title: "Six ways to teach the numbers, and how each goes wrong",
+            intro: "Our summary of the approaches.",
+            columns: ["Strategy", "How", "Pitfall"],
+            widths: ["10rem", null, null],
+            rows: [
+              ["Training in the basics", "Short sessions on the three statements, using the company's own figures", "Generic examples nobody connects to their job"],
+              ["Games and simulations", "A business run for a simulated year, with decisions and results", "A fun day with no follow-up"],
+              ["A scoreboard", "A few key numbers, updated weekly, posted where people work", "Too many numbers, or numbers people can't affect"],
+              ["Regular reviews", "Teams meet briefly to go over their numbers and forecast the next period", "Meetings that report numbers without deciding anything"],
+              ["Rewards linked to results", "A bonus pool that grows with numbers employees can move", "Rewards for numbers that can be gamed, or that nobody understands"],
+              ["Leaders explaining decisions", "Each big decision explained in financial terms", "Explanations only when the news is good"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Getting started",
+            title: "A first ninety days",
+            intro: "An invented plan for a company like Northline.",
+            columns: ["When", "What", "Done when"],
+            widths: ["7rem", null, null],
+            rows: [
+              ["Month 1", "Choose the three or four numbers that matter most (say, gross margin, days sales outstanding and days in inventory); run a two-hour basics session for every team", "Everyone can say how the company makes money and what the key numbers are"],
+              ["Month 2", "Post the numbers weekly; start a fifteen-minute monthly review in each team", "Teams can explain what moved their numbers last month"],
+              ["Month 3", "Run a simulation day; ask each team to forecast its numbers for next quarter", "Forecasts come from the teams, not only from finance"]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Financial literacy and corporate performance", where: "Part VIII", page: "literacy-performance" },
+            { title: "Financial transparency", where: "Part VIII", page: "transparency" },
+            { title: "Your balance sheet levers", where: "Part VII", page: "working-capital" },
+            { title: "Profit ≠ cash", where: "Chapter 16", page: "profit-cash" }
+          ],
+          cta: { page: "transparency", kicker: "Next", text: "How far to open the books" }
+        }
+      },
+
+      // A reference page. Financial transparency as the book's end goal (sharing the
+      // numbers with employees, and the worries about doing so) follows the book's closing
+      // chapter as I remember it, unchecked against its wording. The levels of openness and
+      // the worries table are ours.
+      transparency: {
+        navLabel: "Transparency",
+        title: "Financial transparency",
+        eyebrow: "Part VIII · A financially intelligent company",
+        layout: "dense",
+        dek:
+          "The authors' end goal is a company whose books are open to the people who work in it. Transparency makes financial intelligence useful: people can only act on numbers they're allowed to see.",
+        blocks: [
+          {
+            type: "brief",
+            eyebrow: "In brief",
+            title: "The argument in five points",
+            points: [
+              { t: "Literacy needs access.", d: "Teaching people to read the statements achieves little if they never see their own company's." },
+              { t: "Openness is a range, not a switch.", d: "From sharing results once a year to sharing every month's statements and building forecasts together." },
+              { t: "Openness builds trust.", d: "When people see the numbers, rumors about the company's money lose their hold, and hard decisions are easier to explain." },
+              { t: "The worries are real but manageable.", d: "Competitors, confusion, bad news and pay are the usual concerns; most have practical answers." },
+              { t: "It works best as part of a whole.", d: "Transparency, training and rewards tied to the numbers reinforce each other. Any one alone does much less." }
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "How open",
+            title: "Four levels of openness",
+            columns: ["Level", "What's shared", "What people can do with it"],
+            widths: ["9rem", null, null],
+            rows: [
+              ["Results only", "Annual or quarterly totals, as published", "Know whether the company had a good year"],
+              ["Team numbers", "Each team's own key figures", "Manage what they control"],
+              ["Monthly statements", "The full income statement, and key balance sheet and cash figures, every month", "See how their work affects the whole"],
+              ["Open books", "Everything above, plus forecasts that teams help build", "Help run the business: plan, forecast and correct course"]
+            ]
+          },
+          {
+            type: "table",
+            eyebrow: "Worries",
+            title: "Common worries about opening the books, and answers",
+            intro: "Our summary.",
+            columns: ["The worry", "An answer"],
+            widths: ["15rem", null],
+            rows: [
+              ["Competitors will see our numbers", "Most of what matters to rivals is visible elsewhere; detailed figures can stay internal, and the gain from better decisions is usually larger."],
+              ["People won't understand them", "Which is why openness comes with training and regular reviews."],
+              ["Bad news will frighten people", "People usually sense bad news anyway; the numbers replace rumor with facts and a plan."],
+              ["Good years will bring demands for pay rises", "Sharing the numbers also shows what the profit is needed for: debt, investment and leaner years."],
+              ["Individual salaries will be exposed", "Totals can be shared without anyone's pay being visible."]
+            ]
+          }
+        ],
+        end: {
+          related: [
+            { title: "Financial literacy and corporate performance", where: "Part VIII", page: "literacy-performance" },
+            { title: "Financial literacy strategies", where: "Part VIII", page: "literacy-strategies" },
+            { title: "You can't always trust the numbers", where: "Chapter 1", page: "trust-numbers" },
+            { title: "Why increase your financial intelligence?", where: "Chapter 3", page: "why-fi" }
+          ],
+          cta: { page: "", kicker: "Contents", text: "See the map of the book" }
         }
       },
 
